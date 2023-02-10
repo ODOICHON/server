@@ -1,0 +1,13 @@
+= JHouse API 스펙 문서
+
+본 문서는 주말의 집 API 스펙 상세 내역을 담은 것입니다.
+문서에 대한 저작권은 주말의 집을 만들어나가는 구성원들에게 있으며, 무단 배포를 금지합니다.
+
+==== Health Check
+해당 API는 서버의 상태를 확인하기 위한 것으로, 서버가 정상적으로 기동할 경우에는 아래와 같이 응답이 반환됩니다.
+
+===== Request
+include::{snippets}/index/http-request.adoc[]
+
+===== Response
+include::{snippets}/index/http-response.adoc[]
