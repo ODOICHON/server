@@ -35,6 +35,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    // Jasypt
+    implementation ("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
     // Springboot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")

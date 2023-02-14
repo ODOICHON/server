@@ -18,12 +18,12 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   datasource:
-    url: jdbc:mysql://localhost:3305/test_db?useSSL=false&serverTimezone=Asia/Seoul
-    username: test
-    password: test_pw
+    url: ENC(1r+PBQMs51lTSvcS47i8+ncEVMvbrng8XhrHtwmiE6JeQVm/Q07WLQ5HHOY5PCQFOBzWaZIoE4kxIKJJ0Wm366UrXRXmFued3NhOI7iE006ufGGEAGulRQ==)
+    username: ENC(Ft4VANPXNWbUqnXvim/g4w==)
+    password: ENC(35dJqCmjA0lYMfEv1EiKPw==)
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: redis
+    host: ENC(Ua8NlOJqsCrv4+xRi1yNfg==)
     port: 6379
 
   mvc:
