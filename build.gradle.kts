@@ -8,6 +8,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("plugin.allopen") version "1.4.32"
+    jacoco
 }
 
 group = "com.example"
@@ -35,6 +36,9 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
+
+    // Jasypt
+    implementation ("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
     // Springboot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
@@ -60,6 +64,11 @@ dependencies {
 val snippetsDir by extra { file("build/generated-snippets")}
 tasks {
     test {
+        extensions.configure(JacocoTaskExtension::class) {
+            destinationFile = file("$buildDir/jacoco/jacoco.exec")
+        }
+        finalizedBy(jacocoTestReport)
+
         outputs.dir(snippetsDir)
     }
 
@@ -77,4 +86,65 @@ tasks {
     build {
         dependsOn(asciidoctor)
     }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+tasks.jacocoTestReport {
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = false
+        csv.isEnabled = false
+    }
+
+    finalizedBy("jacocoTestCoverageVerification")
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.30".toBigDecimal()
+            }
+
+        }
+
+        rule {
+            enabled = true
+
+            element = "CLASS"
+
+            limit{
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = "0.30".toBigDecimal()
+            }
+
+
+
+            limit {
+                counter = "LINE"
+                value = "TOTALCOUNT"
+                maximum = "200.0".toBigDecimal()
+            }
+
+            excludes = listOf(
+
+            )
+        }
+    }
+}
+
+val testCoverage by tasks.registering {
+    group = "verification"
+    description = "RUns the unit tests with coverage"
+
+    dependsOn(":test",
+    ":jacocoTestReport",
+    ":jacocoTestCoverageVerification")
+
+    tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
+    tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
 }
