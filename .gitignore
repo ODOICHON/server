@@ -39,4 +39,3 @@ out/
 ### REST DOCS ###
 **/src/main/resources/static/docs/
 src/main/resources/application-secret.yml
-src/test/resources/
