@@ -36,17 +36,9 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
 
-      #빌드를 위한 secret yml 설정
-      - name: Make application-secret.yml
-        run: |
-          cd ./src/main/resources
-          touch ./application-test.yml
-          echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
-        shell: bash
-
-      #test를 제외한 프로젝트 빌드
+      #test를 포함한 프로젝트 빌드
       - name: Build With Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew bootjar
 
       #test를 위한 mysql설정
       - name: Start MySQL
