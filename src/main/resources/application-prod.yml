@@ -2,6 +2,9 @@ spring:
   application:
     name: jhouse-prod
 
+  profiles:
+    include:
+      secret
 
   jpa:
     database: mysql
