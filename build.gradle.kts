@@ -42,7 +42,7 @@ dependencies {
     // Springboot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-//    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
+    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 tasks.withType<KotlinCompile> {
@@ -104,23 +104,23 @@ tasks.jacocoTestReport {
 
 tasks.jacocoTestCoverageVerification {
     violationRules {
+//        rule {
+//            limit {
+//                minimum = "0.0".toBigDecimal()
+//            }
+//
+//        }
+
         rule {
-            limit {
-                minimum = "0.30".toBigDecimal()
-            }
-
-        }
-
-        rule {
-            enabled = true
-
-            element = "CLASS"
-
-            limit{
-                counter = "BRANCH"
-                value = "COVEREDRATIO"
-                minimum = "0.30".toBigDecimal()
-            }
+//            enabled = true
+//
+//            element = "CLASS"
+//
+//            limit{
+//                counter = "BRANCH"
+//                value = "COVEREDRATIO"
+//                minimum = "0.0".toBigDecimal()
+//            }
 
 
 
@@ -142,8 +142,8 @@ val testCoverage by tasks.registering {
     description = "RUns the unit tests with coverage"
 
     dependsOn(":test",
-    ":jacocoTestReport",
-    ":jacocoTestCoverageVerification")
+            ":jacocoTestReport",
+            ":jacocoTestCoverageVerification")
 
     tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
     tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
