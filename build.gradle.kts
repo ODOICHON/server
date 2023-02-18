@@ -65,7 +65,7 @@ val snippetsDir by extra { file("build/generated-snippets")}
 tasks {
     test {
         extensions.configure(JacocoTaskExtension::class) {
-            var destinationFile = file("$buildDir/jacoco/jacoco.exec")
+            destinationFile = file("$buildDir/jacoco/jacoco.exec")
         }
         finalizedBy(jacocoTestReport)
 
@@ -142,8 +142,8 @@ val testCoverage by tasks.registering {
     description = "RUns the unit tests with coverage"
 
     dependsOn(":test",
-    ":jacocoTestReport",
-    ":jacocoTestCoverageVerification")
+            ":jacocoTestReport",
+            ":jacocoTestCoverageVerification")
 
     tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
     tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
