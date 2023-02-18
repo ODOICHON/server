@@ -36,6 +36,14 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
 
+      #빌드를 위한 secret yml 설정
+      - name: Make application-test.properties
+        run: |
+          cd ./src/main/resources
+          touch ./application-test.yml
+          echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
+        shell: bash
+
       #test를 제외한 프로젝트 빌드
       - name: Build With Gradle
         run: ./gradlew bootjar
@@ -50,7 +58,7 @@ jobs:
           mysql user: 'test'
           mysql password: 'test_pw'
 
-      #테스트를 위한 test properties 설정
+      #테스트를 위한 test yml 설정
       - name: Make application-test.properties
         run: |
           cd ./src/test/resources
