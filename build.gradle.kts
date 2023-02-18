@@ -104,23 +104,23 @@ tasks.jacocoTestReport {
 
 tasks.jacocoTestCoverageVerification {
     violationRules {
+//        rule {
+//            limit {
+//                minimum = "0.0".toBigDecimal()
+//            }
+//
+//        }
+
         rule {
-            limit {
-                minimum = "0.0".toBigDecimal()
-            }
-
-        }
-
-        rule {
-            enabled = true
-
-            element = "CLASS"
-
-            limit{
-                counter = "BRANCH"
-                value = "COVEREDRATIO"
-                minimum = "0.0".toBigDecimal()
-            }
+//            enabled = true
+//
+//            element = "CLASS"
+//
+//            limit{
+//                counter = "BRANCH"
+//                value = "COVEREDRATIO"
+//                minimum = "0.0".toBigDecimal()
+//            }
 
 
 
