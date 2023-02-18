@@ -37,7 +37,7 @@ jobs:
         run: chmod +x gradlew
 
       #빌드를 위한 secret yml 설정
-      - name: Make application-test.properties
+      - name: Make application-secret.yml
         run: |
           cd ./src/main/resources
           touch ./application-test.yml
@@ -59,7 +59,7 @@ jobs:
           mysql password: 'test_pw'
 
       #테스트를 위한 test yml 설정
-      - name: Make application-test.properties
+      - name: Make application-test.yml
         run: |
           cd ./src/test/resources
           touch ./application-test.yml
