@@ -106,8 +106,8 @@ tasks {
     bootJar {
         dependsOn(asciidoctor)
 
-        from(asciidoctor.get().outputDir) {
-            into("BOOT-INF/classes/static/docs")
+        from("$snippetsDir/html5") {
+            into("static/docs")
         }
     }
 }

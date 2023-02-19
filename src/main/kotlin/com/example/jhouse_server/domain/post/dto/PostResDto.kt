@@ -28,5 +28,5 @@ data class PostUpdateReqDto(
 )
 
 fun toDto(post : Post) : PostResDto {
-    return PostResDto(post.id!!, post.code)
+    return PostResDto(post.id, post.code)
 }
