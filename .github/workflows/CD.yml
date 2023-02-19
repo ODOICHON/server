@@ -47,7 +47,7 @@ jobs:
 
       #test를 제외한 프로젝트 빌드
       - name: Build With Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew bootjar
 
       - name: Make a zip file
         run: zip -r ./$GITHUB_SHA.zip .
