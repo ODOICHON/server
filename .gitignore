@@ -37,6 +37,6 @@ out/
 .vscode/
 
 ### REST DOCS ###
-**/src/main/resources/static/docs/
+**/src/main/resources/static/docs/index.html
 src/main/resources/application-secret.yml
-src/test/resources/
+src/test/resources/application-test.yml
