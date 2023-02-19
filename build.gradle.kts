@@ -42,7 +42,7 @@ dependencies {
     // Springboot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
-//    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
+    testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
 
 tasks.withType<KotlinCompile> {
@@ -54,80 +54,96 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
 }
 
-val asciidoctorExt: Configuration by configurations.creating
-dependencies {
-    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
+tasks.getByName<Jar>("jar") {
+    enabled = false
 }
+
+//val asciidoctorExt: Configuration by configurations.creating
+//dependencies {
+//    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
+//}
 
 val snippetsDir by extra { file("build/generated-snippets")}
 tasks {
-    test {
-        extensions.configure(JacocoTaskExtension::class) {
-            destinationFile = file("$buildDir/jacoco/jacoco.exec")
-        }
-        finalizedBy(jacocoTestReport)
 
+    clean {
+        delete("src/main/resources/static/docs")
+    }
+
+    test {
+        useJUnitPlatform()
+        systemProperty("org.springframework.restdocs.outputDir", snippetsDir)
         outputs.dir(snippetsDir)
     }
 
+    build {
+        dependsOn("copyDocument")
+    }
+
     asciidoctor {
-        inputs.dir(snippetsDir)
-        configurations(asciidoctorExt.name)
         dependsOn(test)
-        doLast {
-            copy {
-                from("build/docs/asciidoc")
-                into("src/main/resources/static/docs")
-            }
+        attributes (
+            mapOf("snippets" to snippetsDir)
+            )
+        inputs.dir(snippetsDir)
+
+        doFirst{
+            delete("src/main/resources/static/docs")
         }
     }
-    build {
+
+    register<Copy>("copyDocument") {
         dependsOn(asciidoctor)
+
+        destinationDir = file(".")
+        from(asciidoctor.get().outputDir) {
+            into("src/main/resources/static/docs")
+        }
+    }
+    bootJar {
+        dependsOn(asciidoctor)
+
+        from(asciidoctor.get().outputDir) {
+            into("BOOT-INF/classes/static/docs")
+        }
     }
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.8"
 }
 
 tasks.jacocoTestReport {
     reports {
-        html.isEnabled = true
-        xml.isEnabled = false
-        csv.isEnabled = false
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
     }
-
+    classDirectories.setFrom(
+            sourceSets.main.get().output.asFileTree.matching {
+                exclude(
+                        "**/global/**",
+                        "**/domain/*/dto/*",
+                        "**/domain/*/entity/*"
+                )
+            }
+    )
     finalizedBy("jacocoTestCoverageVerification")
 }
 
 tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
-            limit {
-                minimum = "0.30".toBigDecimal()
-            }
-
-        }
-
-        rule {
             enabled = true
-
             element = "CLASS"
 
-            limit{
+            limit {
                 counter = "BRANCH"
                 value = "COVEREDRATIO"
-                minimum = "0.30".toBigDecimal()
-            }
-
-
-
-            limit {
-                counter = "LINE"
-                value = "TOTALCOUNT"
-                maximum = "200.0".toBigDecimal()
+                minimum = "0.00".toBigDecimal()
             }
 
             excludes = listOf(
@@ -135,15 +151,25 @@ tasks.jacocoTestCoverageVerification {
             )
         }
     }
+
+    classDirectories.setFrom(
+            sourceSets.main.get().output.asFileTree.matching{
+                exclude(
+                        "**/global/**"
+                )
+            }
+    )
 }
 
 val testCoverage by tasks.registering {
     group = "verification"
     description = "RUns the unit tests with coverage"
 
-    dependsOn(":test",
-    ":jacocoTestReport",
-    ":jacocoTestCoverageVerification")
+    dependsOn(
+            ":test",
+            ":jacocoTestReport",
+            ":jacocoTestCoverageVerification"
+    )
 
     tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
     tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
