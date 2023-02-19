@@ -2,6 +2,10 @@ spring:
   application:
     name: jhouse-prod
 
+  config:
+    activate:
+      on-profile: "prod"
+
   profiles:
     include:
       secret
