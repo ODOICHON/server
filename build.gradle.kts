@@ -54,98 +54,80 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    finalizedBy("jacocoTestReport")
 }
 
-tasks.getByName<Jar>("jar") {
-    enabled = false
+val asciidoctorExt: Configuration by configurations.creating
+dependencies {
+    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
 }
-
-//val asciidoctorExt: Configuration by configurations.creating
-//dependencies {
-//    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
-//}
 
 val snippetsDir by extra { file("build/generated-snippets")}
 tasks {
-
-    clean {
-        delete("src/main/resources/static/docs")
-    }
-
     test {
-        useJUnitPlatform()
-        systemProperty("org.springframework.restdocs.outputDir", snippetsDir)
+        extensions.configure(JacocoTaskExtension::class) {
+            destinationFile = file("$buildDir/jacoco/jacoco.exec")
+        }
+        finalizedBy(jacocoTestReport)
+
         outputs.dir(snippetsDir)
     }
 
-    build {
-        dependsOn("copyDocument")
-    }
-
     asciidoctor {
-        dependsOn(test)
-        attributes (
-            mapOf("snippets" to snippetsDir)
-            )
         inputs.dir(snippetsDir)
-
-        doFirst{
-            delete("src/main/resources/static/docs")
+        configurations(asciidoctorExt.name)
+        dependsOn(test)
+        doLast {
+            copy {
+                from("build/docs/asciidoc")
+                into("src/main/resources/static/docs")
+            }
         }
     }
-
-    register<Copy>("copyDocument") {
+    build {
         dependsOn(asciidoctor)
-
-        destinationDir = file(".")
-        from(asciidoctor.get().outputDir) {
-            into("src/main/resources/static/docs")
-        }
-    }
-    bootJar {
-        dependsOn(asciidoctor)
-
-        from("$snippetsDir/html5") {
-            into("static/docs")
-        }
     }
 }
 
 jacoco {
-    toolVersion = "0.8.8"
+    toolVersion = "0.8.7"
 }
 
 tasks.jacocoTestReport {
     reports {
-        html.required.set(true)
-        xml.required.set(true)
-        csv.required.set(false)
+        html.isEnabled = true
+        xml.isEnabled = false
+        csv.isEnabled = false
     }
-    classDirectories.setFrom(
-            sourceSets.main.get().output.asFileTree.matching {
-                exclude(
-                        "**/global/**",
-                        "**/domain/*/dto/*",
-                        "**/domain/*/entity/*"
-                )
-            }
-    )
+
     finalizedBy("jacocoTestCoverageVerification")
 }
 
 tasks.jacocoTestCoverageVerification {
     violationRules {
+//        rule {
+//            limit {
+//                minimum = "0.0".toBigDecimal()
+//            }
+//
+//        }
 
         rule {
-            enabled = true
-            element = "CLASS"
+//            enabled = true
+//
+//            element = "CLASS"
+//
+//            limit{
+//                counter = "BRANCH"
+//                value = "COVEREDRATIO"
+//                minimum = "0.0".toBigDecimal()
+//            }
+
+
 
             limit {
-                counter = "BRANCH"
-                value = "COVEREDRATIO"
-                minimum = "0.00".toBigDecimal()
-
+                counter = "LINE"
+                value = "TOTALCOUNT"
+                maximum = "200.0".toBigDecimal()
             }
 
             excludes = listOf(
@@ -153,26 +135,15 @@ tasks.jacocoTestCoverageVerification {
             )
         }
     }
-
-    classDirectories.setFrom(
-            sourceSets.main.get().output.asFileTree.matching{
-                exclude(
-                        "**/global/**"
-                )
-            }
-    )
 }
 
 val testCoverage by tasks.registering {
     group = "verification"
     description = "RUns the unit tests with coverage"
 
-    dependsOn(
-            ":test",
+    dependsOn(":test",
             ":jacocoTestReport",
-            ":jacocoTestCoverageVerification"
-    )
-
+            ":jacocoTestCoverageVerification")
 
     tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
     tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
