@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request: #해당 브랜치로 pr 왔을 때
     branches:
-      - dev
+#      - dev
 
 permissions: write-all #테스트 결과 작성을 위해 쓰기권한 추가
 
