@@ -136,6 +136,7 @@ tasks.jacocoTestReport {
 
 tasks.jacocoTestCoverageVerification {
     violationRules {
+
         rule {
             enabled = true
             element = "CLASS"
@@ -144,6 +145,7 @@ tasks.jacocoTestCoverageVerification {
                 counter = "BRANCH"
                 value = "COVEREDRATIO"
                 minimum = "0.00".toBigDecimal()
+
             }
 
             excludes = listOf(
@@ -170,6 +172,7 @@ val testCoverage by tasks.registering {
             ":jacocoTestReport",
             ":jacocoTestCoverageVerification"
     )
+
 
     tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
     tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
