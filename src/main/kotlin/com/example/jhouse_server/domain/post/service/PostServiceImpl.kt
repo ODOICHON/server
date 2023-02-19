@@ -1,0 +1,47 @@
+package com.example.jhouse_server.domain.post.service
+
+import com.example.jhouse_server.domain.post.dto.PostCreateReqDto
+import com.example.jhouse_server.domain.post.dto.PostResDto
+import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
+import com.example.jhouse_server.domain.post.dto.toDto
+import com.example.jhouse_server.domain.post.entity.Post
+import com.example.jhouse_server.domain.post.repository.PostRepository
+import com.example.jhouse_server.domain.user.UserRepository
+import com.example.jhouse_server.global.findByIdOrThrow
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+
+@Transactional(readOnly = true)
+@Service
+class PostServiceImpl(
+        val postRepository: PostRepository,
+        val userRepository: UserRepository
+): PostService {
+    override fun getPostAll(): List<PostResDto> {
+        return postRepository.findAll().map { toDto(it) }
+    }
+
+    override fun getPostOne(postId: Long): PostResDto {
+        return postRepository.findById(postId).run { toDto(this.get()) }
+    }
+
+    @Transactional
+    override fun updatePost(postId: Long, req: PostUpdateReqDto): PostResDto {
+        val post = postRepository.findByIdOrThrow(postId)
+        return post.updateEntity(
+            req.code, req.category, req.content, req.imageUrls, req.isSaved
+        ).run { toDto(this) }
+    }
+
+    @Transactional
+    override fun createPost(req: PostCreateReqDto): PostResDto {
+        val user = userRepository.findByIdOrThrow(req.userId)
+        val post = Post(
+                req.code, req.title, req.category, req.content, req.imageUrls, req.address, req.isSaved, user
+        )
+
+        return postRepository.save(post).run {
+            toDto(this)
+        }
+    }
+}
