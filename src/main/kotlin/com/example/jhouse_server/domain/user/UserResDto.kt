@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain
+package com.example.jhouse_server.domain.user
 
 data class UserReqDto(
         val nickName: String,

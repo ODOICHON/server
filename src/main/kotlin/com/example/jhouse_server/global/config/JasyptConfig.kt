@@ -1,4 +1,4 @@
-package com.example.jhouse_server.global
+package com.example.jhouse_server.global.config
 
 import org.jasypt.encryption.StringEncryptor
 import org.jasypt.encryption.pbe.PooledPBEByteEncryptor
