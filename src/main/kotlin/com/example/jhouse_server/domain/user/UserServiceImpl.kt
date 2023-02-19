@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain
+package com.example.jhouse_server.domain.user
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain
+package com.example.jhouse_server.domain.user
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
