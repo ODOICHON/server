@@ -5,14 +5,7 @@ import com.example.jhouse_server.domain.post.dto.PostResDto
 import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
 import com.example.jhouse_server.domain.post.service.PostService
 import com.example.jhouse_server.global.response.ApplicationResponse
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/posts")
@@ -48,9 +41,10 @@ class PostController(
 
     @DeleteMapping("/{postId}")
     fun deletePost(
-        @PathVariable postId: Long
+        @PathVariable postId: Long,
+        @RequestParam userId: Long // 변경해야 함
     ) : ApplicationResponse<Nothing> {
-        postService.deletePost(postId)
+        postService.deletePost(postId, userId)
         return ApplicationResponse.ok()
     }
 }

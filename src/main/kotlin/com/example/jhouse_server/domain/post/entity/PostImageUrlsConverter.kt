@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain.post.entity // ktlint-disable package-name
+package com.example.jhouse_server.domain.post.entity
 
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
