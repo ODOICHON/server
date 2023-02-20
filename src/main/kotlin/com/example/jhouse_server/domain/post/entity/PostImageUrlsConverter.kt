@@ -7,7 +7,7 @@ import javax.persistence.Converter
 class PostImageUrlsConverter : AttributeConverter<List<String>, String?> {
     private val splitStr = ","
     override fun convertToDatabaseColumn(attribute: List<String>): String? {
-        return if(attribute.isNotEmpty()) {
+        return if (attribute.isNotEmpty()) {
             attribute.joinToString(splitStr)
         } else {
             null

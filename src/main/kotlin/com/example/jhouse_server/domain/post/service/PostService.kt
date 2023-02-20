@@ -13,5 +13,6 @@ interface PostService{
     fun updatePost(postId: Long, req : PostUpdateReqDto) : PostResDto
 
     fun createPost(req : PostCreateReqDto) : PostResDto
+    fun deletePost(postId: Long, userId : Long)
 
 }

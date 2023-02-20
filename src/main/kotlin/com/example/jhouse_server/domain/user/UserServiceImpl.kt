@@ -14,4 +14,9 @@ class UserServiceImpl (
                 .orElseThrow{ IllegalStateException("회원을 찾을 수 없습니다.")}
         return toDto(findUser)
     }
+
+    @Transactional
+    override fun createUser(req: UserReqDto): UserResDto {
+        return userRepository.save(User(req.nickName, req.phoneNum)).run { toDto(this) }
+    }
 }
