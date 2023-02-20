@@ -12,49 +12,35 @@ import javax.persistence.*
         name = "post"
 )
 class Post(
-        code : String, // 프론트엔드 측 정적 코드
-        title: String, // 게시글 제목
-        category: PostCategory, // 게시글 말머리
-        content : String, // 게시글 내용
-        imageUrls : List<String> = emptyList(), // 게시글 이미지 (최대 10장)
-        address : String, // 주소 (지도 API?)
-        isSaved : Boolean = false, // 저장여부( 기본 임시저장모드 false )
-        user : User, // 게시글 작성자
-        love : Int =0,  // 좋아요 수
-        id : Long = 0L
-): BaseEntity(id) {
-    var code : String = code
-        protected set
+        var code : String,
 
-    var title : String = title
-        protected set
+        var title : String,
 
-    var category : PostCategory = category
-        protected set
+//        @Enumerated(EnumType.STRING)
+        @Convert(converter = PostCategoryConverter::class)
+        var category : PostCategory,
 
-    var content : String = content
-        protected set
+        var content : String,
 
-    @Convert(converter = PostImageUrlsConverter::class) // 이미지 url ","로 슬라이싱
-    var imageUrls : List<String> = imageUrls
-        protected set
+        @Convert(converter = PostImageUrlsConverter::class) // 이미지 url ","로 슬라이싱
+        var imageUrls : List<String>,
 
-    var address : String = address
-        protected set
+        var address : String,
 
-    var isSaved: Boolean = isSaved
-        protected set
+        var isSaved: Boolean,
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    var user : User = user
-        protected set
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "user_id", nullable = false)
+        var user : User,
 
-    var love : Int = love
-        protected set
+        var love : Int = 0,
 
-    @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var comment : MutableList<Comment> = mutableListOf()
+        @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
+        var comment : MutableList<Comment> = mutableListOf(),
+
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id : Long = 0L
+): BaseEntity() {
 
 
     fun updateEntity(

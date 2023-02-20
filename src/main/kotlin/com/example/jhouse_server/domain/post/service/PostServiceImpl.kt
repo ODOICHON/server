@@ -5,8 +5,12 @@ import com.example.jhouse_server.domain.post.dto.PostResDto
 import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
 import com.example.jhouse_server.domain.post.dto.toDto
 import com.example.jhouse_server.domain.post.entity.Post
+import com.example.jhouse_server.domain.post.entity.PostCategory
+import com.example.jhouse_server.domain.post.entity.PostCategoryConverter
 import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.UserRepository
+import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -43,5 +47,13 @@ class PostServiceImpl(
         return postRepository.save(post).run {
             toDto(this)
         }
+    }
+
+    @Transactional
+    override fun deletePost(postId: Long, userId : Long) {
+        val user = userRepository.findByIdOrThrow(userId)
+        val post = postRepository.findByIdOrThrow(postId)
+        if (user.equals(post.user)) postRepository.delete(post)
+        else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 }
