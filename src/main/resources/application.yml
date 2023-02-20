@@ -2,9 +2,9 @@ spring:
   application:
     name: jhouse-server
 
-#  profiles:
-#    include:
-#      secret
+  profiles:
+    include:
+      secret
 
   jpa:
     database: mysql
@@ -18,23 +18,14 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   datasource:
-    url: ENC(1r+PBQMs51lTSvcS47i8+ncEVMvbrng8XhrHtwmiE6JeQVm/Q07WLQ5HHOY5PCQFOBzWaZIoE4kxIKJJ0Wm366UrXRXmFued3NhOI7iE006ufGGEAGulRQ==)
+    url: ENC(XxBf/3kChMwGNU8+3ch/K9QXB4sRQ+WcSc94MOQqvBHS9lE9gYOA482/JSp4VvsrgQKMV8FLwZeFgGyMFk36B9cNJtFOKFr7hJ0Fowlk/QYjrW0dWJXsVg==)
     username: ENC(Ft4VANPXNWbUqnXvim/g4w==)
     password: ENC(35dJqCmjA0lYMfEv1EiKPw==)
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: ENC(Ua8NlOJqsCrv4+xRi1yNfg==)
-    port: 6379
+    port: 6376
 
   mvc:
     path match:
       matching-strategy: ant_path_matcher
----
-spring:
-  profiles:
-    active: dev
-
----
-spring:
-  profiles:
-    active: prod
