@@ -17,6 +17,6 @@ class HealthCheckController {
 
     @GetMapping("/test")
     fun healthCheckV3() : String {
-        return "제발좀되라!";
+        return "제발좀되라!!";
     }
 }
