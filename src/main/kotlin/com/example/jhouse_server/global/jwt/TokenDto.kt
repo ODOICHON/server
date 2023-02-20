@@ -1,4 +1,9 @@
 package com.example.jhouse_server.global.jwt
 
-class TokenDto {
+import com.fasterxml.jackson.annotation.JsonProperty
+
+class TokenDto (
+        @JsonProperty("access_token") val accessToken: String,
+        @JsonProperty("refresh_token") val refreshToken: String
+) {
 }
