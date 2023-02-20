@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain.post.entity
+package com.example.jhouse_server.domain.post.entity // ktlint-disable package-name
 
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
@@ -7,7 +7,7 @@ import javax.persistence.Converter
 class PostImageUrlsConverter : AttributeConverter<List<String>, String?> {
     private val splitStr = ","
     override fun convertToDatabaseColumn(attribute: List<String>): String? {
-        return if(attribute.isNotEmpty()) {
+        return if (attribute.isNotEmpty()) {
             attribute.joinToString(splitStr)
         } else {
             null
