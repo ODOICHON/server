@@ -8,7 +8,7 @@ services:
     networks:
       - db_network
 
-  ## deploy
+  ## deploy - 무중단
   nginx:
     image: nginx:1.15-alpine
     container_name: nginx-container
