@@ -20,6 +20,6 @@ if [ ! -z ${TARGET_PID} ]; then
   sudo kill ${TARGET_PID}
 fi
 
-java -jar -Dserver.port=${TARGET_PORT} /home/ubuntu/duaily-server/build/libs/* --spring.profiles.active=prod --logging.file.path=/home/ubuntu/ &
+nohup java -jar -Dserver.port=${TARGET_PORT} /home/ubuntu/duaily-server/build/libs/* > /home/ubuntu/nohup.out 2>&1 --spring.profiles.active=prod &
 echo "> Now new WAS runs at ${TARGET_PORT}."
 exit 0
