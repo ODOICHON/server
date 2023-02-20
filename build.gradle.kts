@@ -128,6 +128,7 @@ tasks.jacocoTestCoverageVerification {
                 counter = "LINE"
                 value = "TOTALCOUNT"
                 maximum = "300.0".toBigDecimal()
+
             }
 
             excludes = listOf(
