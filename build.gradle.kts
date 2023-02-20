@@ -33,12 +33,19 @@ dependencies {
     // Springboot
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
-
+    // Jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
     // Jasypt
     implementation ("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
+    // CoolSms
+    implementation("net.nurigo:javaSDK:2.2")
     // Springboot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
