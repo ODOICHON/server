@@ -4,8 +4,8 @@ import com.example.jhouse_server.domain.comment.Comment
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.post.repository.PostRepository
-import com.example.jhouse_server.domain.user.User
-import com.example.jhouse_server.domain.user.UserRepository
+import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.util.MockEntity
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterAll
@@ -20,10 +20,10 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @SpringBootTest
 internal class CommentServiceImplTest @Autowired constructor(
-    val commentServiceImpl: CommentServiceImpl,
-    val userRepository: UserRepository,
-    val postRepository: PostRepository,
-    val commentRepository: CommentRepository,
+        val commentServiceImpl: CommentServiceImpl,
+        val userRepository: UserRepository,
+        val postRepository: PostRepository,
+        val commentRepository: CommentRepository,
 ) {
     lateinit var user: User
     lateinit var post: Post

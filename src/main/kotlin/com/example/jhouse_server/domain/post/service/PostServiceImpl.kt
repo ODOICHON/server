@@ -5,10 +5,8 @@ import com.example.jhouse_server.domain.post.dto.PostResDto
 import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
 import com.example.jhouse_server.domain.post.dto.toDto
 import com.example.jhouse_server.domain.post.entity.Post
-import com.example.jhouse_server.domain.post.entity.PostCategory
-import com.example.jhouse_server.domain.post.entity.PostCategoryConverter
 import com.example.jhouse_server.domain.post.repository.PostRepository
-import com.example.jhouse_server.domain.user.UserRepository
+import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.findByIdOrThrow
