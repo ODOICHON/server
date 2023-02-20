@@ -22,7 +22,7 @@ class HealthCheckControllerTest {
     @DisplayName("WAS 서버 Health-Check")
     fun healthCheck() {
         this.mockMvc.perform(
-                MockMvcRequestBuilders.get("/")
+                MockMvcRequestBuilders.get("/api")
         )
                 .andExpect(status().isOk)
                 .andDo(MockMvcResultHandlers.print())

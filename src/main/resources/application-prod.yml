@@ -2,9 +2,9 @@ spring:
   application:
     name: jhouse-prod
 
-  profiles:
-    include:
-      secret
+  config:
+    activate:
+      on-profile: "prod"
 
   jpa:
     database: mysql
@@ -23,7 +23,7 @@ spring:
     password: ENC(vJiB+8VMlNd15HOYQaBDZKNBBO5rHvrY)
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: ENC(Ua8NlOJqsCrv4+xRi1yNfg==)  #redis
+    host: ENC(Ua8NlOJqsCrv4+xRi1yNfg==)
     port: 6379
 
   mvc:
