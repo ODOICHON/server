@@ -14,4 +14,9 @@ class HealthCheckController {
     fun healthCheckV2() : String {
         return "test success!";
     }
+
+    @GetMapping("/test")
+    fun healthCheckV3() : String {
+        return "제발좀되라!";
+    }
 }
