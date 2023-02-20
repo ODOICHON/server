@@ -23,9 +23,18 @@ spring:
     password: ENC(vJiB+8VMlNd15HOYQaBDZKNBBO5rHvrY)
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
-    host: ENC(BIxXfMaj064LKc0Qe/KjTolcKhkUe1vK)
+    host: ENC(Ua8NlOJqsCrv4+xRi1yNfg==)
     port: 6379
 
   mvc:
     path match:
       matching-strategy: ant_path_matcher
+
+  jwt:
+    key: ENC(QN9igaTGD9IR2xKYJsA4sUc5a6rvaOdgN7IU1LtrazB51S1oGXb/z7JlDfOg325iIQGsNb7yFZX6oT2wW4+C9Swza7yvorcnwtrGExIVgrlq65Al/+egt2fAkHI79YNoWYRwPI4Br0o=)
+
+cool:
+  sms:
+    api-key: ENC(65nOezIWpb58mF23J0oYUeXJMJ/iAsOVmP6dEFNjvdM=)
+    api-secret: ENC(l1mqdDlmADtW1E3hb0+jkf/5CWNQg6r8yA5tRdO8ihQXZ9KIs9ReP5Mx1J2lG3T7)
+    from: ENC(KdUMxAXBQVgK1ZjWJvvZpP1ZXZOaAVJ4)
