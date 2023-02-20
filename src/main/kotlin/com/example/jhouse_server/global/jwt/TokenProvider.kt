@@ -62,18 +62,18 @@ class TokenProvider {
             val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
 
             if (claims[AUTHORITIES_KEY] == null) {
-                ApplicationException(UNAUTHORIZED_JWT_TOKEN)
+                throw ApplicationException(UNAUTHORIZED_JWT_TOKEN)
             }
         } catch (e: io.jsonwebtoken.security.SecurityException) {
-            ApplicationException(WRONG_JWT_SIGNATURE)
+            throw ApplicationException(WRONG_JWT_SIGNATURE)
         } catch (e: MalformedJwtException) {
-            ApplicationException(WRONG_JWT_SIGNATURE)
+            throw ApplicationException(WRONG_JWT_SIGNATURE)
         } catch (e: ExpiredJwtException) {
-            ApplicationException(EXPIRE_JWT_TOKEN)
+            throw ApplicationException(EXPIRE_JWT_TOKEN)
         } catch (e: UnsupportedJwtException) {
-            ApplicationException(NOT_SUPPORT_JWT_TOKEN)
+            throw ApplicationException(NOT_SUPPORT_JWT_TOKEN)
         } catch (e: IllegalArgumentException) {
-            ApplicationException(WRONG_JWT_TOKEN)
+            throw ApplicationException(WRONG_JWT_TOKEN)
         }
     }
 

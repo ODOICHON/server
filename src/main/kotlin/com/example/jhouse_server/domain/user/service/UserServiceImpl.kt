@@ -44,7 +44,7 @@ class UserServiceImpl (
 
     override fun sendSmsCode(phoneNum: String) {
         if (userRepository.existsByPhoneNum(phoneNum)) {
-            ApplicationException(EXIST_PHONE_NUM)
+            throw ApplicationException(EXIST_PHONE_NUM)
         }
         val code = createCode()
         smsUtil.sendMessage(phoneNum, code)
@@ -73,7 +73,7 @@ class UserServiceImpl (
         val user = userRepository.findByEmail(userSignInReqDto.email)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
         if (user.password != encodePassword(userSignInReqDto.password)) {
-            ApplicationException(DONT_MATCH_PASSWORD)
+            throw ApplicationException(DONT_MATCH_PASSWORD)
         }
 
         val tokenResponse = tokenProvider.createTokenResponse(user)
@@ -92,10 +92,10 @@ class UserServiceImpl (
         val refreshToken: String? = redisUtil.getValues(email)
 
         if (refreshToken.isNullOrEmpty()) {
-            ApplicationException(ALREADY_LOGOUT)
+            throw ApplicationException(ALREADY_LOGOUT)
         }
         if (refreshToken != tokenDto.refreshToken) {
-            ApplicationException(DONT_MATCH_WITH_TOKEN)
+            throw ApplicationException(DONT_MATCH_WITH_TOKEN)
         }
         val user = userRepository.findByEmail(email)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }

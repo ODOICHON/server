@@ -1,5 +1,5 @@
 package com.example.jhouse_server.global.annotation
 
-@Target(AnnotationTarget.VALUE_PARAMETER)
+@Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Auth()

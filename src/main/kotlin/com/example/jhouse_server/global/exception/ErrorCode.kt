@@ -19,6 +19,7 @@ enum class ErrorCode(
     EXPIRE_JWT_TOKEN(HttpStatus.BAD_REQUEST, "J0002", "만료된 JWT 토큰입니다."),
     NOT_SUPPORT_JWT_TOKEN(HttpStatus.BAD_REQUEST, "J0003", "지원되지 않는 JWT 토큰입니다."),
     WRONG_JWT_TOKEN(HttpStatus.BAD_REQUEST, "J0004", "JWT 토큰이 잘못되었습니다."),
+    DONT_VALIDATE_TOKEN(HttpStatus.BAD_REQUEST, "J0005", "토큰 검증 실패"),
 
     // User
     EXIST_PHONE_NUM(HttpStatus.BAD_REQUEST, "U0000", "이미 가입된 전화번호입니다."),

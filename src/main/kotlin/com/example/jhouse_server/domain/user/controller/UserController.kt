@@ -4,9 +4,9 @@ import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
+import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.response.ApplicationResponse
-import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -69,9 +69,10 @@ class UserController(
         return ApplicationResponse.ok(userService.reissue(tokenDto))
     }
 
+    @Auth
     @PostMapping("/logout")
     fun logout(
-            @Auth user: User
+            @AuthUser user: User
     ): ApplicationResponse<Nothing> {
         userService.logout(user)
 
