@@ -9,4 +9,9 @@ class HealthCheckController {
     fun healthCheck() : String {
         return "Server is Up!";
     }
+
+    @GetMapping("/test")
+    fun healthCheckV2() : String {
+        return "test success!";
+    }
 }
