@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.comment
 
 import com.example.jhouse_server.domain.post.entity.Post
-import com.example.jhouse_server.domain.user.User
+import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
 

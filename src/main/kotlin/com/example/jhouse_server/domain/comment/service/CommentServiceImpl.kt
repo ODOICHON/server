@@ -7,7 +7,7 @@ import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
 import com.example.jhouse_server.domain.post.repository.PostRepository
-import com.example.jhouse_server.domain.user.UserRepository
+import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.findByIdOrThrow
