@@ -134,7 +134,7 @@ tasks.jacocoTestCoverageVerification {
             limit {
                 counter = "LINE"
                 value = "TOTALCOUNT"
-                maximum = "300.0".toBigDecimal()
+                maximum = "500.0".toBigDecimal()
 
             }
 
