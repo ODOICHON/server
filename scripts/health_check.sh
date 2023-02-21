@@ -22,7 +22,7 @@ do
     echo "> #${RETRY_COUNT} trying..."
     RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}"  http://13.209.202.74:${TARGET_PORT}/api)
 
-    if [ ${RESPONSE_CODE} -eq 200 ]; then
+    if [ ${RESPONSE_CODE} -eq 400 ]; then
         echo "> New WAS successfully running"
         exit 0
     elif [ ${RETRY_COUNT} -eq 10 ]; then

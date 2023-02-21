@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.post.entity
 
 import com.example.jhouse_server.domain.comment.Comment
-import com.example.jhouse_server.domain.user.User
+import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
