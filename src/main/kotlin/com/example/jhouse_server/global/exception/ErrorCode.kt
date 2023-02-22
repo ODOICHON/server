@@ -20,6 +20,7 @@ enum class ErrorCode(
     NOT_SUPPORT_JWT_TOKEN(HttpStatus.BAD_REQUEST, "J0003", "지원되지 않는 JWT 토큰입니다."),
     WRONG_JWT_TOKEN(HttpStatus.BAD_REQUEST, "J0004", "JWT 토큰이 잘못되었습니다."),
     DONT_VALIDATE_TOKEN(HttpStatus.BAD_REQUEST, "J0005", "토큰 검증 실패"),
+    DONT_HAVE_AUTHORITY(HttpStatus.BAD_REQUEST, "J0006", "권한이 없습니다."),
 
     // User
     EXIST_PHONE_NUM(HttpStatus.BAD_REQUEST, "U0000", "이미 가입된 전화번호입니다."),
@@ -27,5 +28,6 @@ enum class ErrorCode(
     DONT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "U0002", "비밀번호가 일치하지 않습니다."),
     ALREADY_LOGOUT(HttpStatus.BAD_REQUEST, "U0003", "로그아웃 된 사용자입니다."),
     DONT_MATCH_WITH_TOKEN(HttpStatus.BAD_REQUEST, "U0004", "토큰의 유저 정보가 일치하지 않습니다."),
-
+    EXIST_NICK_NAME(HttpStatus.BAD_REQUEST, "U0005", "이미 존재하는 닉네임입니다."),
+    SAME_PASSWORD(HttpStatus.BAD_REQUEST, "U0006", "비밀번호가 같습니다.")
 }

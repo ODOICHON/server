@@ -1,6 +1,10 @@
 package com.example.jhouse_server.global.aop
 
+import com.example.jhouse_server.domain.user.entity.Authority.ADMIN
+import com.example.jhouse_server.domain.user.entity.Authority.USER
+import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode.DONT_HAVE_AUTHORITY
 import com.example.jhouse_server.global.exception.ErrorCode.DONT_VALIDATE_TOKEN
 import com.example.jhouse_server.global.jwt.TokenProvider
 import org.aspectj.lang.JoinPoint
@@ -25,11 +29,15 @@ class AuthAop (
     @Pointcut("@annotation(com.example.jhouse_server.global.annotation.Auth)")
     private fun enableAuth() {}
 
-    @Before("cut() && enableAuth()")
-    public fun before(joinPoint: JoinPoint) {
+    @Before("cut() && enableAuth() && @annotation(auth)")
+    public fun before(joinPoint: JoinPoint, auth: Auth) {
         val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
         val bearerToken: String = request.getHeader(AUTHORIZATION_HEADER) ?: throw ApplicationException(DONT_VALIDATE_TOKEN)
         val jwt: String = tokenProvider.resolveToken(bearerToken) ?: throw ApplicationException(DONT_VALIDATE_TOKEN)
+
+        if (auth.auth == ADMIN && tokenProvider.getAuthority(jwt) == USER) {
+            throw ApplicationException(DONT_HAVE_AUTHORITY)
+        }
 
         tokenProvider.validateToken(jwt)
     }
