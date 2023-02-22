@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.user.controller
 
 import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.entity.Authority.USER
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
@@ -16,21 +17,21 @@ class UserController(
         val userService: UserService
 ) {
 
-    @GetMapping("/email-check/{email}")
+    @GetMapping("/check/email/{email}")
     fun emailCheck(
             @PathVariable("email") email: String
     ): ApplicationResponse<Boolean> {
         return ApplicationResponse.ok(userService.checkEmail(email))
     }
 
-    @GetMapping("/nick-name-check/{nick-name}")
+    @GetMapping("/check/nick-name/{nick-name}")
     fun nickNameCheck(
             @PathVariable("nick-name") nickName: String
     ): ApplicationResponse<Boolean> {
         return ApplicationResponse.ok(userService.checkNickName(nickName))
     }
 
-    @PostMapping("/send-sms")
+    @PostMapping("/send/sms")
     fun sendSms(
             @RequestParam("phone_num") phoneNum: String
     ): ApplicationResponse<Nothing> {
@@ -39,7 +40,7 @@ class UserController(
         return ApplicationResponse.ok()
     }
 
-    @PostMapping("/check-sms")
+    @PostMapping("/check/sms")
     fun checkSms(
             @RequestBody checkSmsReqDto: CheckSmsReqDto
     ): ApplicationResponse<Boolean> {
@@ -74,7 +75,29 @@ class UserController(
     fun logout(
             @AuthUser user: User
     ): ApplicationResponse<Nothing> {
-        userService.logout(user)
+        userService.logout(user.email)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/nick-name/{nick-name}")
+    fun updateNickName(
+            @AuthUser user: User,
+            @PathVariable("nick-name") nickName: String
+    ): ApplicationResponse<Nothing> {
+        userService.updateNickName(user, nickName)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/password/{password}")
+    fun updatePassword(
+            @AuthUser user: User,
+            @PathVariable("password") password: String
+    ): ApplicationResponse<Nothing> {
+        userService.updatePassword(user, password)
 
         return ApplicationResponse.ok()
     }
