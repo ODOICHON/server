@@ -7,6 +7,7 @@ import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
 import com.example.jhouse_server.domain.post.repository.PostRepository
+import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
@@ -26,22 +27,27 @@ class CommentServiceImpl(
     }
 
     @Transactional
-    override fun createComment(req: CommentCreateReqDto): CommentResDto {
-        val user = userRepository.findByIdOrThrow(req.userId)
+    override fun createComment(req: CommentCreateReqDto, user: User): CommentResDto {
         val post = postRepository.findByIdOrThrow(req.postId)
         val comment = Comment(
                 post, req.content, user
         )
-
         return commentRepository.save(comment).run { toDto(this) }
     }
 
     @Transactional
-    override fun updateComment(commentId: Long, req: CommentUpdateReqDto): CommentResDto {
-        val user = userRepository.findByIdOrThrow(req.userId)
+    override fun updateComment(commentId: Long, req: CommentUpdateReqDto, user: User): CommentResDto {
         val comment = commentRepository.findByIdOrThrow(commentId)
-        return if (user.equals(comment.user)) {
+        return if (user == comment.user) {
             comment.updateEntity(req.content).run { toDto(this) }
         } else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
+    }
+
+    @Transactional
+    override fun deleteComment(commentId: Long, user: User) {
+        val comment = commentRepository.findByIdOrThrow(commentId)
+        if (user == comment.user)  {
+           commentRepository.delete(comment)
+        } else throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
     }
 }

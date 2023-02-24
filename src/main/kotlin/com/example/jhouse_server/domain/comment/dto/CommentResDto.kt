@@ -12,13 +12,11 @@ data class CommentResDto(
 )
 
 data class CommentCreateReqDto(
-    val userId: Long,
     val postId: Long,
     val content: String,
 )
 
 data class CommentUpdateReqDto(
-    val userId: Long,
     val postId: Long,
     val content: String,
 )
