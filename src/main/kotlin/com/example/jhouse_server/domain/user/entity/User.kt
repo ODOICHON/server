@@ -30,4 +30,12 @@ class User(
     fun update(phoneNum: String) {
         this.phoneNum = phoneNum
     }
+
+    fun updateNickName(nickName: String) {
+        this.nickName = nickName
+    }
+
+    fun updatePassword(password: String) {
+        this.password = password
+    }
 }

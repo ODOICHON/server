@@ -106,8 +106,27 @@ class UserServiceImpl (
         return updateTokenResponse
     }
 
-    override fun logout(user: User) {
-        redisUtil.deleteValues(user.email)
+    override fun logout(email: String) {
+        redisUtil.deleteValues(email)
+    }
+
+    @Transactional
+    override fun updateNickName(user: User, nickName: String) {
+        if (userRepository.existsByNickName(nickName)) {
+            throw ApplicationException(EXIST_NICK_NAME)
+        }
+
+        user.updateNickName(nickName)
+    }
+
+    @Transactional
+    override fun updatePassword(user: User, password: String) {
+        val encodePassword = encodePassword(password)
+        if (user.password == encodePassword) {
+            throw ApplicationException(SAME_PASSWORD)
+        }
+
+        user.updatePassword(encodePassword)
     }
 
     private fun createCode(): String {
