@@ -9,7 +9,6 @@ data class PostResDto(
 )
 
 data class PostCreateReqDto(
-        val userId : Long,
         val code : String,
         val title : String,
         val content : String,

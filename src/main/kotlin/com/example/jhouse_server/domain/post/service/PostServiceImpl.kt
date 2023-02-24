@@ -6,6 +6,7 @@ import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
 import com.example.jhouse_server.domain.post.dto.toDto
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.post.repository.PostRepository
+import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
@@ -28,30 +29,28 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun updatePost(postId: Long, req: PostUpdateReqDto): PostResDto {
+    override fun updatePost(postId: Long, req: PostUpdateReqDto, user: User): PostResDto {
         val post = postRepository.findByIdOrThrow(postId)
+        if(user != post.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         return post.updateEntity(
             req.code, req.category, req.content, req.imageUrls, req.isSaved
         ).run { toDto(this) }
     }
 
     @Transactional
-    override fun createPost(req: PostCreateReqDto): PostResDto {
-        val user = userRepository.findByIdOrThrow(req.userId)
+    override fun createPost(req: PostCreateReqDto, user: User): PostResDto {
         val post = Post(
                 req.code, req.title, req.category, req.content, req.imageUrls, req.address, req.isSaved, user
         )
-
         return postRepository.save(post).run {
             toDto(this)
         }
     }
 
     @Transactional
-    override fun deletePost(postId: Long, userId : Long) {
-        val user = userRepository.findByIdOrThrow(userId)
+    override fun deletePost(postId: Long, user: User) {
         val post = postRepository.findByIdOrThrow(postId)
-        if (user.equals(post.user)) postRepository.delete(post)
+        if (user == post.user) postRepository.delete(post)
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 }
