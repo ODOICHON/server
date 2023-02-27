@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.comment.service
 
-import com.example.jhouse_server.domain.comment.Comment
+import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.comment.dto.CommentCreateReqDto
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional
 class CommentServiceImpl(
         val commentRepository: CommentRepository,
         val postRepository: PostRepository,
-        val userRepository: UserRepository
 ) : CommentService {
     override fun getCommentAll(postId: Long): List<CommentResDto> {
         return postRepository.findByIdOrThrow(postId).comment.map { toDto(it) }

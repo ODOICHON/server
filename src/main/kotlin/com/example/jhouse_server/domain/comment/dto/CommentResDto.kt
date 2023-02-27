@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.comment.dto
 
-import com.example.jhouse_server.domain.comment.Comment
+import com.example.jhouse_server.domain.comment.entity.Comment
 import java.time.format.DateTimeFormatter
 
 data class CommentResDto(
