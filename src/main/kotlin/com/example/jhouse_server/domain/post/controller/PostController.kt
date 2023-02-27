@@ -1,17 +1,20 @@
 package com.example.jhouse_server.domain.post.controller
 
 import com.example.jhouse_server.domain.post.dto.PostCreateReqDto
+import com.example.jhouse_server.domain.post.dto.PostListResDto
 import com.example.jhouse_server.domain.post.dto.PostResDto
 import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
 import com.example.jhouse_server.domain.post.service.PostService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/api/v1/posts/default")
 class PostController(
         val postService: PostService
 ) {
@@ -19,7 +22,7 @@ class PostController(
     fun createPost(
             @RequestBody @Validated req : PostCreateReqDto,
             @AuthUser user: User
-    ) : ApplicationResponse<PostResDto> {
+    ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(postService.createPost(req, user))
     }
 
@@ -40,7 +43,7 @@ class PostController(
         @PathVariable postId: Long,
         @RequestBody @Validated req : PostUpdateReqDto,
         @AuthUser user: User
-    ) : ApplicationResponse<PostResDto> {
+    ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(postService.updatePost(postId, req, user))
     }
 
@@ -51,5 +54,13 @@ class PostController(
     ) : ApplicationResponse<Nothing> {
         postService.deletePost(postId, user)
         return ApplicationResponse.ok()
+    }
+
+    @GetMapping("/search")
+    fun getPostAllCustom(
+        @RequestParam keyword: String,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<PostListResDto>> {
+        return ApplicationResponse.ok(postService.getPostAllByKeywordCustom(keyword, pageable))
     }
 }

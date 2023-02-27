@@ -1,56 +1,55 @@
 package com.example.jhouse_server.domain.post.service
 
-import com.example.jhouse_server.domain.post.dto.PostCreateReqDto
-import com.example.jhouse_server.domain.post.dto.PostResDto
-import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
-import com.example.jhouse_server.domain.post.dto.toDto
+import com.example.jhouse_server.domain.post.dto.*
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.entity.User
-import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.findByIdOrThrow
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
 @Service
 class PostServiceImpl(
-        val postRepository: PostRepository,
-        val userRepository: UserRepository
+        val postRepository: PostRepository
 ): PostService {
     override fun getPostAll(): List<PostResDto> {
         return postRepository.findAll().map { toDto(it) }
     }
 
     override fun getPostOne(postId: Long): PostResDto {
-        return postRepository.findById(postId).run { toDto(this.get()) }
+        return postRepository.findByIdOrThrow(postId).run { toDto(this) }
     }
 
     @Transactional
-    override fun updatePost(postId: Long, req: PostUpdateReqDto, user: User): PostResDto {
+    override fun updatePost(postId: Long, req: PostUpdateReqDto, user: User): Long {
         val post = postRepository.findByIdOrThrow(postId)
         if(user != post.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         return post.updateEntity(
-            req.code, req.category, req.content, req.imageUrls, req.isSaved
-        ).run { toDto(this) }
+            req.code, req.category, req.title, req.imageUrls, req.isSaved
+        ).id
     }
 
     @Transactional
-    override fun createPost(req: PostCreateReqDto, user: User): PostResDto {
+    override fun createPost(req: PostCreateReqDto, user: User): Long {
         val post = Post(
-                req.code, req.title, req.category, req.content, req.imageUrls, req.address, req.isSaved, user
+                req.code, req.title, req.category, req.imageUrls, req.isSaved, user
         )
-        return postRepository.save(post).run {
-            toDto(this)
-        }
+        return postRepository.save(post).id
     }
 
     @Transactional
-    override fun deletePost(postId: Long, user: User) {
+    override fun deletePost(postId: Long, userId: User) {
         val post = postRepository.findByIdOrThrow(postId)
-        if (user == post.user) postRepository.delete(post)
+        if (userId == post.user) postRepository.delete(post)
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
+    }
+
+    override fun getPostAllByKeywordCustom(keyword: String, pageable: Pageable): Page<PostListResDto> {
+        return postRepository.findAllByKeywordCustom(keyword, pageable).map { toListDto(it) }
     }
 }
