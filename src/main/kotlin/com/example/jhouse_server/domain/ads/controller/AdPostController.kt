@@ -7,6 +7,7 @@ import com.example.jhouse_server.domain.ads.dto.AdsPostUpdateReqDto
 import com.example.jhouse_server.domain.ads.service.AdsPostService
 import com.example.jhouse_server.domain.post.dto.CodeResDto
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Page
@@ -20,6 +21,7 @@ class AdPostController(
     val adsPostService: AdsPostService
 ) {
 
+    @Auth
     @PostMapping
     fun createPost(
         @RequestBody @Validated req : AdsPostCreateReqDto,
@@ -29,6 +31,7 @@ class AdPostController(
     }
 
 
+    @Auth
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId : Long,
@@ -38,6 +41,7 @@ class AdPostController(
         return ApplicationResponse.ok(adsPostService.updatePost(postId, req, user))
     }
 
+    @Auth
     @DeleteMapping("/{postId}")
     fun deletePost(
         @PathVariable postId : Long,

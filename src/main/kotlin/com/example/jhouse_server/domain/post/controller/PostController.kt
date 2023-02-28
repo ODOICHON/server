@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.post.controller
 import com.example.jhouse_server.domain.post.dto.*
 import com.example.jhouse_server.domain.post.service.PostService
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Page
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*
 class PostController(
         val postService: PostService
 ) {
+    @Auth
     @PostMapping
     fun createPost(
             @RequestBody @Validated req : PostCreateReqDto,
@@ -35,6 +37,7 @@ class PostController(
         return ApplicationResponse.ok(postService.getPostOne(postId))
     }
 
+    @Auth
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId: Long,
@@ -44,6 +47,7 @@ class PostController(
         return ApplicationResponse.ok(postService.updatePost(postId, req, user))
     }
 
+    @Auth
     @DeleteMapping("/{postId}")
     fun deletePost(
         @PathVariable postId: Long,

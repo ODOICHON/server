@@ -7,6 +7,7 @@ import com.example.jhouse_server.domain.intro.dto.IntroPostUpdateReqDto
 import com.example.jhouse_server.domain.intro.service.IntroPostService
 import com.example.jhouse_server.domain.post.dto.CodeResDto
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Page
@@ -20,6 +21,7 @@ class IntroPostController(
     val introPostService: IntroPostService
 ) {
 
+    @Auth
     @PostMapping
     fun createPost(
         @RequestBody @Validated req: IntroPostCreateReqDto,
@@ -28,6 +30,7 @@ class IntroPostController(
         return ApplicationResponse.ok(introPostService.createPost(req, user))
     }
 
+    @Auth
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId : Long,
@@ -37,6 +40,7 @@ class IntroPostController(
         return ApplicationResponse.ok(introPostService.updatePost(postId, req, user))
     }
 
+    @Auth
     @DeleteMapping("/{postId}")
     fun deletePost(
         @PathVariable postId : Long,
