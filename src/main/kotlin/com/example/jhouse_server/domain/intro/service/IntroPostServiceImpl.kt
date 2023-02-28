@@ -30,14 +30,12 @@ class IntroPostServiceImpl(
     @Transactional
     override fun updatePost(postId: Long, req: IntroPostUpdateReqDto, user: User): Long {
         val introPost = introPostRepository.findByIdOrThrow(postId)
-        if(user.authority != Authority.ADMIN) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         return introPost.updateEntity(
             req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!
         ).id
     }
     @Transactional
     override fun createPost(req: IntroPostCreateReqDto, user: User): Long {
-        if(user.authority != Authority.ADMIN) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         val introPost = IntroPost(
             req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!, user
         )
@@ -46,7 +44,6 @@ class IntroPostServiceImpl(
     @Transactional
     override fun deletePost(postId: Long, user: User) {
         val introPost = introPostRepository.findByIdOrThrow(postId)
-        if(user.authority != Authority.ADMIN) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         introPostRepository.delete(introPost)
     }
 
