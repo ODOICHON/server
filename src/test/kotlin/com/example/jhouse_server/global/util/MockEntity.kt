@@ -24,12 +24,10 @@ class MockEntity {
         )
 
         fun testPost1(writer : User) = Post(
-                code = "<html></html>",
+                code = "<html>짱구가 태그 사이에 갇혔다.</html>",
                 title = "짱구는 못말려",
                 category = PostCategory.DAILY,
-                content = "짱구가 작성한 철수 관찰 일기",
                 imageUrls = emptyList(),
-                address = "떡잎마을",
                 isSaved = true,
                 user = writer,
                 love = 1

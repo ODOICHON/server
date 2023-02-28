@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain.comment
+package com.example.jhouse_server.domain.comment.entity
 
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.user.entity.User
