@@ -24,5 +24,9 @@ interface UserService {
 
     fun reissue(tokenDto: TokenDto): TokenDto
 
-    fun logout(user: User)
+    fun logout(email: String)
+
+    fun updateNickName(user: User, nickName: String)
+
+    fun updatePassword(user: User, password: String)
 }
