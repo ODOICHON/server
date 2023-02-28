@@ -26,19 +26,19 @@ class CommentServiceImpl(
     }
 
     @Transactional
-    override fun createComment(req: CommentCreateReqDto, user: User): CommentResDto {
+    override fun createComment(req: CommentCreateReqDto, user: User): Long {
         val post = postRepository.findByIdOrThrow(req.postId)
         val comment = Comment(
-                post, req.content, user
+                post, req.content!!, user
         )
-        return commentRepository.save(comment).run { toDto(this) }
+        return commentRepository.save(comment).id
     }
 
     @Transactional
-    override fun updateComment(commentId: Long, req: CommentUpdateReqDto, user: User): CommentResDto {
+    override fun updateComment(commentId: Long, req: CommentUpdateReqDto, user: User): Long {
         val comment = commentRepository.findByIdOrThrow(commentId)
         return if (user == comment.user) {
-            comment.updateEntity(req.content).run { toDto(this) }
+            comment.updateEntity(req.content!!).id
         } else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 

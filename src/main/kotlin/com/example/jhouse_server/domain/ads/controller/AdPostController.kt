@@ -5,6 +5,7 @@ import com.example.jhouse_server.domain.ads.dto.AdsPostListResDto
 import com.example.jhouse_server.domain.ads.dto.AdsPostResDto
 import com.example.jhouse_server.domain.ads.dto.AdsPostUpdateReqDto
 import com.example.jhouse_server.domain.ads.service.AdsPostService
+import com.example.jhouse_server.domain.post.dto.CodeResDto
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
@@ -64,5 +65,10 @@ class AdPostController(
         pageable: Pageable
     ) : ApplicationResponse<Page<AdsPostListResDto>> {
         return ApplicationResponse.ok(adsPostService.getPostAllByKeywordCustom(keyword, pageable))
+    }
+
+    @GetMapping("/category")
+    fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
+        return ApplicationResponse.ok(adsPostService.getPostCategory())
     }
 }

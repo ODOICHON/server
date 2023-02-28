@@ -34,7 +34,7 @@ class CommentController(
     fun createComment(
         @RequestBody @Validated req: CommentCreateReqDto,
         @AuthUser user: User
-    ): ApplicationResponse<CommentResDto> {
+    ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(commentService.createComment(req, user))
     }
 
@@ -43,7 +43,7 @@ class CommentController(
         @PathVariable commentId: Long,
         @RequestBody @Validated req: CommentUpdateReqDto,
         @AuthUser user: User
-    ): ApplicationResponse<CommentResDto> {
+    ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(commentService.updateComment(commentId, req, user))
     }
 

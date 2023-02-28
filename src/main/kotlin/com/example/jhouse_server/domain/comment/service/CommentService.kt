@@ -9,8 +9,8 @@ interface CommentService {
 
     fun getCommentAll(postId : Long) : List<CommentResDto>
 
-    fun createComment(req: CommentCreateReqDto, user: User) : CommentResDto
+    fun createComment(req: CommentCreateReqDto, user: User) : Long
 
-    fun updateComment(commentId: Long, req: CommentUpdateReqDto, user: User) : CommentResDto
+    fun updateComment(commentId: Long, req: CommentUpdateReqDto, user: User) : Long
     fun deleteComment(commentId: Long, user: User)
 }

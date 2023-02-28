@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.post.dto
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.post.entity.PostCategory
 import java.time.LocalDate
+import javax.validation.constraints.NotNull
 
 data class PostResDto(
         val postId : Long,
@@ -28,21 +29,34 @@ fun toListDto(post: Post) : PostListResDto {
 }
 
 data class PostCreateReqDto(
-        val code : String,
-        val title : String,
+        @field:NotNull(message = "code는 필수값입니다.")
+        val code : String? = null,
+        @field:NotNull(message = "게시글의 제목은 필수값입니다.")
+        val title : String? = null,
         val imageUrls : List<String>,
-        val isSaved : Boolean,
-        val category : PostCategory,
+        @field:NotNull(message = "임시 저장 여부는 필수값입니다.")
+        val isSaved : Boolean? = null,
+        @field:NotNull(message = "말머리는 필수값입니다.")
+        val category : PostCategory? = null,
 )
 
 data class PostUpdateReqDto(
-        val code: String,
-        val title : String,
-        val imageUrls: List<String>,
-        val category : String,
-        val isSaved : Boolean
+        @field:NotNull(message = "code는 필수값입니다.")
+        val code : String? = null,
+        @field:NotNull(message = "게시글의 제목은 필수값입니다.")
+        val title : String? = null,
+        val imageUrls : List<String>,
+        @field:NotNull(message = "임시 저장 여부는 필수값입니다.")
+        val isSaved : Boolean? = null,
+        @field:NotNull(message = "말머리는 필수값입니다.")
+        val category : String? = null,
 )
 
 fun toDto(post : Post) : PostResDto {
     return PostResDto(post.id, post.code, post.title)
 }
+
+data class CodeResDto(
+        val code : String,
+        val name : String
+)

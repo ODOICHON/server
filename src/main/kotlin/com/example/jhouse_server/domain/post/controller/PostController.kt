@@ -1,9 +1,6 @@
 package com.example.jhouse_server.domain.post.controller
 
-import com.example.jhouse_server.domain.post.dto.PostCreateReqDto
-import com.example.jhouse_server.domain.post.dto.PostListResDto
-import com.example.jhouse_server.domain.post.dto.PostResDto
-import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
+import com.example.jhouse_server.domain.post.dto.*
 import com.example.jhouse_server.domain.post.service.PostService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.AuthUser
@@ -62,5 +59,10 @@ class PostController(
         pageable: Pageable
     ) : ApplicationResponse<Page<PostListResDto>> {
         return ApplicationResponse.ok(postService.getPostAllByKeywordCustom(keyword, pageable))
+    }
+
+    @GetMapping("/category")
+    fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
+        return ApplicationResponse.ok(postService.getPostCategory())
     }
 }

@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.post.service
 
 import com.example.jhouse_server.domain.post.dto.*
 import com.example.jhouse_server.domain.post.entity.Post
+import com.example.jhouse_server.domain.post.entity.PostCategory
 import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -30,14 +31,14 @@ class PostServiceImpl(
         val post = postRepository.findByIdOrThrow(postId)
         if(user != post.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         return post.updateEntity(
-            req.code, req.category, req.title, req.imageUrls, req.isSaved
+            req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!
         ).id
     }
 
     @Transactional
     override fun createPost(req: PostCreateReqDto, user: User): Long {
         val post = Post(
-                req.code, req.title, req.category, req.imageUrls, req.isSaved, user
+                req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!, user
         )
         return postRepository.save(post).id
     }
@@ -51,5 +52,9 @@ class PostServiceImpl(
 
     override fun getPostAllByKeywordCustom(keyword: String, pageable: Pageable): Page<PostListResDto> {
         return postRepository.findAllByKeywordCustom(keyword, pageable).map { toListDto(it) }
+    }
+
+    override fun getPostCategory(): List<CodeResDto> {
+        return PostCategory.values().map { CodeResDto(it.value, it.name) }
     }
 }

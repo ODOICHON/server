@@ -5,6 +5,7 @@ import com.example.jhouse_server.domain.intro.dto.IntroPostListResDto
 import com.example.jhouse_server.domain.intro.dto.IntroPostResDto
 import com.example.jhouse_server.domain.intro.dto.IntroPostUpdateReqDto
 import com.example.jhouse_server.domain.intro.service.IntroPostService
+import com.example.jhouse_server.domain.post.dto.CodeResDto
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
@@ -65,4 +66,8 @@ class IntroPostController(
         return ApplicationResponse.ok(introPostService.getPostAllByKeywordCustom(keyword, pageable))
     }
 
+    @GetMapping("/category")
+    fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
+        return ApplicationResponse.ok(introPostService.getPostCategory())
+    }
 }

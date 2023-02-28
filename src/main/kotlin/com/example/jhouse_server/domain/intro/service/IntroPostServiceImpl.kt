@@ -2,7 +2,9 @@ package com.example.jhouse_server.domain.intro.service
 
 import com.example.jhouse_server.domain.intro.dto.*
 import com.example.jhouse_server.domain.intro.entity.IntroPost
+import com.example.jhouse_server.domain.intro.entity.IntroPostCategory
 import com.example.jhouse_server.domain.intro.repository.IntroPostRepository
+import com.example.jhouse_server.domain.post.dto.CodeResDto
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -30,14 +32,14 @@ class IntroPostServiceImpl(
         val introPost = introPostRepository.findByIdOrThrow(postId)
         if(user.authority != Authority.ADMIN) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         return introPost.updateEntity(
-            req.code, req.title, req.category, req.imageUrls, req.isSaved
+            req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!
         ).id
     }
     @Transactional
     override fun createPost(req: IntroPostCreateReqDto, user: User): Long {
         if(user.authority != Authority.ADMIN) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         val introPost = IntroPost(
-            req.code, req.title, req.category, req.imageUrls, req.isSaved, user
+            req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!, user
         )
         return introPostRepository.save(introPost).id
     }
@@ -53,5 +55,9 @@ class IntroPostServiceImpl(
         pageable: Pageable
     ): Page<IntroPostListResDto> {
         return introPostRepository.findAllByKeywordCustom(keyword, pageable).map { toListDto(it) }
+    }
+
+    override fun getPostCategory(): List<CodeResDto> {
+        return IntroPostCategory.values().map { CodeResDto(it.value, it.name) }
     }
 }
