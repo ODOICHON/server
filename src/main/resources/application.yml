@@ -25,7 +25,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: ENC(qtWZf5Lsfs8g2SGUf0xUhvT8gZgN7Wx3)
-    port: 6379
+    port: 6376
 
   mvc:
     path match:
