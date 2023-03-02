@@ -44,9 +44,9 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun deletePost(postId: Long, userId: User) {
+    override fun deletePost(postId: Long, user: User) {
         val post = postRepository.findByIdOrThrow(postId)
-        if (userId == post.user) postRepository.delete(post)
+        if (user == post.user) post.deleteEntity()
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 

@@ -37,6 +37,8 @@ class AdPost(
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
     var comment: MutableList<Comment> = mutableListOf(),
 
+    var useYn : Boolean = true,
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 ): BaseEntity() {
@@ -66,5 +68,9 @@ class AdPost(
     fun updateLove() : AdPost {
         this.love ++;
         return this
+    }
+
+    fun deleteEntity() {
+        this.useYn = false
     }
 }

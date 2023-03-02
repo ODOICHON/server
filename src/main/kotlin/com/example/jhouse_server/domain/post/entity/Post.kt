@@ -30,6 +30,8 @@ class Post(
 
     var love : Int = 0,
 
+    var useYn : Boolean = true,
+
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
         var comment : MutableList<Comment> = mutableListOf(),
 
@@ -57,5 +59,9 @@ class Post(
     fun updateLove() : Post{
         this.love++
         return this
+    }
+
+    fun deleteEntity() {
+        this.useYn = false
     }
 }

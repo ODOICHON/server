@@ -44,7 +44,7 @@ class IntroPostServiceImpl(
     @Transactional
     override fun deletePost(postId: Long, user: User) {
         val introPost = introPostRepository.findByIdOrThrow(postId)
-        introPostRepository.delete(introPost)
+        introPost.deleteEntity()
     }
 
     override fun getPostAllByKeywordCustom(

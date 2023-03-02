@@ -44,7 +44,7 @@ class AdsPostServiceImpl(
     @Transactional
     override fun deletePost(postId: Long, user: User) {
         val adPost = adsPostRepository.findByIdOrThrow(postId)
-        if(user == adPost.user) adsPostRepository.delete(adPost)
+        if(user == adPost.user) adPost.deleteEntity()
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 
