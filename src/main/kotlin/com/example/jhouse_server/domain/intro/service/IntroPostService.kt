@@ -10,11 +10,12 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface IntroPostService {
-    fun getPostAll() : List<IntroPostResDto>
+    fun getPostAll(pageable: Pageable): Page<IntroPostResDto>
     fun getPostOne(postId : Long) : IntroPostResDto
     fun updatePost(postId : Long, req: IntroPostUpdateReqDto, user: User) : Long
     fun createPost(req: IntroPostCreateReqDto, user: User) : Long
     fun deletePost(postId: Long, user: User)
     fun getPostAllByKeywordCustom(keyword : String, pageable: Pageable) : Page<IntroPostListResDto>
     fun getPostCategory(): List<CodeResDto>
+    fun getTemporaryPostList(user: User, pageable: Pageable): Page<IntroPostResDto>
 }

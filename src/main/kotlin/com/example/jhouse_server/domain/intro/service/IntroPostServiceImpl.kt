@@ -5,11 +5,8 @@ import com.example.jhouse_server.domain.intro.entity.IntroPost
 import com.example.jhouse_server.domain.intro.entity.IntroPostCategory
 import com.example.jhouse_server.domain.intro.repository.IntroPostRepository
 import com.example.jhouse_server.domain.post.dto.CodeResDto
-import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
-import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.findByIdOrThrow
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -20,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 class IntroPostServiceImpl(
     val introPostRepository: IntroPostRepository
 ) : IntroPostService {
-    override fun getPostAll(): List<IntroPostResDto> {
-        return introPostRepository.findAll().map { toDto(it) }
+    override fun getPostAll(pageable: Pageable): Page<IntroPostResDto> {
+        return introPostRepository.findAllByIsSavedAndUseYn(true, useYn = true, pageable = pageable).map { toDto(it) }
     }
 
     override fun getPostOne(postId: Long): IntroPostResDto {
@@ -56,5 +53,9 @@ class IntroPostServiceImpl(
 
     override fun getPostCategory(): List<CodeResDto> {
         return IntroPostCategory.values().map { CodeResDto(it.value, it.name) }
+    }
+
+    override fun getTemporaryPostList(user: User, pageable: Pageable): Page<IntroPostResDto> {
+        return introPostRepository.findAllByIsSavedAndUseYnAndUser(isSaved = false, useYn = true, user, pageable).map { toDto(it) }
     }
 }

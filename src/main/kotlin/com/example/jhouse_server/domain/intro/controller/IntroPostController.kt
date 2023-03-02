@@ -52,8 +52,8 @@ class IntroPostController(
     }
 
     @GetMapping
-    fun getPostAll() :ApplicationResponse<List<IntroPostResDto>> {
-        return ApplicationResponse.ok(introPostService.getPostAll())
+    fun getPostAll(pageable: Pageable) :ApplicationResponse<Page<IntroPostResDto>> {
+        return ApplicationResponse.ok(introPostService.getPostAll(pageable))
     }
 
     @GetMapping("/{postId}")
@@ -74,5 +74,13 @@ class IntroPostController(
     @GetMapping("/category")
     fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
         return ApplicationResponse.ok(introPostService.getPostCategory())
+    }
+    @Auth
+    @GetMapping("/temporary")
+    fun getTemporaryPostList(
+        @AuthUser user: User,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<IntroPostResDto>> {
+        return ApplicationResponse.ok(introPostService.getTemporaryPostList(user, pageable))
     }
 }

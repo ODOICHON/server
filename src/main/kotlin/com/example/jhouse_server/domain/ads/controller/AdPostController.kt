@@ -20,7 +20,11 @@ import org.springframework.web.bind.annotation.*
 class AdPostController(
     val adsPostService: AdsPostService
 ) {
-
+    /**
+     * 자유게시글 생성
+     *
+     * @author 이은비
+     * */
     @Auth
     @PostMapping
     fun createPost(
@@ -29,8 +33,11 @@ class AdPostController(
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(adsPostService.createPost(req, user))
     }
-
-
+    /**
+     * 자유게시글 수정 ( 임시저장 상태도 해당 API로 수정 )
+     *
+     * @author 이은비
+     * */
     @Auth
     @PutMapping("/{postId}")
     fun updatePost(
@@ -40,7 +47,11 @@ class AdPostController(
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(adsPostService.updatePost(postId, req, user))
     }
-
+    /**
+     * 자유게시글 삭제 ( soft delete 적용 )
+     *
+     * @author 이은비
+     * */
     @Auth
     @DeleteMapping("/{postId}")
     fun deletePost(
@@ -50,19 +61,31 @@ class AdPostController(
         adsPostService.deletePost(postId, user)
         return ApplicationResponse.ok()
     }
-
+    /**
+     * 자유게시글 전체 조회 ( 페이징 처리 )
+     *
+     * @author 이은비
+     * */
     @GetMapping
-    fun getPostAll() :ApplicationResponse<List<AdsPostResDto>> {
-        return ApplicationResponse.ok(adsPostService.getPostAll())
+    fun getPostAll(pageable: Pageable) :ApplicationResponse<Page<AdsPostResDto>> {
+        return ApplicationResponse.ok(adsPostService.getPostAll(pageable))
     }
-
+    /**
+     * 자유게시글 상세 조회
+     *
+     * @author 이은비
+     * */
     @GetMapping("/{postId}")
     fun getPostOne(
         @PathVariable postId : Long
     ) : ApplicationResponse<AdsPostResDto> {
         return ApplicationResponse.ok(adsPostService.getPostOne(postId))
     }
-
+    /**
+     * 자유게시글 검색 ( 페이징 처리 )
+     *
+     * @author 이은비
+     * */
     @GetMapping("/search")
     fun getPostAllCustom(
         @RequestParam keyword: String,
@@ -70,12 +93,20 @@ class AdPostController(
     ) : ApplicationResponse<Page<AdsPostListResDto>> {
         return ApplicationResponse.ok(adsPostService.getPostAllByKeywordCustom(keyword, pageable))
     }
-
+    /**
+     * 자유게시글 말머리 조회 ( 영문코드, 코드명 )
+     *
+     * @author 이은비
+     * */
     @GetMapping("/category")
     fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
         return ApplicationResponse.ok(adsPostService.getPostCategory())
     }
-
+    /**
+     * 자유게시글 좋아요 ( 작성자 포함 좋아요 클릭 가능 )
+     *
+     * @author 이은비
+     * */
     @Auth
     @PutMapping("/love/{postId}")
     fun updatePostLove(
@@ -83,5 +114,18 @@ class AdPostController(
         @AuthUser user: User
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(adsPostService.updatePostLove(postId, user))
+    }
+    /**
+     * 유저가 갖는 임시저장된 자유게시글 목록 조회 ( 페이징 처리 )
+     *
+     * @author 이은비
+     * */
+    @Auth
+    @GetMapping("/temporary")
+    fun getTemporaryPostList(
+        @AuthUser user: User,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<AdsPostResDto>> {
+        return ApplicationResponse.ok(adsPostService.getTemporaryPostList(user, pageable))
     }
 }

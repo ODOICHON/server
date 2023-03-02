@@ -9,7 +9,7 @@ import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.findByIdOrThrow
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -20,8 +20,12 @@ import org.springframework.transaction.annotation.Transactional
 class AdsPostServiceImpl(
     val adsPostRepository: AdsPostRepository
 ): AdsPostService {
-    override fun getPostAll(): List<AdsPostResDto> {
-        return adsPostRepository.findAll().map { toDto(it) }
+    override fun getPostAll(pageable: Pageable): Page<AdsPostResDto> {
+        return adsPostRepository.findAllByIsSavedAndUseYn(
+            isSaved = true,
+            useYn = true,
+            pageable = pageable
+        ).map { toDto(it) }
     }
 
     override fun getPostOne(postId: Long): AdsPostResDto {
@@ -69,5 +73,9 @@ class AdsPostServiceImpl(
     override fun updatePostLove(postId: Long, user: User): Long {
         val adPost = adsPostRepository.findByIdOrThrow(postId)
         return adPost.updateLove().id
+    }
+
+    override fun getTemporaryPostList(user: User, pageable: Pageable): Page<AdsPostResDto> {
+        return adsPostRepository.findAllByIsSavedAndUseYnAndUser(isSaved = false, useYn = true, user, pageable).map { toDto(it) }
     }
 }

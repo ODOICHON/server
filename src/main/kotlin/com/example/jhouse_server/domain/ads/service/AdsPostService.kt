@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 interface AdsPostService {
-    fun getPostAll() : List<AdsPostResDto>
+    fun getPostAll(pageable: Pageable): Page<AdsPostResDto>
     fun getPostOne(postId : Long) : AdsPostResDto
     fun updatePost(postId: Long, req : AdsPostUpdateReqDto, user : User) : Long
     fun createPost(req: AdsPostCreateReqDto, user: User) : Long
@@ -19,4 +19,5 @@ interface AdsPostService {
     fun fixPost(postId : Long, user: User) : Long
     fun getPostCategory(): List<CodeResDto>
     fun updatePostLove(postId: Long, user: User): Long
+    fun getTemporaryPostList(user: User, pageable: Pageable): Page<AdsPostResDto>
 }

@@ -7,7 +7,7 @@ import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.findByIdOrThrow
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 class PostServiceImpl(
         val postRepository: PostRepository
 ): PostService {
-    override fun getPostAll(): List<PostResDto> {
-        return postRepository.findAll().map { toDto(it) }
+    override fun getPostAll(pageable: Pageable): Page<PostResDto> {
+        return postRepository.findAllByIsSavedAndUseYn(true, useYn = true, pageable = pageable).map { toDto(it) }
     }
 
     override fun getPostOne(postId: Long): PostResDto {
@@ -62,5 +62,9 @@ class PostServiceImpl(
     override fun updatePostLove(postId: Long, user: User): Long {
         val post = postRepository.findByIdOrThrow(postId)
         return post.updateLove().id
+    }
+
+    override fun getTemporaryPostList(user: User, pageable: Pageable): Page<PostResDto> {
+        return postRepository.findAllByIsSavedAndUseYnAndUser(isSaved = false, useYn = true, user, pageable).map { toDto(it) }
     }
 }

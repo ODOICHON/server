@@ -1,17 +1,16 @@
 package com.example.jhouse_server.domain.comment.service
 
-import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.comment.dto.CommentCreateReqDto
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
+import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
 import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.entity.User
-import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.findByIdOrThrow
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
