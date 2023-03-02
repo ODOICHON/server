@@ -62,4 +62,9 @@ class AdPost(
         this.isFixedAt  = LocalDateTime.now()
         return this
     }
+
+    fun updateLove() : AdPost {
+        this.love ++;
+        return this
+    }
 }

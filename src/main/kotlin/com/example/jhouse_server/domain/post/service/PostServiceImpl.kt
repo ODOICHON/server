@@ -57,4 +57,10 @@ class PostServiceImpl(
     override fun getPostCategory(): List<CodeResDto> {
         return PostCategory.values().map { CodeResDto(it.value, it.name) }
     }
+
+    @Transactional
+    override fun updatePostLove(postId: Long, user: User): Long {
+        val post = postRepository.findByIdOrThrow(postId)
+        return post.updateLove().id
+    }
 }

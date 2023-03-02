@@ -17,5 +17,6 @@ interface PostService{
     fun deletePost(postId: Long, user: User)
     fun getPostAllByKeywordCustom(keyword: String, pageable: Pageable): Page<PostListResDto>
     fun getPostCategory(): List<CodeResDto>
+    fun updatePostLove(postId: Long, user: User): Long
 
 }

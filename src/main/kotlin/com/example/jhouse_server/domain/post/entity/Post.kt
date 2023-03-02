@@ -53,4 +53,9 @@ class Post(
         this.isSaved = isSaved
         return this
     }
+
+    fun updateLove() : Post{
+        this.love++
+        return this
+    }
 }

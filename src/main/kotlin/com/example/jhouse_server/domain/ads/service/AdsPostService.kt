@@ -18,4 +18,5 @@ interface AdsPostService {
     fun getPostAllByKeywordCustom(keyword: String, pageable: Pageable) : Page<AdsPostListResDto>
     fun fixPost(postId : Long, user: User) : Long
     fun getPostCategory(): List<CodeResDto>
+    fun updatePostLove(postId: Long, user: User): Long
 }

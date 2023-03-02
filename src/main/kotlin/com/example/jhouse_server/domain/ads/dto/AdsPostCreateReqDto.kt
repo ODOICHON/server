@@ -34,6 +34,7 @@ data class AdsPostResDto(
     val postId : Long,
     val code : String,
     val isFixed : Boolean,
+    val love : Int,
 )
 
 data class AdsPostListResDto(
@@ -45,15 +46,16 @@ data class AdsPostListResDto(
     val createdAt : LocalDate,
     val imageUrl : String,
     val isFixed : Boolean,
+    val love : Int
 )
 
 fun toDto(adPost: AdPost) : AdsPostResDto {
-    return AdsPostResDto(adPost.id, adPost.code, adPost.isFixed)
+    return AdsPostResDto(adPost.id, adPost.code, adPost.isFixed, adPost.love)
 }
 
 fun toListDto(post: AdPost) : AdsPostListResDto {
     return AdsPostListResDto(post.id, post.title, post.code, post.comment.size, post.user.nickName,
         LocalDate.of(post.createdAt.year, post.createdAt.month, post.createdAt.dayOfMonth),
-        post.imageUrls[0], post.isFixed
+        post.imageUrls[0], post.isFixed, post.love
     )
 }

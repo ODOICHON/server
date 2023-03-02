@@ -69,4 +69,13 @@ class PostController(
     fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
         return ApplicationResponse.ok(postService.getPostCategory())
     }
+
+    @Auth
+    @PutMapping("/love/{postId}")
+    fun updatePostLove(
+        @PathVariable postId: Long,
+        @AuthUser user: User
+    ) : ApplicationResponse<Long> {
+        return ApplicationResponse.ok(postService.updatePostLove(postId, user))
+    }
 }
