@@ -14,3 +14,5 @@ endif::[]
 :toc: left
 :toclevels: 5
 :sectlinks:
+
+include::user.adoc[]

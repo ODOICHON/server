@@ -2,6 +2,8 @@ package com.example.jhouse_server.global.util
 
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.post.entity.PostCategory
+import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.UserSignUpReqDto
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 
@@ -32,5 +34,18 @@ class MockEntity {
                 user = writer,
                 love = 1
         )
+
+        fun testUserSignUpDto() = UserSignUpReqDto(
+                email = "test@jhouse.com",
+                password = "abcdefg123!",
+                nickName = "테스트유저1",
+                phoneNum = "01011111111"
+        )
+
+        fun testUserSignInDto() = UserSignInReqDto(
+                email = "test@jhouse.com",
+                password = "abcdefg123!"
+        )
+
     }
 }
