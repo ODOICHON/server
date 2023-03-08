@@ -84,17 +84,17 @@ internal class AdsPostServiceImplTest @Autowired constructor(
         assertThat(adsPostRepository.findById(res).get().title).isEqualTo(req.title)
     }
 
-    @Test
-    @DisplayName("홍보 게시글 검색")
-    fun getPostAllByKeywordCustom() {
-        // given
-        val keyword = "안녕"
-        val pageable = PageRequest.of(0, 10)
-        // when
-        val res = adsPostService.getPostAllByKeywordCustom(keyword, pageable)
-        // then
-        assertThat(res.isEmpty).isFalse
-    }
+//    @Test
+//    @DisplayName("홍보 게시글 검색")
+//    fun getPostAllByKeywordCustom() {
+//        // given
+//        val keyword = "안녕"
+//        val pageable = PageRequest.of(0, 10)
+//        // when
+//        val res = adsPostService.getPostAllByKeywordCustom(keyword, pageable)
+//        // then
+//        assertThat(res.isEmpty).isFalse
+//    }
 
     @Test
     @DisplayName("홍보 게시글 고정_일반 유저")

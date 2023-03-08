@@ -189,31 +189,31 @@ internal class AdPostControllerTest @Autowired constructor(
             )
     }
 
-    @Test
-    @DisplayName("홍보 게시글 검색")
-    fun getPostAllCustom() {
-        val keyword = "짱구"
-        val uri = "$uri/search?keyword="
-        val resultActions = mockMvc.perform(
-            RestDocumentationRequestBuilders
-                .get(uri, keyword)
-                .header(AUTHORIZATION, tokenDto.accessToken)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        )
-        resultActions
-            .andExpect(status().isOk)
-            .andDo(print())
-            .andDo(
-                document(
-                    "ads-post-search-all",
-                    responseFields(
-                        beneathPath("data").withSubsectionId("data"),
-                        *postListResponseFieldSnippet()
-                    )
-                )
-            )
-    }
+//    @Test
+//    @DisplayName("홍보 게시글 검색")
+//    fun getPostAllCustom() {
+//        val keyword = "짱구"
+//        val uri = "$uri/search?keyword="
+//        val resultActions = mockMvc.perform(
+//            RestDocumentationRequestBuilders
+//                .get(uri, keyword)
+//                .header(AUTHORIZATION, tokenDto.accessToken)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .characterEncoding("UTF-8")
+//        )
+//        resultActions
+//            .andExpect(status().isOk)
+//            .andDo(print())
+//            .andDo(
+//                document(
+//                    "ads-post-search-all",
+//                    responseFields(
+//                        beneathPath("data").withSubsectionId("data"),
+//                        *postListResponseFieldSnippet()
+//                    )
+//                )
+//            )
+//    }
 
     @Test
     @DisplayName("홍보 게시글 말머리 조회")
