@@ -49,6 +49,13 @@ jobs:
           mysql database: 'test_db'
           mysql user: 'test'
           mysql password: 'test_pw'
+          mysql root password: root
+      - name: Set for DB
+        run: |
+          name=$(docker ps | awk 'NR > 1 {print $1; exit}')
+          echo $name
+#          docker exec name /bin/sh -c 'mysql -u root -p root < /script.sql'
+        shell: bash
 
       #테스트를 위한 redis 설정
       - name: Start Redis
