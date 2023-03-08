@@ -9,43 +9,43 @@ services:
       - db_network
 
   ## deploy - 무중단
-#  nginx:
-#    image: nginx:1.15-alpine
-#    container_name: nginx-container
-#    restart: always
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - ./nginx:/etc/nginx/conf.d
-#    command:
-#      "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-#    networks:
-#      - backbone
-#
-#  green:
-#    build: .
-#    image: green
-#    container_name: green
-#    restart: always
-#    ports:
-#      - "8081:8080"
-#    volumes:
-#      - ./:/home/ubuntu
-#      - /etc/localtime:/etc/localtime
-#    networks:
-#      - backbone
-#
-#  blue:
-#    build: .
-#    container_name: blue
-#    restart: always
-#    ports:
-#      - "8082:8080"
-#    volumes:
-#      - ./:/home/ubuntu
-#      - /etc/localtime:/etc/localtime
-#    networks:
-#      - backbone
+  nginx:
+    image: nginx:1.15-alpine
+    container_name: nginx-container
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    command:
+      "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - backbone
+
+  green:
+    build: .
+    image: green
+    container_name: green
+    restart: always
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./:/home/ubuntu
+      - /etc/localtime:/etc/localtime
+    networks:
+      - backbone
+
+  blue:
+    build: .
+    container_name: blue
+    restart: always
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./:/home/ubuntu
+      - /etc/localtime:/etc/localtime
+    networks:
+      - backbone
 
 networks:
   db_network:
