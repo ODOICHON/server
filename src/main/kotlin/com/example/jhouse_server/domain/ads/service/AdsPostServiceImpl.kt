@@ -61,8 +61,7 @@ class AdsPostServiceImpl(
     @Transactional
     override fun fixPost(postId: Long, user: User): Long {
         val adPost = adsPostRepository.findByIdOrThrow(postId)
-        return if(user.authority == Authority.ADMIN) adPost.updateFixed().id
-        else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
+        return adPost.updateFixed().id
     }
 
     override fun getPostCategory(): List<CodeResDto> {

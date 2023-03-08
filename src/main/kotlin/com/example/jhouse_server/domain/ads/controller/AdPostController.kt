@@ -6,6 +6,7 @@ import com.example.jhouse_server.domain.ads.dto.AdsPostResDto
 import com.example.jhouse_server.domain.ads.dto.AdsPostUpdateReqDto
 import com.example.jhouse_server.domain.ads.service.AdsPostService
 import com.example.jhouse_server.domain.post.dto.CodeResDto
+import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
@@ -127,5 +128,19 @@ class AdPostController(
         pageable: Pageable
     ) : ApplicationResponse<Page<AdsPostResDto>> {
         return ApplicationResponse.ok(adsPostService.getTemporaryPostList(user, pageable))
+    }
+
+    /**
+     * 관라자가 홍보 게시글을 상단에 고정
+     *
+     * @author 이은비
+     * */
+    @Auth(Authority.ADMIN)
+    @PutMapping("/fix/{postId}")
+    fun fixPost(
+        @AuthUser user: User,
+        @PathVariable postId: Long
+    ) : ApplicationResponse<Long> {
+        return ApplicationResponse.ok(adsPostService.fixPost(postId, user))
     }
 }
