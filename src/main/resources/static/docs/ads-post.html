@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/posts/ads HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Content-Length: 271
 Host: localhost:8080
@@ -472,21 +472,17 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 63
+Content-Length: 64
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 43
+  "data" : 103
 }</code></pre>
 </div>
 </div>
-<div class="quoteblock">
-<blockquote>
 <div class="paragraph">
-<p>응답 데이터로 반환되는 값은 게시글의 PK 값입니다.</p>
-</div>
-</blockquote>
+<p><code>응답 데이터로 반환되는 값은 게시글의 PK 값입니다.</code></p>
 </div>
 </div>
 </div>
@@ -498,7 +494,7 @@ Content-Length: 63
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/posts/ads HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Content-Length: 271
 Host: localhost:8080
@@ -519,12 +515,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 63
+Content-Length: 64
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 43
+  "data" : 103
 }</code></pre>
 </div>
 </div>
@@ -536,9 +532,9 @@ Content-Length: 63
 <h4 id="_request_3">Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/posts/ads/41 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/posts/ads/101 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Content-Length: 271
 Host: localhost:8080
@@ -559,12 +555,12 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 63
+Content-Length: 64
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 41
+  "data" : 101
 }</code></pre>
 </div>
 </div>
@@ -576,8 +572,8 @@ Content-Length: 63
 <h4 id="_request_4">Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/posts/ads/41 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/posts/ads/101 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -605,7 +601,7 @@ Content-Length: 48
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/posts/ads/search?keyword= HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -617,14 +613,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 990
+Content-Length: 991
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "postId" : 41,
+      "postId" : 101,
       "title" : "짱구가 작성하는 게시글",
       "oneLineContent" : "&lt;html&gt;&lt;body&gt;&lt;h2&gt;안&lt;b&gt;녕&lt;/b&gt;하세요.&lt;/h2&gt; 저는 &lt;i&gt;짱구&lt;/i&gt;라고해요. &lt;br/&gt;만나서 반가워요.&lt;/body&gt;&lt;/html&gt;",
       "commentCount" : 0,
@@ -637,25 +633,25 @@ Content-Length: 990
     "pageable" : {
       "sort" : {
         "empty" : true,
-        "sorted" : false,
-        "unsorted" : true
+        "unsorted" : true,
+        "sorted" : false
       },
       "offset" : 0,
-      "pageNumber" : 0,
       "pageSize" : 20,
-      "paged" : true,
-      "unpaged" : false
+      "pageNumber" : 0,
+      "unpaged" : false,
+      "paged" : true
     },
     "last" : true,
-    "totalPages" : 1,
     "totalElements" : 1,
-    "first" : true,
-    "size" : 20,
+    "totalPages" : 1,
     "sort" : {
       "empty" : true,
-      "sorted" : false,
-      "unsorted" : true
+      "unsorted" : true,
+      "sorted" : false
     },
+    "first" : true,
+    "size" : 20,
     "number" : 0,
     "numberOfElements" : 1,
     "empty" : false
@@ -671,8 +667,8 @@ Content-Length: 990
 <h4 id="_request_6">Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/posts/ads/41 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/posts/ads/101 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -684,13 +680,13 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 261
+Content-Length: 262
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "postId" : 41,
+    "postId" : 101,
     "code" : "&lt;html&gt;&lt;body&gt;&lt;h2&gt;안&lt;b&gt;녕&lt;/b&gt;하세요.&lt;/h2&gt; 저는 &lt;i&gt;짱구&lt;/i&gt;라고해요. &lt;br/&gt;만나서 반가워요.&lt;/body&gt;&lt;/html&gt;",
     "isFixed" : false,
     "love" : 0
@@ -745,7 +741,7 @@ Content-Length: 235
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/posts/ads/temporary HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -757,14 +753,14 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 800
+Content-Length: 801
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "postId" : 42,
+      "postId" : 102,
       "code" : "&lt;html&gt;&lt;body&gt;&lt;h2&gt;안&lt;b&gt;녕&lt;/b&gt;하세요.&lt;/h2&gt; 저는 &lt;i&gt;짱구&lt;/i&gt;라고해요. &lt;br/&gt;만나서 반가워요.&lt;/body&gt;&lt;/html&gt;",
       "isFixed" : false,
       "love" : 0
@@ -772,25 +768,25 @@ Content-Length: 800
     "pageable" : {
       "sort" : {
         "empty" : true,
-        "sorted" : false,
-        "unsorted" : true
+        "unsorted" : true,
+        "sorted" : false
       },
       "offset" : 0,
-      "pageNumber" : 0,
       "pageSize" : 20,
-      "paged" : true,
-      "unpaged" : false
+      "pageNumber" : 0,
+      "unpaged" : false,
+      "paged" : true
     },
     "last" : true,
-    "totalPages" : 1,
     "totalElements" : 1,
-    "first" : true,
-    "size" : 20,
+    "totalPages" : 1,
     "sort" : {
       "empty" : true,
-      "sorted" : false,
-      "unsorted" : true
+      "unsorted" : true,
+      "sorted" : false
     },
+    "first" : true,
+    "size" : 20,
     "number" : 0,
     "numberOfElements" : 1,
     "empty" : false
@@ -807,8 +803,8 @@ Content-Length: 800
 <h4 id="_request_9">Request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/posts/ads/love/41 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODIzOTIxNiwiYXV0aCI6IlVTRVIifQ.c7JL0sN00kg8sHu5s7O9LK7HaUk7P4tqaKn-ULm7HU_RxDZC3kk0UfluUHT2-Mq5jJO_5Sy3NAEQLCQOtvbPqA
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/posts/ads/love/101 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ6emFuZ3VAamhvdXNlLmNvbSIsImV4cCI6MTY3ODI0NDk4NiwiYXV0aCI6IlVTRVIifQ.UWJkL8neAtXz-QwrZ1PkDb5s961SgSQcE2ljsbYnRr5tFwmnzPrPchscYUCH05WNtXM9AARiLP5rr-b71JjYng
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -820,12 +816,12 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
-Content-Length: 63
+Content-Length: 64
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 41
+  "data" : 101
 }</code></pre>
 </div>
 </div>
@@ -837,7 +833,7 @@ Content-Length: 63
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-03-08 09:53:12 +0900
+Last updated 2023-03-08 10:11:19 +0900
 </div>
 </div>
 </body>
