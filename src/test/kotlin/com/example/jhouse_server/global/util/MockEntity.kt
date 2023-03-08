@@ -66,8 +66,8 @@ class MockEntity {
             category = "INTERIOR"
         )
         fun testAdsTmpPostDto() = AdsPostCreateReqDto(
-            code = "<html><body><h2>안<b>녕</b>하세요.</h2> 저는 <i>짱구</i>라고해요. <br/>만나서 반가워요.</body></html>",
-            title = "짱구가 작성하는 게시글",
+            code = "<html><body><h2>임<b>시</b>작성 중입니다.</h2> 저를 <i>찾지</i>말아주세요. <br/>만나서 반가워요.</body></html>",
+            title = "짱구가 작성하는 임시 게시글",
             imageUrls = arrayOf("img001", "img002").toList(),
             false,
             category = AdsPostCategory.INTERIOR

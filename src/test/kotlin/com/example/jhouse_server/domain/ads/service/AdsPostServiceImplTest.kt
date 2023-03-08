@@ -58,7 +58,7 @@ internal class AdsPostServiceImplTest @Autowired constructor(
         // when
         val res = adsPostService.getPostAll(pageable)
         // then
-        assertThat(res.totalElements).isEqualTo(1)
+        assertThat(res.content[1].code).isNotEqualTo(MockEntity.testAdsTmpPostDto().code)
     }
 
     @Test
