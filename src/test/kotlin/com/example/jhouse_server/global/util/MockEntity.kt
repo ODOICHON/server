@@ -1,6 +1,7 @@
 package com.example.jhouse_server.global.util
 
 import com.example.jhouse_server.domain.ads.dto.AdsPostCreateReqDto
+import com.example.jhouse_server.domain.ads.dto.AdsPostUpdateReqDto
 import com.example.jhouse_server.domain.ads.entity.AdsPostCategory
 import com.example.jhouse_server.domain.post.entity.Post
 import com.example.jhouse_server.domain.post.entity.PostCategory
@@ -21,12 +22,12 @@ class MockEntity {
             email = "zzangu@jhouse.com",
             password = "abcdefg123!",
         )
-        fun testUser2() = User(
+        fun testAdmin() = User(
             email = "IronSu@test.com",
             password = "password123!",
             nickName = "철수",
             phoneNum = "010-9876-5432",
-            authority = Authority.USER
+            authority = Authority.ADMIN
         )
 
         fun testPost1(writer : User) = Post(
@@ -56,6 +57,13 @@ class MockEntity {
             imageUrls = arrayOf("img001", "img002").toList(),
             true,
             category = AdsPostCategory.INTERIOR
+        )
+        fun testAdsPostUpdateDto() = AdsPostUpdateReqDto(
+            code = "<html><body><h2>안<b>녕</b>하세요.</h2> 저는 <i>철수</i>라고해요. <br/>만나서 반가워요.</body></html>",
+            title = "철수가 작성하는 게시글",
+            imageUrls = arrayOf("img001", "img002").toList(),
+            true,
+            category = "INTERIOR"
         )
         fun testAdsTmpPostDto() = AdsPostCreateReqDto(
             code = "<html><body><h2>안<b>녕</b>하세요.</h2> 저는 <i>짱구</i>라고해요. <br/>만나서 반가워요.</body></html>",
