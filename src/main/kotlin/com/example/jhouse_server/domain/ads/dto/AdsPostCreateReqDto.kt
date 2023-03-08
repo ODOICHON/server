@@ -12,7 +12,7 @@ data class AdsPostCreateReqDto(
     @field:NotNull(message = "게시글의 제목은 필수값입니다.")
     val title : String? = null,
     val imageUrls : List<String>,
-    @field:NotNull(message = "임시 저장 여부는 필수값입니다.")
+    //@field:NotNull(message = "임시 저장 여부는 필수값입니다.")
     val isSaved : Boolean? = null,
     @field:NotNull(message = "말머리는 필수값입니다.")
     val category : AdsPostCategory? = null,
@@ -24,7 +24,7 @@ data class AdsPostUpdateReqDto(
     @field:NotNull(message = "게시글의 제목은 필수값입니다.")
     val title : String? = null,
     val imageUrls : List<String>,
-    @field:NotNull(message = "임시 저장 여부는 필수값입니다.")
+//    @field:NotNull(message = "임시 저장 여부는 필수값입니다.")
     val isSaved : Boolean? = null,
     @field:NotNull(message = "말머리는 필수값입니다.")
     val category : String? = null,

@@ -30,5 +30,5 @@ data class UserResDto(
 )
 
 fun toDto(user: User) : UserResDto {
-    return UserResDto(user.id!!, user.nickName, user.phoneNum)
+    return UserResDto(user.id, user.nickName, user.phoneNum)
 }

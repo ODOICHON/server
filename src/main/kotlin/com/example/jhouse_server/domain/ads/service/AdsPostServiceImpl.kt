@@ -36,12 +36,12 @@ class AdsPostServiceImpl(
     override fun updatePost(postId: Long, req: AdsPostUpdateReqDto, user: User): Long {
         val adPost = adsPostRepository.findByIdOrThrow(postId)
         if(user != adPost.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
-        return adPost.updateEntity(req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!).id
+        return adPost.updateEntity(req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved ?: false).id
     }
     @Transactional
     override fun createPost(req: AdsPostCreateReqDto, user: User): Long {
         val adPost = AdPost(
-        req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!, user
+        req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved ?: false, user
         )
         return adsPostRepository.save(adPost).id
     }

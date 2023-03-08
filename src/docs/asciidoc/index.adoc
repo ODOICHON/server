@@ -7,7 +7,7 @@ ifndef::snippets[]
 :java: {sources-root}/main/java
 :java-test: {sources-root}/test/java
 endif::[]
-= API Document
+= 주말의집 API 명세서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -16,3 +16,5 @@ endif::[]
 :sectlinks:
 
 include::user.adoc[]
+
+include::ads-post.adoc[]
