@@ -7,7 +7,7 @@ import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.findByIdOrThrow
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 class PostServiceImpl(
         val postRepository: PostRepository
 ): PostService {
-    override fun getPostAll(): List<PostResDto> {
-        return postRepository.findAll().map { toDto(it) }
+    override fun getPostAll(pageable: Pageable): Page<PostResDto> {
+        return postRepository.findAllByIsSavedAndUseYn(true, useYn = true, pageable = pageable).map { toDto(it) }
     }
 
     override fun getPostOne(postId: Long): PostResDto {
@@ -44,9 +44,9 @@ class PostServiceImpl(
     }
 
     @Transactional
-    override fun deletePost(postId: Long, userId: User) {
+    override fun deletePost(postId: Long, user: User) {
         val post = postRepository.findByIdOrThrow(postId)
-        if (userId == post.user) postRepository.delete(post)
+        if (user == post.user) post.deleteEntity()
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 
@@ -56,5 +56,15 @@ class PostServiceImpl(
 
     override fun getPostCategory(): List<CodeResDto> {
         return PostCategory.values().map { CodeResDto(it.value, it.name) }
+    }
+
+    @Transactional
+    override fun updatePostLove(postId: Long, user: User): Long {
+        val post = postRepository.findByIdOrThrow(postId)
+        return post.updateLove().id
+    }
+
+    override fun getTemporaryPostList(user: User, pageable: Pageable): Page<PostResDto> {
+        return postRepository.findAllByIsSavedAndUseYnAndUser(isSaved = false, useYn = true, user, pageable).map { toDto(it) }
     }
 }

@@ -2,9 +2,9 @@ package com.example.jhouse_server.domain.user.service
 
 import com.example.jhouse_server.domain.user.UserSignInReqDto
 import com.example.jhouse_server.domain.user.repository.UserRepository
-import com.example.jhouse_server.global.findByIdOrThrow
 import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.MockEntity
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

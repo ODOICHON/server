@@ -9,7 +9,7 @@ import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.findByIdOrThrow
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -20,8 +20,12 @@ import org.springframework.transaction.annotation.Transactional
 class AdsPostServiceImpl(
     val adsPostRepository: AdsPostRepository
 ): AdsPostService {
-    override fun getPostAll(): List<AdsPostResDto> {
-        return adsPostRepository.findAll().map { toDto(it) }
+    override fun getPostAll(pageable: Pageable): Page<AdsPostResDto> {
+        return adsPostRepository.findAllByIsSavedAndUseYn(
+            isSaved = true,
+            useYn = true,
+            pageable = pageable
+        ).map { toDto(it) }
     }
 
     override fun getPostOne(postId: Long): AdsPostResDto {
@@ -32,19 +36,19 @@ class AdsPostServiceImpl(
     override fun updatePost(postId: Long, req: AdsPostUpdateReqDto, user: User): Long {
         val adPost = adsPostRepository.findByIdOrThrow(postId)
         if(user != adPost.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
-        return adPost.updateEntity(req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!).id
+        return adPost.updateEntity(req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved ?: false).id
     }
     @Transactional
     override fun createPost(req: AdsPostCreateReqDto, user: User): Long {
         val adPost = AdPost(
-        req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved!!, user
+        req.code!!, req.title!!, req.category!!, req.imageUrls, req.isSaved ?: false, user
         )
         return adsPostRepository.save(adPost).id
     }
     @Transactional
     override fun deletePost(postId: Long, user: User) {
         val adPost = adsPostRepository.findByIdOrThrow(postId)
-        if(user == adPost.user) adsPostRepository.delete(adPost)
+        if(user == adPost.user) adPost.deleteEntity()
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 
@@ -63,5 +67,15 @@ class AdsPostServiceImpl(
 
     override fun getPostCategory(): List<CodeResDto> {
         return AdsPostCategory.values().map { CodeResDto(it.value, it.name) }
+    }
+
+    @Transactional
+    override fun updatePostLove(postId: Long, user: User): Long {
+        val adPost = adsPostRepository.findByIdOrThrow(postId)
+        return adPost.updateLove().id
+    }
+
+    override fun getTemporaryPostList(user: User, pageable: Pageable): Page<AdsPostResDto> {
+        return adsPostRepository.findAllByIsSavedAndUseYnAndUser(isSaved = false, useYn = true, user, pageable).map { toDto(it) }
     }
 }

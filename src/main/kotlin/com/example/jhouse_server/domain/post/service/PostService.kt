@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable
 
 interface PostService{
 
-    fun getPostAll(): List<PostResDto>
+    fun getPostAll(pageable: Pageable): Page<PostResDto>
 
     fun getPostOne(postId: Long) : PostResDto
 
@@ -17,5 +17,7 @@ interface PostService{
     fun deletePost(postId: Long, user: User)
     fun getPostAllByKeywordCustom(keyword: String, pageable: Pageable): Page<PostListResDto>
     fun getPostCategory(): List<CodeResDto>
+    fun updatePostLove(postId: Long, user: User): Long
+    fun getTemporaryPostList(user: User, pageable: Pageable): Page<PostResDto>
 
 }

@@ -9,6 +9,7 @@ data class PostResDto(
         val postId : Long,
         val code : String,
         val title: String,
+        val love : Int
 )
 
 data class PostListResDto(
@@ -18,13 +19,14 @@ data class PostListResDto(
         val commentCount : Int,
         val nickname : String,
         val createdAt : LocalDate,
-        val imageUrl : String
+        val imageUrl : String,
+        val love : Int
 )
 
 fun toListDto(post: Post) : PostListResDto {
         return PostListResDto(post.id, post.title, post.code, post.comment.size, post.user.nickName,
                 LocalDate.of(post.createdAt.year, post.createdAt.month, post.createdAt.dayOfMonth),
-                post.imageUrls[0]
+                post.imageUrls[0], post.love
         )
 }
 
@@ -53,7 +55,7 @@ data class PostUpdateReqDto(
 )
 
 fun toDto(post : Post) : PostResDto {
-    return PostResDto(post.id, post.code, post.title)
+    return PostResDto(post.id, post.code, post.title, post.love)
 }
 
 data class CodeResDto(

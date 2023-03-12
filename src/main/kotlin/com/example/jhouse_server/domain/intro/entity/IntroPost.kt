@@ -25,12 +25,15 @@ class IntroPost(
 
     var isSaved: Boolean,
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     var user : User,
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], orphanRemoval = true)
     var comment : MutableList<Comment> = mutableListOf(),
+
+    var useYn : Boolean = true,
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long = 0L
@@ -50,5 +53,9 @@ class IntroPost(
         this.imageUrls = imageUrls
         this.isSaved = isSaved
         return this
+    }
+
+    fun deleteEntity() {
+        this.useYn = false
     }
 }

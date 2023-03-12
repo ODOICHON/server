@@ -26,8 +26,8 @@ class PostController(
     }
 
     @GetMapping
-    fun getPostAll() : ApplicationResponse<List<PostResDto>> {
-        return ApplicationResponse.ok(postService.getPostAll())
+    fun getPostAll(pageable: Pageable) : ApplicationResponse<Page<PostResDto>> {
+        return ApplicationResponse.ok(postService.getPostAll(pageable))
     }
 
     @GetMapping("/{postId}")
@@ -68,5 +68,22 @@ class PostController(
     @GetMapping("/category")
     fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
         return ApplicationResponse.ok(postService.getPostCategory())
+    }
+
+    @Auth
+    @PutMapping("/love/{postId}")
+    fun updatePostLove(
+        @PathVariable postId: Long,
+        @AuthUser user: User
+    ) : ApplicationResponse<Long> {
+        return ApplicationResponse.ok(postService.updatePostLove(postId, user))
+    }
+    @Auth
+    @GetMapping("/temporary")
+    fun getTemporaryPostList(
+        @AuthUser user: User,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<PostResDto>> {
+        return ApplicationResponse.ok(postService.getTemporaryPostList(user, pageable))
     }
 }

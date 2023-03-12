@@ -5,13 +5,12 @@ import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.exception.ErrorCode.*
-import com.example.jhouse_server.global.findByIdOrThrow
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.RedisUtil
 import com.example.jhouse_server.global.util.SmsUtil
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigInteger
