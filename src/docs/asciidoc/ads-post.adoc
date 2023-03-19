@@ -26,11 +26,11 @@ include::{snippets}/ads-post-delete/http-request.adoc[]
 ==== Response
 include::{snippets}/ads-post-delete/http-response.adoc[]
 
-=== 5. 홍보 게시글 검색
-==== Request
-include::{snippets}/ads-post-search-all/http-request.adoc[]
-==== Response
-include::{snippets}/ads-post-search-all/http-response.adoc[]
+// === 5. 홍보 게시글 검색
+// ==== Request
+// include::{snippets}/ads-post-search-all/http-request.adoc[]
+// ==== Response
+// include::{snippets}/ads-post-search-all/http-response.adoc[]
 
 === 6. 홍보 게시글 상세 조회
 ==== Request
