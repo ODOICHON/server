@@ -1,20 +1,20 @@
-ifndef::snippets[]
-:basedir: {docdir}/../../../
-:snippets: build/generated-snippets
-:sources-root: {basedir}/src
-:resources: {sources-root}/main/resources
-:resources-test: {sources-root}/test/resources
-:java: {sources-root}/main/java
-:java-test: {sources-root}/test/java
-endif::[]
-= 주말의집 API 명세서
-:doctype: book
-:icons: font
-:source-highlighter: highlightjs
-:toc: left
-:toclevels: 5
-:sectlinks:
-
-include::user.adoc[]
-
-include::ads-post.adoc[]
+// ifndef::snippets[]
+// :basedir: {docdir}/../../../
+// :snippets: build/generated-snippets
+// :sources-root: {basedir}/src
+// :resources: {sources-root}/main/resources
+// :resources-test: {sources-root}/test/resources
+// :java: {sources-root}/main/java
+// :java-test: {sources-root}/test/java
+// endif::[]
+// = 주말의집 API 명세서
+// :doctype: book
+// :icons: font
+// :source-highlighter: highlightjs
+// :toc: left
+// :toclevels: 5
+// :sectlinks:
+//
+// include::user.adoc[]
+//
+// include::ads-post.adoc[]
