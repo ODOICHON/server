@@ -23,11 +23,11 @@ class CommentController(
     val commentService: CommentService,
 ) {
 
-    @GetMapping("/{postId}")
+    @GetMapping("/{boardId}")
     fun getCommentAll(
-        @PathVariable postId: Long,
+        @PathVariable boardId: Long,
     ): ApplicationResponse<List<CommentResDto>> {
-        return ApplicationResponse.ok(commentService.getCommentAll(postId))
+        return ApplicationResponse.ok(commentService.getCommentAll(boardId))
     }
 
     @PostMapping
