@@ -6,43 +6,54 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
+import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
+import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.util.regex.Pattern
 
 @RestController
 @RequestMapping("/api/v1/users")
 class UserController(
         val userService: UserService
 ) {
-
-    @GetMapping("/check/email/{email}")
-    fun emailCheck(
-            @PathVariable("email") email: String
-    ): ApplicationResponse<Boolean> {
-        return ApplicationResponse.ok(userService.checkEmail(email))
+    @Auth
+    @GetMapping
+    fun getUser(
+            @AuthUser user: User
+    ): ApplicationResponse<UserResDto> {
+        return ApplicationResponse.ok(userService.findUserById(user.id))
     }
 
-    @GetMapping("/check/nick-name/{nick-name}")
-    fun nickNameCheck(
-            @PathVariable("nick-name") nickName: String
+    @PostMapping("/check/email")
+    fun emailCheck(
+            @Validated @RequestBody emailReqDto: EmailReqDto
     ): ApplicationResponse<Boolean> {
-        return ApplicationResponse.ok(userService.checkNickName(nickName))
+        return ApplicationResponse.ok(userService.checkEmail(emailReqDto.email))
+    }
+
+    @PostMapping("/check/nick-name")
+    fun nickNameCheck(
+            @Validated @RequestBody nickNameReqDto: NickNameReqDto
+    ): ApplicationResponse<Boolean> {
+        return ApplicationResponse.ok(userService.checkNickName(nickNameReqDto.nickName))
     }
 
     @PostMapping("/send/sms")
     fun sendSms(
-            @RequestParam("phone_num") phoneNum: String
+            @Validated @RequestBody phoneNumReqDto: PhoneNumReqDto
     ): ApplicationResponse<Nothing> {
-        userService.sendSmsCode(phoneNum)
+        userService.sendSmsCode(phoneNumReqDto.phoneNum)
 
         return ApplicationResponse.ok()
     }
 
     @PostMapping("/check/sms")
     fun checkSms(
-            @RequestBody checkSmsReqDto: CheckSmsReqDto
+            @Validated @RequestBody checkSmsReqDto: CheckSmsReqDto
     ): ApplicationResponse<Boolean> {
         return ApplicationResponse.ok(userService.checkSmsCode(checkSmsReqDto))
     }
@@ -58,7 +69,7 @@ class UserController(
 
     @PostMapping("/sign-in")
     fun signIn(
-            @RequestBody userSignInReqDto: UserSignInReqDto
+            @Validated @RequestBody userSignInReqDto: UserSignInReqDto
     ): ApplicationResponse<TokenDto> {
         return ApplicationResponse.ok(userService.signIn(userSignInReqDto))
     }
@@ -81,23 +92,23 @@ class UserController(
     }
 
     @Auth
-    @PutMapping("/update/nick-name/{nick-name}")
+    @PutMapping("/update/nick-name")
     fun updateNickName(
             @AuthUser user: User,
-            @PathVariable("nick-name") nickName: String
+            @Validated @RequestBody nickNameReqDto: NickNameReqDto
     ): ApplicationResponse<Nothing> {
-        userService.updateNickName(user, nickName)
+        userService.updateNickName(user, nickNameReqDto.nickName)
 
         return ApplicationResponse.ok()
     }
 
     @Auth
-    @PutMapping("/update/password/{password}")
+    @PutMapping("/update/password")
     fun updatePassword(
             @AuthUser user: User,
-            @PathVariable("password") password: String
+            @Validated @RequestBody passwordReqDto: PasswordReqDto
     ): ApplicationResponse<Nothing> {
-        userService.updatePassword(user, password)
+        userService.updatePassword(user, passwordReqDto.password)
 
         return ApplicationResponse.ok()
     }

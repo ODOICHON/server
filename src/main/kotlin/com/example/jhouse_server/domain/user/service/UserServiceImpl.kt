@@ -1,17 +1,16 @@
 package com.example.jhouse_server.domain.user.service
 
 import com.example.jhouse_server.domain.user.*
-import com.example.jhouse_server.domain.user.entity.Authority
-import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.*
+import com.example.jhouse_server.domain.user.repository.UserJoinPathRepository
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.exception.ErrorCode.*
-import com.example.jhouse_server.global.findByIdOrThrow
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.RedisUtil
 import com.example.jhouse_server.global.util.SmsUtil
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.math.BigInteger
@@ -23,6 +22,7 @@ import java.util.*
 @Transactional(readOnly = true)
 class UserServiceImpl (
         val userRepository: UserRepository,
+        val userJoinPathRepository: UserJoinPathRepository,
         val tokenProvider: TokenProvider,
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil
@@ -63,10 +63,20 @@ class UserServiceImpl (
 
     @Transactional
     override fun signUp(userSignUpReqDto: UserSignUpReqDto) {
+        val age: Age = Age.getAge(userSignUpReqDto.age)!!
+        val joinPaths: MutableList<JoinPath> = mutableListOf()
+        for(joinPath in userSignUpReqDto.joinPaths) {
+            joinPaths.add(JoinPath.getJoinPath(joinPath)!!)
+        }
+
         val user = User(userSignUpReqDto.email, encodePassword(userSignUpReqDto.password),
                 userSignUpReqDto.nickName, userSignUpReqDto.phoneNum,
-                Authority.USER)
+                Authority.USER, age)
         userRepository.save(user)
+
+        for(joinPath in joinPaths) {
+            saveUserJoinPath(joinPath, user)
+        }
     }
 
     override fun signIn(userSignInReqDto: UserSignInReqDto): TokenDto {
@@ -141,5 +151,10 @@ class UserServiceImpl (
         messageDigest.update(password.toByteArray(StandardCharsets.UTF_8))
 
         return String.format("%0128x", BigInteger(1, messageDigest.digest()))
+    }
+
+    private fun saveUserJoinPath(joinPath: JoinPath, user: User) {
+        val userJoinPath = UserJoinPath(joinPath, user)
+        userJoinPathRepository.save(userJoinPath)
     }
 }

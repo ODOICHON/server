@@ -17,7 +17,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun validationException(ex: MethodArgumentNotValidException) : ApplicationResponse<ErrorCode> {
-        return ApplicationResponse.error(ErrorCode.INVALID_VALUE_EXCEPTION, ex.bindingResult.allErrors.get(0).defaultMessage!!)
+        return ApplicationResponse.error(ErrorCode.INVALID_VALUE_EXCEPTION, ex.bindingResult.allErrors[0].defaultMessage!!)
     }
 
     @ExceptionHandler(RuntimeException::class)
