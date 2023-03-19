@@ -59,3 +59,9 @@ include::{snippets}/update-nickname/http-response.adoc[]
 include::{snippets}/update-password/http-request.adoc[]
 ===== Response
 include::{snippets}/update-password/http-response.adoc[]
+
+=== 11. 유저 정보 조회
+===== Request
+include::{snippets}/get-user/http-request.adoc[]
+===== Response
+include::{snippets}/get-user/http-response.adoc[]
