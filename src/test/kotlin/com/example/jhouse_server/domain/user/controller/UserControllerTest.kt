@@ -23,7 +23,6 @@ import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentati
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint
 import org.springframework.restdocs.payload.PayloadDocumentation.*
-import org.springframework.restdocs.request.RequestDocumentation.*
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -46,8 +45,11 @@ internal class UserControllerTest @Autowired constructor(
 ) {
 
     private val userSignUpDto = MockEntity.testUserSignUpDto()
-
     private val userSignInDto = MockEntity.testUserSignInDto()
+    private val emailReqDto = MockEntity.testEmailDto()
+    private val phoneNumReqDto = MockEntity.testPhoneNumDto()
+    private val nickNameReqDto = MockEntity.testNickNameDto()
+    private val passwordReqDto = MockEntity.testPasswordDto()
 
     @BeforeEach
     fun setUp(webApplicationContext: WebApplicationContext,
@@ -62,14 +64,55 @@ internal class UserControllerTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("이메일 중복 검사")
-    fun emailCheck() {
+    @DisplayName("유저 정보 조회")
+    fun getUser() {
         //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
 
         //when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .get("/api/v1/users/check/email/{email}", "user@jhouse.com")
+                        .get("/api/v1/users")
+                        .header(AUTHORIZATION, accessToken)
+                        .accept(APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+                .andExpect(status().isOk)
+                .andDo(print())
+                .andDo(
+                        document(
+                                "get-user",
+                                responseFields(
+                                        fieldWithPath("code").description("결과 코드"),
+                                        fieldWithPath("message").description("응답 메세지"),
+                                        fieldWithPath("data.id").description("유저 DB 아이디"),
+                                        fieldWithPath("data.email").description("아이디"),
+                                        fieldWithPath("data.nick_name").description("닉네임"),
+                                        fieldWithPath("data.phone_num").description("전화번호"),
+                                        fieldWithPath("data.authority").description("권한"),
+                                        fieldWithPath("data.age").description("연령대")
+                                )
+                        )
+                )
+    }
+
+    @Test
+    @DisplayName("이메일 중복 검사")
+    fun emailCheck() {
+        //given
+        val content: String = objectMapper.writeValueAsString(emailReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+                RestDocumentationRequestBuilders
+                        .post("/api/v1/users/check/email")
+                        .content(content)
+                        .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .characterEncoding("UTF-8")
         )
@@ -81,8 +124,8 @@ internal class UserControllerTest @Autowired constructor(
                 .andDo(
                         document(
                                 "email-check",
-                                pathParameters(
-                                        parameterWithName("email").description("이메일")
+                                requestFields(
+                                        fieldWithPath("email").description("이메일")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
@@ -97,11 +140,14 @@ internal class UserControllerTest @Autowired constructor(
     @DisplayName("닉네임 중복 검사")
     fun nickNameCheck() {
         //given
+        val content: String = objectMapper.writeValueAsString(nickNameReqDto)
 
         //when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .get("/api/v1/users/check/nick-name/{nick-name}", "zzangu")
+                        .post("/api/v1/users/check/nick-name")
+                        .content(content)
+                        .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .characterEncoding("UTF-8")
         )
@@ -113,8 +159,8 @@ internal class UserControllerTest @Autowired constructor(
                 .andDo(
                         document(
                                 "nickname-check",
-                                pathParameters(
-                                        parameterWithName("nick-name").description("닉네임")
+                                requestFields(
+                                        fieldWithPath("nick_name").description("닉네임")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
@@ -129,12 +175,14 @@ internal class UserControllerTest @Autowired constructor(
 //    @DisplayName("인증문자 전송 테스트")
 //    fun sendSms() {
 //        //given
+//        val content: String = objectMapper.writeValueAsString(phoneNumReqDto)
 //
 //        //when
 //        val resultActions = mockMvc.perform(
 //                RestDocumentationRequestBuilders
 //                        .post("/api/v1/users/send/sms")
-//                        .param("phone_num", "01011111111")
+//                        .content(content)
+//                        .contentType(APPLICATION_JSON)
 //                        .accept(APPLICATION_JSON)
 //                        .characterEncoding("UTF-8")
 //        )
@@ -146,8 +194,8 @@ internal class UserControllerTest @Autowired constructor(
 //                .andDo(
 //                        document(
 //                                "send-sms",
-//                                requestParameters(
-//                                        parameterWithName("phone_num").description("전화번호")
+//                                requestFields(
+//                                        fieldWithPath("phone_num").description("전화번호")
 //                                ),
 //                                responseFields(
 //                                        fieldWithPath("code").description("결과 코드"),
@@ -156,7 +204,7 @@ internal class UserControllerTest @Autowired constructor(
 //                        )
 //                )
 //    }
-
+//
 //    @Test
 //    @DisplayName("인증문자 검증 테스트")
 //    fun checkSms() {
@@ -226,7 +274,9 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("email").description("이메일"),
                                         fieldWithPath("password").description("비밀번호"),
                                         fieldWithPath("nick_name").description("닉네임"),
-                                        fieldWithPath("phone_num").description("전화번호")
+                                        fieldWithPath("phone_num").description("전화번호"),
+                                        fieldWithPath("age").description("연령대"),
+                                        fieldWithPath("join_paths").description("가입 경로")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
@@ -354,12 +404,15 @@ internal class UserControllerTest @Autowired constructor(
         userService.signUp(userSignUpDto)
         val tokenDto = userService.signIn(userSignInDto)
         val accessToken = tokenDto.accessToken
+        val content: String = objectMapper.writeValueAsString(nickNameReqDto)
 
         //when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .put("/api/v1/users/update/nick-name/{nick-name}", "zzangu")
+                        .put("/api/v1/users/update/nick-name")
                         .header(AUTHORIZATION, accessToken)
+                        .content(content)
+                        .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .characterEncoding("UTF-8")
         )
@@ -371,8 +424,8 @@ internal class UserControllerTest @Autowired constructor(
                 .andDo(
                         document(
                                 "update-nickname",
-                                pathParameters(
-                                        parameterWithName("nick-name").description("닉네임")
+                                requestFields(
+                                        fieldWithPath("nick_name").description("닉네임")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
@@ -389,12 +442,15 @@ internal class UserControllerTest @Autowired constructor(
         userService.signUp(userSignUpDto)
         val tokenDto = userService.signIn(userSignInDto)
         val accessToken = tokenDto.accessToken
+        val content: String = objectMapper.writeValueAsString(passwordReqDto)
 
         //when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .put("/api/v1/users/update/password/{password}", "jhouse123!")
+                        .put("/api/v1/users/update/password")
                         .header(AUTHORIZATION, accessToken)
+                        .content(content)
+                        .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .characterEncoding("UTF-8")
         )
@@ -406,8 +462,8 @@ internal class UserControllerTest @Autowired constructor(
                 .andDo(
                         document(
                                 "update-password",
-                                pathParameters(
-                                        parameterWithName("password").description("비밀번호")
+                                requestFields(
+                                        fieldWithPath("password").description("비밀번호")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),

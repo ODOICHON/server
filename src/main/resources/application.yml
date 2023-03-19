@@ -40,6 +40,11 @@ cool:
     api-secret: ENC(l1mqdDlmADtW1E3hb0+jkf/5CWNQg6r8yA5tRdO8ihQXZ9KIs9ReP5Mx1J2lG3T7)
     from: ENC(KdUMxAXBQVgK1ZjWJvvZpP1ZXZOaAVJ4)
 
+aes:
+  secret:
+    key: ENC(+D1OqctErx4y5y6alEDE+KonIVum/jYCZ7hnMoeJinlljjvGVte0lXjx6h/qI6+H)
+    alg: ENC(4EeK8heADvYLa0YJKYym/WkRLZjoea20neyqxvzPLiw=)
+
 #—
 #spring:
 #  profiles:
