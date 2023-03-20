@@ -17,4 +17,4 @@ endif::[]
 
 include::user.adoc[]
 
-include::ads-post.adoc[]
+// include::ads-post.adoc[]
