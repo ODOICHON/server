@@ -6,6 +6,7 @@ spring:
     include:
       secret
 
+
   jpa:
     database: mysql
     hibernate:
@@ -30,6 +31,9 @@ spring:
   mvc:
     path match:
       matching-strategy: ant_path_matcher
+    view:
+      prefix: /templates/
+      suffix: .html
 
   jwt:
     key: ENC(QN9igaTGD9IR2xKYJsA4sUc5a6rvaOdgN7IU1LtrazB51S1oGXb/z7JlDfOg325iIQGsNb7yFZX6oT2wW4+C9Swza7yvorcnwtrGExIVgrlq65Al/+egt2fAkHI79YNoWYRwPI4Br0o=)
