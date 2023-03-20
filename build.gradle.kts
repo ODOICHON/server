@@ -50,6 +50,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
+    // Thymeleaf
+    implementation("org.thymeleaf:thymeleaf:3.1.1.RELEASE")
+
 }
 
 tasks.withType<KotlinCompile> {
