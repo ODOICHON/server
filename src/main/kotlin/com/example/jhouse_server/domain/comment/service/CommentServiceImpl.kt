@@ -1,12 +1,12 @@
 package com.example.jhouse_server.domain.comment.service
 
+import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.comment.dto.CommentCreateReqDto
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
-import com.example.jhouse_server.domain.post.repository.PostRepository
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
@@ -18,17 +18,17 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CommentServiceImpl(
         val commentRepository: CommentRepository,
-        val postRepository: PostRepository,
+        val boardRepository: BoardRepository,
 ) : CommentService {
     override fun getCommentAll(postId: Long): List<CommentResDto> {
-        return postRepository.findByIdOrThrow(postId).comment.map { toDto(it) }
+        return boardRepository.findByIdOrThrow(postId).comment.map { toDto(it) }
     }
 
     @Transactional
     override fun createComment(req: CommentCreateReqDto, user: User): Long {
-        val post = postRepository.findByIdOrThrow(req.postId)
+        val board = boardRepository.findByIdOrThrow(req.boardId)
         val comment = Comment(
-                post, req.content!!, user
+                board, req.content!!, user
         )
         return commentRepository.save(comment).id
     }
