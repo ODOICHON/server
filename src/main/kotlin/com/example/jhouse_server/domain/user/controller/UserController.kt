@@ -1,47 +1,59 @@
 package com.example.jhouse_server.domain.user.controller
 
 import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.entity.Authority.USER
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
+import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
+import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.util.regex.Pattern
 
 @RestController
 @RequestMapping("/api/v1/users")
 class UserController(
         val userService: UserService
 ) {
+    @Auth
+    @GetMapping
+    fun getUser(
+            @AuthUser user: User
+    ): ApplicationResponse<UserResDto> {
+        return ApplicationResponse.ok(userService.findUserById(user.id))
+    }
 
-    @GetMapping("/email-check/{email}")
+    @PostMapping("/check/email")
     fun emailCheck(
-            @PathVariable("email") email: String
+            @Validated @RequestBody emailReqDto: EmailReqDto
     ): ApplicationResponse<Boolean> {
-        return ApplicationResponse.ok(userService.checkEmail(email))
+        return ApplicationResponse.ok(userService.checkEmail(emailReqDto.email))
     }
 
-    @GetMapping("/nick-name-check/{nick-name}")
+    @PostMapping("/check/nick-name")
     fun nickNameCheck(
-            @PathVariable("nick-name") nickName: String
+            @Validated @RequestBody nickNameReqDto: NickNameReqDto
     ): ApplicationResponse<Boolean> {
-        return ApplicationResponse.ok(userService.checkNickName(nickName))
+        return ApplicationResponse.ok(userService.checkNickName(nickNameReqDto.nickName))
     }
 
-    @PostMapping("/send-sms")
+    @PostMapping("/send/sms")
     fun sendSms(
-            @RequestParam("phone_num") phoneNum: String
+            @Validated @RequestBody phoneNumReqDto: PhoneNumReqDto
     ): ApplicationResponse<Nothing> {
-        userService.sendSmsCode(phoneNum)
+        userService.sendSmsCode(phoneNumReqDto.phoneNum)
 
         return ApplicationResponse.ok()
     }
 
-    @PostMapping("/check-sms")
+    @PostMapping("/check/sms")
     fun checkSms(
-            @RequestBody checkSmsReqDto: CheckSmsReqDto
+            @Validated @RequestBody checkSmsReqDto: CheckSmsReqDto
     ): ApplicationResponse<Boolean> {
         return ApplicationResponse.ok(userService.checkSmsCode(checkSmsReqDto))
     }
@@ -57,7 +69,7 @@ class UserController(
 
     @PostMapping("/sign-in")
     fun signIn(
-            @RequestBody userSignInReqDto: UserSignInReqDto
+            @Validated @RequestBody userSignInReqDto: UserSignInReqDto
     ): ApplicationResponse<TokenDto> {
         return ApplicationResponse.ok(userService.signIn(userSignInReqDto))
     }
@@ -74,7 +86,29 @@ class UserController(
     fun logout(
             @AuthUser user: User
     ): ApplicationResponse<Nothing> {
-        userService.logout(user)
+        userService.logout(user.email)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/nick-name")
+    fun updateNickName(
+            @AuthUser user: User,
+            @Validated @RequestBody nickNameReqDto: NickNameReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.updateNickName(user, nickNameReqDto.nickName)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/password")
+    fun updatePassword(
+            @AuthUser user: User,
+            @Validated @RequestBody passwordReqDto: PasswordReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.updatePassword(user, passwordReqDto.password)
 
         return ApplicationResponse.ok()
     }

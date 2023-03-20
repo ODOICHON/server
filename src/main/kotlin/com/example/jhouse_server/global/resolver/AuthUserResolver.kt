@@ -30,6 +30,9 @@ class AuthUserResolver (
                                  webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
         val bearerToken: String = webRequest.getHeader(AUTHORIZATION_HEADER).toString()
         val jwt: String = tokenProvider.resolveToken(bearerToken).toString()
+
+        tokenProvider.validateToken(jwt)
+
         val email: String = tokenProvider.getSubject(jwt)
 
         return userRepository.findByEmail(email).orElseThrow()

@@ -1,27 +1,33 @@
 package com.example.jhouse_server.domain.post.controller
 
-import com.example.jhouse_server.domain.post.dto.PostCreateReqDto
-import com.example.jhouse_server.domain.post.dto.PostResDto
-import com.example.jhouse_server.domain.post.dto.PostUpdateReqDto
+import com.example.jhouse_server.domain.post.dto.*
 import com.example.jhouse_server.domain.post.service.PostService
+import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.global.annotation.Auth
+import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/api/v1/posts/default")
 class PostController(
         val postService: PostService
 ) {
+    @Auth
     @PostMapping
     fun createPost(
-            @RequestBody req : PostCreateReqDto
-    ) : ApplicationResponse<PostResDto> {
-        return ApplicationResponse.ok(postService.createPost(req))
+            @RequestBody @Validated req : PostCreateReqDto,
+            @AuthUser user: User
+    ) : ApplicationResponse<Long> {
+        return ApplicationResponse.ok(postService.createPost(req, user))
     }
 
     @GetMapping
-    fun getPostAll() : ApplicationResponse<List<PostResDto>> {
-        return ApplicationResponse.ok(postService.getPostAll())
+    fun getPostAll(pageable: Pageable) : ApplicationResponse<Page<PostResDto>> {
+        return ApplicationResponse.ok(postService.getPostAll(pageable))
     }
 
     @GetMapping("/{postId}")
@@ -31,20 +37,53 @@ class PostController(
         return ApplicationResponse.ok(postService.getPostOne(postId))
     }
 
+    @Auth
     @PutMapping("/{postId}")
     fun updatePost(
         @PathVariable postId: Long,
-        @RequestBody req : PostUpdateReqDto
-    ) : ApplicationResponse<PostResDto> {
-        return ApplicationResponse.ok(postService.updatePost(postId, req))
+        @RequestBody @Validated req : PostUpdateReqDto,
+        @AuthUser user: User
+    ) : ApplicationResponse<Long> {
+        return ApplicationResponse.ok(postService.updatePost(postId, req, user))
     }
 
+    @Auth
     @DeleteMapping("/{postId}")
     fun deletePost(
         @PathVariable postId: Long,
-        @RequestParam userId: Long // 변경해야 함
+        @AuthUser user: User
     ) : ApplicationResponse<Nothing> {
-        postService.deletePost(postId, userId)
+        postService.deletePost(postId, user)
         return ApplicationResponse.ok()
+    }
+
+    @GetMapping("/search")
+    fun getPostAllCustom(
+        @RequestParam keyword: String,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<PostListResDto>> {
+        return ApplicationResponse.ok(postService.getPostAllByKeywordCustom(keyword, pageable))
+    }
+
+    @GetMapping("/category")
+    fun getPostCategory() : ApplicationResponse<List<CodeResDto>> {
+        return ApplicationResponse.ok(postService.getPostCategory())
+    }
+
+    @Auth
+    @PutMapping("/love/{postId}")
+    fun updatePostLove(
+        @PathVariable postId: Long,
+        @AuthUser user: User
+    ) : ApplicationResponse<Long> {
+        return ApplicationResponse.ok(postService.updatePostLove(postId, user))
+    }
+    @Auth
+    @GetMapping("/temporary")
+    fun getTemporaryPostList(
+        @AuthUser user: User,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<PostResDto>> {
+        return ApplicationResponse.ok(postService.getTemporaryPostList(user, pageable))
     }
 }

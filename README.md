@@ -25,3 +25,8 @@
 - MySQL(RDB)
 - Git, Github Actions CI/CD
 - CloudWatch, Slack
+
+### API 명세서
+
+- [사용자 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/user.html)
+- [게시판 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/ads-post.html)

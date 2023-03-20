@@ -1,5 +1,6 @@
 package com.example.jhouse_server.global.jwt
 
+import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
@@ -81,5 +82,11 @@ class TokenProvider {
         val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
 
         return claims.subject
+    }
+
+    fun getAuthority(token: String): Authority {
+        val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
+
+        return Authority.valueOf(claims[AUTHORITIES_KEY].toString())
     }
 }

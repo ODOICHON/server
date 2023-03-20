@@ -50,6 +50,12 @@ jobs:
           mysql user: 'test'
           mysql password: 'test_pw'
 
+      #테스트를 위한 redis 설정
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.5.0
+        with:
+          redis-port: 6376
+
       #테스트를 위한 test yml 설정
       - name: Make application-test.yml
         run: |
