@@ -142,7 +142,7 @@ class UserServiceImpl (
     private fun createCode(): String {
         val random: Random = Random()
 
-        return String.format("%06d", random.nextInt(1000000))
+        return String.format("%04d", random.nextInt(10000))
     }
 
     private fun encodePassword(password: String): String {
