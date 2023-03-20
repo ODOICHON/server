@@ -14,16 +14,25 @@ enum class BoardCategory(val value: String, val superCategory: PrefixCategory) {
 
     TREND("트렌드", PrefixCategory.INTRO),
     REVIEW("후기", PrefixCategory.INTRO),
+    ;
+    companion object {
+        fun fromValue(value : String) : BoardCategory {
+            return values().firstOrNull {
+                it.name == value
+            } ?: throw IllegalArgumentException()
+        }
+    }
 }
 
 @Converter(autoApply = true)
 class BoardCategoryConverter: AttributeConverter<BoardCategory, String> {
-    override fun convertToDatabaseColumn(attribute: BoardCategory?): String {
-        return attribute?.name ?: BoardCategory.QUESTION.value
+    override fun convertToDatabaseColumn(attribute: BoardCategory?): String? {
+        return attribute?.name
     }
 
-    override fun convertToEntityAttribute(dbData: String?): BoardCategory {
-        return BoardCategory.values().firstOrNull { it.value == dbData } ?: BoardCategory.QUESTION
+    override fun convertToEntityAttribute(dbData: String?): BoardCategory? {
+        return if (dbData == null) null
+        else BoardCategory.fromValue(dbData)
     }
 
 }

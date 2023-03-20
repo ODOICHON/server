@@ -26,8 +26,9 @@ class BoardServiceImpl(
     @Transactional
     override fun createBoard(req: BoardReqDto, user: User): Long {
         val content = getContent(req.code!!)
+        val fixed = if(req.prefixCategory == PrefixCategory.ADVERTISEMENT) req.fixed!! else false
         val board = Board(
-            req.title!!, req.code, content, req.category!!, req.imageUrls, req.saved!!, user, req.prefixCategory!!, req.fixed!!
+            req.title!!, req.code, content, req.category!!, req.imageUrls, req.saved!!, user, req.prefixCategory!!, fixed
         )
         return boardRepository.save(board).id
     }
@@ -49,13 +50,12 @@ class BoardServiceImpl(
     }
 
     override fun getBoardAll(category: String, pageable: Pageable): Page<BoardResDto> {
-//        return boardRepository.findAllByPrefixCategoryAndSavedAndUseYn(
-//            PrefixCategory.valueOf(category),
-//            saved = true,
-//            useYn = true,
-//            pageable = pageable
-//        ).map{ toListDto(it) }
-        return boardRepository.findAllByPrefixCategory(category, pageable).map { toListDto(it) }
+        return boardRepository.findAllByPrefixCategoryAndSavedAndUseYn(
+            PrefixCategory.valueOf(category),
+            saved = true,
+            useYn = true,
+            pageable = pageable
+        ).map{ toListDto(it) }
     }
 
     override fun getBoardOne(boardId: Long): BoardResOneDto {

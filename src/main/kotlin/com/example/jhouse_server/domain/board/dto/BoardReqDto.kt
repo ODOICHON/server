@@ -20,7 +20,7 @@ data class BoardReqDto(
     val saved: Boolean? = null,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: PrefixCategory? = null,
-    val fixed: Boolean? = null,
+    val fixed: Boolean? = null, // 홍보 게시글에 대해서만 true 설정 가능
 )
 
 data class BoardResDto(
