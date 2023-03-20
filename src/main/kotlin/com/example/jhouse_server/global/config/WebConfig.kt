@@ -21,10 +21,4 @@ class WebConfig (
                 .allowedOrigins("*")
                 .allowedMethods("*");
     }
-
-    fun templateEngine(){
-        val templateEngine = SpringTem
-        templateEngine.setTemplateResolver(thymeleafTemplateResolver())
-        return templateEngine
-    }
 }
