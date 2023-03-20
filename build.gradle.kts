@@ -51,7 +51,7 @@ dependencies {
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
     // Thymeleaf
-    implementation("org.thymeleaf:thymeleaf:3.1.1.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
 }
 
