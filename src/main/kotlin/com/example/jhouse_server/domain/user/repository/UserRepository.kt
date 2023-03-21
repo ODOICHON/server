@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.user.repository
 
+import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
@@ -12,5 +13,6 @@ interface UserRepository: JpaRepository<User, Long> {
 
     fun existsByPhoneNum(phoneNum: String): Boolean
 
-    fun findByEmail(email: String): Optional<User>
+    fun findByEmail(email: String?): Optional<User>
+
 }

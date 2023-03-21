@@ -1,9 +1,50 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
-<p>오이시쿠나레</p>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>주말의 집 관리자 페이지</h2>
+    </div>
+    <form action="/admin/login" th:action="@{/admin/login}"  th:object="${loginForm}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+               th:text="${err}">전체 오류 메시지</p>
+        </div>
+        <div>
+            <label for="email">로그인 ID</label>
+            <input type="text" id="email" th:field="*{email}" class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{email}" />
+        </div>
+        <div>
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" th:field="*{password}"
+                   class="form-control"
+                   th:errorclass="field-error">
+            <div class="field-error" th:errors="*{password}" />
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-warning btn-lg" type="submit">
+                    로그인</button>
+            </div>
+        </div>
+    </form>
+</div> <!-- /container -->
 </body>
 </html>
