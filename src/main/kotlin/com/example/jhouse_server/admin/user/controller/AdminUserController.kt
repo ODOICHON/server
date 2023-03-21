@@ -54,7 +54,7 @@ class AdminUserController (
                         return "login"
                 }
                 val user = findUser.get()
-                if (user.password != encodePassword(loginForm.password)) {
+                if (!user.password.equals(encodePassword(loginForm.password))) {
                         bindingResult.reject("passwordNotMatch", "비밀번호가 일치하지 않습니다")
                         return "login"
                 }
