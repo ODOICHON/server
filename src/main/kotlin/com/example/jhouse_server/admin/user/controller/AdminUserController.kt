@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
@@ -36,11 +37,17 @@ class AdminUserController (
                 return "main"
         }
 
+        @GetMapping("/test")
+        fun getTest() : String{
+                return "test"
+        }
 
-        @PostMapping("/login")
+
+        @PostMapping
         fun signIn(@Validated @ModelAttribute("loginForm") loginForm: LoginForm,
-                                        bindingResult: BindingResult,
-                                        request: HttpServletRequest) : String {
+                                                bindingResult: BindingResult,
+                                                @RequestParam("redirectURI", defaultValue = "/admin/main") redirectURI : String,
+                                                request: HttpServletRequest) : String {
                 val findUser = userRepository.findByEmail(loginForm.email)
                 if (findUser.isEmpty){
                         bindingResult.reject("emailNotFound", "존재하지 않는 아이디입니다")
@@ -51,9 +58,9 @@ class AdminUserController (
                         bindingResult.reject("passwordNotMatch", "비밀번호가 일치하지 않습니다")
                         return "login"
                 }
-                val session = request.session
+                val session = request.getSession(true)
                 session.setAttribute(SessionConst.LOGINUSER, user)
-                return "redirect:/admin/main"
+                return "redirect:$redirectURI"
         }
 
         private fun encodePassword(password: String?): String {

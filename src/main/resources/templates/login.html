@@ -19,7 +19,7 @@
     <div class="py-5 text-center">
         <h2>주말의 집 관리자 페이지</h2>
     </div>
-    <form action="/admin/login" th:action="@{/admin/login}"  th:object="${loginForm}" method="post">
+    <form th:action="@{/admin(redirectURI=${param.redirectURI})}"  th:object="${loginForm}" method="post">
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}"
                th:text="${err}">전체 오류 메시지</p>
