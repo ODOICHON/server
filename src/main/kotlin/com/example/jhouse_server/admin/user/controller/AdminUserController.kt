@@ -48,7 +48,7 @@ class AdminUserController (
                                                 bindingResult: BindingResult,
                                                 @RequestParam("redirectURI", defaultValue = "/admin/main") redirectURI : String,
                                                 request: HttpServletRequest) : String {
-                val findUser = userRepository.findByEmail(loginForm.email)
+                val findUser = userRepository.findByEmail(loginForm.email!!)
                 if (findUser.isEmpty){
                         bindingResult.reject("emailNotFound", "존재하지 않는 아이디입니다")
                         return "login"

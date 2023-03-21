@@ -13,6 +13,6 @@ interface UserRepository: JpaRepository<User, Long> {
 
     fun existsByPhoneNum(phoneNum: String): Boolean
 
-    fun findByEmail(email: String?): Optional<User>
+    fun findByEmail(email: String): Optional<User>
 
 }
