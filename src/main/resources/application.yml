@@ -49,6 +49,10 @@ aes:
     key: ENC(+D1OqctErx4y5y6alEDE+KonIVum/jYCZ7hnMoeJinlljjvGVte0lXjx6h/qI6+H)
     alg: ENC(4EeK8heADvYLa0YJKYym/WkRLZjoea20neyqxvzPLiw=)
 
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
 #—
 #spring:
 #  profiles:
