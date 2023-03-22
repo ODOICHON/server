@@ -1,0 +1,49 @@
+== Board API
+
+==== 1. 홍보 게시글 작성하기
+===== Request
+include::{snippets}/ads-board-create/http-request.adoc[]
+==== Response
+include::{snippets}/ads-board-create/http-response.adoc[]
+
+==== 2. 자유 게시글 작성하기
+===== Request
+include::{snippets}/default-board-create/http-request.adoc[]
+===== Response
+include::{snippets}/default-board-create/http-response.adoc[]
+
+==== 3. 소개 게시글 작성하기
+===== Request
+include::{snippets}/intro-post-create/http-request.adoc[]
+===== Response
+include::{snippets}/intro-post-create/http-response.adoc[]
+
+==== 4. 게시글 리스트 조회 ( 페이징 처리 )
+===== Request
+include::{snippets}/get-board/http-request.adoc[]
+===== Response
+include::{snippets}/get-board/http-response.adoc[]
+
+==== 5. 게시글 상세 조회
+===== Request
+include::{snippets}/get-board-detail/http-request.adoc[]
+===== Response
+include::{snippets}/get-board-detail/http-response.adoc[]
+
+==== 6. 게시글 수정
+===== Request
+include::{snippets}/board-update/http-request.adoc[]
+===== Response
+include::{snippets}/board-update/http-response.adoc[]
+
+==== 7. 게시글 삭제
+===== Request
+include::{snippets}/board-delete/http-request.adoc[]
+===== Response
+include::{snippets}/board-delete/http-response.adoc[]
+
+==== 8. 말머리 조회
+===== Request
+include::{snippets}/board-category/http-request.adoc[]
+===== Response
+include::{snippets}/board-category/http-response.adoc[]
