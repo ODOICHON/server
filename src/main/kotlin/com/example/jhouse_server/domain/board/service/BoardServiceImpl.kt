@@ -73,7 +73,9 @@ class BoardServiceImpl(
     @Transactional
     override fun fixBoard(boardId: Long, user: User): Long {
         val board = boardRepository.findByIdOrThrow(boardId)
-        return board.updateFixed().id
+        return if(board.prefixCategory == PrefixCategory.ADVERTISEMENT) board.updateFixed().id
+        else throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+
     }
 
     override fun getCategory(name: String): List<CodeResDto> {

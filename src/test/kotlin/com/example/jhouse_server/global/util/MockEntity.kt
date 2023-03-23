@@ -1,6 +1,7 @@
 package com.example.jhouse_server.global.util
 
 import com.example.jhouse_server.domain.board.BoardReqDto
+import com.example.jhouse_server.domain.board.BoardUpdateReqDto
 import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentCreateReqDto
@@ -71,6 +72,15 @@ class MockEntity {
             imageUrls = mutableListOf("img001"),
             saved = true,
             prefixCategory = PrefixCategory.INTRO,
+            fixed = false
+        )
+        fun boardUpdateReqDto() = BoardUpdateReqDto(
+            title = "짱구는 못말려",
+            code = "<body> <div> <h2>짱구는 못말려</h2> </div> <div> <i>철수</i>야 나랑 놀자 </div> </body>",
+            category = "REVIEW",
+            imageUrls = mutableListOf("img001"),
+            saved = true,
+            prefixCategory = "INTRO",
             fixed = false
         )
 
