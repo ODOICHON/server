@@ -243,7 +243,7 @@ internal class BoardControllerTest @Autowired constructor(
             .andDo(print())
             .andDo(
                 document(
-                    "intro-post-create",
+                    "intro-board-create",
                     requestFields(*createRequestFieldSnippet()),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),

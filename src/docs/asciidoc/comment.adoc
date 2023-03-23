@@ -1,0 +1,25 @@
+== Comment API
+
+=== 1. 게시글에 대한 댓글 리스트 조회
+===== Request
+include::{snippets}/get-comment-all/http-request.adoc[]
+===== Response
+include::{snippets}/get-comment-all/http-response.adoc[]
+
+=== 2. 댓글 작성
+===== Request
+include::{snippets}/comment-create/http-request.adoc[]
+===== Response
+include::{snippets}/comment-create/http-response.adoc[]
+
+=== 3. 댓글 수정
+===== Request
+include::{snippets}/comment-update/http-request.adoc[]
+===== Response
+include::{snippets}/comment-update/http-response.adoc[]
+
+=== 4. 댓글 삭제
+===== Request
+include::{snippets}/comment-delete/http-request.adoc[]
+===== Response
+include::{snippets}/comment-delete/http-response.adoc[]
