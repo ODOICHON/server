@@ -10,7 +10,6 @@ enum class PrefixCategory(val value: String) {
 
     companion object {
         fun fromValue(value: String) : PrefixCategory {
-//            println("value is $value")
             return values().firstOrNull {
                 it.name == value
             } ?: throw IllegalArgumentException()
