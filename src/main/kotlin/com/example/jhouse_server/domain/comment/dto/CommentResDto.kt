@@ -2,7 +2,6 @@ package com.example.jhouse_server.domain.comment.dto
 
 import com.example.jhouse_server.domain.comment.entity.Comment
 import java.time.format.DateTimeFormatter
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 data class CommentResDto(
@@ -12,7 +11,7 @@ data class CommentResDto(
     val createdAt: String,
 )
 
-data class CommentCreateReqDto(
+data class CommentReqDto(
     @field:NotNull(message = "게시글ID 필수값입니다.")
     val boardId: Long? = null,
     @field:NotNull(message = "댓글 내용은 필수값입니다.")

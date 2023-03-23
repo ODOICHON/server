@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.comment.service
 
 import com.example.jhouse_server.domain.board.repository.BoardRepository
-import com.example.jhouse_server.domain.comment.dto.CommentCreateReqDto
+import com.example.jhouse_server.domain.comment.dto.CommentReqDto
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
@@ -25,7 +25,7 @@ class CommentServiceImpl(
     }
 
     @Transactional
-    override fun createComment(req: CommentCreateReqDto, user: User): Long {
+    override fun createComment(req: CommentReqDto, user: User): Long {
         val board = boardRepository.findByIdOrThrow(req.boardId)
         val comment = Comment(
                 board, req.content!!, user
@@ -34,7 +34,7 @@ class CommentServiceImpl(
     }
 
     @Transactional
-    override fun updateComment(commentId: Long, req: CommentUpdateReqDto, user: User): Long {
+    override fun updateComment(commentId: Long, req: CommentReqDto, user: User): Long {
         val comment = commentRepository.findByIdOrThrow(commentId)
         return if (user == comment.user) {
             comment.updateEntity(req.content!!).id

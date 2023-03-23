@@ -3,8 +3,10 @@ package com.example.jhouse_server.global.util
 import com.example.jhouse_server.domain.board.BoardReqDto
 import com.example.jhouse_server.domain.board.BoardUpdateReqDto
 import com.example.jhouse_server.domain.board.PrefixCategory
+import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
-import com.example.jhouse_server.domain.comment.dto.CommentCreateReqDto
+import com.example.jhouse_server.domain.comment.dto.CommentReqDto
+import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
@@ -84,7 +86,7 @@ class MockEntity {
             fixed = false
         )
 
-        fun commentReqDto(board: Long) = CommentCreateReqDto(
+        fun commentReqDto(board: Long) = CommentReqDto(
             boardId = board,
             content = "짱구야, 공부 하자."
         )
@@ -116,5 +118,9 @@ class MockEntity {
             prefixCategory = PrefixCategory.ADVERTISEMENT,
             fixed = true
         )
+
+        fun comment(findBoard: Board, user: User): Comment {
+            return Comment(findBoard, "댓글이란다.", user)
+        }
     }
 }
