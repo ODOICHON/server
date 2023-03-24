@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk1NTE0MjQsImF1dGgiOiJVU0VSIn0.ka4Labm-4PYe1i85mxhL1NG5LocGBOkjf0X69MvHtZoWrodh4UwVPovAp60dA75F6plekEJim-62DPxey1e7jA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk2Mzk2MTgsImF1dGgiOiJVU0VSIn0.hE5rHwPCisfSFZ1mAum7tJQVS2v1Yc9rU__RSRCa5g3mMhzdTic3pzd9yk0Uf1fGacJp95Jhp_WmLDx70GMV3Q
 Accept: application/json
 Content-Length: 334
 Host: localhost:8080
@@ -483,7 +483,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 298
+  "data" : 106
 }</code></pre>
 </div>
 </div>
@@ -496,7 +496,7 @@ Content-Length: 64
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk1NTE0MjQsImF1dGgiOiJVU0VSIn0.ka4Labm-4PYe1i85mxhL1NG5LocGBOkjf0X69MvHtZoWrodh4UwVPovAp60dA75F6plekEJim-62DPxey1e7jA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk2Mzk2MTgsImF1dGgiOiJVU0VSIn0.hE5rHwPCisfSFZ1mAum7tJQVS2v1Yc9rU__RSRCa5g3mMhzdTic3pzd9yk0Uf1fGacJp95Jhp_WmLDx70GMV3Q
 Accept: application/json
 Content-Length: 330
 Host: localhost:8080
@@ -527,7 +527,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 296
+  "data" : 104
 }</code></pre>
 </div>
 </div>
@@ -541,7 +541,7 @@ Content-Length: 64
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk1NTE0MjQsImF1dGgiOiJVU0VSIn0.ka4Labm-4PYe1i85mxhL1NG5LocGBOkjf0X69MvHtZoWrodh4UwVPovAp60dA75F6plekEJim-62DPxey1e7jA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk2Mzk2MTUsImF1dGgiOiJVU0VSIn0.XZ12xoDazab6koMpMZf5qZq-9UMn5T7Poa1gqu9VqkycKZ8l_2o2KLANXUwHPRQaJUuggZPjEJxx0iN6AEUfyQ
 Accept: application/json
 Content-Length: 335
 Host: localhost:8080
@@ -567,12 +567,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 63
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 291
+  "data" : 99
 }</code></pre>
 </div>
 </div>
@@ -606,39 +606,39 @@ Content-Length: 976
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "boardId" : 292,
+      "boardId" : 100,
       "title" : "짱구는 못말려",
       "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;짱구는 못말려&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;철수&lt;/i&gt;야 나랑 놀자 &lt;/div&gt; &lt;/body&gt;",
       "oneLineContent" : "짱구는 못말려철수야 나랑 놀자",
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-03-23",
+      "createdAt" : "2023-03-24",
       "imageUrl" : "img001",
       "commentCount" : 0
     } ],
     "pageable" : {
       "sort" : {
-        "empty" : true,
+        "sorted" : false,
         "unsorted" : true,
-        "sorted" : false
+        "empty" : true
       },
-      "offset" : 0,
       "pageNumber" : 0,
       "pageSize" : 20,
-      "paged" : true,
-      "unpaged" : false
+      "offset" : 0,
+      "unpaged" : false,
+      "paged" : true
     },
-    "last" : true,
     "totalPages" : 1,
     "totalElements" : 1,
-    "size" : 20,
-    "sort" : {
-      "empty" : true,
-      "unsorted" : true,
-      "sorted" : false
-    },
-    "first" : true,
-    "number" : 0,
+    "last" : true,
     "numberOfElements" : 1,
+    "sort" : {
+      "sorted" : false,
+      "unsorted" : true,
+      "empty" : true
+    },
+    "number" : 0,
+    "first" : true,
+    "size" : 20,
     "empty" : false
   }
 }</code></pre>
@@ -652,7 +652,7 @@ Content-Length: 976
 <h5 id="_request_5">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards/293 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards/101 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -673,11 +673,11 @@ Content-Length: 408
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "boardId" : 293,
+    "boardId" : 101,
     "title" : "짱구는 못말려",
     "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;짱구는 못말려&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;철수&lt;/i&gt;야 나랑 놀자 &lt;/div&gt; &lt;/body&gt;",
     "nickName" : "테스트유저1",
-    "createdAt" : "2023-03-23",
+    "createdAt" : "2023-03-24",
     "imageUrls" : [ "img001" ],
     "loveCount" : 0,
     "commentCount" : 0,
@@ -694,9 +694,9 @@ Content-Length: 408
 <h5 id="_request_6">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/boards/294 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/boards/102 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk1NTE0MjQsImF1dGgiOiJVU0VSIn0.ka4Labm-4PYe1i85mxhL1NG5LocGBOkjf0X69MvHtZoWrodh4UwVPovAp60dA75F6plekEJim-62DPxey1e7jA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk2Mzk2MTgsImF1dGgiOiJVU0VSIn0.hE5rHwPCisfSFZ1mAum7tJQVS2v1Yc9rU__RSRCa5g3mMhzdTic3pzd9yk0Uf1fGacJp95Jhp_WmLDx70GMV3Q
 Accept: application/json
 Content-Length: 273
 Host: localhost:8080
@@ -727,7 +727,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 294
+  "data" : 102
 }</code></pre>
 </div>
 </div>
@@ -739,8 +739,8 @@ Content-Length: 64
 <h5 id="_request_7">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/boards/289 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk1NTE0MjMsImF1dGgiOiJVU0VSIn0.NmxPUDZxF4-QkYCMKVD6JT3K2rzPxZgJEwb_3s1ix_UdcGxz46ygqq4FNTawZCD50ZJ6MMwklIzE0nCEJoya5A
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/boards/97 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk2Mzk2MTUsImF1dGgiOiJVU0VSIn0.XZ12xoDazab6koMpMZf5qZq-9UMn5T7Poa1gqu9VqkycKZ8l_2o2KLANXUwHPRQaJUuggZPjEJxx0iN6AEUfyQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -808,7 +808,7 @@ Content-Length: 168
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-03-23 13:41:06 +0900
+Last updated 2023-03-23 17:58:55 +0900
 </div>
 </div>
 </body>
