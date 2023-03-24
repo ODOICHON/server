@@ -46,9 +46,28 @@ class MockEntity {
             joinPaths = mutableListOf("네이버 카페", "인스타그램")
         )
 
+        fun testUserSignUpDto2() = UserSignUpReqDto(
+            email = "test2_jhouse_com",
+            password = "abcdefG123!",
+            nickName = "테스트유저2",
+            phoneNum = "01011111111",
+            age = "20대 미만",
+            joinPaths = mutableListOf("네이버 카페", "인스타그램")
+        )
+
         fun testUserSignInDto() = UserSignInReqDto(
             email = "test_jhouse_com",
             password = "abcdefG123!"
+        )
+
+        fun testUserSignInDtoEx1() = UserSignInReqDto(
+            email = "test_jhouse_com1",
+            password = "abcdefG123!"
+        )
+
+        fun testUserSignInDtoEx2() = UserSignInReqDto(
+            email = "test_jhouse_com",
+            password = "abcdefg123!"
         )
 
         fun testEmailDto() = EmailReqDto(
