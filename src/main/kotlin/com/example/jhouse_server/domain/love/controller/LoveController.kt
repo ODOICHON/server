@@ -31,4 +31,12 @@ class LoveController(
         loveService.hateBoard(boardId, user)
         return ApplicationResponse.ok()
     }
+    @Auth
+    @GetMapping("/{boardId}")
+    fun isLovedBoard(
+        @PathVariable boardId: Long,
+        @AuthUser user: User
+    ) : ApplicationResponse<Boolean> {
+        return ApplicationResponse.ok(loveService.isLovedBoard(boardId, user))
+    }
 }

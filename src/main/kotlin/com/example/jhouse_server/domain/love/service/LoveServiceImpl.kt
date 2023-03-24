@@ -37,4 +37,9 @@ class LoveServiceImpl(
         board.deleteLove(love)
         loveRepository.deleteById(love.id)
     }
+
+    override fun isLovedBoard(boardId: Long, user: User): Boolean {
+        val board = boardRepository.findByIdOrThrow(boardId)
+        return loveRepository.existsByBoardAndUser(board, user)
+    }
 }
