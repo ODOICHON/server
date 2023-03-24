@@ -40,7 +40,7 @@ data class EmailReqDto(
 )
 
 data class PhoneNumReqDto(
-        @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}", message = "전화번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}$", message = "전화번호 형식에 맞지 않습니다.")
         @JsonProperty("phone_num") val phoneNum: String
 )
 
