@@ -15,6 +15,11 @@ endif::[]
 :toclevels: 5
 :sectlinks:
 
-include::user.adoc[]
+제작 <5do2chonri@gmail.com> +
+제작일 2023-03-23 +
 
-// include::ads-post.adoc[]
+*해당 문서의 저작권은 주말의 집을 제작하는 오도리 팀에게 있으며, 무단 배포/변형을 금지합니다.*
+
+include::user.adoc[]
+include::board.adoc[]
+include::comment.adoc[]

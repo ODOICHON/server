@@ -10,7 +10,6 @@ enum class PrefixCategory(val value: String) {
 
     companion object {
         fun fromValue(value: String) : PrefixCategory {
-//            println("value is $value")
             return values().firstOrNull {
                 it.name == value
             } ?: throw IllegalArgumentException()
@@ -25,13 +24,7 @@ class PrefixCategoryConverter : AttributeConverter<PrefixCategory, String> {
     }
 
     override fun convertToEntityAttribute(dbData: String?): PrefixCategory? {
-        return if (dbData == null) {
-            return null
-        } else {
-            val result = PrefixCategory.fromValue(dbData)
-            println(result)
-            return result
-        }
+        return if (dbData == null) null else PrefixCategory.fromValue(dbData)
     }
 
 }

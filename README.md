@@ -21,7 +21,7 @@
 ![주말의집 아키텍처](https://user-images.githubusercontent.com/61505572/220286737-8b62ca94-a38e-4b68-b0a3-54d85a4b622c.png)
 
 - Route 53
-- ALB, Ngnix, S3, CodeDeploy
+- ALB, Nginx, S3, CodeDeploy
 - MySQL(RDB)
 - Git, Github Actions CI/CD
 - CloudWatch, Slack
@@ -29,4 +29,7 @@
 ### API 명세서
 
 - [사용자 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/user.html)
+- [게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/board.html)
+- [댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/comment.html)
+- [JWT 예외처리](https://odoichon.github.io/server/src/main/resources/static/docs/jwt.html)
 ..

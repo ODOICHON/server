@@ -17,11 +17,6 @@ import org.springframework.web.bind.annotation.*
 class BoardController(
     val boardService: BoardService
 ) {
-    /**
-     * 게시글 작성하기
-     *
-     * @author 이은비
-     * */
     @Auth
     @PostMapping
     fun createBoard(
