@@ -30,4 +30,6 @@
 
 - [사용자 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/user.html)
 - [게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/board.html)
+- [댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/comment.html)
+- [JWT 예외처리](https://odoichon.github.io/server/src/main/resources/static/docs/jwt.html)
 ..
