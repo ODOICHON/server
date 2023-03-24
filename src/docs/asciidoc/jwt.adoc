@@ -1,0 +1,71 @@
+== JWT 예외처리
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0000",
+  "message" : "권한 정보가 없는 토큰입니다."
+}
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0001",
+  "message" : "잘못된 JWT 서명입니다."
+}
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0002",
+  "message" : "만료된 JWT 토큰입니다."
+}
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0003",
+  "message" : "지원되지 않는 JWT 토큰입니다."
+}
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0004",
+  "message" : "JWT 토큰이 잘못되었습니다."
+}
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0005",
+  "message" : "토큰 검증 실패"
+}
+----
+
+[source,http,options="nowrap"]
+----
+HTTP/1.1 400 Bad Request
+
+{
+  "code" : "J0006",
+  "message" : "JWT 토큰이 잘못되었습니다."
+}
+----
