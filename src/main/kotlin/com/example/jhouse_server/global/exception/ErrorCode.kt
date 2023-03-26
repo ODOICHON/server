@@ -14,12 +14,12 @@ enum class ErrorCode(
     UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "C0003", "해당 요청에 대한 권한이 없습니다."),
 
     // Jwt
-    UNAUTHORIZED_JWT_TOKEN(HttpStatus.FORBIDDEN, "J0000", "권한 정보가 없는 토큰입니다."),
-    WRONG_JWT_SIGNATURE(HttpStatus.FORBIDDEN, "J0001", "잘못된 JWT 서명입니다."),
-    EXPIRE_JWT_TOKEN(HttpStatus.FORBIDDEN, "J0002", "만료된 JWT 토큰입니다."),
-    NOT_SUPPORT_JWT_TOKEN(HttpStatus.FORBIDDEN, "J0003", "지원되지 않는 JWT 토큰입니다."),
-    WRONG_JWT_TOKEN(HttpStatus.FORBIDDEN, "J0004", "JWT 토큰이 잘못되었습니다."),
-    DONT_VALIDATE_TOKEN(HttpStatus.FORBIDDEN, "J0005", "토큰 검증 실패"),
+    UNAUTHORIZED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "J0000", "권한 정보가 없는 토큰입니다."),
+    WRONG_JWT_SIGNATURE(HttpStatus.UNAUTHORIZED, "J0001", "잘못된 JWT 서명입니다."),
+    EXPIRE_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "J0002", "만료된 JWT 토큰입니다."),
+    NOT_SUPPORT_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "J0003", "지원되지 않는 JWT 토큰입니다."),
+    WRONG_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "J0004", "JWT 토큰이 잘못되었습니다."),
+    DONT_VALIDATE_TOKEN(HttpStatus.UNAUTHORIZED, "J0005", "토큰 검증 실패"),
     DONT_HAVE_AUTHORITY(HttpStatus.FORBIDDEN, "J0006", "권한이 없습니다."),
 
     // User
