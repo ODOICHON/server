@@ -17,6 +17,7 @@ import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 
 @Service
 @Transactional(readOnly = true)
@@ -27,6 +28,7 @@ class UserServiceImpl (
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil
 ): UserService {
+    private val AUTHORIZATION_HEADER: String = "Authorization"
 
     override fun findUserById(userId: Long): UserResDto {
         val findUser = userRepository.findByIdOrThrow(userId)
@@ -87,19 +89,16 @@ class UserServiceImpl (
         }
 
         val tokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValues(user.email, tokenResponse.refreshToken)
+        redisUtil.setValuesExpired(tokenResponse.accessToken, tokenResponse.refreshToken)
 
         return tokenResponse
     }
 
     override fun reissue(tokenDto: TokenDto): TokenDto {
-        val accessToken = tokenProvider.resolveToken(tokenDto.accessToken).toString()
-
-        tokenProvider.validateToken(accessToken)
         tokenProvider.validateToken(tokenDto.refreshToken)
 
-        val email = tokenProvider.getSubject(accessToken)
-        val refreshToken: String? = redisUtil.getValues(email)
+        val email = tokenProvider.getSubject(tokenDto.refreshToken)
+        val refreshToken: String? = redisUtil.getValues(tokenDto.accessToken)
 
         if (refreshToken.isNullOrEmpty()) {
             throw ApplicationException(ALREADY_LOGOUT)
@@ -107,17 +106,18 @@ class UserServiceImpl (
         if (refreshToken != tokenDto.refreshToken) {
             throw ApplicationException(DONT_MATCH_WITH_TOKEN)
         }
+        redisUtil.deleteValues(tokenDto.accessToken)
         val user = userRepository.findByEmail(email)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
 
         val updateTokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValues(user.email, updateTokenResponse.refreshToken)
+        redisUtil.setValuesExpired(updateTokenResponse.accessToken, updateTokenResponse.refreshToken)
 
         return updateTokenResponse
     }
 
-    override fun logout(email: String) {
-        redisUtil.deleteValues(email)
+    override fun logout(token: String) {
+        redisUtil.deleteValues(token)
     }
 
     @Transactional

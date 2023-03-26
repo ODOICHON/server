@@ -14,6 +14,7 @@ import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.regex.Pattern
+import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -84,9 +85,10 @@ class UserController(
     @Auth
     @PostMapping("/logout")
     fun logout(
-            @AuthUser user: User
+            @AuthUser user: User,
+            request: HttpServletRequest
     ): ApplicationResponse<Nothing> {
-        userService.logout(user.email)
+        userService.logout(request.getHeader("Authorization"))
 
         return ApplicationResponse.ok()
     }
