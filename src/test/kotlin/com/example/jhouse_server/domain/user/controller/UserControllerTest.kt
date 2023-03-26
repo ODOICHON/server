@@ -444,7 +444,7 @@ internal class UserControllerTest @Autowired constructor(
         val tokenDto1 = userService.signIn(userSignInDto)
         val tokenDto2 = userService.signIn(UserSignInReqDto(userSingUpDto2.email, userSingUpDto2.password))
         val tokenDtoException = TokenDto(tokenDto2.accessToken, tokenDto1.refreshToken)
-        userService.logout(userSignInDto.email)
+        userService.logout(tokenDto1.accessToken)
         val content1: String = objectMapper.writeValueAsString(tokenDto1)
         val content2: String = objectMapper.writeValueAsString(tokenDtoException)
 
@@ -532,7 +532,7 @@ internal class UserControllerTest @Autowired constructor(
                         )
                 )
 
-        assertThat(redisUtil.getValues(userSignUpDto.email)).isNull()
+        assertThat(redisUtil.getValues(accessToken)).isNull()
     }
 
     @Test

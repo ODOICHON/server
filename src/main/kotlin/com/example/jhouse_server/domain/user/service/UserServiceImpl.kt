@@ -17,6 +17,7 @@ import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.*
+import javax.servlet.http.HttpServletRequest
 
 @Service
 @Transactional(readOnly = true)
@@ -27,6 +28,7 @@ class UserServiceImpl (
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil
 ): UserService {
+    private val AUTHORIZATION_HEADER: String = "Authorization"
 
     override fun findUserById(userId: Long): UserResDto {
         val findUser = userRepository.findByIdOrThrow(userId)
@@ -114,8 +116,8 @@ class UserServiceImpl (
         return updateTokenResponse
     }
 
-    override fun logout(email: String) {
-        redisUtil.deleteValues(email)
+    override fun logout(token: String) {
+        redisUtil.deleteValues(token)
     }
 
     @Transactional
