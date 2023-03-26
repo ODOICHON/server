@@ -9,7 +9,7 @@ import java.time.Duration
 class RedisUtil (
         val redisTemplate: RedisTemplate<String, String>
 ) {
-    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 5   //3분
+    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 60 * 5   //3분
 
     fun setValues(key: String, value: String) {
         val values: ValueOperations<String, String> = redisTemplate.opsForValue()
