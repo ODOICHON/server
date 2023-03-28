@@ -7,6 +7,7 @@ import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
+import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
@@ -44,8 +45,7 @@ class CommentServiceImpl(
     @Transactional
     override fun deleteComment(commentId: Long, user: User) {
         val comment = commentRepository.findByIdOrThrow(commentId)
-        if (user == comment.user)  {
-           commentRepository.delete(comment)
-        } else throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        if (user == comment.user || user.authority == Authority.ADMIN) commentRepository.delete(comment)
+        else throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
     }
 }
