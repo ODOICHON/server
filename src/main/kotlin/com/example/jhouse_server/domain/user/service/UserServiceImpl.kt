@@ -28,7 +28,9 @@ class UserServiceImpl (
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil
 ): UserService {
-    private val AUTHORIZATION_HEADER: String = "Authorization"
+    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 60 * 60 * 24 * 7   //7일
+
+    private val SMS_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
     override fun findUserById(userId: Long): UserResDto {
         val findUser = userRepository.findByIdOrThrow(userId)
@@ -50,7 +52,7 @@ class UserServiceImpl (
         }
         val code = createCode()
         smsUtil.sendMessage(phoneNum, code)
-        redisUtil.setValues(phoneNum, code)
+        redisUtil.setValuesExpired(phoneNum, code, SMS_CODE_EXPIRE_TIME)
     }
 
     override fun checkSmsCode(checkSmsReqDto: CheckSmsReqDto): Boolean {
@@ -89,7 +91,7 @@ class UserServiceImpl (
         }
 
         val tokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValuesExpired(tokenResponse.accessToken, tokenResponse.refreshToken)
+        redisUtil.setValuesExpired(tokenResponse.accessToken, tokenResponse.refreshToken, REFRESH_TOKEN_EXPIRE_TIME)
 
         return tokenResponse
     }
@@ -111,7 +113,7 @@ class UserServiceImpl (
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
 
         val updateTokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValuesExpired(updateTokenResponse.accessToken, updateTokenResponse.refreshToken)
+        redisUtil.setValuesExpired(updateTokenResponse.accessToken, updateTokenResponse.refreshToken, REFRESH_TOKEN_EXPIRE_TIME)
 
         return updateTokenResponse
     }

@@ -1,19 +1,14 @@
 package com.example.jhouse_server.domain.user.controller
 
 import com.example.jhouse_server.domain.user.*
-import com.example.jhouse_server.domain.user.entity.Authority.USER
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
-import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import java.util.regex.Pattern
 import javax.servlet.http.HttpServletRequest
 
 @RestController
@@ -21,6 +16,8 @@ import javax.servlet.http.HttpServletRequest
 class UserController(
         val userService: UserService
 ) {
+    private val AUTHORIZATION_HEADER: String = "Authorization"
+
     @Auth
     @GetMapping
     fun getUser(
@@ -88,7 +85,7 @@ class UserController(
             @AuthUser user: User,
             request: HttpServletRequest
     ): ApplicationResponse<Nothing> {
-        userService.logout(request.getHeader("Authorization"))
+        userService.logout(request.getHeader(AUTHORIZATION_HEADER))
 
         return ApplicationResponse.ok()
     }
