@@ -1,12 +1,13 @@
 package com.example.jhouse_server.domain.board.controller
 
-import com.example.jhouse_server.domain.board.PrefixCategory
+import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.util.ApiControllerConfig
 import com.example.jhouse_server.global.util.MockEntity
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class BoardControllerTest @Autowired constructor(
     val boardService: BoardService,
+    val boardRepository: BoardRepository,
     val userService: UserService,
     val userRepository: UserRepository,
 ) : ApiControllerConfig(uri = "/api/v1/boards") {
@@ -47,6 +49,9 @@ internal class BoardControllerTest @Autowired constructor(
         로그인()
         val user = userRepository.findByEmail(userSignInReqDto.email)
         board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
+        val findBoard = boardRepository.findByIdOrThrow(board)
+        findBoard.addComment(MockEntity.comment(findBoard, user.get()))
+        boardRepository.save(findBoard)
     }
 
     @Test
@@ -139,10 +144,10 @@ internal class BoardControllerTest @Autowired constructor(
             fieldWithPath("imageUrls").description("이미지 주소 리스트"),
             fieldWithPath("loveCount").description("좋아요 수"),
             fieldWithPath("commentCount").description("댓글 수"),
-            fieldWithPath("comments").description("댓글 ID"),
-//            fieldWithPath("comments[].nickName").description("댓글 작성자"),
-//            fieldWithPath("comments[].content").description("댓글 내용"),
-//            fieldWithPath("comments[].createdAt").description("댓글 생성일시"),
+            fieldWithPath("comments[].commentId").description("댓글 ID"),
+            fieldWithPath("comments[].nickName").description("댓글 작성자"),
+            fieldWithPath("comments[].content").description("댓글 내용"),
+            fieldWithPath("comments[].createdAt").description("댓글 생성일시"),
         )
     }
 
