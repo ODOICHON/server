@@ -110,6 +110,11 @@ class MockEntity {
             content = "짱구야, 공부 하자."
         )
 
+        fun updateCommentReqDto(board: Long) = CommentReqDto(
+            boardId = board,
+            content = "철수야, 축구 하자~"
+        )
+
         fun boardIntroReqDto() = BoardReqDto(
             title = "오도이촌 소개 게시글",
             code = "<body> <div> <h2>오도이촌 소개를 해보겠습니다. </h2> </div> <div> <br/> <b>안녕</b> 하세요. 오도리입니다.</div> </body>",
