@@ -17,11 +17,11 @@ sonarqube {
         property ("sonar.projectKey", "ODOICHON_server")
         property ("sonar.organization", "odoichon")
         property ("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.sources", "src")
-        property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.test.inclusions", "**/*Test.kt")
-        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
-        property("sonar.java.coveragePlugin", "jacoco")
+//        property("sonar.sources", "src")
+//        property("sonar.sourceEncoding", "UTF-8")
+//        property("sonar.test.inclusions", "**/*Test.kt")
+//        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
+//        property("sonar.java.coveragePlugin", "jacoco")
     }
 }
 
@@ -131,6 +131,7 @@ tasks.jacocoTestReport {
     excludes.add("**/JhouseServerApplicationKt*")
     excludes.add("com/example/jhouse_server/admin/user/**")
     excludes.add("**/*Converter*.kt")
+    excludes.add("**/resources/**")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
@@ -166,6 +167,7 @@ tasks.jacocoTestCoverageVerification {
     excludes.add("com/example/jhouse_server/admin/user/**")
     excludes.add("com/example/jhouse_server/domain/board/entity/BoardCategoryConverter.kt")
     excludes.add("com/example/jhouse_server/domain/board/entity/PrefixCategoryConverter.kt")
+    excludes.add("**/resources/**")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
