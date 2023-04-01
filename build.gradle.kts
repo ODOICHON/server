@@ -20,7 +20,7 @@ sonarqube {
         property("sonar.sources", "src")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.test.inclusions", "**/*Test.kt")
-        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/*Dto*.kt, **/*Exception*.kt, **/*ErrorCode*.kt" )
+        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
         property("sonar.java.coveragePlugin", "jacoco")
     }
 }
