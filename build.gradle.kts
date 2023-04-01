@@ -121,14 +121,16 @@ tasks.jacocoTestReport {
         html.isEnabled = true
         html.destination = file("$buildDir/reports/jhouse-report.html")
         csv.isEnabled = true
-        xml.isEnabled = false
+        xml.isEnabled = true
     }
 
     var excludes = mutableListOf<String>()
-    excludes.add("com/example/jhouse_server/global")
-    excludes.add("com/example/jhouse_server/domain/board/dto")
-    excludes.add("com/example/jhouse_server/domain/comment/dto")
-    excludes.add("com/example/jhouse_server/domain/user/dto")
+    excludes.add("**/global/**")
+    excludes.add("**/domain/**/dto/**")
+    excludes.add("**/domain/**/entity/**")
+    excludes.add("**/JhouseServerApplicationKt*")
+    excludes.add("com/example/jhouse_server/admin/user/**")
+    excludes.add("**/*Converter*.kt")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
