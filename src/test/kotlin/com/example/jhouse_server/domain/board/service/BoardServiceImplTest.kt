@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.transaction.annotation.Transactional
+import java.lang.IllegalArgumentException
 
 @Transactional
 @SpringBootTest
@@ -167,6 +168,17 @@ internal class BoardServiceImplTest @Autowired constructor(
         val res = boardService.getCategory(name)
         // then
         assertThat(res[0].code).isEqualTo(BoardCategory.INTERIOR.value)
+    }
+
+    @Test
+    @DisplayName("게시판 말머리 조회_실패")
+    fun get_category_fail() {
+        // given
+        val name = ""
+        // when
+        val res = boardService.getCategory(name)
+        // then
+        assertThat(res).isEmpty()
     }
     @Test
     @DisplayName("게시글 조회")
