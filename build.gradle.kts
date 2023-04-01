@@ -17,11 +17,12 @@ sonarqube {
         property ("sonar.projectKey", "ODOICHON_server")
         property ("sonar.organization", "odoichon")
         property ("sonar.host.url", "https://sonarcloud.io")
-//        property("sonar.sources", "src")
-//        property("sonar.sourceEncoding", "UTF-8")
-//        property("sonar.test.inclusions", "**/*Test.kt")
-//        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
-//        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.sources", "src")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.test.inclusions", "**/*Test.kt")
+        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
+        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/html/jacocoTestReport.xml")
     }
 }
 
