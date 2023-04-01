@@ -48,7 +48,29 @@ jobs:
             ${{ runner.os }}-gradle-
       - name : Update gradlew access authorized
         run: chmod +x gradlew
+      #test를 위한 mysql설정
+      - name: Start MySQL
+        uses: samin/mysql-action@v1.3
+        with:
+          host port: 3303
+          container port: 3303
+          mysql database: 'test_db'
+          mysql user: 'test'
+          mysql password: 'test_pw'
 
+      #테스트를 위한 redis 설정
+      - name: Start Redis
+        uses: supercharge/redis-github-action@1.5.0
+        with:
+          redis-port: 6376
+
+      #테스트를 위한 test yml 설정
+      - name: Make application-test.yml
+        run: |
+          cd ./src/test/resources
+          touch ./application-test.yml
+          echo "${{ secrets.PROPERTIES_TEST }}" > ./application-test.yml
+        shell: bash
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
