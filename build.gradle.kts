@@ -4,11 +4,26 @@ plugins {
     id("org.springframework.boot") version "2.7.8"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
+    id("org.sonarqube") version "3.5.0.2730"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("plugin.allopen") version "1.4.32"
     jacoco
+}
+
+sonarqube {
+    properties {
+        property ("sonar.projectKey", "ODOICHON_server")
+        property ("sonar.organization", "odoichon")
+        property ("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.sources", "src")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.test.inclusions", "**/*Test.kt")
+        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
+        property("sonar.java.coveragePlugin", "jacoco")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/html/jacocoTestReport.xml")
+    }
 }
 
 group = "com.example"
@@ -105,52 +120,66 @@ jacoco {
 tasks.jacocoTestReport {
     reports {
         html.isEnabled = true
-        xml.isEnabled = false
-        csv.isEnabled = false
+        html.destination = file("$buildDir/reports/jhouse-report.html")
+        csv.isEnabled = true
+        xml.isEnabled = true
     }
 
-    finalizedBy("jacocoTestCoverageVerification")
+    var excludes = mutableListOf<String>()
+    excludes.add("**/global/**")
+    excludes.add("**/domain/**/dto/**")
+    excludes.add("**/domain/**/entity/**")
+    excludes.add("**/JhouseServerApplicationKt*")
+    excludes.add("com/example/jhouse_server/admin/user/**")
+    excludes.add("**/*Converter*.kt")
+    excludes.add("**/resources/**")
+
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(excludes)
+        }
+    )
+
+    finalizedBy(tasks.jacocoTestCoverageVerification)
 }
 
 tasks.jacocoTestCoverageVerification {
     violationRules {
-//        rule {
-//            limit {
-//                minimum = "0.0".toBigDecimal()
-//            }
-//
-//        }
-
         rule {
-//            enabled = true
-//
-//            element = "CLASS"
-//
-//            limit{
-//                counter = "BRANCH"
-//                value = "COVEREDRATIO"
-//                minimum = "0.0".toBigDecimal()
-//            }
-
-
-
-            limit {
+            enabled = true // rule을 on/off
+            element = "CLASS" // class 단위로 rule 체크
+            limit { // 라인 커버리지 최소 80% 충족
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = "0.50".toBigDecimal()
+            }
+            limit {// 빈 줄 제외한 코드 라인수 최대 1000라인으로 제한한다.
                 counter = "LINE"
                 value = "TOTALCOUNT"
-                maximum = "1000.0".toBigDecimal()
-
+                maximum = "550.0".toBigDecimal()
             }
-
-            excludes = listOf(
-
-            )
         }
     }
+    var excludes = mutableListOf<String>()
+    excludes.add("com/example/jhouse_server/global/**")
+    excludes.add("com/example/jhouse_server/domain/**/dto/**")
+    excludes.add("com/example/jhouse_server/domain/**/entity/**")
+    excludes.add("**/JhouseServerApplicationKt*")
+    excludes.add("com/example/jhouse_server/admin/user/**")
+    excludes.add("com/example/jhouse_server/domain/board/entity/BoardCategoryConverter.kt")
+    excludes.add("com/example/jhouse_server/domain/board/entity/PrefixCategoryConverter.kt")
+    excludes.add("**/resources/**")
+
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(excludes)
+        }
+    )
 }
 
 val testCoverage by tasks.registering {
     group = "verification"
-    description = "RUns the unit tests with coverage"
+    description = "Runs the unit tests with coverage"
 
     dependsOn(":test",
             ":jacocoTestReport",
