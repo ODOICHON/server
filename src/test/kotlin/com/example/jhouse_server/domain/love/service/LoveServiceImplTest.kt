@@ -53,7 +53,7 @@ internal class LoveServiceImplTest @Autowired constructor(
         val board = 게시글_작성()
         val user = userRepository.findByEmail(userSignUpReqDto.email).get()
         // when
-        val loved = loveService.loveBoard(board, user)
+        loveService.loveBoard(board, user)
         // then
         val findBoard = boardRepository.findByIdOrThrow(board)
         val findLoved = loveRepository.findByUserAndBoard(user, findBoard)
