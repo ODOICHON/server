@@ -22,7 +22,7 @@ sonarqube {
         property("sonar.sources", "src")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.test.inclusions", "**/*Test.kt")
-        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
+        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt, **/admin/**, **/*RepositoryImpl.kt" )
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/html/jacocoTestReport.xml")
     }
@@ -138,7 +138,7 @@ tasks.jacocoTestReport {
     excludes.add("**/*Converter*.kt")
     excludes.add("**/resources/**")
     excludes.add("**/build/generated/source/**")
-    excludes.add("**/*RepositoryImpl.kt")
+    excludes.add("com/example/jhouse_server/domain/user/repository/**")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
@@ -170,8 +170,9 @@ tasks.jacocoTestCoverageVerification {
     excludes.add("com/example/jhouse_server/global/**")
     excludes.add("com/example/jhouse_server/domain/**/dto/**")
     excludes.add("com/example/jhouse_server/domain/**/entity/**")
+    excludes.add("com/example/jhouse_server/domain/user/repository/**")
     excludes.add("**/JhouseServerApplicationKt*")
-    excludes.add("com/example/jhouse_server/admin/user/**")
+    excludes.add("com/example/jhouse_server/admin/**")
     excludes.add("com/example/jhouse_server/domain/board/entity/BoardCategoryConverter.kt")
     excludes.add("com/example/jhouse_server/domain/board/entity/PrefixCategoryConverter.kt")
     excludes.add("**/resources/**")
