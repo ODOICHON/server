@@ -2,7 +2,7 @@ package com.example.jhouse_server.admin.user.controller
 
 import com.example.jhouse_server.admin.user.SessionConst
 import com.example.jhouse_server.admin.user.dto.LoginForm
-import com.example.jhouse_server.admin.user.service.AdminUserService
+import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import org.springframework.stereotype.Controller
@@ -17,7 +17,6 @@ import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpSession
 
 @Controller
 @RequestMapping("/admin")
@@ -46,9 +45,9 @@ class AdminUserController (
         @PostMapping
         fun signIn(@Validated @ModelAttribute("loginForm") loginForm: LoginForm,
                                                 bindingResult: BindingResult,
-                                                @RequestParam("redirectURI", defaultValue = "/admin/main") redirectURI : String,
+                                                @RequestParam("redirectURI", defaultValue = "/admin/analysis/join-path") redirectURI : String,
                                                 request: HttpServletRequest) : String {
-                val findUser = userRepository.findByEmail(loginForm.email!!)
+                val findUser = userRepository.findByEmailAndAuthority(loginForm.email!!, Authority.ADMIN)
                 if (findUser.isEmpty){
                         bindingResult.reject("emailNotFound", "존재하지 않는 아이디입니다")
                         return "login"
@@ -61,6 +60,12 @@ class AdminUserController (
                 val session = request.getSession(true)
                 session.setAttribute(SessionConst.LOGINUSER, user)
                 return "redirect:$redirectURI"
+        }
+
+        @PostMapping("/logout")
+        fun logout(httpServletRequest: HttpServletRequest): String {
+                httpServletRequest.getSession(false)?.invalidate()
+                return "redirect:/admin"
         }
 
         private fun encodePassword(password: String?): String {

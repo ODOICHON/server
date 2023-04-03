@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("org.springframework.boot") version "2.7.8"
@@ -9,6 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("plugin.allopen") version "1.4.32"
+    kotlin("kapt") version "1.7.10"
     jacoco
 }
 
@@ -51,6 +53,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
     // Jwt
@@ -133,6 +137,7 @@ tasks.jacocoTestReport {
     excludes.add("com/example/jhouse_server/admin/user/**")
     excludes.add("**/*Converter*.kt")
     excludes.add("**/resources/**")
+    excludes.add("**/build/generated/source/**")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
