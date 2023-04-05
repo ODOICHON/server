@@ -50,6 +50,9 @@ jobs:
         run: chmod +x gradlew
       - name : Clean gradle
         run : ./gradlew clean
+      - name : Stop gradle
+        run : ./gradlew --stop
+
       #test를 위한 mysql설정
       - name: Start MySQL
         uses: samin/mysql-action@v1.3
