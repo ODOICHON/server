@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.user.repository
 
 import com.example.jhouse_server.admin.anaylsis.dto.AnalysisJoinPathResponse
+import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.QUserJoinPath.*
@@ -51,15 +52,24 @@ class UserRepositoryImpl(
     }
 
     private fun getOrderAgeRateResult(queryResult : List<AdminUserAnalysisAgeResult>, total : Long) : List<Double> {
-        val resultList = mutableListOf<Double>()
-        queryResult.forEach { r -> resultList.add(getRate(total, r.count)) }
-        // switch
-        val resultTwenty = resultList[0]
-        val resultTen = resultList[1]
-        resultList[0] = resultTen
-        resultList[1] = resultTwenty
 
-        return resultList
+        val rateList = queryResult.map { r -> getRate(total, r.count) }
+        val ageList = queryResult.map { r -> r.age }
+
+        val result = mutableListOf<Double>()
+        for (i in Age.values()){
+            if (i in ageList){
+                for (j in queryResult.indices){
+                    if (queryResult[j].age == i){
+                        result.add(rateList[j])
+                    }
+                }
+            } else {
+                result.add(0.00)
+            }
+        }
+
+        return result
     }
 
     private fun getOrderJoinPathRateResult(queryResult : List<AdminUserAnalysisJoinPathResult>, total : Long) : List<AnalysisJoinPathResponse> {
