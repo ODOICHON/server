@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.user.entity
 
-enum class JoinPath {
+enum class JoinPath ( val value : String){
     INTRODUCTION("지인 소개"),
     NAVER_CAFE("네이버 카페"),
     NAVER_BLOG("네이버 블로그"),
@@ -10,11 +10,6 @@ enum class JoinPath {
     SEARCH("검색"),
     ETC("기타");
 
-    private val value: String
-
-    constructor(value: String) {
-        this.value = value
-    }
 
     companion object {
         fun getJoinPath(value: String): JoinPath? {

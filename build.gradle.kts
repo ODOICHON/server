@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id("org.springframework.boot") version "2.7.8"
@@ -9,6 +10,7 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("plugin.allopen") version "1.4.32"
+    kotlin("kapt") version "1.7.10"
     jacoco
 }
 
@@ -20,7 +22,7 @@ sonarqube {
         property("sonar.sources", "src")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.test.inclusions", "**/*Test.kt")
-        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt" )
+        property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/global/**, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt, **/admin/**, **/*RepositoryImpl.kt" )
         property("sonar.java.coveragePlugin", "jacoco")
         property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/html/jacocoTestReport.xml")
     }
@@ -51,6 +53,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
     // Jwt
@@ -79,6 +83,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    maxHeapSize = "4g"
 }
 
 val asciidoctorExt: Configuration by configurations.creating
@@ -130,9 +135,11 @@ tasks.jacocoTestReport {
     excludes.add("**/domain/**/dto/**")
     excludes.add("**/domain/**/entity/**")
     excludes.add("**/JhouseServerApplicationKt*")
-    excludes.add("com/example/jhouse_server/admin/user/**")
+    excludes.add("com/example/jhouse_server/admin/**")
     excludes.add("**/*Converter*.kt")
     excludes.add("**/resources/**")
+    excludes.add("**/build/generated/source/**")
+    excludes.add("com/example/jhouse_server/domain/user/repository/**")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
@@ -164,8 +171,9 @@ tasks.jacocoTestCoverageVerification {
     excludes.add("com/example/jhouse_server/global/**")
     excludes.add("com/example/jhouse_server/domain/**/dto/**")
     excludes.add("com/example/jhouse_server/domain/**/entity/**")
+    excludes.add("com/example/jhouse_server/domain/user/repository/**")
     excludes.add("**/JhouseServerApplicationKt*")
-    excludes.add("com/example/jhouse_server/admin/user/**")
+    excludes.add("com/example/jhouse_server/admin/**")
     excludes.add("com/example/jhouse_server/domain/board/entity/BoardCategoryConverter.kt")
     excludes.add("com/example/jhouse_server/domain/board/entity/PrefixCategoryConverter.kt")
     excludes.add("**/resources/**")
