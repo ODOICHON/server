@@ -6,7 +6,6 @@ spring:
     include:
       secret
 
-
   jpa:
     database: mysql
     hibernate:
@@ -53,6 +52,7 @@ server:
   servlet:
     session:
       tracking-modes: cookie
+
 #—
 #spring:
 #  profiles:
