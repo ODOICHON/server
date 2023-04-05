@@ -16,14 +16,14 @@ class AdminAnalysisController (
     fun getAnalysisJoinPath(model : Model) : String {
         val result = analysisService.getAnalysisJoinPathResult()
         model.addAttribute("joinPathResults", result)
-        return "/analysis/joinPath"
+        return "analysis/joinPath"
     }
 
     @GetMapping("/age")
     fun getAnalysisAge(model : Model) : String {
         val result = analysisService.getAnalysisAgeResult()
         model.addAttribute("ageResults", result)
-        return "/analysis/age"
+        return "analysis/age"
     }
 
 
