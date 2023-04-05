@@ -83,7 +83,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    maxHeapSize = "1g"
+    maxHeapSize = "4g"
 }
 
 val asciidoctorExt: Configuration by configurations.creating
