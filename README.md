@@ -14,17 +14,19 @@
 - Spring Framework ( Spring Boot, Spring MVC )
 - MySQL ( JPA ), Redis
 - Junit5, AssertJ, Mockito
-- Gradle
+- Gradle( Kotlin )
 
 2. 인프라 아키텍처
 
 ![주말의집 아키텍처](https://user-images.githubusercontent.com/61505572/220286737-8b62ca94-a38e-4b68-b0a3-54d85a4b622c.png)
 
 - Route 53
+- EC2
 - ALB, Nginx, S3, CodeDeploy
-- MySQL(RDB)
+- MySQL( RDS )
 - Git, Github Actions CI/CD
 - CloudWatch, Slack
+- Jacoco, SonarlCloud
 
 ### API 명세서
 
@@ -40,11 +42,21 @@
 - [태민 - 인프라 구축 및 무중단 배포 프로세스](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%B6%95-%EB%B0%8F-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4)
 - [은비 - ERD 설계](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-ERD-%EC%84%A4%EA%B3%84)
 - [민혁 - Spring Security 없이 인증인가 구현하기](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D-Spring-Security-%EC%97%86%EC%9D%B4-%EC%9D%B8%EC%A6%9D%EC%9D%B8%EA%B0%80-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
-- [은비 - asypt 라이브러리를 이용한 YML 파일 암호화하기](https://github.com/ODOICHON/server/wiki/%5Bproject%5D-Jasypt-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-YML-%ED%8C%8C%EC%9D%BC-%EC%95%94%ED%98%B8%ED%99%94%ED%95%98%EA%B8%B0)
+- [은비 - Jasypt 라이브러리를 이용한 YML 파일 암호화하기](https://github.com/ODOICHON/server/wiki/%5Bproject%5D-Jasypt-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-YML-%ED%8C%8C%EC%9D%BC-%EC%95%94%ED%98%B8%ED%99%94%ED%95%98%EA%B8%B0)
 - [은비 - 테스트 코드를 작성하는 이유](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%5D-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)
 - [은비 - RestDocs 적용 과정](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%5D-RestDocs-%EC%82%AC%EC%9A%A9%EC%97%90-%EB%94%B0%EB%A5%B8-Controller-%EB%8B%A8%EC%9C%84-%ED%85%8C%EC%8A%A4%ED%8A%B8-(-e2e-Test-))
 - [은비 - Soft Delete 방식 적용](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D-Soft-Delete-%EB%B0%A9%EC%8B%9D-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
 - [은비 - findByIdOrThrow 함수 커스터마이징하기](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D--Select-%EC%BF%BC%EB%A6%AC-%EB%B0%9C%EC%83%9D-%EC%8B%9C,-Exception-%EC%B2%98%EB%A6%AC-%ED%95%9C-%EB%B2%88%EC%97%90-%ED%95%98%EA%B8%B0)
+- [은비 - Jacoco + SonarlCloud 적용과정](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B8%ED%8C%85%5D-Jacoco-&-SonarCloud-%EC%A0%81%EC%9A%A9)
+- [은비 - SonarCloud 세팅 중 마주한 이슈 정리](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-SonarCloud-%EC%84%A4%EC%A0%95-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85)
+- [은비 - Github Actions와 SonarCloud 사용 중 트러블 슈팅 정리](https://github.com/ODOICHON/server/wiki/%5B%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85%5D-Github-Actions---SonarCloud)
 
 ### 버전 관리
 🏷 VERSION 1 - 로그인/회원가입 API 연동 및 메인 페이지 뷰 작업
+
+### 팀 구성
+| Name    | <center>이은비</center>|<center>윤태민</center> |<center>문민혁</center> | 
+| ------- | --------------------------------------------- | ------------------------------------ | --------------------------------------------- | 
+| Profile | <center> <img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/61505572?v=4" /> </center>|<center><img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/80155336?v=4" /></center>|<center><img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/102985637?v=4" /></center>|
+| Role    | <center>Team Leader<br> Back-end, DevOps</center>   | <center>Back-end, <br> DevOps</center>    | <center>Back-end ,<br> DevOps</center>  | 
+GitHub | <center>[@dldmsql](https://github.com/dldmsql)</center> | <center>[@YoonTaeMinnnn](https://github.com/YoonTaeMinnnn) </center>| <center>[@MoonMinHyuk1](https://github.com/MoonMinHyuk1) </center>|
