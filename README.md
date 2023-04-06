@@ -4,6 +4,12 @@
   <img alt="image" src="https://user-images.githubusercontent.com/61505572/220284128-c1ebd399-0928-4c9c-9d4a-f9ef2b5da3f0.png">
 </div>
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
+[![CD](https://github.com/ODOICHON/server/actions/workflows/CD.yml/badge.svg)](https://github.com/ODOICHON/server/actions/workflows/CD.yml)
+
 ### 프로젝트 설명
 
 "주말의집"은 듀얼 라이프를 꿈꾸고 실천하는 사용자들 간의 커뮤니티 형성을 도와주는 플랫폼입니다.
