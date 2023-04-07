@@ -6,7 +6,6 @@ import com.example.jhouse_server.domain.user.UserSignInReqDto
 import com.example.jhouse_server.domain.user.UserSignUpReqDto
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.jwt.TokenDto
-import javax.servlet.http.HttpServletRequest
 
 interface UserService {
     fun findUserById(userId : Long) : UserResDto
@@ -30,4 +29,6 @@ interface UserService {
     fun updateNickName(user: User, nickName: String)
 
     fun updatePassword(user: User, password: String)
+
+    fun withdrawal(user: User)
 }

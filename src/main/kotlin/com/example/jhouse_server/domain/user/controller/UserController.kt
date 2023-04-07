@@ -111,4 +111,14 @@ class UserController(
 
         return ApplicationResponse.ok()
     }
+
+    @Auth
+    @PostMapping("/withdrawal")
+    fun withdrawal(
+            @AuthUser user: User
+    ): ApplicationResponse<Nothing> {
+        userService.withdrawal(user)
+
+        return ApplicationResponse.ok()
+    }
 }

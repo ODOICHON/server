@@ -17,7 +17,6 @@ import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.*
-import javax.servlet.http.HttpServletRequest
 
 @Service
 @Transactional(readOnly = true)
@@ -139,6 +138,15 @@ class UserServiceImpl (
         }
 
         user.updatePassword(encodePassword)
+    }
+
+    @Transactional
+    override fun withdrawal(user: User) {
+        user.withdrawalUser()
+
+        println("user.nickName = ${user.nickName}")
+        println("user.email = ${user.email}")
+        println("user.password = ${user.password}")
     }
 
     private fun createCode(): String {
