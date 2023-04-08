@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
-interface BoardRepository: JpaRepository<Board, Long> {
+interface BoardRepository: JpaRepository<Board, Long>, BoardRepositoryCustom {
     abstract fun findAllByPrefixCategoryAndSavedAndUseYn(prefixCategory : PrefixCategory, saved: Boolean, useYn: Boolean, pageable: Pageable): Page<Board>
     @Query(
         nativeQuery = true,
