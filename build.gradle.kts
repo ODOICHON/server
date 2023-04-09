@@ -141,6 +141,7 @@ tasks.jacocoTestReport {
     excludes.add("**/build/generated/source/**")
     excludes.add("com/example/jhouse_server/domain/user/repository/**")
     excludes.add("com/example/jhouse_server/domain/board/repository/**")
+    excludes.add("com/example/jhouse_server/domain/board/repository/BoardRepositoryImpl.kt")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
