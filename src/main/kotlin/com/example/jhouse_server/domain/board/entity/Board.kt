@@ -24,7 +24,6 @@ class Board(
     var category : BoardCategory,
     @Convert(converter = BoardImageUrlConverter::class) // 이미지 url ","로 슬라이싱
     var imageUrls : List<String>,
-    var saved: Boolean = true,
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     var user : User,
@@ -49,7 +48,6 @@ class Board(
         content: String,
         category: String,
         imageUrls: List<String>,
-        saved: Boolean,
         prefixCategory: String
     ) : Board {
         this.title = title
@@ -58,7 +56,6 @@ class Board(
         this.category = BoardCategory.values().firstOrNull { it.name == category }
             ?: throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         this.imageUrls = imageUrls
-        this.saved = saved
         this.prefixCategory = PrefixCategory.values().firstOrNull { it.name == prefixCategory }
             ?: throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         return this

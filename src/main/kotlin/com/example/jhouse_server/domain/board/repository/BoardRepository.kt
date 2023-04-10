@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface BoardRepository: JpaRepository<Board, Long>, BoardRepositoryCustom {
-    abstract fun findAllByPrefixCategoryAndSavedAndUseYn(prefixCategory : PrefixCategory, saved: Boolean, useYn: Boolean, pageable: Pageable): Page<Board>
+    abstract fun findAllByPrefixCategoryAndUseYn(prefixCategory : PrefixCategory, useYn: Boolean, pageable: Pageable): Page<Board>
     @Query(
         nativeQuery = true,
         value = "select * from board where prefix_category = :prefixCategory",
