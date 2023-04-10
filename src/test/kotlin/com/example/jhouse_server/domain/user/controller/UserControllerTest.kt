@@ -24,7 +24,6 @@ import javax.servlet.http.Cookie
 
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ExtendWith(RestDocumentationExtension::class)
 internal class UserControllerTest @Autowired constructor(
         private val userService: UserService,
         private val redisUtil: RedisUtil,
