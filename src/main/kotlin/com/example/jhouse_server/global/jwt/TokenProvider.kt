@@ -3,7 +3,6 @@ package com.example.jhouse_server.global.jwt
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.exception.ErrorCode.*
 import io.jsonwebtoken.*
 import io.jsonwebtoken.security.Keys
@@ -40,14 +39,17 @@ class TokenProvider {
                 .claim(AUTHORITIES_KEY, user.authority)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact()
-        val refreshToken = Jwts.builder()
-                .setSubject(user.email)
-                .setExpiration(Date(now.time + REFRESH_TOKEN_EXPIRE_TIME))
-                .claim(AUTHORITIES_KEY, user.authority)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact()
 
-        return TokenDto(accessToken, refreshToken)
+        return TokenDto(accessToken)
+    }
+
+    fun createRefreshToken(): String {
+        val now = Date()
+
+        return Jwts.builder()
+            .setExpiration(Date(now.time + REFRESH_TOKEN_EXPIRE_TIME))
+            .signWith(key, SignatureAlgorithm.HS512)
+            .compact()
     }
 
     fun resolveToken(bearerToken: String): String? {
@@ -58,11 +60,11 @@ class TokenProvider {
         return null
     }
 
-    fun validateToken(token: String) {
+    fun validateToken(token: String, access: Boolean) {
         try {
             val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
 
-            if (claims[AUTHORITIES_KEY] == null) {
+            if (access && claims[AUTHORITIES_KEY] == null) {
                 throw ApplicationException(UNAUTHORIZED_JWT_TOKEN)
             }
         } catch (e: io.jsonwebtoken.security.SecurityException) {
@@ -79,9 +81,12 @@ class TokenProvider {
     }
 
     fun getSubject(token: String): String {
-        val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
-
-        return claims.subject
+        return try {
+            val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
+            claims.subject
+        } catch (e: ExpiredJwtException) {
+            e.claims.subject
+        }
     }
 
     fun getAuthority(token: String): Authority {

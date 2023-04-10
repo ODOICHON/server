@@ -31,7 +31,7 @@ class AuthUserResolver (
         val bearerToken: String = webRequest.getHeader(AUTHORIZATION_HEADER).toString()
         val jwt: String = tokenProvider.resolveToken(bearerToken).toString()
 
-        tokenProvider.validateToken(jwt)
+        tokenProvider.validateToken(jwt, true)
 
         val email: String = tokenProvider.getSubject(jwt)
 
