@@ -16,8 +16,6 @@ data class BoardReqDto(
     @field:NotNull(message = "말머리는 필수값입니다.")
     val category: BoardCategory? = null,
     val imageUrls: List<String>,
-    @field:NotNull(message = "임시저장 여부는 필수값입니다.")
-    val saved: Boolean? = null,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: PrefixCategory? = null,
     val fixed: Boolean? = null, // 홍보 게시글에 대해서만 true 설정 가능
@@ -42,8 +40,6 @@ data class BoardUpdateReqDto(
     @field:NotNull(message = "말머리는 필수값입니다.")
     val category: String? = null,
     val imageUrls: List<String>,
-    @field:NotNull(message = "임시저장 여부는 필수값입니다.")
-    val saved: Boolean? = null,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: String? = null,
     val fixed: Boolean? = null,

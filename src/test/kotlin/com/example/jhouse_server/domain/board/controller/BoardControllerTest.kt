@@ -189,7 +189,6 @@ internal class BoardControllerTest @Autowired constructor(
             fieldWithPath("code").description("DB에 저장할 html 정적 코드"),
             fieldWithPath("category").description("게시글 말머리"),
             fieldWithPath("imageUrls").description("이미지 url ',' 구분자로 넘겨주기 "),
-            fieldWithPath("saved").description("임시저장여부, 임시저장 false, 저장 true"),
             fieldWithPath("prefixCategory").description("게시글 타입, [DEFAULT, INTRO, ADVERTISEMENT]"),
             fieldWithPath("fixed").description("고정여부, 고정x false, 고정 true"),
         )
