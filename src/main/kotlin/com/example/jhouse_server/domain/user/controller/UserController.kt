@@ -88,7 +88,7 @@ class UserController(
         request: HttpServletRequest,
         response: HttpServletResponse,
         @RequestBody tokenDto: TokenDto,
-        @CookieValue(name = "RefreshToken", required = false) refreshToken: String
+        @CookieValue(name = "RefreshToken", required = false, defaultValue = "") refreshToken: String
     ): ApplicationResponse<TokenDto> {
         val updateTokenDto: TokenDto = userService.reissue(tokenDto.accessToken, refreshToken)
         setRefreshToken(request, response, COOKIE_EXPIRE)
