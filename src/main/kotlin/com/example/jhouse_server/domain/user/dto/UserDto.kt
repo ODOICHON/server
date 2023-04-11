@@ -63,6 +63,10 @@ data class UserResDto(
         val age: Age
 )
 
+data class WithdrawalUser (
+        val nickname: String = "탈퇴한 회원"
+)
+
 fun toDto(user: User) : UserResDto {
     return UserResDto(user.id, user.email, user.nickName, user.phoneNum, user.authority, user.age)
 }

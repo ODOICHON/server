@@ -39,6 +39,6 @@ class AuthAop (
             throw ApplicationException(DONT_HAVE_AUTHORITY)
         }
 
-        tokenProvider.validateToken(jwt)
+        tokenProvider.validateToken(jwt, true)
     }
 }

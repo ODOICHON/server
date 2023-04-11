@@ -28,9 +28,6 @@ include::{snippets}/password-validation/http-response.adoc[]
 include::{snippets}/reissue/http-request.adoc[]
 ===== Response - Success
 include::{snippets}/reissue/http-response.adoc[]
-===== Response - Fail
-include::{snippets}/reissue-exception-1/http-response.adoc[]
-include::{snippets}/reissue-exception-2/http-response.adoc[]
 
 === 4. 로그아웃
 ===== Request
@@ -95,3 +92,9 @@ include::{snippets}/password-validation/http-response.adoc[]
 include::{snippets}/get-user/http-request.adoc[]
 ===== Response
 include::{snippets}/get-user/http-response.adoc[]
+
+=== 12. 유저 탈퇴
+===== Request
+include::{snippets}/withdrawal/http-request.adoc[]
+===== Response
+include::{snippets}/withdrawal/http-response.adoc[]

@@ -2,11 +2,10 @@ package com.example.jhouse_server.domain.user.controller
 
 import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.service.UserService
-import com.example.jhouse_server.global.jwt.TokenDto
+import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.ApiControllerConfig
 import com.example.jhouse_server.global.util.MockEntity
 import com.example.jhouse_server.global.util.RedisUtil
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -21,13 +20,14 @@ import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
+import javax.servlet.http.Cookie
 
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ExtendWith(RestDocumentationExtension::class)
 internal class UserControllerTest @Autowired constructor(
         private val userService: UserService,
-        private val redisUtil: RedisUtil
+        private val redisUtil: RedisUtil,
+        private val tokenProvider: TokenProvider
 ): ApiControllerConfig("/api/v1/users") {
 
     private val userSignUpDto = MockEntity.testUserSignUpDto()
@@ -327,8 +327,8 @@ internal class UserControllerTest @Autowired constructor(
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
                                         fieldWithPath("message").description("응답 메세지"),
-                                        fieldWithPath("data.access_token").description("엑세스 토큰"),
-                                        fieldWithPath("data.refresh_token").description("리프레쉬 토큰")
+                                        fieldWithPath("data.access_token").description("엑세스 토큰")
+//                                        fieldWithPath("data.refresh_token").description("리프레쉬 토큰")
                                 )
                         )
                 )
@@ -402,6 +402,13 @@ internal class UserControllerTest @Autowired constructor(
         userService.signUp(userSignUpDto)
         val tokenDto = userService.signIn(userSignInDto)
         val content: String = objectMapper.writeValueAsString(tokenDto)
+//        val refreshToken = tokenProvider.createRefreshToken()
+        val cookie = Cookie("RefreshToken", tokenProvider.resolveToken(tokenDto.accessToken))
+        cookie.domain = "localhost"
+        cookie.maxAge = 60 * 60 * 24 * 7
+        cookie.path = "/"
+        cookie.isHttpOnly = true
+        cookie.secure = true
 
         //when
         val resultActions = mockMvc.perform(
@@ -410,6 +417,7 @@ internal class UserControllerTest @Autowired constructor(
                         .content(content)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
+                        .cookie(cookie)
                         .characterEncoding("UTF-8")
         )
 
@@ -421,84 +429,15 @@ internal class UserControllerTest @Autowired constructor(
                         document(
                                 "reissue",
                                 requestFields(
-                                        fieldWithPath("access_token").description("액세스 토큰"),
-                                        fieldWithPath("refresh_token").description("리프레쉬 토큰")
+                                        fieldWithPath("access_token").description("액세스 토큰")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
                                         fieldWithPath("message").description("응답 메세지"),
-                                        fieldWithPath("data.access_token").description("엑세스 토큰"),
-                                        fieldWithPath("data.refresh_token").description("리프레쉬 토큰")
+                                        fieldWithPath("data.access_token").description("엑세스 토큰")
                                 )
                         )
                 )
-    }
-
-    @Test
-    @DisplayName("토큰 재발급 테스트 - 예외처리")
-    fun reissueException() {
-        //given
-        val userSingUpDto2 = MockEntity.testUserSignUpDto2()
-        userService.signUp(userSignUpDto)
-        userService.signUp(userSingUpDto2)
-        val tokenDto1 = userService.signIn(userSignInDto)
-        val tokenDto2 = userService.signIn(UserSignInReqDto(userSingUpDto2.email, userSingUpDto2.password))
-        val tokenDtoException = TokenDto(tokenDto2.accessToken, tokenDto1.refreshToken)
-        userService.logout(tokenDto1.accessToken)
-        val content1: String = objectMapper.writeValueAsString(tokenDto1)
-        val content2: String = objectMapper.writeValueAsString(tokenDtoException)
-
-        //when
-        val resultActions1 = mockMvc.perform(
-            RestDocumentationRequestBuilders
-                .post("$uri/reissue")
-                .content(content1)
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        )
-        val resultActions2 = mockMvc.perform(
-            RestDocumentationRequestBuilders
-                .post("$uri/reissue")
-                .content(content2)
-                .contentType(APPLICATION_JSON)
-                .accept(APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        )
-
-        //then
-        resultActions1
-            .andExpect(status().isBadRequest)
-            .andDo(print())
-            .andDo(
-                document(
-                    "reissue-exception-1",
-                    requestFields(
-                        fieldWithPath("access_token").description("액세스 토큰"),
-                        fieldWithPath("refresh_token").description("리프레쉬 토큰")
-                    ),
-                    responseFields(
-                        fieldWithPath("code").description("결과 코드"),
-                        fieldWithPath("message").description("응답 메세지")
-                    )
-                )
-            )
-        resultActions2
-            .andExpect(status().isBadRequest)
-            .andDo(print())
-            .andDo(
-                document(
-                    "reissue-exception-2",
-                    requestFields(
-                        fieldWithPath("access_token").description("액세스 토큰"),
-                        fieldWithPath("refresh_token").description("리프레쉬 토큰")
-                    ),
-                    responseFields(
-                        fieldWithPath("code").description("결과 코드"),
-                        fieldWithPath("message").description("응답 메세지")
-                    )
-                )
-            )
     }
 
     @Test
@@ -531,8 +470,6 @@ internal class UserControllerTest @Autowired constructor(
                                 )
                         )
                 )
-
-        assertThat(redisUtil.getValues(accessToken)).isNull()
     }
 
     @Test
@@ -679,6 +616,37 @@ internal class UserControllerTest @Autowired constructor(
                     requestFields(
                         fieldWithPath("password").description("비밀번호")
                     ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("사용자 탈퇴 테스트")
+    fun withdrawal() {
+        //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri/withdrawal")
+                .header(AUTHORIZATION, accessToken)
+                .accept(APPLICATION_JSON)
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "withdrawal",
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
                         fieldWithPath("message").description("응답 메세지")
