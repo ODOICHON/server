@@ -17,7 +17,6 @@ import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.util.*
-import javax.servlet.http.HttpServletRequest
 
 @Service
 @Transactional(readOnly = true)
@@ -28,8 +27,6 @@ class UserServiceImpl (
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil
 ): UserService {
-    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 60 * 60 * 24 * 7   //7일
-
     private val SMS_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
     override fun findUserById(userId: Long): UserResDto {
@@ -90,32 +87,16 @@ class UserServiceImpl (
             throw ApplicationException(DONT_MATCH_PASSWORD)
         }
 
-        val tokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValuesExpired(tokenResponse.accessToken, tokenResponse.refreshToken, REFRESH_TOKEN_EXPIRE_TIME)
-
-        return tokenResponse
+        return tokenProvider.createTokenResponse(user)
     }
 
-    override fun reissue(tokenDto: TokenDto): TokenDto {
-        tokenProvider.validateToken(tokenDto.refreshToken)
+    override fun reissue(bearerToken: String, refreshToken: String): TokenDto {tokenProvider.validateToken(refreshToken, false)
 
-        val email = tokenProvider.getSubject(tokenDto.refreshToken)
-        val refreshToken: String? = redisUtil.getValues(tokenDto.accessToken)
-
-        if (refreshToken.isNullOrEmpty()) {
-            throw ApplicationException(ALREADY_LOGOUT)
-        }
-        if (refreshToken != tokenDto.refreshToken) {
-            throw ApplicationException(DONT_MATCH_WITH_TOKEN)
-        }
-        redisUtil.deleteValues(tokenDto.accessToken)
+        val accessToken = tokenProvider.resolveToken(bearerToken).toString()
+        val email = tokenProvider.getSubject(accessToken)
         val user = userRepository.findByEmail(email)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
-
-        val updateTokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValuesExpired(updateTokenResponse.accessToken, updateTokenResponse.refreshToken, REFRESH_TOKEN_EXPIRE_TIME)
-
-        return updateTokenResponse
+        return tokenProvider.createTokenResponse(user)
     }
 
     override fun logout(token: String) {
@@ -139,6 +120,11 @@ class UserServiceImpl (
         }
 
         user.updatePassword(encodePassword)
+    }
+
+    @Transactional
+    override fun withdrawal(user: User) {
+        user.withdrawalUser()
     }
 
     private fun createCode(): String {

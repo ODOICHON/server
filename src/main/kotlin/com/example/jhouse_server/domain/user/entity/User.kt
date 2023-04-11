@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.user.entity
 
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.comment.entity.Comment
+import com.example.jhouse_server.domain.user.WithdrawalUser
 import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
 
@@ -48,5 +49,12 @@ class User(
 
     fun updatePassword(password: String) {
         this.password = password
+    }
+
+    fun withdrawalUser() {
+        this.nickName = WithdrawalUser().nickname
+        this.email = ""
+        this.password = ""
+        this.phoneNum = ""
     }
 }
