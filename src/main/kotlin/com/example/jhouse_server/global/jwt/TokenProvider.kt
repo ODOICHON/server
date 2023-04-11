@@ -15,13 +15,9 @@ import java.util.*
 @Component
 class TokenProvider {
 
-    private val ACCESS_TOKEN_EXPIRE_TIME: Long = 1000 * 30     //30분
+    private val ACCESS_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 30     //30분
 
-    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 1000 * 60   //7일
-
-//    private val ACCESS_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 30     //30분
-//
-//    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 60 * 24 * 7   //7일
+    private val REFRESH_TOKEN_EXPIRE_TIME: Long = 1000 * 60 * 60 * 24 * 7   //7일
 
     private val AUTHORITIES_KEY: String = "auth"
 

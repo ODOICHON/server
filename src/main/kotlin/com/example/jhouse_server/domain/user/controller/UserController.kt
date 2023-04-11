@@ -21,8 +21,7 @@ class UserController(
         val tokenProvider: TokenProvider
 ) {
     private val COOKIE_NAME: String = "RefreshToken"
-//    private val COOKIE_EXPIRE: Long = 60 * 60 * 24 * 7
-    private val COOKIE_EXPIRE: Long = 60
+    private val COOKIE_EXPIRE: Long = 60 * 60 * 24 * 7
 
     @Auth
     @GetMapping
