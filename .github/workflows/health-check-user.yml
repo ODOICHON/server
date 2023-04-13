@@ -2,8 +2,7 @@ name: "[운영] 헬스체크"
 
 on:
   schedule:
-    - cron: "*/3 * * * *"
-  workflow_dispatch:
+    - cron: "*/5 * * * *"
 
 jobs:
   healthcheck:
@@ -21,9 +20,9 @@ jobs:
         with:
           status: ${{ job.status }}
           author_name: Github Action Test # default: 8398a7@action-slack
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          fields: repo,message,commit,action,eventName,ref,workflow,job,took
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_PRODL }} # required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_PROD }} # required
         if: always() # Pick up events even if the job fails or is canceled.
 
 
