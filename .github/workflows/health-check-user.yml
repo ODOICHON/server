@@ -12,7 +12,7 @@ jobs:
       - name: 유저 API Health Check
         uses: jtalk/url-health-check-action@v3
         with:
-          url: ${{ secrets.BASE_URI_PROD }}/api/ping
+          url: ${{ secrets.BASE_URI_PROD }}
           max-attempts: 3
           retry-delay: 1s
 
