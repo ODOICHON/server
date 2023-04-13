@@ -1,25 +1,28 @@
 package com.example.jhouse_server.domain.user.controller
 
 import com.example.jhouse_server.domain.user.*
-import com.example.jhouse_server.domain.user.entity.Authority.USER
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
-import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
 import com.example.jhouse_server.global.jwt.TokenDto
+import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.springframework.http.ResponseCookie
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
-import java.util.regex.Pattern
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @RestController
 @RequestMapping("/api/v1/users")
 class UserController(
-        val userService: UserService
+        val userService: UserService,
+        val tokenProvider: TokenProvider
 ) {
+    private val COOKIE_NAME: String = "RefreshToken"
+    private val COOKIE_EXPIRE: Long = 60 * 60 * 24 * 7
+
     @Auth
     @GetMapping
     fun getUser(
@@ -69,24 +72,37 @@ class UserController(
 
     @PostMapping("/sign-in")
     fun signIn(
-            @Validated @RequestBody userSignInReqDto: UserSignInReqDto
+            @Validated @RequestBody userSignInReqDto: UserSignInReqDto,
+            request: HttpServletRequest,
+            response: HttpServletResponse
     ): ApplicationResponse<TokenDto> {
-        return ApplicationResponse.ok(userService.signIn(userSignInReqDto))
+        val tokenDto: TokenDto = userService.signIn(userSignInReqDto)
+        setRefreshToken(request, response, COOKIE_EXPIRE)
+
+        return ApplicationResponse.ok(tokenDto)
     }
 
     @PostMapping("/reissue")
     fun reissue(
-            @RequestBody tokenDto: TokenDto
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        @RequestBody tokenDto: TokenDto,
+        @CookieValue(name = "RefreshToken", required = false, defaultValue = "") refreshToken: String
     ): ApplicationResponse<TokenDto> {
-        return ApplicationResponse.ok(userService.reissue(tokenDto))
+        val updateTokenDto: TokenDto = userService.reissue(tokenDto.accessToken, refreshToken)
+        setRefreshToken(request, response, COOKIE_EXPIRE)
+
+        return ApplicationResponse.ok(updateTokenDto)
     }
 
     @Auth
     @PostMapping("/logout")
     fun logout(
-            @AuthUser user: User
+            @AuthUser user: User,
+            request: HttpServletRequest,
+            response: HttpServletResponse
     ): ApplicationResponse<Nothing> {
-        userService.logout(user.email)
+        setRefreshToken(request, response, 0)
 
         return ApplicationResponse.ok()
     }
@@ -111,5 +127,28 @@ class UserController(
         userService.updatePassword(user, passwordReqDto.password)
 
         return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PostMapping("/withdrawal")
+    fun withdrawal(
+            @AuthUser user: User
+    ): ApplicationResponse<Nothing> {
+        userService.withdrawal(user)
+
+        return ApplicationResponse.ok()
+    }
+
+    private fun setRefreshToken(request: HttpServletRequest, response: HttpServletResponse, expireTime: Long) {
+        val refreshToken: String = tokenProvider.createRefreshToken()
+        val cookie = ResponseCookie.from(COOKIE_NAME, refreshToken)
+            .domain(request.serverName)
+            .maxAge(expireTime)
+            .httpOnly(true)
+            .secure(true)
+            .sameSite("None")
+            .path("/")
+            .build()
+        response.setHeader("Set-Cookie", cookie.toString())
     }
 }

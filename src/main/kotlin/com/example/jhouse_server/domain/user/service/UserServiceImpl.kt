@@ -27,6 +27,7 @@ class UserServiceImpl (
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil
 ): UserService {
+    private val SMS_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
     override fun findUserById(userId: Long): UserResDto {
         val findUser = userRepository.findByIdOrThrow(userId)
@@ -48,7 +49,7 @@ class UserServiceImpl (
         }
         val code = createCode()
         smsUtil.sendMessage(phoneNum, code)
-        redisUtil.setValues(phoneNum, code)
+        redisUtil.setValuesExpired(phoneNum, code, SMS_CODE_EXPIRE_TIME)
     }
 
     override fun checkSmsCode(checkSmsReqDto: CheckSmsReqDto): Boolean {
@@ -86,38 +87,20 @@ class UserServiceImpl (
             throw ApplicationException(DONT_MATCH_PASSWORD)
         }
 
-        val tokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValues(user.email, tokenResponse.refreshToken)
-
-        return tokenResponse
+        return tokenProvider.createTokenResponse(user)
     }
 
-    override fun reissue(tokenDto: TokenDto): TokenDto {
-        val accessToken = tokenProvider.resolveToken(tokenDto.accessToken).toString()
+    override fun reissue(bearerToken: String, refreshToken: String): TokenDto {tokenProvider.validateToken(refreshToken, false)
 
-        tokenProvider.validateToken(accessToken)
-        tokenProvider.validateToken(tokenDto.refreshToken)
-
+        val accessToken = tokenProvider.resolveToken(bearerToken).toString()
         val email = tokenProvider.getSubject(accessToken)
-        val refreshToken: String? = redisUtil.getValues(email)
-
-        if (refreshToken.isNullOrEmpty()) {
-            throw ApplicationException(ALREADY_LOGOUT)
-        }
-        if (refreshToken != tokenDto.refreshToken) {
-            throw ApplicationException(DONT_MATCH_WITH_TOKEN)
-        }
         val user = userRepository.findByEmail(email)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
-
-        val updateTokenResponse = tokenProvider.createTokenResponse(user)
-        redisUtil.setValues(user.email, updateTokenResponse.refreshToken)
-
-        return updateTokenResponse
+        return tokenProvider.createTokenResponse(user)
     }
 
-    override fun logout(email: String) {
-        redisUtil.deleteValues(email)
+    override fun logout(token: String) {
+        redisUtil.deleteValues(token)
     }
 
     @Transactional
@@ -139,10 +122,15 @@ class UserServiceImpl (
         user.updatePassword(encodePassword)
     }
 
+    @Transactional
+    override fun withdrawal(user: User) {
+        user.withdrawalUser()
+    }
+
     private fun createCode(): String {
         val random: Random = Random()
 
-        return String.format("%06d", random.nextInt(1000000))
+        return String.format("%04d", random.nextInt(10000))
     }
 
     private fun encodePassword(password: String): String {

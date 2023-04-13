@@ -467,16 +467,82 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response">Response</h5>
+<h5 id="_response_success">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
 {
   "code" : "SUCCESS",
   "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 80
+
+{
+  "code" : "C0002",
+  "message" : "이메일 형식에 맞지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "비밀번호 형식에 맞지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 80
+
+{
+  "code" : "C0002",
+  "message" : "닉네임 형식에 맞지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "전화번호 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -502,20 +568,86 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_2">Response</h5>
+<h5 id="_response_success_2">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODE3NTA1NzZ9.EDQQFOay1xDZxTOgtoWWkTjymT-JgIBodYBeS1uvu0rJbFmy7iSz0C0KHh3fVFnBkwjVvE0jt5WM6v-IEjWeTw; Path=/; Domain=localhost; Max-Age=604800; Expires=Mon, 17 Apr 2023 16:56:16 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
-Content-Length: 489
+Content-Length: 280
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDIsImF1dGgiOiJVU0VSIn0.UgX8jIr7Lq4yazxr48yUz6W6bmVxP0aXHxysqFc_ZCCSIBJjiPA0oR6tGLGKmPLyPKUFQB841U2yuTteeUvjwg",
-    "refresh_token" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk4MjQ4NDIsImF1dGgiOiJVU0VSIn0.6nbxpqHU6cTY-jFVPaJV_ZY1VkZ3wZ7b4GR10jDCe_bizBc5Du3Y5ov9KYNUyevweX1cYOtWgBq59FuQsUxmLg"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzYsImF1dGgiOiJVU0VSIn0.fc5sLmDq-jRcMC9CM9TWNEoLZ8Gg3pTb32iXf3lnJQKK5aD7pgJ-uOmw9KMxctA89IB_5Q7KEpJneWnFhu9LgA"
   }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_2">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 79
+
+{
+  "code" : "U0001",
+  "message" : "존재하지 않는 이메일입니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 82
+
+{
+  "code" : "U0002",
+  "message" : "비밀번호가 일치하지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 80
+
+{
+  "code" : "C0002",
+  "message" : "이메일 형식에 맞지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "비밀번호 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -530,30 +662,33 @@ Content-Length: 489
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/reissue HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 422
+Content-Length: 215
 Host: localhost:8080
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzcsImF1dGgiOiJVU0VSIn0.AX1lV14X_SixXA4EI8kBk6Xfb6_XJRkZiCWFh_sB5lGKiaCDi1yj4IIqxcy88dz19sME-qJR7_o_O1bobfZ8SQ
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDMsImF1dGgiOiJVU0VSIn0.tMa_jpBg7a8G4G1hRatzVX_o5x_xGUHr-kmVUecXP1futUzUIgjehGRslB6pBlhKs483UEhFc59mAqH53fP1og",
-  "refresh_token" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk4MjQ4NDMsImF1dGgiOiJVU0VSIn0.QoXntTSnI0-u9ToYSw9zvl8JHKe1-WSNHDAkh9fXu_u47tRBzCA7_5P-OrnhbH2Wjuhnl_hhvGbNDSSkgzlttQ"
+  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzcsImF1dGgiOiJVU0VSIn0.AX1lV14X_SixXA4EI8kBk6Xfb6_XJRkZiCWFh_sB5lGKiaCDi1yj4IIqxcy88dz19sME-qJR7_o_O1bobfZ8SQ"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_3">Response</h5>
+<h5 id="_response_success_3">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODE3NTA1Nzd9.sLkCRBUZ3ntSy30zF3bEwzZEvQb5Mwyq6OGyD1qffcxxRKZm5s9c6DujivqlZWnZyugweMHYM7-5prXdGho43w; Path=/; Domain=localhost; Max-Age=604800; Expires=Mon, 17 Apr 2023 16:56:17 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
-Content-Length: 489
+Content-Length: 280
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDMsImF1dGgiOiJVU0VSIn0.tMa_jpBg7a8G4G1hRatzVX_o5x_xGUHr-kmVUecXP1futUzUIgjehGRslB6pBlhKs483UEhFc59mAqH53fP1og",
-    "refresh_token" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2Nzk4MjQ4NDMsImF1dGgiOiJVU0VSIn0.QoXntTSnI0-u9ToYSw9zvl8JHKe1-WSNHDAkh9fXu_u47tRBzCA7_5P-OrnhbH2Wjuhnl_hhvGbNDSSkgzlttQ"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzcsImF1dGgiOiJVU0VSIn0.AX1lV14X_SixXA4EI8kBk6Xfb6_XJRkZiCWFh_sB5lGKiaCDi1yj4IIqxcy88dz19sME-qJR7_o_O1bobfZ8SQ"
   }
 }</code></pre>
 </div>
@@ -567,17 +702,21 @@ Content-Length: 489
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDEsImF1dGgiOiJVU0VSIn0.7GsAh23yB8-XOe2jN6E6_D4w-OAS8g86gO-Uk0jdYXEMFeDU4OivsEt7ratIWxYY0SiY79gs-xrpYV2zeXtbCg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzYsImF1dGgiOiJVU0VSIn0.fc5sLmDq-jRcMC9CM9TWNEoLZ8Gg3pTb32iXf3lnJQKK5aD7pgJ-uOmw9KMxctA89IB_5Q7KEpJneWnFhu9LgA
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_4">Response</h5>
+<h5 id="_response">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODE3NTA1NzZ9.EDQQFOay1xDZxTOgtoWWkTjymT-JgIBodYBeS1uvu0rJbFmy7iSz0C0KHh3fVFnBkwjVvE0jt5WM6v-IEjWeTw; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
@@ -608,10 +747,13 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_5">Response</h5>
+<h5 id="_response_success_4">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 65
 
@@ -619,6 +761,24 @@ Content-Length: 65
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_3">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 80
+
+{
+  "code" : "C0002",
+  "message" : "이메일 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -643,10 +803,13 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_6">Response</h5>
+<h5 id="_response_success_5">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 65
 
@@ -654,6 +817,24 @@ Content-Length: 65
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_4">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 80
+
+{
+  "code" : "C0002",
+  "message" : "닉네임 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -678,16 +859,52 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_7">Response</h5>
+<h5 id="_response_success_6">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
 {
   "code" : "SUCCESS",
   "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_5">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "전화번호 형식에 맞지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 79
+
+{
+  "code" : "U0000",
+  "message" : "이미 가입된 전화번호입니다."
 }</code></pre>
 </div>
 </div>
@@ -702,21 +919,24 @@ Content-Length: 48
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/check/sms HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 54
+Content-Length: 52
 Host: localhost:8080
 
 {
   "phone_num" : "01011111111",
-  "code" : "359821"
+  "code" : "2307"
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_8">Response</h5>
+<h5 id="_response_success_7">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 65
 
@@ -724,6 +944,39 @@ Content-Length: 65
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : true
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_6">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "전화번호 형식에 맞지 않습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "인증번호 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -737,7 +990,7 @@ Content-Length: 65
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/nick-name HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDIsImF1dGgiOiJVU0VSIn0.UgX8jIr7Lq4yazxr48yUz6W6bmVxP0aXHxysqFc_ZCCSIBJjiPA0oR6tGLGKmPLyPKUFQB841U2yuTteeUvjwg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzcsImF1dGgiOiJVU0VSIn0.AX1lV14X_SixXA4EI8kBk6Xfb6_XJRkZiCWFh_sB5lGKiaCDi1yj4IIqxcy88dz19sME-qJR7_o_O1bobfZ8SQ
 Accept: application/json
 Content-Length: 30
 Host: localhost:8080
@@ -749,16 +1002,52 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_9">Response</h5>
+<h5 id="_response_success_8">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
 {
   "code" : "SUCCESS",
   "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_7">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 79
+
+{
+  "code" : "U0005",
+  "message" : "이미 존재하는 닉네임입니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 80
+
+{
+  "code" : "C0002",
+  "message" : "닉네임 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -772,7 +1061,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDMsImF1dGgiOiJVU0VSIn0.tMa_jpBg7a8G4G1hRatzVX_o5x_xGUHr-kmVUecXP1futUzUIgjehGRslB6pBlhKs483UEhFc59mAqH53fP1og
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzksImF1dGgiOiJVU0VSIn0.XWZEA76MKhklDbuOpO-JcVsRiOdG_KMPbCBE1wq_RQLHCwWAW48jeH4rlh_nFhsN84-mbmzCQAnerOHK4vRSQQ
 Accept: application/json
 Content-Length: 32
 Host: localhost:8080
@@ -784,16 +1073,52 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_10">Response</h5>
+<h5 id="_response_success_9">Response - Success</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
 {
   "code" : "SUCCESS",
   "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_fail_8">Response - Fail</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 69
+
+{
+  "code" : "U0006",
+  "message" : "비밀번호가 같습니다."
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 83
+
+{
+  "code" : "C0002",
+  "message" : "비밀번호 형식에 맞지 않습니다."
 }</code></pre>
 </div>
 </div>
@@ -806,25 +1131,28 @@ Content-Length: 48
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2NzkyMjE4NDIsImF1dGgiOiJVU0VSIn0.UgX8jIr7Lq4yazxr48yUz6W6bmVxP0aXHxysqFc_ZCCSIBJjiPA0oR6tGLGKmPLyPKUFQB841U2yuTteeUvjwg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzYsImF1dGgiOiJVU0VSIn0.fc5sLmDq-jRcMC9CM9TWNEoLZ8Gg3pTb32iXf3lnJQKK5aD7pgJ-uOmw9KMxctA89IB_5Q7KEpJneWnFhu9LgA
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_11">Response</h5>
+<h5 id="_response_2">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 230
+Content-Length: 231
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "id" : 744,
+    "id" : 3922,
     "email" : "test_jhouse_com",
     "nick_name" : "테스트유저1",
     "phone_num" : "01011111111",
@@ -836,13 +1164,45 @@ Content-Length: 230
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_12_유저_탈퇴">12. 유저 탈퇴</h3>
+<div class="sect4">
+<h5 id="_request_12">Request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/withdrawal HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODExNDc1NzUsImF1dGgiOiJVU0VSIn0.CFUeLPVAIyng_tvYwV2xgz2vWDUWBELboD64JvaP9-jCgE4k0H_olspYxjGwzOdsiQoW5SrEG1189zKcn0raiA
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_3">Response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 48
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-03-19 05:10:22 +0900
+Last updated 2023-04-11 00:20:20 +0900
 </div>
 </div>
 </body>

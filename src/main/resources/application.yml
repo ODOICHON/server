@@ -30,6 +30,9 @@ spring:
   mvc:
     path match:
       matching-strategy: ant_path_matcher
+    view:
+      prefix: /templates/
+      suffix: .html
 
   jwt:
     key: ENC(QN9igaTGD9IR2xKYJsA4sUc5a6rvaOdgN7IU1LtrazB51S1oGXb/z7JlDfOg325iIQGsNb7yFZX6oT2wW4+C9Swza7yvorcnwtrGExIVgrlq65Al/+egt2fAkHI79YNoWYRwPI4Br0o=)
@@ -44,6 +47,11 @@ aes:
   secret:
     key: ENC(+D1OqctErx4y5y6alEDE+KonIVum/jYCZ7hnMoeJinlljjvGVte0lXjx6h/qI6+H)
     alg: ENC(4EeK8heADvYLa0YJKYym/WkRLZjoea20neyqxvzPLiw=)
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
 
 #—
 #spring:

@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
 data class UserSignUpReqDto(
-        @field:Pattern(regexp = "^[a-zA-Z_0-9]{4,20}", message = "이메일 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[A-Za-z])[A-Za-z_0-9]{4,20}\$", message = "이메일 형식에 맞지 않습니다.")
         val email: String,
-        @field:Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
         val password: String,
-        @field:Pattern(regexp = "^[a-zA-Z0-9가-힣]{1,20}", message = "닉네임 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[a-zA-Z0-9가-힣])[A-Za-z0-9가-힣]{1,20}\$", message = "닉네임 형식에 맞지 않습니다.")
         @JsonProperty("nick_name") val nickName: String,
         @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}", message = "전화번호 형식에 맞지 않습니다.")
         @JsonProperty("phone_num") val phoneNum: String,
@@ -21,36 +21,36 @@ data class UserSignUpReqDto(
 )
 
 data class UserSignInReqDto(
-        @field:Pattern(regexp = "^[a-zA-Z_0-9]{4,20}", message = "이메일 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[A-Za-z])[A-Za-z_0-9]{4,20}\$", message = "이메일 형식에 맞지 않습니다.")
         val email: String,
-        @field:Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
         val password: String
 )
 
 data class CheckSmsReqDto(
         @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}", message = "전화번호 형식에 맞지 않습니다.")
         @JsonProperty("phone_num") val phoneNum: String,
-        @field:Pattern(regexp = "^[0-9]{6}", message = "인증번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^[0-9]{4}", message = "인증번호 형식에 맞지 않습니다.")
         val code: String
 )
 
 data class EmailReqDto(
-        @field:Pattern(regexp = "^[a-zA-Z_0-9]{4,20}", message = "이메일 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[A-Za-z])[A-Za-z_0-9]{4,20}\$", message = "이메일 형식에 맞지 않습니다.")
         val email: String
 )
 
 data class PhoneNumReqDto(
-        @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}", message = "전화번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}$", message = "전화번호 형식에 맞지 않습니다.")
         @JsonProperty("phone_num") val phoneNum: String
 )
 
 data class NickNameReqDto(
-        @field:Pattern(regexp = "^[a-zA-Z0-9가-힣]{1,20}", message = "닉네임 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[a-zA-Z0-9가-힣])[A-Za-z0-9가-힣]{1,20}\$", message = "닉네임 형식에 맞지 않습니다.")
         @JsonProperty("nick_name") val nickName: String
 )
 
 data class PasswordReqDto(
-        @field:Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
         val password: String
 )
 
@@ -61,6 +61,10 @@ data class UserResDto(
         @JsonProperty("phone_num") val phoneNum: String,
         val authority: Authority,
         val age: Age
+)
+
+data class WithdrawalUser (
+        val nickname: String = "탈퇴한 회원"
 )
 
 fun toDto(user: User) : UserResDto {

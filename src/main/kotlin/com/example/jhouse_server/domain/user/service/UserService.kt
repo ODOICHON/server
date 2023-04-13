@@ -22,11 +22,13 @@ interface UserService {
 
     fun signIn(userSignInReqDto: UserSignInReqDto): TokenDto
 
-    fun reissue(tokenDto: TokenDto): TokenDto
+    fun reissue(accessToken: String, refreshToken: String): TokenDto
 
-    fun logout(email: String)
+    fun logout(token: String)
 
     fun updateNickName(user: User, nickName: String)
 
     fun updatePassword(user: User, password: String)
+
+    fun withdrawal(user: User)
 }
