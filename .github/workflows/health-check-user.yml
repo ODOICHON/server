@@ -1,8 +1,8 @@
 name: "[운영] 헬스체크"
 
 on:
-  schedule:
-    - cron: "* * * * *"
+  push:
+    branches: [ chore/infra ]
   workflow_dispatch:
 
 jobs:
