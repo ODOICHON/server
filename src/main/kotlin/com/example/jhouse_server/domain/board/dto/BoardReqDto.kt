@@ -4,8 +4,6 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import java.sql.Timestamp
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.Date
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
