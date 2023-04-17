@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.comment.dto
 
 import com.example.jhouse_server.domain.comment.entity.Comment
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.validation.constraints.NotNull
 
@@ -8,7 +9,7 @@ data class CommentResDto(
     val commentId : Long,
     val nickName: String,
     val content: String,
-    val createdAt: String,
+    val createdAt: LocalDate,
 )
 
 data class CommentReqDto(
@@ -30,7 +31,6 @@ fun toDto(comment: Comment): CommentResDto {
         comment.id,
         comment.user.nickName,
         comment.content,
-        comment.createdAt
-            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+        comment.createdAt.toLocalDate(),
     )
 }
