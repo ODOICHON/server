@@ -3,8 +3,10 @@ package com.example.jhouse_server.domain.board
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
+import java.sql.Timestamp
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Date
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
 
@@ -27,7 +29,7 @@ data class BoardResDto(
     val code: String,
     val oneLineContent: String,
     val nickName: String,
-    val createdAt : String,
+    val createdAt : Date,
     val imageUrl : String,
     val commentCount : Int,
     val category: String,
@@ -52,7 +54,7 @@ data class BoardResOneDto(
     val title : String,
     val code: String,
     val nickName: String,
-    val createdAt : String,
+    val createdAt : Date,
     val imageUrls: List<String>,
     val loveCount : Int,
     val category: String,
@@ -63,12 +65,11 @@ data class BoardResOneDto(
 
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = if(board.content.length >= 50) board.content.substring(0 until 50) else board.content// 50자 슬라이싱
-    return BoardResDto(board.id, board.title, board.code, oneLineContent, board.user.nickName, board.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
+    return BoardResDto(board.id, board.title, board.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
 }
 
 fun toDto(board: Board) : BoardResOneDto {
-    return BoardResOneDto(board.id, board.title, board.code, board.user.nickName, board.createdAt.format(
-        DateTimeFormatter.ofPattern("yyyy-MM-dd")), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
+    return BoardResOneDto(board.id, board.title, board.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
 }
 
 data class CodeResDto(
