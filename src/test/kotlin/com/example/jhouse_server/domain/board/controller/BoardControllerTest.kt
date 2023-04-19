@@ -372,4 +372,28 @@ internal class BoardControllerTest @Autowired constructor(
 //                )
 //            )
 //    }
+
+    @Test
+    @DisplayName("게시글 검색")
+    fun getBoardAllWithKeyword() {
+        val uri = "$uri/category/search?name=INTRO&keyword=짱구"
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "board-search",
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *pageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
 }
