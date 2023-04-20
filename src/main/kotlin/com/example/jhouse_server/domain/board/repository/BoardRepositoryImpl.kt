@@ -30,7 +30,7 @@ class BoardRepositoryImpl(
                 .selectFrom(board)
                 .where(searchFilter(adminBoardSearch))
 
-        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetchCount()!!}
+        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
     }
 
     override fun getBoardAllWithKeyword(name: PrefixCategory, keyword: String, pageable: Pageable): Page<Board> {
