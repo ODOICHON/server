@@ -52,7 +52,7 @@ class WebConfig (
 
         registry.addInterceptor(httpInterceptor)
                 .order(3)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/admin/**", "/css/**", "/error", "/api/v1/users/send/sms")
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/v1/users/send/sms")
     }
 }

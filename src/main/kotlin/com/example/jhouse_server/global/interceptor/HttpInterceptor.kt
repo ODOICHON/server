@@ -24,12 +24,12 @@ class HttpInterceptor(
     ): Boolean {
         val bucket: Bucket = rateLimitService.resolveHttpBucket(request)
         log.info("=========== Before Method ===========")
-        log.info("접속 ip 주소 : {}", getClientIp(request))
+        log.info("접속 ip 주소 : {}", rateLimitService.getClientIp(request))
 
         return if(bucket.tryConsume(1)) {
             true
         } else {
-            log.info("트래픽 초과, 접속 ip 주소 : {}", getClientIp(request))
+            log.info("트래픽 초과, 접속 ip 주소 : {}", rateLimitService.getClientIp(request))
             throw ApplicationException(ErrorCode.TIME_OUT_EXCEPTION)
         }
     }
@@ -50,31 +50,5 @@ class HttpInterceptor(
         ex: Exception?
     ) {
         log.info("=========== Method Completed ===========")
-    }
-
-    private fun getClientIp(request: HttpServletRequest): String {
-        var ip = request.getHeader("X-Forwarded-For")
-
-        if (ip == null || ip.isEmpty()) {
-            ip = request.getHeader("Proxy-Client-IP")
-        }
-
-        if (ip == null || ip.isEmpty()) {
-            ip = request.getHeader("WL-Proxy-Client-IP")
-        }
-
-        if (ip == null || ip.isEmpty()) {
-            ip = request.getHeader("HTTP_CLIENT_IP")
-        }
-
-        if (ip == null || ip.isEmpty()) {
-            ip = request.getHeader("HTTP_X_FORWARDED_FOR")
-        }
-
-        if (ip == null || ip.isEmpty()) {
-            ip = request.remoteAddr
-        }
-
-        return ip!!
     }
 }
