@@ -128,7 +128,7 @@ tasks.jacocoTestReport {
         xml.required.set(true)
         csv.required.set(true)
         html.required.set(true)
-        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+        html.outputLocation.set(layout.buildDirectory.dir("reports/jhouse-report.html"))
     }
 
     var excludes = mutableListOf<String>()
