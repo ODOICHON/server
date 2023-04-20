@@ -1,6 +1,8 @@
 package com.example.jhouse_server.global.config
 
 import com.example.jhouse_server.admin.user.interceptor.LoginCheckInterceptor
+import com.example.jhouse_server.global.interceptor.HttpInterceptor
+import com.example.jhouse_server.global.interceptor.SmsInterceptor
 import com.example.jhouse_server.global.resolver.AuthUserResolver
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -12,7 +14,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 @Configuration
 //@EnableWebMvc
 class WebConfig (
-        val authUserResolver: AuthUserResolver
+        val authUserResolver: AuthUserResolver,
+        val httpInterceptor: HttpInterceptor,
+        val smsInterceptor: SmsInterceptor
 ): WebMvcConfigurer {
 
     override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
@@ -41,5 +45,14 @@ class WebConfig (
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/api/**", "/admin", "/css/**", "/error")
+
+        registry.addInterceptor(smsInterceptor)
+                .order(2)
+                .addPathPatterns("/api/v1/users/send/sms")
+
+        registry.addInterceptor(httpInterceptor)
+                .order(3)
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/v1/users/send/sms")
     }
 }

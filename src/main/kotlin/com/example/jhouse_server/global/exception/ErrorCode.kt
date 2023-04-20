@@ -12,6 +12,7 @@ enum class ErrorCode(
     NOT_FOUND_EXCEPTION(HttpStatus.NOT_FOUND, "C0001", "존재하지 않는 리소스 요청입니다."),
     INVALID_VALUE_EXCEPTION(HttpStatus.BAD_REQUEST, "C0002", "올바르지 않은 요청 값입니다."),
     UNAUTHORIZED_EXCEPTION(HttpStatus.UNAUTHORIZED, "C0003", "해당 요청에 대한 권한이 없습니다."),
+    TIME_OUT_EXCEPTION(HttpStatus.BAD_REQUEST, "C0004", "트래픽이 초과되었으므로 잠시 후에 다시 요청해주세요."),
 
     // Jwt
     UNAUTHORIZED_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "J0000", "권한 정보가 없는 토큰입니다."),
