@@ -95,7 +95,7 @@ val snippetsDir by extra { file("build/generated-snippets")}
 tasks {
     test {
         extensions.configure(JacocoTaskExtension::class) {
-            destinationFile = file("$buildDir/jacoco/jacoco.exec")
+            val destinationFile = file("$buildDir/jacoco/jacoco.exec")
         }
         finalizedBy(jacocoTestReport)
 
@@ -120,14 +120,15 @@ tasks {
 
 jacoco {
     toolVersion = "0.8.7"
+    reportsDirectory.set(layout.buildDirectory.dir("customJacocoReportDir"))
 }
 
 tasks.jacocoTestReport {
     reports {
-        html.isEnabled = true
-        html.destination = file("$buildDir/reports/jhouse-report.html")
-        csv.isEnabled = true
-        xml.isEnabled = true
+        xml.required.set(true)
+        csv.required.set(true)
+        html.required.set(true)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
 
     var excludes = mutableListOf<String>()
