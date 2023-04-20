@@ -76,4 +76,13 @@ class BoardController(
     ) : ApplicationResponse<List<CodeResDto>> {
         return ApplicationResponse.ok(boardService.getCategory(name))
     }
+
+    @GetMapping("/category/search")
+    fun getBoardAllWithKeyword(
+        @RequestParam name : String,
+        @RequestParam keyword : String,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<BoardResDto>> {
+        return ApplicationResponse.ok(boardService.getBoardAllWithKeyword(name, keyword, pageable));
+    }
 }

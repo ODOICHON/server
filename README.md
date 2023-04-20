@@ -42,6 +42,7 @@
 - [댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/comment.html)
 - [JWT 예외처리](https://odoichon.github.io/server/src/main/resources/static/docs/jwt.html)
 - [좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
+- [ErrorCode 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/error.html)
 <br/>
 
 ### 회고 및 문서화

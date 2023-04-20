@@ -47,3 +47,9 @@ include::{snippets}/board-delete/http-response.adoc[]
 include::{snippets}/board-category/http-request.adoc[]
 ===== Response
 include::{snippets}/board-category/http-response.adoc[]
+
+==== 9. 게시글 검색
+===== Request
+include::{snippets}/board-search/http-request.adoc[]
+===== Response
+include::{snippets}/board-search/http-response.adoc[]
