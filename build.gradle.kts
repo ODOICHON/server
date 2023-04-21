@@ -71,7 +71,8 @@ dependencies {
     testImplementation("org.springframework.restdocs:spring-restdocs-asciidoctor")
     // Thymeleaf
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-
+    // Bucket4j
+    implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0")
 }
 
 tasks.withType<KotlinCompile> {

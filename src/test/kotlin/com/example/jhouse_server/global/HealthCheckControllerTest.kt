@@ -1,6 +1,9 @@
 package com.example.jhouse_server.global
 
 import com.example.jhouse_server.domain.user.repository.UserRepository
+import com.example.jhouse_server.global.config.WebConfig
+import com.example.jhouse_server.global.interceptor.HttpInterceptor
+import com.example.jhouse_server.global.interceptor.SmsInterceptor
 import com.example.jhouse_server.global.jwt.TokenProvider
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -18,7 +21,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureRestDocs
 class HealthCheckControllerTest @Autowired constructor (
         @MockBean private val userRepository: UserRepository,
-        @MockBean private val tokenProvider: TokenProvider
+        @MockBean private val tokenProvider: TokenProvider,
+        @MockBean private val webConfig: WebConfig,
+        @MockBean private val httpInterceptor: HttpInterceptor,
+        @MockBean private val smsInterceptor: SmsInterceptor
 ) {
 
     @Autowired
