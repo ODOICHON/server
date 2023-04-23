@@ -3,6 +3,8 @@ package com.example.jhouse_server.domain.board.service
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
+import com.example.jhouse_server.domain.board.entity.BoardCode
+import com.example.jhouse_server.domain.board.repository.BoardCodeRepository
 import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
@@ -20,15 +22,17 @@ import java.util.regex.Pattern
 @Service
 @Transactional(readOnly = true)
 class BoardServiceImpl(
-    val boardRepository: BoardRepository
+    val boardRepository: BoardRepository,
+    val boardCodeRepository: BoardCodeRepository
 ): BoardService {
 
     @Transactional
     override fun createBoard(req: BoardReqDto, user: User): Long {
         val content = getContent(req.code!!)
         val fixed = if(req.prefixCategory == PrefixCategory.ADVERTISEMENT) req.fixed!! else false
+        val code = boardCodeRepository.save(BoardCode(req.code))
         val board = Board(
-            req.title!!, req.code, content, req.category!!, req.imageUrls, user, req.prefixCategory!!, fixed
+            req.title!!, content, req.category!!, req.imageUrls, user, req.prefixCategory!!, fixed, code
         )
         return boardRepository.save(board).id
     }
@@ -38,9 +42,11 @@ class BoardServiceImpl(
         val board = boardRepository.findByIdOrThrow(boardId)
         if (user != board.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         val content = getContent(req.code!!)
+        var code = boardCodeRepository.findByIdOrThrow(board.boardCode.id)
+        code.updateEntity(req.code)
         return board.updateEntity(
             req.title!!,
-            req.code,
+            code,
             content,
             req.category!!,
             req.imageUrls,

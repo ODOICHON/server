@@ -24,7 +24,7 @@ sonarqube {
         property("sonar.test.inclusions", "**/*Test.kt")
         property("sonar.exclusions", "**/test/**, **/resources/**, **/docs/**, **/*Application*.kt, **/global/**, **/dto/**, **/*Exception*.kt, **/*ErrorCode*.kt, **/*Category*.kt, **/admin/**, **/*RepositoryImpl.kt" )
         property("sonar.java.coveragePlugin", "jacoco")
-        property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/html/jacocoTestReport.xml")
+        property("sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/customJacocoReportDir/test/jacocoTestReport.xml")
     }
 }
 

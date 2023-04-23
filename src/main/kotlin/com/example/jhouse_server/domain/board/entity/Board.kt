@@ -18,10 +18,11 @@ import javax.persistence.*
 )
 class Board(
     var title: String,
-    var code: String,
+    @Column(length = Int.MAX_VALUE)
     var content : String,
     @Convert(converter = BoardCategoryConverter::class)
     var category : BoardCategory,
+    @Column(length = Int.MAX_VALUE)
     @Convert(converter = BoardImageUrlConverter::class) // 이미지 url ","로 슬라이싱
     var imageUrls : List<String>,
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,9 +31,11 @@ class Board(
     @Convert(converter = PrefixCategoryConverter::class)
     var prefixCategory : PrefixCategory,
     var fixed : Boolean = false,
+    @OneToOne @JoinColumn(name = "id")
+    var boardCode: BoardCode,
     @LastModifiedDate
     @Column(updatable = true)
-    var fixedAt : LocalDateTime? = null,
+    var fixedAt : LocalDateTime = LocalDateTime.now(),
     var useYn : Boolean = true,
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
     var love : MutableList<Love> = mutableListOf(),
@@ -44,14 +47,14 @@ class Board(
 
     fun updateEntity(
         title: String,
-        code: String,
+        code: BoardCode,
         content: String,
         category: String,
         imageUrls: List<String>,
         prefixCategory: String
     ) : Board {
         this.title = title
-        this.code = code
+        this.boardCode = code
         this.content = content
         this.category = BoardCategory.values().firstOrNull { it.name == category }
             ?: throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
