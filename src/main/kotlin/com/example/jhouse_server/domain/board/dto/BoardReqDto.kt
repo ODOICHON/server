@@ -63,11 +63,11 @@ data class BoardResOneDto(
 
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = if(board.content.length >= 50) board.content.substring(0 until 50) else board.content// 50자 슬라이싱
-    return BoardResDto(board.id, board.title, board.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
+    return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
 }
 
 fun toDto(board: Board) : BoardResOneDto {
-    return BoardResOneDto(board.id, board.title, board.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
+    return BoardResOneDto(board.id, board.title, board.boardCode.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
 }
 
 data class CodeResDto(
