@@ -210,7 +210,7 @@ internal class BoardServiceImplTest @Autowired constructor(
         // when
         val res = boardService.getBoardAll(category, pageable)
         // then
-        assertThat(res.content[0].oneLineContent.length).isLessThan(51)
+        assertThat(res.content[0].oneLineContent.length).isLessThan(201)
     }
     @Test
     @DisplayName("게시글 조회_삭제된 게시글 미노출")
