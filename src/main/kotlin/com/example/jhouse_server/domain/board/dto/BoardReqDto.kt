@@ -4,7 +4,9 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import java.sql.Timestamp
-import java.util.Date
+import java.util.*
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
 
@@ -62,12 +64,17 @@ data class BoardResOneDto(
 )
 
 fun toListDto(board : Board) : BoardResDto {
-    val oneLineContent = if(board.content.length >= 50) board.content.substring(0 until 50) else board.content// 50자 슬라이싱
+    val oneLineContent = sliceContentWithRegex(board.content)
     return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
 }
 
 fun toDto(board: Board) : BoardResOneDto {
     return BoardResOneDto(board.id, board.title, board.boardCode.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
+}
+fun sliceContentWithRegex(content : String) : String {
+    val pattern = Regex("^[a-zA-Z가-힣].*[.!?]$")
+    val validatedString = pattern.find(content)?.value ?: ""
+    return validatedString.take(200)
 }
 
 data class CodeResDto(
