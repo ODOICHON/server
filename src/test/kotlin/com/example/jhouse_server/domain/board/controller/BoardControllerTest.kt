@@ -344,34 +344,6 @@ internal class BoardControllerTest @Autowired constructor(
             )
     }
 
-//    @Test
-//    @DisplayName("게시글 상단 고정")
-//    fun fixBoard() {
-//        val uri = "$uri/fix/{boardId}"
-//        val boardId = board
-//        val resultActions = mockMvc.perform(
-//            RestDocumentationRequestBuilders
-//                .put(uri, boardId)
-//                .header(AUTHORIZATION, tokenDto.accessToken)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .characterEncoding("UTF-8")
-//        )
-//        resultActions
-//            .andExpect(status().isOk)
-//            .andDo(print())
-//            .andDo(
-//                document(
-//                    "board-fix",
-//                    requestFields(*createRequestFieldSnippet()),
-//                    responseFields(
-//                        fieldWithPath("code").description("결과 코드"),
-//                        fieldWithPath("message").description("결과 메세지"),
-//                        fieldWithPath("data").description("결과 데이터")
-//                    )
-//                )
-//            )
-//    }
 
     @Test
     @DisplayName("게시글 검색")
