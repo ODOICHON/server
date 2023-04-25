@@ -5,5 +5,6 @@ import com.querydsl.core.annotations.QueryProjection
 
 data class AdminBoardResult @QueryProjection constructor(
         val category: BoardCategory,
-        val title: String
+        val title: String,
+        val id: Long
 )
