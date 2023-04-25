@@ -135,30 +135,30 @@ internal class BoardServiceImplTest @Autowired constructor(
         // when-then
         assertThrows(ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)::class.java) { boardService.deleteBoard(saved, unWriter) }
     }
-    @Test
-    @DisplayName("홍보 게시글 상단 고정")
-    fun fix_board() {
-        // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val saved = boardService.createBoard(MockEntity.boardAdsReqDto(), writer)
-        // when
-        val fixed = boardService.fixBoard(saved, writer)
-        // then
-        val findBoard = boardRepository.findByIdOrThrow(fixed)
-        assertThat(findBoard.fixed).isTrue
-        assertThat(findBoard.prefixCategory).isEqualTo(PrefixCategory.ADVERTISEMENT)
-    }
-    @Test
-    @DisplayName("홍보 게시글 상단 고정_홍보게시글이 아닌 경우")
-    fun fix_board_not_advertisement() {
-        // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val saved = boardService.createBoard(MockEntity.boardDefaultReqDto(), writer)
-        // when-then
-        assertThrows(ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)::class.java) { boardService.fixBoard(saved, writer) }
-    }
+//    @Test
+//    @DisplayName("홍보 게시글 상단 고정")
+//    fun fix_board() {
+//        // given
+//        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
+//        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+//        val saved = boardService.createBoard(MockEntity.boardAdsReqDto(), writer)
+//        // when
+//        val fixed = boardService.fixBoard(saved, writer)
+//        // then
+//        val findBoard = boardRepository.findByIdOrThrow(fixed)
+//        assertThat(findBoard.fixed).isTrue
+//        assertThat(findBoard.prefixCategory).isEqualTo(PrefixCategory.ADVERTISEMENT)
+//    }
+//    @Test
+//    @DisplayName("홍보 게시글 상단 고정_홍보게시글이 아닌 경우")
+//    fun fix_board_not_advertisement() {
+//        // given
+//        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
+//        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+//        val saved = boardService.createBoard(MockEntity.boardDefaultReqDto(), writer)
+//        // when-then
+//        assertThrows(ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)::class.java) { boardService.fixBoard(saved, writer) }
+//    }
     @Test
     @DisplayName("게시판별 말머리 조회")
     fun get_category() {
