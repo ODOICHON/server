@@ -63,6 +63,7 @@ class AdminBoardService(
         requestBoards?.forEach { b -> b.updateFixed(false) }
     }
 
+
     /*
     고정 탭에서의 게시물 조회 : useYn 여부 확인 필요
      */
@@ -73,6 +74,13 @@ class AdminBoardService(
         }
         redirectAttributes.addAttribute("not_found_board", "게시물을 찾을 수 없습니다")
         return null
+    }
+
+    fun getFixableBoardTotal(): Long{
+        return boardRepository.countByPrefixCategoryAndUseYn(ADVERTISEMENT, true)
+    }
+    fun getFixedBoardList(): List<Board>{
+        return boardRepository.findByFixedAndPrefixCategoryAndUseYn(true, ADVERTISEMENT, true)
     }
 
     /*
@@ -101,5 +109,10 @@ class AdminBoardService(
     fun deleteBoards(adminBoardDeleteList: AdminBoardDeleteList) {
         val requestBoards = adminBoardDeleteList.deleteBoardList?.let { boardRepository.findByIds(it) }
         requestBoards?.forEach { b -> boardRepository.delete(b) }
+    }
+
+
+    fun getDeletableBoardTotal(): Long {
+        return boardRepository.countByUseYn(false)
     }
 }
