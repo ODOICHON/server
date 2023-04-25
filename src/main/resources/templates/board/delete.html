@@ -94,7 +94,7 @@
             <!--            이전 버튼-->
             <li class="page-item" th:if="${pageCom gt 0}">
                 <a class="page-link"
-                   th:href="@{/admin/board/fix(filter=${param.filter}, keyword=${param.keyword}, page=((5 *${pageCom})-1))}">
+                   th:href="@{/admin/board/delete(filter=${param.filter}, keyword=${param.keyword}, page=((5 *${pageCom})-1))}">
                     이전</a>
             </li>
             <!--            데이터 존재 x 경우-->
@@ -105,26 +105,26 @@
             <li class="page-item" th:if="${boardList.totalPages gt 5*(pageCom + 1) and boardList.totalPages gt 0}"
                 th:each="num : ${#numbers.sequence(pageCom*5 + 1 , 5*(pageCom + 1))}">
                 <a class="page-link active" th:if="${num eq boardList.pageable.pageNumber+1}"
-                   th:href="@{/admin/board/fix(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+                   th:href="@{/admin/board/delete(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
                    th:text="${num}">num</a>
                 <a class="page-link" th:unless="${num eq boardList.pageable.pageNumber+1}"
-                   th:href="@{/admin/board/fix(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+                   th:href="@{/admin/board/delete(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
                    th:text="${num}">num</a>
             </li>
             <!--            마지막 페이지가 속해있는 경우-->
             <li class="page-item" th:if="${boardList.totalPages le 5*(pageCom + 1) and boardList.totalPages gt 0}"
                 th:each="num : ${#numbers.sequence(pageCom*5 + 1, boardList.totalPages)}">
                 <a class="page-link active" th:if="${num eq boardList.pageable.pageNumber+1}"
-                   th:href="@{/admin/board/fix(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+                   th:href="@{/admin/board/delete(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
                    th:text="${num}">num</a>
                 <a class="page-link" th:unless="${num eq boardList.pageable.pageNumber+1}"
-                   th:href="@{/admin/board/fix(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+                   th:href="@{/admin/board/delete(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
                    th:text="${num}">num</a>
             </li>
             <!--            다음 버튼-->
             <li class="page-item" th:if="${(boardList.totalPages / (5.0 *(pageCom+1))) gt 1}">
                 <a class="page-link"
-                   th:href="@{/admin/board/fix(filter=${param.filter}, keyword=${param.keyword}, page=(5 *(${pageCom}+1)))}">
+                   th:href="@{/admin/board/delete(filter=${param.filter}, keyword=${param.keyword}, page=(5 *(${pageCom}+1)))}">
                     다음</a>
             </li>
         </ul>
