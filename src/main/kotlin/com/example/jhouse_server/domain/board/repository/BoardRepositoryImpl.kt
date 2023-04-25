@@ -22,7 +22,7 @@ class BoardRepositoryImpl(
         val result = jpaQueryFactory
                 .selectFrom(board)
                 .where(searchFilter(adminBoardSearch), board.prefixCategory.eq(PrefixCategory.ADVERTISEMENT), board.useYn.eq(true))
-                .orderBy(board.fixed.desc())
+                .orderBy(board.fixed.desc(), board.id.asc())
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
                 .fetch()
@@ -38,6 +38,7 @@ class BoardRepositoryImpl(
         val result = jpaQueryFactory
                 .selectFrom(board)
                 .where(searchFilter(adminBoardSearch), board.useYn.eq(false))
+                .orderBy(board.id.asc())
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
                 .fetch()
