@@ -61,14 +61,14 @@ class BoardController(
         return ApplicationResponse.ok()
     }
 
-    @Auth(Authority.ADMIN)
-    @PutMapping("/fix/{boardId}")
-    fun fixBoard(
-        @PathVariable boardId: Long,
-        @AuthUser user: User
-    ) : ApplicationResponse<Long> {
-        return ApplicationResponse.ok(boardService.fixBoard(boardId, user))
-    }
+//    @Auth(Authority.ADMIN)
+//    @PutMapping("/fix/{boardId}")
+//    fun fixBoard(
+//        @PathVariable boardId: Long,
+//        @AuthUser user: User
+//    ) : ApplicationResponse<Long> {
+//        return ApplicationResponse.ok(boardService.fixBoard(boardId, user))
+//    }
 
     @GetMapping("/category")
     fun getCategory(

@@ -31,11 +31,11 @@ class Board(
     @Convert(converter = PrefixCategoryConverter::class)
     var prefixCategory : PrefixCategory,
     var fixed : Boolean = false,
-    @OneToOne @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL]) @JoinColumn(name = "board_code_id")
     var boardCode: BoardCode,
     @LastModifiedDate
     @Column(updatable = true)
-    var fixedAt : LocalDateTime = LocalDateTime.now(),
+    var fixedAt : LocalDateTime? = null,
     var useYn : Boolean = true,
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
     var love : MutableList<Love> = mutableListOf(),
@@ -63,11 +63,13 @@ class Board(
             ?: throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         return this
     }
-    fun updateFixed() : Board {
-        this.fixed = true
-        this.fixedAt = LocalDateTime.now()
-        return this
+    fun updateFixed(status: Boolean) {
+        this.fixed = status
+        if (status) this.fixedAt = LocalDateTime.now()
+        else this.fixedAt = null
     }
+
+
     fun addLove(love: Love) : Board{
         this.love.add(love)
         return this

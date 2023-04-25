@@ -74,13 +74,13 @@ class BoardServiceImpl(
         if(user == board.user || user.authority == Authority.ADMIN) board.deleteEntity()
         else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
-    @Transactional
-    override fun fixBoard(boardId: Long, user: User): Long {
-        val board = boardRepository.findByIdOrThrow(boardId)
-        return if(board.prefixCategory == PrefixCategory.ADVERTISEMENT) board.updateFixed().id
-        else throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
-
-    }
+//    @Transactional
+//    override fun fixBoard(boardId: Long, user: User): Long {
+//        val board = boardRepository.findByIdOrThrow(boardId)
+//        return if(board.prefixCategory == PrefixCategory.ADVERTISEMENT) board.updateFixed().id
+//        else throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+//
+//    }
 
     override fun getCategory(name: String): List<CodeResDto> {
         return BoardCategory.values().filter { it.superCategory.name == name }.map { CodeResDto(it.value, it.name) }
