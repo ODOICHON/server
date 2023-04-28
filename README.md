@@ -94,7 +94,8 @@
 ### 핵심 기능 ( 기능 개발 중 )
 **반응형 웹 화면**  
 <img width="1470" alt="스크린샷 2023-04-25 오후 5 03 44" src="https://user-images.githubusercontent.com/80155336/235109603-fbd9d512-f47d-4edb-bf78-e99603ed426d.png">  
-<img width="585" alt="스크린샷 2023-04-28 오후 6 19 02" src="https://user-images.githubusercontent.com/80155336/235109660-e571783e-d93f-47f4-9c51-a55753fe6a42.png">
+<img width="578" alt="스크린샷 2023-04-28 오후 6 25 04" src="https://user-images.githubusercontent.com/80155336/235110024-628d77cf-12ec-4919-a309-9848885698d1.png">
+
 
 
 
