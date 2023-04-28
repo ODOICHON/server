@@ -94,17 +94,10 @@
 ### 핵심 기능 ( 기능 개발 중 )
 **반응형 웹 화면**  
 <img width="1470" alt="스크린샷 2023-04-25 오후 5 03 44" src="https://user-images.githubusercontent.com/80155336/235109603-fbd9d512-f47d-4edb-bf78-e99603ed426d.png">  
-<img width="578" alt="스크린샷 2023-04-28 오후 6 25 04" src="https://user-images.githubusercontent.com/80155336/235110024-628d77cf-12ec-4919-a309-9848885698d1.png">
-
-
-
-
-
-
-[백오피스 중 관리자 메인 화면]
-
-Bootstrap을 이용하여 모바일 기기로 접속은 물론 모니터 화면에서도 문제없이 동작하는 반응형 웹으로 구현하였습니다.
-
+<img width="578" alt="스크린샷 2023-04-28 오후 6 25 04" src="https://user-images.githubusercontent.com/80155336/235110024-628d77cf-12ec-4919-a309-9848885698d1.png">  
+[백오피스 중 관리자 메인 화면]  
+Bootstrap을 이용하여 모바일 기기로 접속은 물론 모니터 화면에서도 문제없이 동작하는 반응형 웹으로 구현하였습니다.  
+<br>
 **로컬 로그인**
 로컬 로그인 구현을 위해 Spring Security가 아닌 ArgumentResolver와 AOP를 커스터마이징하여 구현하였습니다.
 
