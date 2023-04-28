@@ -92,9 +92,13 @@
 리펙토링 과정은 [리프레시 토큰 저장방식 변경](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%86%A0%ED%81%B0-%EC%A0%80%EC%9E%A5%EB%B0%A9%EC%8B%9D-%EB%B3%80%EA%B2%BD)에서 자세히 확인할 수 있습니다.
 
 ### 핵심 기능 ( 기능 개발 중 )
-**반응형 웹 화면**
-![img.png](img/img.png)
-![img_1.png](img/img_1.png)
+**반응형 웹 화면**  
+<img width="1470" alt="스크린샷 2023-04-25 오후 5 03 44" src="https://user-images.githubusercontent.com/80155336/235109603-fbd9d512-f47d-4edb-bf78-e99603ed426d.png">  
+<img width="585" alt="스크린샷 2023-04-28 오후 6 19 02" src="https://user-images.githubusercontent.com/80155336/235109660-e571783e-d93f-47f4-9c51-a55753fe6a42.png">
+
+
+
+
 
 [백오피스 중 관리자 메인 화면]
 
