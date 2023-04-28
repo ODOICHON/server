@@ -92,14 +92,38 @@
 리펙토링 과정은 [리프레시 토큰 저장방식 변경](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%86%A0%ED%81%B0-%EC%A0%80%EC%9E%A5%EB%B0%A9%EC%8B%9D-%EB%B3%80%EA%B2%BD)에서 자세히 확인할 수 있습니다.
 
 ### 핵심 기능 ( 기능 개발 중 )
-**반응형 웹 화면**
-![img.png](img/img.png)
-![img_1.png](img/img_1.png)
-[백오피스 중 관리자 메인 화면]
+**반응형 웹 화면**  
+<img width="1470" alt="스크린샷 2023-04-25 오후 5 03 44" src="https://user-images.githubusercontent.com/80155336/235109603-fbd9d512-f47d-4edb-bf78-e99603ed426d.png">  
+<img width="578" alt="스크린샷 2023-04-28 오후 6 25 04" src="https://user-images.githubusercontent.com/80155336/235110024-628d77cf-12ec-4919-a309-9848885698d1.png">  
+[사진 - 백오피스 중 관리자 페이지]  
+Bootstrap을 이용하여 모바일 기기로 접속은 물론 모니터 화면에서도 문제없이 동작하는 반응형 웹으로 구현하였습니다.  
 
-Bootstrap을 이용하여 모바일 기기로 접속은 물론 모니터 화면에서도 문제없이 동작하는 반응형 웹으로 구현하였습니다.
+**백오피스**
+
+주말의집을 운영하는 관리자만이 접속할 수 있는 백오피스를 SSR 방식으로 구현하였습니다.
+
+SSR 방식을 선택한 이유는 제한된 접근자와 적은 수의 트래픽이 발생하기 때문에 개발 리소스를 최소화하기 위함이었습니다.
+
+백오피스에서의 핵심 기능은 다음과 같습니다.
+
+- 사용자 연령대별 비율, 사용자 가입경로 시각화
+- 게시글 상단 고정 및 고정 해제
+- 게시글 영구삭제
+
+관리자 계정으로의 로그인은 Session 방식을 적용하였으며, interceptor를 통해 로그인이 필요한 페이지에 로그인 없이 접근하는 것을 불가능하게 하였습니다.
+
+회원가입 시, 사용자로부터 얻은 데이터에 대한 통계적 자료를 확인하기 위해 연령대와 가입경로 데이터를 시각화하여 조회할 수 있도록 하였습니다.
+
+홍보 게시판은 일반 사용자의 요청으로 관리자가 게시글을 상단에 고정할 수 있습니다. 한 번에 최대 10개의 게시글을 고정/고정해제 할 수 있으며 이는 위에 관리자 페이지 화면에 해당합니다.
+
+일반 사용자가 접근할 수 있는 페이지에서의 게시글 삭제는 Soft delete 방식으로 DB에서 영구적으로 삭제되지 않습니다. DB에서 영구 삭제는 관리자만이 할 수 있으며 이를 위해 관리자 페이지에서 게시글 영구 삭제 기능을 구현하였습니다. 
+
+백오피스 개발에 관련된 자세한 내용은 [관리자페이지 - server](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-server)와 [관리자페이지 - client](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-%08client-with-Thymeleaf) 에서 확인할 수 있습니다.
+
+> `뒤에서 묵묵히 역할하는 관리자 페이지`는 지속적으로 업데이트 중입니다.
 
 **로컬 로그인**
+
 로컬 로그인 구현을 위해 Spring Security가 아닌 ArgumentResolver와 AOP를 커스터마이징하여 구현하였습니다.
 
 @Auth 어노테이션으로 컨트롤러 메소드가 실행되기 전에 HTTP Request Authorization Header에 담긴 JWT 토큰에 대해 검증합니다.
@@ -185,6 +209,10 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 ### 기타 회고 및 문서화
 - [은비 - 인프라 아키텍처 설계 및 구성 과정](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B5%AC%EC%84%B1)
 - [태민 - 인프라 구축 및 무중단 배포 프로세스](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%B6%95-%EB%B0%8F-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4)
+- [태민 - 관리자 페이지(server)](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-server)
+- [태민 - 관리자 페이지(client with Thymeleaf)](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-%08client-with-Thymeleaf)  
+- [태민 - server health-check](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-server-health-check) 
+- [태민 - CI/CD workflow](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-CI-CD-workflow)
 - [은비 - ERD 설계](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-ERD-%EC%84%A4%EA%B3%84)
 - [은비 - Jasypt 라이브러리를 이용한 YML 파일 암호화하기](https://github.com/ODOICHON/server/wiki/%5Bproject%5D-Jasypt-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-YML-%ED%8C%8C%EC%9D%BC-%EC%95%94%ED%98%B8%ED%99%94%ED%95%98%EA%B8%B0)
 - [은비 - 테스트 코드를 작성하는 이유](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%5D-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)
