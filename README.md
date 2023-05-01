@@ -1,4 +1,4 @@
-## 주말의집 - 듀얼 라이프 커뮤니티 플랫폼 🏠.
+## 주말의집 - 듀얼 라이프 커뮤니티 플랫폼 🏠
 
 <div style="text-align : center;">
   <img alt="image" src="https://user-images.githubusercontent.com/61505572/220284128-c1ebd399-0928-4c9c-9d4a-f9ef2b5da3f0.png">
