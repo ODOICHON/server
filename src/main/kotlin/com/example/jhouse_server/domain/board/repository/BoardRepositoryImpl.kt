@@ -1,10 +1,10 @@
 package com.example.jhouse_server.domain.board.repository
 
-import com.example.jhouse_server.admin.board.dto.AdminBoardDeleteList
 import com.example.jhouse_server.admin.board.dto.AdminBoardSearch
 import com.example.jhouse_server.admin.board.dto.SearchFilter
 import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.entity.Board
+import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.QBoard.board
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -50,17 +50,34 @@ class BoardRepositoryImpl(
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
     }
 
-    override fun getBoardAllWithKeyword(name: PrefixCategory, keyword: String, pageable: Pageable): Page<Board> {
+    override fun getBoardAllWithPrefixCategory(name: PrefixCategory, keyword: String, pageable: Pageable): Page<Board> {
         val result = jpaQueryFactory
                 .select(board)
                 .from(board)
-                .where(searchWithCategory(name), searchWithFilter(keyword))
+                .where(searchWithPrefixCategory(name), searchWithKeyword(keyword))
                 .fetch()
         return PageImpl(result, pageable, result.size.toLong())
     }
 
+    override fun getBoardAllWithBoardCategory(
+        name: BoardCategory,
+        keyword: String,
+        pageable: Pageable
+    ): Page<Board> {
+        val result = jpaQueryFactory
+            .select(board)
+            .from(board)
+            .where(searchWithBoardCategory(name), searchWithKeyword(keyword))
+            .fetch()
+        return PageImpl(result, pageable, result.size.toLong())
+    }
 
-    private fun searchWithFilter(keyword: String): BooleanExpression? {
+    private fun searchWithBoardCategory(name: BoardCategory): BooleanExpression? {
+        return board.category.eq(name)
+    }
+
+
+    private fun searchWithKeyword(keyword: String): BooleanExpression? {
         return board.content.contains(keyword)
                 .or(board.title.contains(keyword))
                 .or(board.user.nickName.eq(keyword))
@@ -73,7 +90,7 @@ class BoardRepositoryImpl(
             else -> null
         }
     }
-    private fun searchWithCategory(name: PrefixCategory) : BooleanExpression? {
+    private fun searchWithPrefixCategory(name: PrefixCategory) : BooleanExpression? {
         return board.prefixCategory.eq(name)
     }
 }
