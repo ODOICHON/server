@@ -12,6 +12,7 @@ interface BoardService {
     fun getBoardOne(boardId: Long): BoardResOneDto
     fun deleteBoard(boardId: Long, user: User)
     fun getCategory(name: String): List<CodeResDto>
-    fun getBoardAllWithKeyword(name: String, keyword: String, pageable: Pageable): Page<BoardResDto>
+    fun getBoardAllWithPrefixCategory(name: String, keyword: String, pageable: Pageable): Page<BoardResDto>
+    abstract fun getBoardAllWithBoardCategory(name: String, keyword: String, pageable: Pageable): Page<BoardResDto>
 
 }
