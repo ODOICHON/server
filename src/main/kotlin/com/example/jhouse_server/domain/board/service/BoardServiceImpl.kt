@@ -79,9 +79,18 @@ class BoardServiceImpl(
         return BoardCategory.values().filter { it.superCategory.name == name }.map { CodeResDto(it.value, it.name) }
     }
 
-    override fun getBoardAllWithKeyword(name: String, keyword: String, pageable: Pageable): Page<BoardResDto> {
+    override fun getBoardAllWithPrefixCategory(name: String, keyword: String, pageable: Pageable): Page<BoardResDto> {
         val prefixCategoryName = PrefixCategory.valueOf(name)
-        return boardRepository.getBoardAllWithKeyword(prefixCategoryName, keyword, pageable).map { toListDto(it) }
+        return boardRepository.getBoardAllWithPrefixCategory(prefixCategoryName, keyword, pageable).map { toListDto(it) }
+    }
+
+    override fun getBoardAllWithBoardCategory(
+        name: String,
+        keyword: String,
+        pageable: Pageable
+    ): Page<BoardResDto> {
+        val boardCategoryName = BoardCategory.valueOf(name)
+        return boardRepository.getBoardAllWithBoardCategory(boardCategoryName, keyword, pageable).map{ toListDto(it) }
     }
 
     fun getContent(code: String): String {

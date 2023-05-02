@@ -346,8 +346,8 @@ internal class BoardControllerTest @Autowired constructor(
 
 
     @Test
-    @DisplayName("게시글 검색")
-    fun getBoardAllWithKeyword() {
+    @DisplayName("게시글 검색 - 게시판 분류(자유|홍보|소개)")
+    fun getBoardAllWithPrefixCategory() {
         val uri = "$uri/category/search?name=INTRO&keyword=짱구"
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders
@@ -360,7 +360,31 @@ internal class BoardControllerTest @Autowired constructor(
             .andDo(print())
             .andDo(
                 document(
-                    "board-search",
+                    "board-prefix-search",
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *pageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("게시글 검색 - 말머리")
+    fun getBoardAllWithBoardCategory() {
+        val uri = "$uri/board-category/search?name=TREND&keyword=짱구"
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get(uri)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "board-category-search",
                     responseFields(
                         beneathPath("data").withSubsectionId("data"),
                         *pageResponseFieldSnippet()

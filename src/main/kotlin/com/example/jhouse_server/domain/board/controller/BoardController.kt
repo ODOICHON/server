@@ -2,7 +2,6 @@ package com.example.jhouse_server.domain.board.controller
 
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.service.BoardService
-import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
@@ -70,11 +69,20 @@ class BoardController(
     }
 
     @GetMapping("/category/search")
-    fun getBoardAllWithKeyword(
+    fun getBoardAllWithPrefixCategory(
         @RequestParam name : String,
         @RequestParam keyword : String,
         pageable: Pageable
     ) : ApplicationResponse<Page<BoardResDto>> {
-        return ApplicationResponse.ok(boardService.getBoardAllWithKeyword(name, keyword, pageable));
+        return ApplicationResponse.ok(boardService.getBoardAllWithPrefixCategory(name, keyword, pageable));
+    }
+
+    @GetMapping("/board-category/search")
+    fun getBoardAllWithBoardCategory(
+        @RequestParam name : String,
+        @RequestParam keyword : String,
+        pageable: Pageable
+    ) : ApplicationResponse<Page<BoardResDto>> {
+        return ApplicationResponse.ok(boardService.getBoardAllWithBoardCategory(name, keyword, pageable));
     }
 }
