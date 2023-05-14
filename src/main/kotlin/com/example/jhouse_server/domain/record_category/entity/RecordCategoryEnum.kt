@@ -1,5 +1,8 @@
 package com.example.jhouse_server.domain.record_category.entity
 
+import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
+
 enum class RecordCategoryEnum(val value: String) {
     CULTURE("팀 내 문화"),
     DISASTER("장애 관리"),
@@ -15,7 +18,7 @@ enum class RecordCategoryEnum(val value: String) {
                     return recordCategoryEnum
                 }
             }
-            return null
+            throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         }
     }
 }
