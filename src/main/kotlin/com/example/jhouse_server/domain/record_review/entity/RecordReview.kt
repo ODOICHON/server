@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain.record_review.eneity
+package com.example.jhouse_server.domain.record_review.entity
 
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.user.entity.User
