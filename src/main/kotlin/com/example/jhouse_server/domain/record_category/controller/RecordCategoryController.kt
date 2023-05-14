@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/record_category")
 class RecordCategoryController(
-    val recordCategoryService: RecordCategoryService
+    private val recordCategoryService: RecordCategoryService
 ) {
 
     @Auth(ADMIN)

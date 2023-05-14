@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RecordCategoryServiceImpl(
-    val recordCategoryRepository: RecordCategoryRepository
+    private val recordCategoryRepository: RecordCategoryRepository
 ): RecordCategoryService {
 
     override fun getTemplate(recordCategoryReqDto: RecordCategoryReqDto): RecordCategoryResDto {
