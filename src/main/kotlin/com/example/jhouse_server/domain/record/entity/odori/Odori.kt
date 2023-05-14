@@ -13,12 +13,8 @@ import javax.persistence.Enumerated
 @DiscriminatorValue("O")
 class Odori(
     category: OdoriCategory,
-    title: String,
-    content: String,
-    part: Part,
-    status: RecordStatus,
-    user: User
-): Record(title, content, part, status, user) {
+    record: Record
+): Record(record.title!!, record.content!!, record.part!!, record.user!!) {
 
     @Enumerated(EnumType.STRING)
     var category: OdoriCategory = category

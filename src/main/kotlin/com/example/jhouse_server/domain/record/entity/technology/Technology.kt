@@ -13,12 +13,8 @@ import javax.persistence.Enumerated
 @DiscriminatorValue("T")
 class Technology(
     category: TechnologyCategory,
-    title: String,
-    content: String,
-    part: Part,
-    status: RecordStatus,
-    user: User
-): Record(title, content, part, status, user) {
+    record: Record
+): Record(record.title!!, record.content!!, record.part!!, record.user!!) {
 
     @Enumerated(EnumType.STRING)
     var category: TechnologyCategory = category

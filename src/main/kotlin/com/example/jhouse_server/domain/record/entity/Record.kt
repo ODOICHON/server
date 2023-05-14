@@ -1,7 +1,8 @@
 package com.example.jhouse_server.domain.record.entity
 
+import com.example.jhouse_server.domain.record.dto.RecordUpdateDto
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
-import com.example.jhouse_server.domain.record_review.eneity.RecordReview
+import com.example.jhouse_server.domain.record_review.entity.RecordReview
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
@@ -25,7 +26,7 @@ class Record(): BaseEntity() {
     var part: Part? = null
 
     @Enumerated(EnumType.STRING)
-    var status: RecordStatus? = null
+    var status: RecordStatus = RecordStatus.WAIT
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -37,11 +38,19 @@ class Record(): BaseEntity() {
     @OneToMany(mappedBy = "record", cascade = [CascadeType.PERSIST], orphanRemoval = true)
     var comments: MutableList<RecordComment> = mutableListOf()
 
-    constructor(title: String, content: String, part: Part, status: RecordStatus, user: User): this() {
+    constructor(title: String, content: String, part: Part, user: User): this() {
         this.title = title
         this.content = content
         this.part = part
-        this.status = status
         this.user = user
+    }
+
+    fun updateRecord(recordUpdateDto: RecordUpdateDto) {
+        this.title = recordUpdateDto.title
+        this.content = recordUpdateDto.content
+    }
+
+    fun updateHits() {
+        this.hits++
     }
 }
