@@ -28,7 +28,7 @@ class RecordRepositoryImpl(
 
     override fun findRecordsByUser(user: User, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
             .from(record)
             .leftJoin(record.user, QUser.user)
             .where(record.user.eq(user))
@@ -38,7 +38,7 @@ class RecordRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content, QUser.user.nickName, record.createdAt))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content, QUser.user.nickName, record.createdAt, record.part))
             .from(record)
             .leftJoin(record.user, QUser.user)
             .where(record.user.eq(user))
@@ -48,7 +48,7 @@ class RecordRepositoryImpl(
 
     override fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
             .from(record)
             .leftJoin(record.user, user)
             .where(
@@ -61,7 +61,7 @@ class RecordRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
             .from(record)
             .leftJoin(record.user, user)
             .where(

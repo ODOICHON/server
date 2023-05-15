@@ -17,7 +17,7 @@ class TechnologyRepositoryImpl(
 
     override fun findTechnologies(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(technology.id, technology.title, technology.content.substring(0, 50), user.nickName, technology.createdAt))
+            .select(QRecordThumbnailResDto(technology.id, technology.title, technology.content.substring(0, 50), user.nickName, technology.createdAt, technology.part))
             .from(technology)
             .leftJoin(technology.user, user)
             .where(
@@ -30,7 +30,7 @@ class TechnologyRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(technology.id, technology.title, technology.content.substring(0, 50), user.nickName, technology.createdAt))
+            .select(QRecordThumbnailResDto(technology.id, technology.title, technology.content.substring(0, 50), user.nickName, technology.createdAt, technology.part))
             .from(technology)
             .leftJoin(technology.user, user)
             .where(

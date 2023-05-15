@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.record.dto
 
+import com.example.jhouse_server.domain.record.entity.Part
 import com.querydsl.core.annotations.QueryProjection
 import org.springframework.data.domain.Page
 import java.time.LocalDateTime
@@ -42,7 +43,8 @@ data class RecordThumbnailResDto @QueryProjection constructor(
     val title: String,
     val content: String,
     val nickName: String,
-    val createAt: LocalDateTime
+    val createAt: LocalDateTime,
+    val part: Part
 )
 
 data class RecordPageResDto(

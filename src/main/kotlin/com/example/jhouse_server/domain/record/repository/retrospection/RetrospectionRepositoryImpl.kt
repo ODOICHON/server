@@ -17,7 +17,7 @@ class RetrospectionRepositoryImpl(
 
     override fun findRetrospections(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(retrospection.id, retrospection.title, retrospection.content.substring(0, 50), user.nickName, retrospection.createdAt))
+            .select(QRecordThumbnailResDto(retrospection.id, retrospection.title, retrospection.content.substring(0, 50), user.nickName, retrospection.createdAt, retrospection.part))
             .from(retrospection)
             .leftJoin(retrospection.user, user)
             .where(
@@ -30,7 +30,7 @@ class RetrospectionRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(retrospection.id, retrospection.title, retrospection.content.substring(0, 50), user.nickName, retrospection.createdAt))
+            .select(QRecordThumbnailResDto(retrospection.id, retrospection.title, retrospection.content.substring(0, 50), user.nickName, retrospection.createdAt, retrospection.part))
             .from(retrospection)
             .leftJoin(retrospection.user, user)
             .where(
