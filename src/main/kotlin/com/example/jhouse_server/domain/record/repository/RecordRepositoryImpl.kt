@@ -2,13 +2,18 @@ package com.example.jhouse_server.domain.record.repository
 
 import com.example.jhouse_server.domain.record.dto.*
 import com.example.jhouse_server.domain.record.entity.QRecord.record
+import com.example.jhouse_server.domain.record.entity.RecordStatus
 import com.example.jhouse_server.domain.record.repository.common.RecordCommonMethod
+import com.example.jhouse_server.domain.record_review_apply.entity.QRecordReviewApply.recordReviewApply
+import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApplyStatus
 import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
+import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.util.StringUtils
 import java.time.LocalDateTime
 
 class RecordRepositoryImpl(
@@ -20,18 +25,49 @@ class RecordRepositoryImpl(
         return jpaQueryFactory
             .select(QRecordHotThumbnailResDto(record.id, record.title))
             .from(record)
-            .where(record.createdAt.goe(weekAgo))
+            .where(record.createdAt.goe(weekAgo), record.status.eq(RecordStatus.APPROVE))
             .orderBy(record.hits.desc(), record.createdAt.desc())
             .limit(3)
             .fetch()
     }
 
-    override fun findRecordsByUser(user: User, pageable: Pageable): Page<RecordThumbnailResDto> {
+    override fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
+        val content = jpaQueryFactory
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
+            .from(record)
+            .leftJoin(record.user, user)
+            .where(
+                record.status.eq(RecordStatus.APPROVE),
+                recordCommonMethod.recordPartEq(condition.dType, condition.part),
+                recordCommonMethod.categoryEq(condition.dType, condition.category)
+            )
+            .orderBy(record.createdAt.desc())
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+
+        val countQuery = jpaQueryFactory
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
+            .from(record)
+            .leftJoin(record.user, user)
+            .where(
+                record.status.eq(RecordStatus.APPROVE),
+                recordCommonMethod.recordPartEq(condition.dType, condition.part),
+                recordCommonMethod.categoryEq(condition.dType, condition.category)
+            )
+
+        return recordCommonMethod.createPage(content, pageable, countQuery)
+    }
+
+    override fun findRevieweeRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
             .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
             .from(record)
             .leftJoin(record.user, QUser.user)
-            .where(record.user.eq(user))
+            .where(
+                record.user.eq(user),
+                recordStatusEq(condition.status)
+            )
             .orderBy(record.createdAt.desc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
@@ -41,34 +77,49 @@ class RecordRepositoryImpl(
             .select(QRecordThumbnailResDto(record.id, record.title, record.content, QUser.user.nickName, record.createdAt, record.part))
             .from(record)
             .leftJoin(record.user, QUser.user)
-            .where(record.user.eq(user))
+            .where(
+                record.user.eq(user),
+                recordStatusEq(condition.status)
+            )
 
         return recordCommonMethod.createPage(content, pageable, countQuery)
     }
 
-    override fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
+    override fun findReviewerRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
-            .from(record)
-            .leftJoin(record.user, user)
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
+            .from(recordReviewApply)
+            .leftJoin(recordReviewApply.record, record)
+            .leftJoin(recordReviewApply.reviewer, QUser.user)
             .where(
-                recordCommonMethod.recordPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordReviewApply.reviewer.eq(user),
+                recordReviewApplyStatusEq(condition.status)
             )
-            .orderBy(record.createdAt.desc())
+            .orderBy(recordReviewApply.record.createdAt.desc())
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
-            .from(record)
-            .leftJoin(record.user, user)
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
+            .from(recordReviewApply)
+            .leftJoin(recordReviewApply.record, record)
+            .leftJoin(recordReviewApply.reviewer, QUser.user)
             .where(
-                recordCommonMethod.recordPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordReviewApply.reviewer.eq(user),
+                recordReviewApplyStatusEq(condition.status)
             )
 
         return recordCommonMethod.createPage(content, pageable, countQuery)
+    }
+
+    private fun recordStatusEq(status: String?): BooleanExpression? {
+        if(!StringUtils.hasText(status)) return null
+        return record.status.eq(RecordStatus.getStatus(status!!))
+    }
+
+    private fun recordReviewApplyStatusEq(status: String?): BooleanExpression? {
+        if(!StringUtils.hasText(status)) return null
+        return recordReviewApply.status.eq(RecordReviewApplyStatus.getStatus(status!!))
     }
 }

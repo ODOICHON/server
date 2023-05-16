@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.record.service
 import com.example.jhouse_server.domain.record.dto.*
 import com.example.jhouse_server.domain.record.entity.Part
 import com.example.jhouse_server.domain.record.entity.Record
+import com.example.jhouse_server.domain.record.entity.RecordStatus
 import com.example.jhouse_server.domain.record.entity.odori.Odori
 import com.example.jhouse_server.domain.record.entity.odori.OdoriCategory
 import com.example.jhouse_server.domain.record.entity.retrospection.Retrospection
@@ -13,9 +14,17 @@ import com.example.jhouse_server.domain.record.repository.RecordRepository
 import com.example.jhouse_server.domain.record.repository.odori.OdoriRepository
 import com.example.jhouse_server.domain.record.repository.retrospection.RetrospectionRepository
 import com.example.jhouse_server.domain.record.repository.technology.TechnologyRepository
+import com.example.jhouse_server.domain.record_review.dto.RecordReviewResDto
+import com.example.jhouse_server.domain.record_review.repository.RecordReviewRepository
+import com.example.jhouse_server.domain.record_review_apply.dto.RecordReviewApplyResDto
+import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
+import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApplyStatus
+import com.example.jhouse_server.domain.record_review_apply.repository.RecordReviewApplyRepository
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.bucket.RateLimitService
 import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
 import com.example.jhouse_server.global.exception.ErrorCode.UNAUTHORIZED_EXCEPTION
 import com.example.jhouse_server.global.util.RedisUtil
@@ -29,6 +38,9 @@ import javax.servlet.http.HttpServletRequest
 @Service
 @Transactional(readOnly = true)
 class RecordServiceImpl(
+    private val userRepository: UserRepository,
+    private val recordReviewRepository: RecordReviewRepository,
+    private val recordReviewApplyRepository: RecordReviewApplyRepository,
     private val recordRepository: RecordRepository,
     private val odoriRepository: OdoriRepository,
     private val retrospectionRepository: RetrospectionRepository,
@@ -43,7 +55,10 @@ class RecordServiceImpl(
     override fun saveRecord(recordReqDto: RecordReqDto, user: User): Long {
         val record = Record(recordReqDto.title, recordReqDto.content, Part.getPart(recordReqDto.part)!!, user)
         val subRecord = matchDType(record, recordReqDto.category, recordReqDto.dType)
-        return recordRepository.save(subRecord).id
+        val id = recordRepository.save(subRecord).id
+        applyForReview(subRecord, user)
+
+        return id
     }
 
     @Transactional
@@ -65,11 +80,6 @@ class RecordServiceImpl(
         val weekAgo = LocalDateTime.now().minusWeeks(7)
         val hotRecords = recordRepository.findHotRecords(weekAgo)
         return RecordHotResDto(hotRecords)
-    }
-
-    override fun getRecordsByUser(user: User, pageable: Pageable): RecordPageResDto {
-        val records = recordRepository.findRecordsByUser(user, pageable)
-        return RecordPageResDto(records)
     }
 
     override fun getRecords(condition: RecordPageCondition, pageable: Pageable): RecordPageResDto {
@@ -119,6 +129,42 @@ class RecordServiceImpl(
         }
     }
 
+    override fun getRecordWithReview(recordId: Long): RecordWithReviewResDto {
+        val record = recordRepository.findByIdWithUser(recordId)
+            .orElseThrow { ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION) }
+        val recordReviewApplies = recordReviewApplyRepository.findByRecordWithUser(recordId)
+        val recordReviews = recordReviewRepository.findByRecordWithUser(recordId)
+        val recordReviewApplyDtoList = recordReviewApplies
+            .map { RecordReviewApplyResDto(it.status.value, it.reviewer.nickName) }
+        val recordReviewDtoList = recordReviews
+            .map { RecordReviewResDto(it.id, it.content, it.status.value, it.reviewer.nickName, it.createdAt) }
+        return RecordWithReviewResDto(record.id, record.title!!, record.content!!, record.hits,
+            record.part!!.value, record.user!!.nickName, record.createdAt, recordReviewDtoList, recordReviewApplyDtoList)
+    }
+
+    override fun getRevieweeRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): RecordPageResDto {
+        val records = recordRepository.findRevieweeRecords(condition, user, pageable)
+        return RecordPageResDto(records)
+    }
+
+    override fun getReviewerRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): RecordPageResDto {
+        val records = recordRepository.findReviewerRecords(condition, user, pageable)
+        return RecordPageResDto(records)
+    }
+
+    /**
+     * 하나의 리뷰가 들어온 이상 WAIT 상태에서 APPROVE, REJECT 상태로 바뀌어야 한다.
+     * 자신을 제외한 모든 신청자의 상태가 APPROVE 이면 APPROVE 상태로 변경
+     */
+    override fun updateRecordStatus(record: Record) {
+        val recordReviewApplies = record.applies
+        if(recordReviewApplies.filter { it.status == RecordReviewApplyStatus.APPROVE }.size == recordReviewApplies.size - 1) {
+            record.updateRecordStatus(RecordStatus.APPROVE)
+        } else if(recordReviewApplies.any { it.status == RecordReviewApplyStatus.REJECT }) {
+            record.updateRecordStatus(RecordStatus.REJECT)
+        }
+    }
+
     private fun updateHits(request: HttpServletRequest, record: Record) {
         val ip = rateLimitService.getClientIp(request)
         val key = ip + "_" + record.id.toString()
@@ -140,6 +186,15 @@ class RecordServiceImpl(
     private fun validateUser(record: Record, user: User) {
         if(user != record.user) {
             throw ApplicationException(UNAUTHORIZED_EXCEPTION)
+        }
+    }
+
+    private fun applyForReview(record: Record, user: User) {
+        recordReviewApplyRepository.save(RecordReviewApply(RecordReviewApplyStatus.MINE, record, user))
+        val reviewers = userRepository.findAllByAdminType(user.id, user.adminType!!)
+        reviewers.forEach {
+            val recordReviewApply = RecordReviewApply(RecordReviewApplyStatus.WAIT, record, it)
+            recordReviewApplyRepository.save(recordReviewApply)
         }
     }
 }

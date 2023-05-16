@@ -60,15 +60,6 @@ class RecordController(
         return ApplicationResponse.ok(recordService.getHotRecords())
     }
 
-    @Auth(ADMIN)
-    @GetMapping("/user")
-    fun getRecordsByUser(
-        @AuthUser user: User,
-        @PageableDefault(size = 3) pageable: Pageable
-    ): ApplicationResponse<RecordPageResDto> {
-        return ApplicationResponse.ok(recordService.getRecordsByUser(user, pageable))
-    }
-
     @GetMapping("/{part}/{dType}")
     fun getRecords(
         @PathVariable("part") part: String,
@@ -85,5 +76,33 @@ class RecordController(
         request: HttpServletRequest
     ): ApplicationResponse<RecordResDto> {
         return ApplicationResponse.ok(recordService.getRecord(recordId, request))
+    }
+
+    @Auth(ADMIN)
+    @GetMapping("/review/{recordId}")
+    fun getRecordWithReview(
+        @PathVariable("recordId") recordId: Long
+    ): ApplicationResponse<RecordWithReviewResDto> {
+        return ApplicationResponse.ok(recordService.getRecordWithReview(recordId))
+    }
+
+    @Auth(ADMIN)
+    @GetMapping("/reviewee")
+    fun getRevieweeRecords(
+        @RequestParam("status", required = false) status: String?,
+        @AuthUser user: User,
+        @PageableDefault(size = 3) pageable: Pageable
+    ): ApplicationResponse<RecordPageResDto> {
+        return ApplicationResponse.ok(recordService.getRevieweeRecords(RecordReviewCondition(status), user, pageable))
+    }
+
+    @Auth(ADMIN)
+    @GetMapping("/reviewer")
+    fun getReviewerRecords(
+        @RequestParam("status", required = false) status: String?,
+        @AuthUser user: User,
+        @PageableDefault(size = 3) pageable: Pageable
+    ): ApplicationResponse<RecordPageResDto> {
+        return ApplicationResponse.ok(recordService.getReviewerRecords(RecordReviewCondition(status), user, pageable))
     }
 }
