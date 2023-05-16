@@ -5,6 +5,7 @@ import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
+import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
 import com.example.jhouse_server.domain.user.WithdrawalUser
 import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
@@ -42,6 +43,9 @@ class User(
 
     @OneToMany(mappedBy = "user")
     val records : MutableList<Record> = mutableListOf(),
+
+    @OneToMany(mappedBy = "reviewer")
+    val applies: MutableList<RecordReviewApply> = mutableListOf(),
 
     @OneToMany(mappedBy = "reviewer")
     val reviews : MutableList<RecordReview> = mutableListOf(),
