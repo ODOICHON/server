@@ -1,6 +1,8 @@
 package com.example.jhouse_server.domain.record.dto
 
 import com.example.jhouse_server.domain.record.entity.Part
+import com.example.jhouse_server.domain.record_review.dto.RecordReviewResDto
+import com.example.jhouse_server.domain.record_review_apply.dto.RecordReviewApplyResDto
 import com.querydsl.core.annotations.QueryProjection
 import org.springframework.data.domain.Page
 import java.time.LocalDateTime
@@ -32,10 +34,26 @@ data class RecordResDto(
     val createAt: LocalDateTime
 )
 
+data class RecordWithReviewResDto(
+    val recordId: Long,
+    val title: String,
+    val content: String,
+    val hits: Int,
+    val part: String,
+    val nickName: String,
+    val createAt: LocalDateTime,
+    val reviews: List<RecordReviewResDto>,
+    val reviewers: List<RecordReviewApplyResDto>
+)
+
 data class RecordPageCondition(
     val part: String,
     val dType: String,
     val category: String
+)
+
+data class RecordReviewCondition(
+    val status: String?
 )
 
 data class RecordThumbnailResDto @QueryProjection constructor(
