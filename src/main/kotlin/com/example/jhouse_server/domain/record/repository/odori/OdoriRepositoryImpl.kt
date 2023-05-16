@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.record.repository.odori
 import com.example.jhouse_server.domain.record.dto.QRecordThumbnailResDto
 import com.example.jhouse_server.domain.record.dto.RecordPageCondition
 import com.example.jhouse_server.domain.record.dto.RecordThumbnailResDto
+import com.example.jhouse_server.domain.record.entity.RecordStatus
 import com.example.jhouse_server.domain.record.entity.odori.QOdori.odori
 import com.example.jhouse_server.domain.record.repository.common.RecordCommonMethod
 import com.example.jhouse_server.domain.user.entity.QUser.user
@@ -21,6 +22,7 @@ class OdoriRepositoryImpl(
             .from(odori)
             .leftJoin(odori.user, user)
             .where(
+                odori.status.eq(RecordStatus.APPROVE),
                 recordCommonMethod.odoriPartEq(condition.dType, condition.part),
                 recordCommonMethod.categoryEq(condition.dType, condition.category)
             )
@@ -34,6 +36,7 @@ class OdoriRepositoryImpl(
             .from(odori)
             .leftJoin(odori.user, user)
             .where(
+                odori.status.eq(RecordStatus.APPROVE),
                 recordCommonMethod.odoriPartEq(condition.dType, condition.part),
                 recordCommonMethod.categoryEq(condition.dType, condition.category)
             )
