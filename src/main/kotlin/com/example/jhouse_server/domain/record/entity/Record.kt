@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.record.entity
 import com.example.jhouse_server.domain.record.dto.RecordUpdateDto
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
+import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
@@ -33,6 +34,9 @@ class Record(): BaseEntity() {
     var user: User? = null
 
     @OneToMany(mappedBy = "record", cascade = [CascadeType.PERSIST], orphanRemoval = true)
+    var applies: MutableList<RecordReviewApply> = mutableListOf()
+
+    @OneToMany(mappedBy = "record", cascade = [CascadeType.PERSIST], orphanRemoval = true)
     var reviews: MutableList<RecordReview> = mutableListOf()
 
     @OneToMany(mappedBy = "record", cascade = [CascadeType.PERSIST], orphanRemoval = true)
@@ -48,6 +52,10 @@ class Record(): BaseEntity() {
     fun updateRecord(recordUpdateDto: RecordUpdateDto) {
         this.title = recordUpdateDto.title
         this.content = recordUpdateDto.content
+    }
+
+    fun updateRecordStatus(status: RecordStatus) {
+        this.status = status
     }
 
     fun updateHits() {
