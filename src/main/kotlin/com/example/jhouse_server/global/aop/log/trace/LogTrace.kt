@@ -24,14 +24,17 @@ class LogTrace {
         val resultTime = endTime - traceInfo.startTime
         if (resultTime >= 1000) logger().warn("[${traceInfo.threadId}] ${traceInfo.method} ==== execute time = ${resultTime}ms")
         else logger().info("[${traceInfo.threadId}] ${traceInfo.method} ==== execute time = ${resultTime}ms")
+        removeThreadLocal()
     }
 
     fun apiException(e: ApplicationException, traceInfo: TraceInfo) {
         logger().error("[${traceInfo.threadId}] ${traceInfo.method} ==== API EXCEPTION! [${e.errorCode.code}] ${e.errorCode.message}")
+        removeThreadLocal()
     }
 
     fun exception(e: Exception, traceInfo: TraceInfo) {
         logger().error("[${traceInfo.threadId}] ${traceInfo.method} ==== INTERNAL ERROR! ${e.printStackTrace()}")
+        removeThreadLocal()
     }
 
     private fun syncTrace() {
@@ -43,5 +46,9 @@ class LogTrace {
 
     private fun createThreadId(): String {
         return UUID.randomUUID().toString().substring(0,8)
+    }
+
+    private fun removeThreadLocal() {
+        threadId.remove()
     }
 }
