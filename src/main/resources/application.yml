@@ -14,9 +14,9 @@ spring:
       hibernate:
         metadata_builder_contributor: com.example.jhouse_server.global.util.SqlFunctionsMetadataBuilderContributor
         default_batch_fetch_size: 100
-#        show_sql: true
-#        format_sql: true
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        show_sql: true
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   datasource:
     url: ENC(XxBf/3kChMwGNU8+3ch/K9QXB4sRQ+WcSc94MOQqvBHS9lE9gYOA482/JSp4VvsrgQKMV8FLwZeFgGyMFk36B9cNJtFOKFr7hJ0Fowlk/QYjrW0dWJXsVg==)
@@ -55,4 +55,6 @@ server:
     session:
       tracking-modes: cookie
 
+#logging:
+#  config: classpath:logback-spring.xml
 
