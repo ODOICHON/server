@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable
 
 interface BoardRepositoryCustom {
     fun getFixableBoardListWithPaging(adminBoardSearch: AdminBoardSearch, pageable: Pageable): Page<Board>
-
     fun getDeletableBoardListWithPaging(adminBoardSearch: AdminBoardSearch, pageable: Pageable): Page<Board>
     fun getBoardAllWithPrefixCategory(name: PrefixCategory, keyword: String, pageable: Pageable): Page<Board>
     abstract fun getBoardAllWithBoardCategory(name: BoardCategory, keyword: String, pageable: Pageable): Page<Board>

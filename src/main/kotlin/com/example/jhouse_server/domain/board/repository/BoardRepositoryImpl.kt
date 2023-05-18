@@ -54,7 +54,7 @@ class BoardRepositoryImpl(
         val result = jpaQueryFactory
                 .select(board)
                 .from(board)
-                .where(searchWithPrefixCategory(name), searchWithKeyword(keyword))
+                .where(searchWithPrefixCategory(name), searchWithKeyword(keyword), board.useYn.eq(true))
                 .fetch()
         return PageImpl(result, pageable, result.size.toLong())
     }
@@ -67,7 +67,7 @@ class BoardRepositoryImpl(
         val result = jpaQueryFactory
             .select(board)
             .from(board)
-            .where(searchWithBoardCategory(name), searchWithKeyword(keyword))
+            .where(searchWithBoardCategory(name), searchWithKeyword(keyword), board.useYn.eq(true))
             .fetch()
         return PageImpl(result, pageable, result.size.toLong())
     }
