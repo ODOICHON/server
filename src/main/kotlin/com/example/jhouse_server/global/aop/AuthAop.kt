@@ -23,13 +23,7 @@ class AuthAop (
 
     private val AUTHORIZATION_HEADER: String = "Authorization"
 
-    @Pointcut("execution(* com.example.jhouse_server..*.*(..))")
-    private fun cut() {}
-
-    @Pointcut("@annotation(com.example.jhouse_server.global.annotation.Auth)")
-    private fun enableAuth() {}
-
-    @Before("cut() && enableAuth() && @annotation(auth)")
+    @Before("@annotation(auth)")
     public fun before(joinPoint: JoinPoint, auth: Auth) {
         val request = (RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes).request
         val bearerToken: String = request.getHeader(AUTHORIZATION_HEADER) ?: throw ApplicationException(DONT_VALIDATE_TOKEN)

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import java.util.*
@@ -26,8 +25,5 @@ interface BoardRepository: JpaRepository<Board, Long>, BoardRepositoryCustom {
     @EntityGraph(attributePaths = ["boardCode"])
     fun findByIdAndUseYn(id: Long, useYn: Boolean): Optional<Board>
 
-    @Modifying(clearAutomatically = true)
-    @Query("delete from Board b where b.id in (:ids)")
-    fun deleteByIds(@Param("ids") ids: List<Long>): Int
 
 }

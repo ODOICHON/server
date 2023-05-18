@@ -4,6 +4,7 @@ import com.example.jhouse_server.admin.user.interceptor.LoginCheckInterceptor
 import com.example.jhouse_server.global.interceptor.HttpInterceptor
 import com.example.jhouse_server.global.interceptor.SmsInterceptor
 import com.example.jhouse_server.global.resolver.AuthUserResolver
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
@@ -18,6 +19,7 @@ class WebConfig (
         val httpInterceptor: HttpInterceptor,
         val smsInterceptor: SmsInterceptor
 ): WebMvcConfigurer {
+
 
     override fun addArgumentResolvers(resolvers: MutableList<HandlerMethodArgumentResolver>) {
         resolvers.add(authUserResolver)
