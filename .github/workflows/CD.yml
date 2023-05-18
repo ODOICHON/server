@@ -35,7 +35,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-            
+      
 
       #배포를 위한 secret yml 설정
       - name: Make application-secret.yml
@@ -44,6 +44,15 @@ jobs:
           touch ./application-secret.yml
           echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
         shell: bash
+
+      - name: Make logback-spring.xml
+        run: |
+          cd ./src/main/resources
+          touch ./logback-spring.xml
+          echo "${{ secrets.LOGBACK_SPRING }}" > ./logback-spring.xml
+        shell: bash
+
+
 
       #test를 포함한 프로젝트 빌드
       - name: Build With Gradle
