@@ -23,8 +23,6 @@ class HttpInterceptor(
         handler: Any
     ): Boolean {
         val bucket: Bucket = rateLimitService.resolveHttpBucket(request)
-        log.info("=========== Before Method ===========")
-        log.info("접속 ip 주소 : {}", rateLimitService.getClientIp(request))
 
         return if(bucket.tryConsume(1)) {
             true
@@ -40,7 +38,6 @@ class HttpInterceptor(
         handler: Any,
         modelAndView: ModelAndView?
     ) {
-        log.info("=========== Method Executed ===========")
     }
 
     override fun afterCompletion(
@@ -49,6 +46,5 @@ class HttpInterceptor(
         handler: Any,
         ex: Exception?
     ) {
-        log.info("=========== Method Completed ===========")
     }
 }
