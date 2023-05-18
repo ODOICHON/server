@@ -49,6 +49,3 @@ server:
   servlet:
     session:
       tracking-modes: cookie
-
-logging:
-  config: classpath:logback-spring.xml
