@@ -18,7 +18,7 @@ interface RecordService {
 
     fun getRecords(condition: RecordPageCondition, pageable: Pageable): RecordPageResDto
 
-    fun getRecord(recordId: Long, request: HttpServletRequest): RecordResDto
+    fun getRecord(recordId: Long, request: HttpServletRequest, pageable: Pageable): RecordResDto
 
     fun getRecordWithReview(recordId: Long): RecordWithReviewResDto
 

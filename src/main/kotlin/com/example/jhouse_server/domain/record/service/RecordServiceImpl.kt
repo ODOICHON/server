@@ -14,6 +14,7 @@ import com.example.jhouse_server.domain.record.repository.RecordRepository
 import com.example.jhouse_server.domain.record.repository.odori.OdoriRepository
 import com.example.jhouse_server.domain.record.repository.retrospection.RetrospectionRepository
 import com.example.jhouse_server.domain.record.repository.technology.TechnologyRepository
+import com.example.jhouse_server.domain.record_comment.repository.RecordCommentRepository
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewResDto
 import com.example.jhouse_server.domain.record_review.repository.RecordReviewRepository
 import com.example.jhouse_server.domain.record_review_apply.dto.RecordReviewApplyResDto
@@ -41,6 +42,7 @@ class RecordServiceImpl(
     private val userRepository: UserRepository,
     private val recordReviewRepository: RecordReviewRepository,
     private val recordReviewApplyRepository: RecordReviewApplyRepository,
+    private val recordCommentRepository: RecordCommentRepository,
     private val recordRepository: RecordRepository,
     private val odoriRepository: OdoriRepository,
     private val retrospectionRepository: RetrospectionRepository,
@@ -105,25 +107,26 @@ class RecordServiceImpl(
     }
 
     @Transactional
-    override fun getRecord(recordId: Long, request: HttpServletRequest): RecordResDto {
+    override fun getRecord(recordId: Long, request: HttpServletRequest, pageable: Pageable): RecordResDto {
         val record = recordRepository.findByIdOrThrow(recordId)
+        val comments = recordCommentRepository.findRecordComments(record, pageable)
         updateHits(request, record)
 
         return when (recordRepository.findDType(recordId)) {
             "O" -> {
                 val odori = record as Odori
                 RecordResDto(odori.id, odori.title!!, odori.content!!, odori.hits, odori.part!!.value,
-                    "odori", odori.category.value, odori.user!!.nickName, odori.createdAt)
+                    "odori", odori.category.value, odori.user!!.nickName, odori.createdAt, comments)
             }
             "R" -> {
                 val retro = record as Retrospection
                 RecordResDto(retro.id, retro.title!!, retro.content!!, retro.hits, retro.part!!.value,
-                    "retro", retro.category.value, retro.user!!.nickName, retro.createdAt)
+                    "retro", retro.category.value, retro.user!!.nickName, retro.createdAt, comments)
             }
             "T" -> {
                 val tech = record as Technology
                 RecordResDto(tech.id, tech.title!!, tech.content!!, tech.hits, tech.part!!.value,
-                    "tech", tech.category.value, tech.user!!.nickName, tech.createdAt)
+                    "tech", tech.category.value, tech.user!!.nickName, tech.createdAt, comments)
             }
             else -> throw ApplicationException(INVALID_VALUE_EXCEPTION)
         }
