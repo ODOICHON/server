@@ -8,6 +8,7 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -25,7 +26,7 @@ class RecordReviewController(
     @Auth(ADMIN)
     @PostMapping
     fun saveRecordReview(
-        @RequestBody recordReviewReqDto: RecordReviewReqDto,
+        @Validated @RequestBody recordReviewReqDto: RecordReviewReqDto,
         @AuthUser user: User
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(recordReviewService.saveRecordReview(recordReviewReqDto, user))
@@ -34,7 +35,7 @@ class RecordReviewController(
     @Auth(ADMIN)
     @PutMapping("/{review_id}")
     fun updateRecordReview(
-        @RequestBody recordReviewUpdateDto: RecordReviewUpdateDto,
+        @Validated @RequestBody recordReviewUpdateDto: RecordReviewUpdateDto,
         @AuthUser user: User,
         @PathVariable("review_id") reviewId: Long
     ): ApplicationResponse<Long> {

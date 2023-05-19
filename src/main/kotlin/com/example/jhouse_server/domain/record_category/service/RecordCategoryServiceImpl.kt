@@ -1,6 +1,5 @@
 package com.example.jhouse_server.domain.record_category.service
 
-import com.example.jhouse_server.domain.record_category.dto.RecordCategoryReqDto
 import com.example.jhouse_server.domain.record_category.dto.RecordCategoryResDto
 import com.example.jhouse_server.domain.record_category.dto.TemplateUpdateReqDto
 import com.example.jhouse_server.domain.record_category.entity.RecordCategory
@@ -14,12 +13,12 @@ class RecordCategoryServiceImpl(
     private val recordCategoryRepository: RecordCategoryRepository
 ): RecordCategoryService {
 
-    override fun getTemplate(recordCategoryReqDto: RecordCategoryReqDto): RecordCategoryResDto {
-        val category = RecordCategoryEnum.getRecordCategoryEnum(recordCategoryReqDto.category)!!
-        val recordCategoryOptional = recordCategoryRepository.findByCategory(category)
+    override fun getTemplate(category: String): RecordCategoryResDto {
+        val categoryEnum = RecordCategoryEnum.getRecordCategoryEnum(category)
+        val recordCategoryOptional = recordCategoryRepository.findByCategory(categoryEnum)
 
         return if(recordCategoryOptional.isEmpty) {
-            RecordCategoryResDto("", category.value)
+            RecordCategoryResDto("", categoryEnum.value)
         } else {
             val recordCategory = recordCategoryOptional.get()
             RecordCategoryResDto(recordCategory.template, recordCategory.category.value)
@@ -28,7 +27,7 @@ class RecordCategoryServiceImpl(
 
     @Transactional
     override fun updateTemplate(templateUpdateReqDto: TemplateUpdateReqDto) {
-        val category = RecordCategoryEnum.getRecordCategoryEnum(templateUpdateReqDto.category)!!
+        val category = RecordCategoryEnum.getRecordCategoryEnum(templateUpdateReqDto.category)
         val template = templateUpdateReqDto.template
         val recordCategoryOptional = recordCategoryRepository.findByCategory(category)
 

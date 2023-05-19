@@ -9,6 +9,7 @@ import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -29,7 +30,7 @@ class RecordController(
     @Auth(ADMIN)
     @PostMapping
     fun saveRecord(
-        @RequestBody recordReqDto: RecordReqDto,
+        @Validated @RequestBody recordReqDto: RecordReqDto,
         @AuthUser user: User
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(recordService.saveRecord(recordReqDto, user))
@@ -38,7 +39,7 @@ class RecordController(
     @Auth(ADMIN)
     @PutMapping("/{record_id}")
     fun updateRecord(
-        @RequestBody recordUpdateDto: RecordUpdateDto,
+        @Validated @RequestBody recordUpdateDto: RecordUpdateDto,
         @AuthUser user: User,
         @PathVariable("record_id") recordId: Long
     ): ApplicationResponse<Long> {
@@ -60,28 +61,29 @@ class RecordController(
         return ApplicationResponse.ok(recordService.getHotRecords())
     }
 
-    @GetMapping("/{part}/{dType}")
+    @GetMapping("/{part}/{d_type}")
     fun getRecords(
         @PathVariable("part") part: String,
-        @PathVariable("dType") dType: String,
+        @PathVariable("d_type") dType: String,
         @RequestParam(value = "category", required = false) category: String,
         @PageableDefault(size = 4) pageable: Pageable
     ): ApplicationResponse<RecordPageResDto> {
         return ApplicationResponse.ok(recordService.getRecords(RecordPageCondition(part, dType, category), pageable))
     }
 
-    @GetMapping("/{recordId}")
+    @GetMapping("/{record_id}")
     fun getRecord(
-        @PathVariable("recordId") recordId: Long,
-        request: HttpServletRequest
+        @PathVariable("record_id") recordId: Long,
+        request: HttpServletRequest,
+        @PageableDefault(size = 10) pageable: Pageable
     ): ApplicationResponse<RecordResDto> {
-        return ApplicationResponse.ok(recordService.getRecord(recordId, request))
+        return ApplicationResponse.ok(recordService.getRecord(recordId, request, pageable))
     }
 
     @Auth(ADMIN)
-    @GetMapping("/review/{recordId}")
+    @GetMapping("/review/{record_id}")
     fun getRecordWithReview(
-        @PathVariable("recordId") recordId: Long
+        @PathVariable("record_id") recordId: Long
     ): ApplicationResponse<RecordWithReviewResDto> {
         return ApplicationResponse.ok(recordService.getRecordWithReview(recordId))
     }

@@ -12,7 +12,7 @@ enum class RecordCategoryEnum(val value: String) {
     RETROSPECTION("회고");
 
     companion object {
-        fun getRecordCategoryEnum(value: String): RecordCategoryEnum? {
+        fun getRecordCategoryEnum(value: String): RecordCategoryEnum {
             for(recordCategoryEnum in RecordCategoryEnum.values()) {
                 if(recordCategoryEnum.value == value) {
                     return recordCategoryEnum

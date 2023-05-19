@@ -7,6 +7,7 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -23,7 +24,7 @@ class RecordCommentController(
     @Auth
     @PostMapping
     fun saveRecordComment(
-        @RequestBody recordCommentReqDto: RecordCommentReqDto,
+        @Validated @RequestBody recordCommentReqDto: RecordCommentReqDto,
         @AuthUser user: User
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(recordCommentService.saveRecordComment(recordCommentReqDto, user))
@@ -32,7 +33,7 @@ class RecordCommentController(
     @Auth
     @PutMapping("/{comment_id}")
     fun updateRecordComment(
-        @RequestBody recordCommentUpdateDto: RecordCommentUpdateDto,
+        @Validated @RequestBody recordCommentUpdateDto: RecordCommentUpdateDto,
         @AuthUser user: User,
         @PathVariable("comment_id") commentId: Long
     ): ApplicationResponse<Long> {
