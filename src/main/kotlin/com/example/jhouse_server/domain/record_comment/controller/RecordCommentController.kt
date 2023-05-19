@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController
 class RecordCommentController(
     private val recordCommentService: RecordCommentService
 ) {
-
     @Auth
     @PostMapping
     fun saveRecordComment(
