@@ -29,10 +29,10 @@ class AuthAop (
         val bearerToken: String = request.getHeader(AUTHORIZATION_HEADER) ?: throw ApplicationException(DONT_VALIDATE_TOKEN)
         val jwt: String = tokenProvider.resolveToken(bearerToken) ?: throw ApplicationException(DONT_VALIDATE_TOKEN)
 
+        tokenProvider.validateToken(jwt, true)
+
         if (auth.auth == ADMIN && tokenProvider.getAuthority(jwt) == USER) {
             throw ApplicationException(DONT_HAVE_AUTHORITY)
         }
-
-        tokenProvider.validateToken(jwt, true)
     }
 }
