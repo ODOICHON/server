@@ -1,54 +1,29 @@
 version: '3'
 services:
   redis:
-    container_name: redis
+    container_name: redis_test
     image: redis:latest
     ports:
-      - "6379:6379"
+      - "6375:6379"
     networks:
       - db_network
 
-  ## deploy - 무중단
-  nginx:
-    image: nginx:1.15-alpine
-    container_name: nginx-container
-    restart: always
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
+  mysql:
+    container_name: mysql_test
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pw
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test_pw
     command:
-      "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-    networks:
-      - backbone
-
-  green:
-    build: .
-    image: green
-    container_name: green
-    restart: always
+      - --default-authentication-plugin=mysql_native_password
     ports:
-      - "8081:8080"
-    volumes:
-      - ./:/home/ubuntu
-      - /etc/localtime:/etc/localtime
+      - "3302:3306"
     networks:
-      - backbone
+      - db_network
 
-  blue:
-    build: .
-    container_name: blue
-    restart: always
-    ports:
-      - "8082:8080"
-    volumes:
-      - ./:/home/ubuntu
-      - /etc/localtime:/etc/localtime
-    networks:
-      - backbone
 
 networks:
   db_network:
-    driver: bridge
-  backbone:
     driver: bridge
