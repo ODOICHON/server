@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.board
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
+import org.slf4j.LoggerFactory
 import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotNull
@@ -60,7 +61,6 @@ data class BoardResOneDto(
     val commentCount : Int,
     val comments : List<CommentResDto>
 )
-
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
     if (board.imageUrls.isEmpty()) {
@@ -75,7 +75,9 @@ fun toDto(board: Board) : BoardResOneDto {
 fun sliceContentWithRegex(content : String) : String {
     val pattern = Regex("^[a-zA-Z가-힣].*[.!?]$")
     val validatedString = pattern.find(content)?.value ?: ""
-    return validatedString.take(200)
+    if (validatedString.length >= 200)
+        return validatedString.take(200)
+    return validatedString
 }
 
 data class CodeResDto(
