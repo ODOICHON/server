@@ -3,10 +3,9 @@ package com.example.jhouse_server.domain.board
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
+import org.slf4j.LoggerFactory
 import java.sql.Timestamp
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
 
@@ -24,16 +23,16 @@ data class BoardReqDto(
 )
 
 data class BoardResDto(
-    val boardId: Long,
-    val title : String,
-    val code: String,
-    val oneLineContent: String,
-    val nickName: String,
-    val createdAt : Date,
-    val imageUrl : String,
-    val commentCount : Int,
-    val category: String,
-    val prefixCategory: String
+        val boardId: Long,
+        val title: String,
+        val code: String,
+        val oneLineContent: String,
+        val nickName: String,
+        val createdAt: Date,
+        val imageUrl: String?,
+        val commentCount: Int,
+        val category: String,
+        val prefixCategory: String
 )
 
 data class BoardUpdateReqDto(
@@ -62,9 +61,11 @@ data class BoardResOneDto(
     val commentCount : Int,
     val comments : List<CommentResDto>
 )
-
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
+    if (board.imageUrls.isEmpty()) {
+        return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), null, board.comment.size, board.category.name, board.prefixCategory.name)
+    }
     return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
 }
 
@@ -74,7 +75,9 @@ fun toDto(board: Board) : BoardResOneDto {
 fun sliceContentWithRegex(content : String) : String {
     val pattern = Regex("^[a-zA-Z가-힣].*[.!?]$")
     val validatedString = pattern.find(content)?.value ?: ""
-    return validatedString.take(200)
+    if (validatedString.length >= 200)
+        return validatedString.take(200)
+    return validatedString
 }
 
 data class CodeResDto(

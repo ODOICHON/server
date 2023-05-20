@@ -8,6 +8,7 @@ import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -38,7 +39,7 @@ class BoardController(
     @GetMapping
     fun getBoardAll(
         @RequestParam category: String,
-        pageable: Pageable
+        @PageableDefault(size=8) pageable: Pageable
     ) : ApplicationResponse<Page<BoardResDto>> {
         return ApplicationResponse.ok(boardService.getBoardAll(category, pageable))
     }
