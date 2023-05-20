@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.board.service
 
+import com.example.jhouse_server.domain.board.BoardListDto
 import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.repository.BoardRepository
@@ -168,8 +169,9 @@ internal class BoardServiceImplTest @Autowired constructor(
         for (i in 0 until 8) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
+        val boardListDto = BoardListDto("ADVERTISEMENT", null, null, null)
         // when
-        val res = boardService.getBoardAll(category, pageable)
+        val res = boardService.getBoardAll(boardListDto, pageable)
         // then
         assertThat(res.content.size).isEqualTo(8)
     }
@@ -177,15 +179,15 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 조회_미리보기문구")
     fun get_board_all_one_line_content() {
         // given
-        val category = PrefixCategory.INTRO.name
         val pageable = PageRequest.of(0, 8)
         로그인(userSignUpReqDto.email, userSignUpReqDto.password)
         val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
         for (i in 0 until 8) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
+        val boardListDto = BoardListDto("ADVERTISEMENT", null, null, null)
         // when
-        val res = boardService.getBoardAll(category, pageable)
+        val res = boardService.getBoardAll(boardListDto, pageable)
         // then
         assertThat(res.content[0].oneLineContent.length).isLessThan(201)
     }
@@ -193,7 +195,6 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 조회_삭제된 게시글 미노출")
     fun get_board_all_delete() {
         // given
-        val category = PrefixCategory.INTRO.name
         val pageable = PageRequest.of(0, 8)
         로그인(userSignUpReqDto.email, userSignUpReqDto.password)
         val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
@@ -202,8 +203,9 @@ internal class BoardServiceImplTest @Autowired constructor(
             lastId = boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
         boardService.deleteBoard(lastId, writer)
+        val boardListDto = BoardListDto("ADVERTISEMENT", null, null, null)
         // when
-        val res = boardService.getBoardAll(category, pageable)
+        val res = boardService.getBoardAll(boardListDto, pageable)
         // then
         assertThat(res.content.size).isEqualTo(7)
     }
