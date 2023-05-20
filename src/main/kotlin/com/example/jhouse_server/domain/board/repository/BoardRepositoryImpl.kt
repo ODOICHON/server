@@ -63,14 +63,14 @@ class BoardRepositoryImpl(
                 .selectFrom(board)
                 .join(board.boardCode, boardCode).fetchJoin()
                 .join(board.user, user).fetchJoin()
-                .where(board.prefixCategory.eq(PrefixCategory.valueOf(boardListDto.prefix)),searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
+                .where(board.useYn.eq(true), board.prefixCategory.eq(PrefixCategory.valueOf(boardListDto.prefix)),searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
                 .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order))
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
                 .fetch()
         val countQuery = jpaQueryFactory
                 .selectFrom(board)
-                .where(board.prefixCategory.eq(PrefixCategory.valueOf(boardListDto.prefix)),searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
+                .where(board.useYn.eq(true), board.prefixCategory.eq(PrefixCategory.valueOf(boardListDto.prefix)),searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
     }

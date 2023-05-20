@@ -162,14 +162,13 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 조회")
     fun get_board_all() {
         // given
-        val category = PrefixCategory.INTRO.name
         val pageable = PageRequest.of(0, 8)
         로그인(userSignUpReqDto.email, userSignUpReqDto.password)
         val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
         for (i in 0 until 8) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
-        val boardListDto = BoardListDto("ADVERTISEMENT", null, null, null)
+        val boardListDto = BoardListDto("INTRO", "TREND", null, null)
         // when
         val res = boardService.getBoardAll(boardListDto, pageable)
         // then
@@ -185,7 +184,7 @@ internal class BoardServiceImplTest @Autowired constructor(
         for (i in 0 until 8) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
-        val boardListDto = BoardListDto("ADVERTISEMENT", null, null, null)
+        val boardListDto = BoardListDto("INTRO", "TREND", null, null)
         // when
         val res = boardService.getBoardAll(boardListDto, pageable)
         // then
@@ -195,6 +194,7 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 조회_삭제된 게시글 미노출")
     fun get_board_all_delete() {
         // given
+        val category = PrefixCategory.INTRO.name
         val pageable = PageRequest.of(0, 8)
         로그인(userSignUpReqDto.email, userSignUpReqDto.password)
         val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
@@ -203,7 +203,7 @@ internal class BoardServiceImplTest @Autowired constructor(
             lastId = boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
         boardService.deleteBoard(lastId, writer)
-        val boardListDto = BoardListDto("ADVERTISEMENT", null, null, null)
+        val boardListDto = BoardListDto("INTRO", "TREND", null, null)
         // when
         val res = boardService.getBoardAll(boardListDto, pageable)
         // then

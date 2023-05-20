@@ -54,27 +54,28 @@ internal class BoardControllerTest @Autowired constructor(
         boardRepository.save(findBoard)
     }
 
+
     @Test
     @DisplayName("게시글 조회")
     fun getBoardAll() {
         // given
-        val uri = "$uri?category=INTRO"
+        val uri = "$uri?prefix=INTRO"
         val resultActions = mockMvc.perform(
-            RestDocumentationRequestBuilders.get(uri)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
+                RestDocumentationRequestBuilders.get(uri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
         )
         resultActions.andExpect(status().isOk)
-            .andDo(print())
-            .andDo(
-                document(
-                    "get-board",
-                    responseFields(
-                        beneathPath("data").withSubsectionId("data"),
-                        *pageResponseFieldSnippet()
-                    )
+                .andDo(print())
+                .andDo(
+                        document(
+                                "get-board",
+                                responseFields(
+                                        beneathPath("data").withSubsectionId("data"),
+                                        *pageResponseFieldSnippet()
+                                )
+                        )
                 )
-            )
     }
 
     private fun pageResponseFieldSnippet(): Array<FieldDescriptor> {
@@ -89,6 +90,7 @@ internal class BoardControllerTest @Autowired constructor(
             fieldWithPath("content[].commentCount").description("댓글 수"),
             fieldWithPath("content[].category").description("말머리"),
             fieldWithPath("content[].prefixCategory").description("커뮤니티 대분류"),
+            fieldWithPath("content[].fixed").description("고정여부"),
             fieldWithPath("pageable.sort.empty").description(""),
             fieldWithPath("pageable.sort.unsorted").description(""),
             fieldWithPath("pageable.sort.sorted").description(""),
@@ -344,52 +346,4 @@ internal class BoardControllerTest @Autowired constructor(
             )
     }
 
-
-    @Test
-    @DisplayName("게시글 검색 - 게시판 분류(자유|홍보|소개)")
-    fun getBoardAllWithPrefixCategory() {
-        val uri = "$uri/category/search?name=INTRO&keyword=짱구"
-        val resultActions = mockMvc.perform(
-            RestDocumentationRequestBuilders
-                .get(uri)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        )
-        resultActions
-            .andExpect(status().isOk)
-            .andDo(print())
-            .andDo(
-                document(
-                    "board-prefix-search",
-                    responseFields(
-                        beneathPath("data").withSubsectionId("data"),
-                        *pageResponseFieldSnippet()
-                    )
-                )
-            )
-    }
-
-    @Test
-    @DisplayName("게시글 검색 - 말머리")
-    fun getBoardAllWithBoardCategory() {
-        val uri = "$uri/board-category/search?name=TREND&keyword=짱구"
-        val resultActions = mockMvc.perform(
-            RestDocumentationRequestBuilders
-                .get(uri)
-                .accept(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        )
-        resultActions
-            .andExpect(status().isOk)
-            .andDo(print())
-            .andDo(
-                document(
-                    "board-category-search",
-                    responseFields(
-                        beneathPath("data").withSubsectionId("data"),
-                        *pageResponseFieldSnippet()
-                    )
-                )
-            )
-    }
 }
