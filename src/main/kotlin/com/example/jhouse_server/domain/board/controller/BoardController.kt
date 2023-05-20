@@ -69,19 +69,21 @@ class BoardController(
         return ApplicationResponse.ok(boardService.getCategory(name))
     }
 
+    // name : prefix category
     @GetMapping("/category/search")
     fun getBoardAllWithPrefixCategory(
         @RequestParam name : String,
         @RequestParam keyword : String,
-        pageable: Pageable
+        @PageableDefault(size=8) pageable: Pageable
     ) : ApplicationResponse<Page<BoardResDto>> {
         return ApplicationResponse.ok(boardService.getBoardAllWithPrefixCategory(name, keyword, pageable));
     }
 
+    // name : category
     @GetMapping("/board-category/search")
     fun getBoardAllWithBoardCategory(
         @RequestParam name : String,
-        @RequestParam keyword : String,
+        @PageableDefault(size=8) @RequestParam(required = false) keyword : String,
         pageable: Pageable
     ) : ApplicationResponse<Page<BoardResDto>> {
         return ApplicationResponse.ok(boardService.getBoardAllWithBoardCategory(name, keyword, pageable));
