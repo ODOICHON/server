@@ -5,8 +5,6 @@ import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import java.sql.Timestamp
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
 
@@ -24,16 +22,16 @@ data class BoardReqDto(
 )
 
 data class BoardResDto(
-    val boardId: Long,
-    val title : String,
-    val code: String,
-    val oneLineContent: String,
-    val nickName: String,
-    val createdAt : Date,
-    val imageUrl : String,
-    val commentCount : Int,
-    val category: String,
-    val prefixCategory: String
+        val boardId: Long,
+        val title: String,
+        val code: String,
+        val oneLineContent: String,
+        val nickName: String,
+        val createdAt: Date,
+        val imageUrl: String?,
+        val commentCount: Int,
+        val category: String,
+        val prefixCategory: String
 )
 
 data class BoardUpdateReqDto(
@@ -65,6 +63,9 @@ data class BoardResOneDto(
 
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
+    if (board.imageUrls.isEmpty()) {
+        return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), null, board.comment.size, board.category.name, board.prefixCategory.name)
+    }
     return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
 }
 
