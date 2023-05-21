@@ -14,20 +14,20 @@ class RecordCategoryServiceImpl(
 ): RecordCategoryService {
 
     override fun getTemplate(category: String): RecordCategoryResDto {
-        val categoryEnum = RecordCategoryEnum.getRecordCategoryEnum(category)
+        val categoryEnum = RecordCategoryEnum.getRecordCategoryByEnum(category)
         val recordCategoryOptional = recordCategoryRepository.findByCategory(categoryEnum)
 
         return if(recordCategoryOptional.isEmpty) {
             RecordCategoryResDto("", categoryEnum.value)
         } else {
             val recordCategory = recordCategoryOptional.get()
-            RecordCategoryResDto(recordCategory.template, recordCategory.category.value)
+            RecordCategoryResDto(recordCategory.template, recordCategory.category.toString().lowercase())
         }
     }
 
     @Transactional
     override fun updateTemplate(templateUpdateReqDto: TemplateUpdateReqDto) {
-        val category = RecordCategoryEnum.getRecordCategoryEnum(templateUpdateReqDto.category)
+        val category = RecordCategoryEnum.getRecordCategoryByEnum(templateUpdateReqDto.category)
         val template = templateUpdateReqDto.template
         val recordCategoryOptional = recordCategoryRepository.findByCategory(category)
 

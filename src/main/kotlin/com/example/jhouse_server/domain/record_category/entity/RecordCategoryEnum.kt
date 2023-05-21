@@ -12,9 +12,18 @@ enum class RecordCategoryEnum(val value: String) {
     RETROSPECTION("회고");
 
     companion object {
-        fun getRecordCategoryEnum(value: String): RecordCategoryEnum {
+        fun getRecordCategoryByValue(value: String): RecordCategoryEnum {
             for(recordCategoryEnum in RecordCategoryEnum.values()) {
                 if(recordCategoryEnum.value == value) {
+                    return recordCategoryEnum
+                }
+            }
+            throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        }
+
+        fun getRecordCategoryByEnum(value: String): RecordCategoryEnum {
+            for(recordCategoryEnum in RecordCategoryEnum.values()) {
+                if(recordCategoryEnum == RecordCategoryEnum.valueOf(value.uppercase())) {
                     return recordCategoryEnum
                 }
             }
