@@ -45,6 +45,13 @@ jobs:
           echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
         shell: bash
 
+      #로그 xml 파일 설정
+      - name: Make logback-spring.xml
+        run: |
+          cd ./src/main/resources
+          touch ./logback-spring.xml
+          echo "${{ secrets.LOGBACK_SPRING }}" > ./logback-spring.xml
+        shell: bash
 
 
 

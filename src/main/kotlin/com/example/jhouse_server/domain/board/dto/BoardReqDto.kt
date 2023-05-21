@@ -3,7 +3,9 @@ package com.example.jhouse_server.domain.board
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
+import org.slf4j.LoggerFactory
 import java.sql.Timestamp
+import java.text.Normalizer
 import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -24,16 +26,17 @@ data class BoardReqDto(
 )
 
 data class BoardResDto(
-    val boardId: Long,
-    val title : String,
-    val code: String,
-    val oneLineContent: String,
-    val nickName: String,
-    val createdAt : Date,
-    val imageUrl : String,
-    val commentCount : Int,
-    val category: String,
-    val prefixCategory: String
+        val boardId: Long,
+        val title: String,
+        val code: String,
+        val oneLineContent: String,
+        val nickName: String,
+        val createdAt: Date,
+        val imageUrl: String?,
+        val commentCount: Int,
+        val category: String,
+        val prefixCategory: String,
+        val fixed: Boolean
 )
 
 data class BoardUpdateReqDto(
@@ -63,18 +66,31 @@ data class BoardResOneDto(
     val comments : List<CommentResDto>
 )
 
+data class BoardListDto(
+        val prefix: String,
+        val category: String?,
+        val search: String?,
+        val order: String?
+)
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
-    return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name)
+    if (board.imageUrls.isEmpty()) {
+        return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), null, board.comment.size, board.category.name, board.prefixCategory.name, board.fixed)
+    }
+    return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name, board.fixed)
 }
 
 fun toDto(board: Board) : BoardResOneDto {
     return BoardResOneDto(board.id, board.title, board.boardCode.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
 }
 fun sliceContentWithRegex(content : String) : String {
-    val pattern = Regex("^[a-zA-Z가-힣].*[.!?]$")
-    val validatedString = pattern.find(content)?.value ?: ""
-    return validatedString.take(200)
+//    val pattern = Regex("^[a-zA-Z가-힣].*[.!?]$")
+//    val validatedString = pattern.find(content)?.value ?: ""
+    return if (content.length >= 200) {
+        content.take(200)
+    } else {
+        content
+    }
 }
 
 data class CodeResDto(

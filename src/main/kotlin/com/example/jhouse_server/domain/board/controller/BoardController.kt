@@ -5,9 +5,11 @@ import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
+import com.example.jhouse_server.global.aop.log.logger
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -35,12 +37,13 @@ class BoardController(
         return ApplicationResponse.ok(boardService.updateBoard(boardId, req, user))
     }
 
+
     @GetMapping
     fun getBoardAll(
-        @RequestParam category: String,
-        pageable: Pageable
-    ) : ApplicationResponse<Page<BoardResDto>> {
-        return ApplicationResponse.ok(boardService.getBoardAll(category, pageable))
+            @ModelAttribute boardListDto: BoardListDto,
+            @PageableDefault(size=8, page=0) pageable: Pageable
+    ): ApplicationResponse<Page<BoardResDto>> {
+        return ApplicationResponse.ok(boardService.getBoardAll(boardListDto, pageable))
     }
 
     @GetMapping("/{boardId}")
@@ -68,21 +71,5 @@ class BoardController(
         return ApplicationResponse.ok(boardService.getCategory(name))
     }
 
-    @GetMapping("/category/search")
-    fun getBoardAllWithPrefixCategory(
-        @RequestParam name : String,
-        @RequestParam keyword : String,
-        pageable: Pageable
-    ) : ApplicationResponse<Page<BoardResDto>> {
-        return ApplicationResponse.ok(boardService.getBoardAllWithPrefixCategory(name, keyword, pageable));
-    }
 
-    @GetMapping("/board-category/search")
-    fun getBoardAllWithBoardCategory(
-        @RequestParam name : String,
-        @RequestParam keyword : String,
-        pageable: Pageable
-    ) : ApplicationResponse<Page<BoardResDto>> {
-        return ApplicationResponse.ok(boardService.getBoardAllWithBoardCategory(name, keyword, pageable));
-    }
 }

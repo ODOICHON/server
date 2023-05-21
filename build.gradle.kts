@@ -73,8 +73,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     // Bucket4j
     implementation("com.github.vladimir-bukhtoyarov:bucket4j-core:7.6.0")
-
+    // aws cloud watch
     implementation("ca.pjer:logback-awslogs-appender:1.6.0")
+    // cache
+    implementation("org.springframework.boot:spring-boot-starter-cache")
 }
 
 tasks.withType<KotlinCompile> {
