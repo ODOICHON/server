@@ -7,7 +7,6 @@ import javax.validation.constraints.NotBlank
 
 data class RecordReviewReqDto(
     @JsonProperty("record_id")
-    @field:NotBlank
     val recordId: Long,
     @field:NotBlank(message = "리뷰는 1자 이상 입력해주세요.")
     val content: String,
