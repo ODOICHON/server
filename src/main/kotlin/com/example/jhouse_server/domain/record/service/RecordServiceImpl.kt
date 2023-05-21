@@ -23,7 +23,6 @@ import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewA
 import com.example.jhouse_server.domain.record_review_apply.repository.RecordReviewApplyRepository
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
-import com.example.jhouse_server.global.bucket.RateLimitService
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
@@ -34,7 +33,6 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import javax.servlet.http.HttpServletRequest
 
 @Service
 @Transactional(readOnly = true)
@@ -47,11 +45,10 @@ class RecordServiceImpl(
     private val odoriRepository: OdoriRepository,
     private val retrospectionRepository: RetrospectionRepository,
     private val technologyRepository: TechnologyRepository,
-    private val redisUtil: RedisUtil,
-    private val rateLimitService: RateLimitService
+    private val redisUtil: RedisUtil
 ): RecordService {
 
-    private val HITS_EXPIRE: Long = 60 //60 * 60 * 24
+    private val HITS_EXPIRE: Long = 60 * 60 * 24
 
     @Transactional
     override fun saveRecord(recordReqDto: RecordReqDto, user: User): Long {
@@ -107,10 +104,10 @@ class RecordServiceImpl(
     }
 
     @Transactional
-    override fun getRecord(recordId: Long, request: HttpServletRequest, pageable: Pageable): RecordResDto {
+    override fun getRecord(recordId: Long, ip: String, pageable: Pageable): RecordResDto {
         val record = recordRepository.findByIdOrThrow(recordId)
         val comments = recordCommentRepository.findRecordComments(record, pageable)
-        updateHits(request, record)
+        updateHits(ip, record)
 
         return when (recordRepository.findDType(recordId)) {
             "O" -> {
@@ -168,8 +165,7 @@ class RecordServiceImpl(
         }
     }
 
-    private fun updateHits(request: HttpServletRequest, record: Record) {
-        val ip = rateLimitService.getClientIp(request)
+    private fun updateHits(ip: String, record: Record) {
         val key = ip + "_" + record.id.toString()
         if (redisUtil.getValues(key) == null) {
             redisUtil.setValuesExpired(key, record.id.toString(), HITS_EXPIRE)

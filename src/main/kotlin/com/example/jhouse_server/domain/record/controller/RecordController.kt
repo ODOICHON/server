@@ -6,6 +6,7 @@ import com.example.jhouse_server.domain.user.entity.Authority.ADMIN
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
+import com.example.jhouse_server.global.bucket.RateLimitService
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -24,7 +25,8 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @RequestMapping("/api/v1/record")
 class RecordController(
-    private val recordService: RecordService
+    private val recordService: RecordService,
+    private val rateLimitService: RateLimitService
 ) {
 
     @Auth(ADMIN)
@@ -65,7 +67,7 @@ class RecordController(
     fun getRecords(
         @PathVariable("part") part: String,
         @PathVariable("d_type") dType: String,
-        @RequestParam(value = "category", required = false) category: String,
+        @RequestParam(value = "category", defaultValue = "") category: String,
         @PageableDefault(size = 4) pageable: Pageable
     ): ApplicationResponse<RecordPageResDto> {
         return ApplicationResponse.ok(recordService.getRecords(RecordPageCondition(part, dType, category), pageable))
@@ -77,7 +79,7 @@ class RecordController(
         request: HttpServletRequest,
         @PageableDefault(size = 10) pageable: Pageable
     ): ApplicationResponse<RecordResDto> {
-        return ApplicationResponse.ok(recordService.getRecord(recordId, request, pageable))
+        return ApplicationResponse.ok(recordService.getRecord(recordId, rateLimitService.getClientIp(request), pageable))
     }
 
     @Auth(ADMIN)

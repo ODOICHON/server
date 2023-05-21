@@ -72,6 +72,14 @@ class User(
         this.password = password
     }
 
+    fun updateAuthority(authority: Authority) {
+        this.authority = authority
+    }
+
+    fun updateAdminType(adminType: AdminType) {
+        this.adminType = adminType
+    }
+
     fun withdrawalUser() {
         this.nickName = WithdrawalUser().nickname
         this.email = ""
