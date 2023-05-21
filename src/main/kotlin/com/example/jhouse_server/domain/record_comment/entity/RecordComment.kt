@@ -46,4 +46,8 @@ class RecordComment(
     fun updateAllChildrenSize() {
         this.allChildrenSize++
     }
+
+    fun updateStep() {
+        this.step++
+    }
 }

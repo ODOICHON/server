@@ -37,12 +37,14 @@ class RecordCommentServiceImpl(
             val parentAllChildrenSize: Long = parent.allChildrenSize
             step = parentStep + parentAllChildrenSize + 1
             level = parent.level + 1
+
+            val comments = recordCommentRepository.findSameRef(record, ref)
             var grandParent = parent
-            while(grandParent != null) {    //n + 1
+            while(grandParent != null) {
                 grandParent!!.updateAllChildrenSize()
                 grandParent = grandParent!!.parent
             }
-            recordCommentRepository.updateStep(step, record, ref)
+            comments.forEach { if(it.step >= step) it.updateStep() }
         }
         return recordCommentRepository.save(RecordComment(recordCommentReqDto.content, record, user, ref, step, level, allChildrenSize, parent)).id
     }

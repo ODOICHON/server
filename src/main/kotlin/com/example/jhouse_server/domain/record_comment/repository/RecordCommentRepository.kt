@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param
 
 interface RecordCommentRepository: JpaRepository<RecordComment, Long>, RecordCommentRepositoryCustom {
 
-    @Modifying(clearAutomatically = true)
-    @Query("update RecordComment rc set rc.step = rc.step + 1 where rc.step >= :step and rc.record = :record and rc.ref = :ref")
-    fun updateStep(@Param("step") step: Long, @Param("record") record: Record, @Param("ref") ref: Long)
+    @Query("select rc from RecordComment rc where rc.record = :record and rc.ref = :ref")
+    fun findSameRef(@Param("record") record: Record, @Param("ref") ref: Long): List<RecordComment>
 }
