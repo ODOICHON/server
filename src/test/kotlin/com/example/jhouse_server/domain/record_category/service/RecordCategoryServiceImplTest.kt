@@ -21,6 +21,7 @@ class RecordCategoryServiceImplTest @Autowired constructor(
 
     private val templateSaveReqDto = MockEntity.templateSaveReqDto()
     private val templateUpdateReqDto = MockEntity.templateUpdateReqDto()
+    private val category = "culture"
 
     @Test
     @DisplayName("템플릿 저장 테스트")
@@ -29,7 +30,7 @@ class RecordCategoryServiceImplTest @Autowired constructor(
 
         //when
         recordCategoryService.updateTemplate(templateSaveReqDto)
-        val category = RecordCategoryEnum.getRecordCategoryEnum(templateSaveReqDto.category)
+        val category = RecordCategoryEnum.getRecordCategoryByEnum(templateSaveReqDto.category)
         val findCategory = recordCategoryRepository.findByCategory(category)
 
         //then
@@ -45,7 +46,7 @@ class RecordCategoryServiceImplTest @Autowired constructor(
 
         //when
         recordCategoryService.updateTemplate(templateUpdateReqDto)
-        val category = RecordCategoryEnum.getRecordCategoryEnum(templateUpdateReqDto.category)
+        val category = RecordCategoryEnum.getRecordCategoryByEnum(templateUpdateReqDto.category)
         val findCategory = recordCategoryRepository.findByCategory(category)
 
         //then
@@ -59,7 +60,7 @@ class RecordCategoryServiceImplTest @Autowired constructor(
         //given
 
         //when
-        val recordCategoryResDto = recordCategoryService.getTemplate(templateSaveReqDto.category)
+        val recordCategoryResDto = recordCategoryService.getTemplate(category)
 
         //then
         assertThat(recordCategoryResDto.template).isBlank
@@ -72,7 +73,7 @@ class RecordCategoryServiceImplTest @Autowired constructor(
         recordCategoryService.updateTemplate(templateSaveReqDto)
 
         //when
-        val recordCategoryResDto = recordCategoryService.getTemplate(templateSaveReqDto.category)
+        val recordCategoryResDto = recordCategoryService.getTemplate(category)
 
         //then
         assertThat(recordCategoryResDto.template).isEqualTo(templateSaveReqDto.template)

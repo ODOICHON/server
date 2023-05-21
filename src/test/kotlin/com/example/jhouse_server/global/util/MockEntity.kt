@@ -160,12 +160,12 @@ class MockEntity {
         }
 
         fun templateSaveReqDto() = TemplateUpdateReqDto(
-            category = "팀 내 문화",
+            category = "culture",
             template = "제목 : \n내용 : "
         )
 
         fun templateUpdateReqDto() = TemplateUpdateReqDto(
-            category = "팀 내 문화",
+            category = "culture",
             template = "제목 : \n내용 : \n작성자 : "
         )
 
