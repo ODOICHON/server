@@ -32,19 +32,16 @@ class RecordCommentServiceImpl(
         var allChildrenSize: Long = 0
         if(recordCommentReqDto.parentId != null) {
             parent = recordCommentRepository.findByIdOrThrow(recordCommentReqDto.parentId)
-            ref = parent.ref
+
             val parentStep: Long = parent.step
             val parentAllChildrenSize: Long = parent.allChildrenSize
             step = parentStep + parentAllChildrenSize + 1
+            ref = parent.ref
             level = parent.level + 1
 
             val comments = recordCommentRepository.findSameRef(record, ref)
-            var grandParent = parent
-            while(grandParent != null) {
-                grandParent!!.updateAllChildrenSize()
-                grandParent = grandParent!!.parent
-            }
-            comments.forEach { if(it.step >= step) it.updateStep() }
+            updateAllChildrenSize(parent)
+            updateStep(comments, step)
         }
         return recordCommentRepository.save(RecordComment(recordCommentReqDto.content, record, user, ref, step, level, allChildrenSize, parent)).id
     }
@@ -67,6 +64,22 @@ class RecordCommentServiceImpl(
     private fun validateUser(recordComment: RecordComment, user: User) {
         if(user != recordComment.user) {
             throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
+        }
+    }
+
+    private fun updateAllChildrenSize(parent: RecordComment?) {
+        var grandParent = parent
+        while(grandParent != null) {
+            grandParent!!.updateAllChildrenSize()
+            grandParent = grandParent!!.parent
+        }
+    }
+
+    private fun updateStep(comments: List<RecordComment>, step: Long) {
+        comments.forEach {
+            if(it.step >= step) {
+                it.updateStep()
+            }
         }
     }
 }
