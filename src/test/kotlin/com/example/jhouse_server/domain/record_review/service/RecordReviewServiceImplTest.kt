@@ -68,11 +68,11 @@ class RecordReviewServiceImplTest @Autowired constructor(
         //given
 
         //when
-        val applies = recordReviewApplyRepository.findByRecordWithUser(recordId!!)
+        val applies = recordReviewApplyRepository.findByRecordWithUserExcludeMine(recordId!!)
 
         //then
-        assertThat(applies.size).isEqualTo(3)
-        assertThat(applies.filter { it.status == RecordReviewApplyStatus.MINE }.size).isEqualTo(1)
+        assertThat(applies.size).isEqualTo(2)
+        assertThat(applies.filter { it.status == RecordReviewApplyStatus.MINE }.size).isEqualTo(0)
         assertThat(applies.filter { it.status == RecordReviewApplyStatus.WAIT }.size).isEqualTo(2)
     }
 
