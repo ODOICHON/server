@@ -183,32 +183,32 @@ class MockEntity {
             title = "코드 리뷰 문화 도입",
             content = "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
             part = "server",
-            category = "팀 내 문화",
-            dType = "odori"
+            category = "culture",
+            type = "odori"
         )
 
         fun retroReqDto() = RecordReqDto(
             title = "DDOS 대응 회고",
             content = "DDOS 공격을 방지하기 위해 Bucket4j 라이브러리를 도입했습니다.",
             part = "server",
-            category = "회고",
-            dType = "retro"
+            category = "retrospection",
+            type = "retro"
         )
 
         fun techReqDtoNewTech() = RecordReqDto(
             title = "인증 인가 직접 구현하기",
             content = "스프링 시큐리티를 사용하지 않고, 인증 인가를 직접 구현했습니다.",
             part = "server",
-            category = "신 기술",
-            dType = "tech"
+            category = "new_tech",
+            type = "tech"
         )
 
         fun techReqDtoIssue() = RecordReqDto(
             title = "이슈 제목",
             content = "이슈 내용입니다.",
             part = "server",
-            category = "신 기술",
-            dType = "tech"
+            category = "issue",
+            type = "tech"
         )
 
         fun recordUpdateDto() = RecordUpdateDto(
@@ -218,25 +218,25 @@ class MockEntity {
 
         fun recordPageConditionAll() = RecordPageCondition(
             part = "all",
-            dType = "all",
+            type = "all",
             category = ""
         )
 
         fun recordPageConditionOdori() = RecordPageCondition(
             part = "all",
-            dType = "odori",
+            type = "odori",
             category = "culture"
         )
 
         fun recordPageConditionRetro() = RecordPageCondition(
             part = "all",
-            dType = "retro",
+            type = "retro",
             category = "retrospection"
         )
 
         fun recordPageConditionTech() = RecordPageCondition(
             part = "all",
-            dType = "tech",
+            type = "tech",
             category = "new_tech"
         )
 
