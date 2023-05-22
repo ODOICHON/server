@@ -21,7 +21,7 @@ enum class TechnologyCategory(val value: String) {
 
         fun getCategoryByEnum(value: String): TechnologyCategory {
             for(category in TechnologyCategory.values()) {
-                if(category == TechnologyCategory.valueOf(value.uppercase())) {
+                if(category.toString() == value.uppercase()) {
                     return category
                 }
             }

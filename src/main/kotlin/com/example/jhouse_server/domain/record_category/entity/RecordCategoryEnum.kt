@@ -23,7 +23,7 @@ enum class RecordCategoryEnum(val value: String) {
 
         fun getRecordCategoryByEnum(value: String): RecordCategoryEnum {
             for(recordCategoryEnum in RecordCategoryEnum.values()) {
-                if(recordCategoryEnum == RecordCategoryEnum.valueOf(value.uppercase())) {
+                if(recordCategoryEnum.toString() == value.uppercase()) {
                     return recordCategoryEnum
                 }
             }

@@ -18,7 +18,7 @@ enum class RetrospectionCategory(val value: String) {
 
         fun getCategoryByEnum(value: String): RetrospectionCategory {
             for(category in RetrospectionCategory.values()) {
-                if(category == RetrospectionCategory.valueOf(value.uppercase())) {
+                if(category.toString() == value.uppercase()) {
                     return category
                 }
             }

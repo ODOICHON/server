@@ -18,7 +18,7 @@ enum class OdoriCategory(val value: String) {
 
         fun getCategoryByEnum(value: String): OdoriCategory {
             for(category in OdoriCategory.values()) {
-                if(category == OdoriCategory.valueOf(value.uppercase())) {
+                if(category.toString() == value.uppercase()) {
                     return category
                 }
             }
