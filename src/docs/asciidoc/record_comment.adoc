@@ -1,0 +1,23 @@
+== Record Comment API
+
+----
+parent_id : 부모 댓글 아이디
+----
+
+=== 1. 댓글 저장
+===== Request
+include::{snippets}/save-record-comment/http-request.adoc[]
+===== Response
+include::{snippets}/save-record-comment/http-response.adoc[]
+
+=== 2. 댓글 수정
+===== Request
+include::{snippets}/update-record-comment/http-request.adoc[]
+===== Response
+include::{snippets}/update-record-comment/http-response.adoc[]
+
+=== 3. 댓글 삭제
+===== Request
+include::{snippets}/delete-record-comment/http-request.adoc[]
+===== Response
+include::{snippets}/delete-record-comment/http-response.adoc[]
