@@ -5,6 +5,7 @@ status
 
 approve (승인)
 reject (반려)
+mine (레코드 작성자가 리뷰를 달 때)
 ----
 
 === 1. 리뷰 저장
