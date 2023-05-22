@@ -22,8 +22,8 @@ data class RecordReviewUpdateDto(
 )
 
 data class RecordReviewResDto(
-    @JsonProperty("record_id")
-    val recordId: Long,
+    @JsonProperty("review_id")
+    val reviewId: Long,
     val content: String,
     val status: String,
     @JsonProperty("nick_name")
