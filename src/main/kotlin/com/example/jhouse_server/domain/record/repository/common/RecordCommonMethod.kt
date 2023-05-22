@@ -28,7 +28,7 @@ class RecordCommonMethod {
         return PageableExecutionUtils.getPage(content, pageable) { countQuery.fetch().size.toLong() }
     }
 
-    fun recordPartEq(dType: String, part: String): BooleanExpression? {
+    fun recordPartEq(part: String): BooleanExpression? {
         return when (part) {
             "all" -> null
             "web" -> record.part.eq(Part.WEB)
@@ -38,7 +38,7 @@ class RecordCommonMethod {
         }
     }
 
-    fun odoriPartEq(dType: String, part: String): BooleanExpression? {
+    fun odoriPartEq(part: String): BooleanExpression? {
         return when (part) {
             "all" -> null
             "web" -> odori.part.eq(Part.WEB)
@@ -48,7 +48,7 @@ class RecordCommonMethod {
         }
     }
 
-    fun retroPartEq(dType: String, part: String): BooleanExpression? {
+    fun retroPartEq(part: String): BooleanExpression? {
         return when (part) {
             "all" -> null
             "web" -> retrospection.part.eq(Part.WEB)
@@ -58,7 +58,7 @@ class RecordCommonMethod {
         }
     }
 
-    fun techPartEq(dType: String, part: String): BooleanExpression? {
+    fun techPartEq(part: String): BooleanExpression? {
         return when (part) {
             "all" -> null
             "web" -> technology.part.eq(Part.WEB)
@@ -68,8 +68,8 @@ class RecordCommonMethod {
         }
     }
 
-    fun categoryEq(dType: String, category: String): BooleanExpression? {
-        return when (dType) {
+    fun categoryEq(type: String, category: String): BooleanExpression? {
+        return when (type) {
             "all" -> null
             "odori" -> odori.category.eq(OdoriCategory.getCategoryByEnum(category))
             "retro" -> retrospection.category.eq(RetrospectionCategory.getCategoryByEnum(category))

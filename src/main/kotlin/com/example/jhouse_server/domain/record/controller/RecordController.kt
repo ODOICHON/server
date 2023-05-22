@@ -63,14 +63,14 @@ class RecordController(
         return ApplicationResponse.ok(recordService.getHotRecords())
     }
 
-    @GetMapping("/{part}/{d_type}")
+    @GetMapping("/{part}/{type}")
     fun getRecords(
         @PathVariable("part") part: String,
-        @PathVariable("d_type") dType: String,
+        @PathVariable("type") type: String,
         @RequestParam(value = "category", defaultValue = "") category: String,
         @PageableDefault(size = 4) pageable: Pageable
     ): ApplicationResponse<RecordPageResDto> {
-        return ApplicationResponse.ok(recordService.getRecords(RecordPageCondition(part, dType, category), pageable))
+        return ApplicationResponse.ok(recordService.getRecords(RecordPageCondition(part, type, category), pageable))
     }
 
     @GetMapping("/{record_id}")

@@ -23,8 +23,8 @@ class RetrospectionRepositoryImpl(
             .leftJoin(retrospection.user, user)
             .where(
                 retrospection.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.retroPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.retroPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
             .orderBy(retrospection.createdAt.desc())
             .offset(pageable.offset)
@@ -37,8 +37,8 @@ class RetrospectionRepositoryImpl(
             .leftJoin(retrospection.user, user)
             .where(
                 retrospection.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.retroPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.retroPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
 
         return recordCommonMethod.createPage(content, pageable, countQuery)

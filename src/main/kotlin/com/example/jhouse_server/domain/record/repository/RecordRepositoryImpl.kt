@@ -38,8 +38,8 @@ class RecordRepositoryImpl(
             .leftJoin(record.user, user)
             .where(
                 record.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.recordPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.recordPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
             .orderBy(record.createdAt.desc())
             .offset(pageable.offset)
@@ -52,8 +52,8 @@ class RecordRepositoryImpl(
             .leftJoin(record.user, user)
             .where(
                 record.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.recordPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.recordPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
 
         return recordCommonMethod.createPage(content, pageable, countQuery)

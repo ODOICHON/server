@@ -23,8 +23,8 @@ class TechnologyRepositoryImpl(
             .leftJoin(technology.user, user)
             .where(
                 technology.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.techPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.techPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
             .orderBy(technology.createdAt.desc())
             .offset(pageable.offset)
@@ -37,8 +37,8 @@ class TechnologyRepositoryImpl(
             .leftJoin(technology.user, user)
             .where(
                 technology.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.techPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.techPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
 
         return recordCommonMethod.createPage(content, pageable, countQuery)

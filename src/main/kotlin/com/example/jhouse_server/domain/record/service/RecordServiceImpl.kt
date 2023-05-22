@@ -52,7 +52,7 @@ class RecordServiceImpl(
     @Transactional
     override fun saveRecord(recordReqDto: RecordReqDto, user: User): Long {
         val record = Record(recordReqDto.title, recordReqDto.content, Part.getPart(recordReqDto.part)!!, user)
-        val subRecord = matchDType(record, recordReqDto.category, recordReqDto.dType)
+        val subRecord = matchType(record, recordReqDto.category, recordReqDto.type)
         val id = recordRepository.save(subRecord).id
         applyForReview(subRecord, user)
 
@@ -81,7 +81,7 @@ class RecordServiceImpl(
     }
 
     override fun getRecords(condition: RecordPageCondition, pageable: Pageable): RecordPageResDto {
-        return when (condition.dType) {
+        return when (condition.type) {
             "all" -> {
                 val records = recordRepository.findRecords(condition, pageable)
                 RecordPageResDto(records)
@@ -172,11 +172,11 @@ class RecordServiceImpl(
         }
     }
 
-    private fun matchDType(record: Record, category: String, dType: String): Record {
-        return when (dType) {
-            "odori" -> Odori(OdoriCategory.getCategory(category)!!, record)
-            "retro" -> Retrospection(RetrospectionCategory.getCategory(category)!!, record)
-            "tech" -> Technology(TechnologyCategory.getCategory(category)!!, record)
+    private fun matchType(record: Record, category: String, type: String): Record {
+        return when (type) {
+            "odori" -> Odori(OdoriCategory.getCategoryByEnum(category)!!, record)
+            "retro" -> Retrospection(RetrospectionCategory.getCategoryByEnum(category)!!, record)
+            "tech" -> Technology(TechnologyCategory.getCategoryByEnum(category)!!, record)
             else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }

@@ -21,8 +21,7 @@ data class RecordReqDto(
     @field:NotBlank
     val category: String,
     @field:NotBlank
-    @JsonProperty("d_type")
-    val dType: String
+    val type: String
 )
 
 data class RecordUpdateDto(
@@ -39,8 +38,7 @@ data class RecordResDto(
     val content: String,
     val hits: Int,
     val part: String,
-    @JsonProperty("d_type")
-    val dType: String,
+    val type: String,
     val category: String,
     @JsonProperty("nick_name")
     val nickName: String,
@@ -68,8 +66,7 @@ data class RecordWithReviewResDto(
 
 data class RecordPageCondition(
     val part: String,
-    @JsonProperty("d_type")
-    val dType: String,
+    val type: String,
     val category: String
 )
 

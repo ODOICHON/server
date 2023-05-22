@@ -23,8 +23,8 @@ class OdoriRepositoryImpl(
             .leftJoin(odori.user, user)
             .where(
                 odori.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.odoriPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.odoriPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
             .orderBy(odori.createdAt.desc())
             .offset(pageable.offset)
@@ -37,8 +37,8 @@ class OdoriRepositoryImpl(
             .leftJoin(odori.user, user)
             .where(
                 odori.status.eq(RecordStatus.APPROVE),
-                recordCommonMethod.odoriPartEq(condition.dType, condition.part),
-                recordCommonMethod.categoryEq(condition.dType, condition.category)
+                recordCommonMethod.odoriPartEq(condition.part),
+                recordCommonMethod.categoryEq(condition.type, condition.category)
             )
 
         return recordCommonMethod.createPage(content, pageable, countQuery)
