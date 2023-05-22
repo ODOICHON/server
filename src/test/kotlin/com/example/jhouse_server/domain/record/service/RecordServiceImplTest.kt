@@ -173,10 +173,10 @@ class RecordServiceImplTest @Autowired constructor(
         assertThat(all2.size).isEqualTo(1)
         assertThat(odori.size).isEqualTo(1)
         assertThat(retro.size).isEqualTo(1)
-        assertThat(tech.size).isEqualTo(3)
+        assertThat(tech.size).isEqualTo(2)
         assertThat(odori.map { it.recordId }.toList()).contains(recordId1)
         assertThat(retro.map { it.recordId }.toList()).contains(recordId2)
-        assertThat(tech.map { it.recordId }.toList()).isEqualTo(listOf(recordId3, recordId4, recordId5))
+        assertThat(tech.map { it.recordId }.toList()).isEqualTo(listOf(recordId3, recordId4))
     }
 
     @Test
@@ -208,7 +208,7 @@ class RecordServiceImplTest @Autowired constructor(
         assertThat(tech.title).isEqualTo(record3.title)
         assertThat(tech.content).isEqualTo(record3.content)
         assertThat(tech.part).isEqualTo("server")
-        assertThat(tech.dType).isEqualTo("tech")
+        assertThat(tech.type).isEqualTo("tech")
         assertThat(tech.category).isEqualTo("신 기술")
     }
 }
