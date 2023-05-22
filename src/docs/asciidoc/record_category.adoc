@@ -1,0 +1,28 @@
+== Record Category API
+
+----
+category
+
+culture (오도리 - 팀 내 문화)
+retrospection (회고 - 회고)
+disaster (기술 - 장애 관리)
+issue (기술 - 이슈 관리)
+new_tech (기술 - 신 기술)
+architecture (기술 - 설계)
+----
+
+=== 1. 템플릿 저장
+===== Request
+include::{snippets}/update-template/http-request.adoc[]
+===== Response - Success
+include::{snippets}/update-template/http-response.adoc[]
+===== Response - Fail
+include::{snippets}/update-template-exception/http-response.adoc[]
+
+=== 2. 템플릿 조회
+===== Request
+include::{snippets}/get-template/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-template/http-response.adoc[]
+===== Response - Fail
+include::{snippets}/get-template-exception/http-response.adoc[]
