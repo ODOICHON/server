@@ -35,6 +35,7 @@ class RecordCategoryControllerTest @Autowired constructor(
     private val userSignUpDto = MockEntity.testUserSignUpDto()
     private val userSignInDto = MockEntity.testUserSignInDto()
     private val templateSaveReqDto = MockEntity.templateSaveReqDto()
+    private val templateSaveExDto = MockEntity.templateSaveExDto()
 
     private var accessToken: String? = null
     private var user: User? = null
@@ -118,6 +119,80 @@ class RecordCategoryControllerTest @Autowired constructor(
                         fieldWithPath("message").description("응답 메세지"),
                         fieldWithPath("data.category").description("하위 카테고리"),
                         fieldWithPath("data.template").description("템플릿 내용")
+                    )
+                )
+            )
+    }
+
+    /**
+     * Exception
+     */
+
+    @Test
+    @DisplayName("템플릿 저장 & 수정 예외처리")
+    fun updateTemplateException() {
+        //given
+        val content: String = objectMapper.writeValueAsString(templateSaveExDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri/template")
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isNotFound)
+            .andDo(print())
+            .andDo(
+                document(
+                    "update-template-exception",
+                    requestFields(
+                        fieldWithPath("category").description("하위 카테고리"),
+                        fieldWithPath("template").description("템플릿 내용")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("템플릿 조회 예외처리")
+    fun getTemplateException() {
+        //given
+        recordCategoryService.updateTemplate(templateSaveReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/template/{category}", "exception")
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isNotFound)
+            .andDo(print())
+            .andDo(
+                document(
+                    "get-template-exception",
+                    pathParameters(
+                        parameterWithName("category").description("하위 카테고리")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
                     )
                 )
             )

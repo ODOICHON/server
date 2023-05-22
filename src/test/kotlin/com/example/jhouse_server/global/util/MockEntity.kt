@@ -164,6 +164,11 @@ class MockEntity {
             template = "제목 : \n내용 : "
         )
 
+        fun templateSaveExDto() = TemplateUpdateReqDto(
+            category = "exception",
+            template = "제목 : \n내용 : "
+        )
+
         fun templateUpdateReqDto() = TemplateUpdateReqDto(
             category = "culture",
             template = "제목 : \n내용 : \n작성자 : "
