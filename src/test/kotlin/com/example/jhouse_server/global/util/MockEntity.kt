@@ -77,6 +77,11 @@ class MockEntity {
             password = "abcdefG123!"
         )
 
+        fun testUserSignInDto2() = UserSignInReqDto(
+            email = "test2_jhouse_com",
+            password = "abcdefG123!"
+        )
+
         fun testUserSignInDtoEx1() = UserSignInReqDto(
             email = "test_jhouse_com1",
             password = "abcdefG123!"

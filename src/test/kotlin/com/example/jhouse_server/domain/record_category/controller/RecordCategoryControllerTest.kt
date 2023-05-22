@@ -3,7 +3,6 @@ package com.example.jhouse_server.domain.record_category.controller
 import com.example.jhouse_server.domain.record_category.service.RecordCategoryService
 import com.example.jhouse_server.domain.user.entity.AdminType
 import com.example.jhouse_server.domain.user.entity.Authority
-import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.util.ApiControllerConfig
@@ -38,15 +37,14 @@ class RecordCategoryControllerTest @Autowired constructor(
     private val templateSaveExDto = MockEntity.templateSaveExDto()
 
     private var accessToken: String? = null
-    private var user: User? = null
 
     @BeforeEach
     fun before() {
         userService.signUp(userSignUpDto)
 
-        user = userRepository.findByEmail(userSignUpDto.email).get()
-        user!!.updateAuthority(Authority.ADMIN)
-        user!!.updateAdminType(AdminType.SERVER)
+        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        user.updateAuthority(Authority.ADMIN)
+        user.updateAdminType(AdminType.SERVER)
 
         val tokenDto = userService.signIn(userSignInDto)
         accessToken = tokenDto.accessToken
@@ -54,7 +52,7 @@ class RecordCategoryControllerTest @Autowired constructor(
 
     @Test
     @DisplayName("템플릿 저장 & 수정")
-    fun updateTemplateTest() {
+    fun updateTemplate() {
         //given
         val content: String = objectMapper.writeValueAsString(templateSaveReqDto)
 
@@ -90,7 +88,7 @@ class RecordCategoryControllerTest @Autowired constructor(
 
     @Test
     @DisplayName("템플릿 조회")
-    fun getTemplateTest() {
+    fun getTemplate() {
         //given
         recordCategoryService.updateTemplate(templateSaveReqDto)
 
