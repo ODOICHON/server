@@ -34,7 +34,7 @@ class RecordCommonMethod {
             "web" -> record.part.eq(Part.WEB)
             "server" -> record.part.eq(Part.SERVER)
             "infra" -> record.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         }
     }
 
@@ -44,7 +44,7 @@ class RecordCommonMethod {
             "web" -> odori.part.eq(Part.WEB)
             "server" -> odori.part.eq(Part.SERVER)
             "infra" -> odori.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         }
     }
 
@@ -54,7 +54,7 @@ class RecordCommonMethod {
             "web" -> retrospection.part.eq(Part.WEB)
             "server" -> retrospection.part.eq(Part.SERVER)
             "infra" -> retrospection.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         }
     }
 
@@ -64,7 +64,7 @@ class RecordCommonMethod {
             "web" -> technology.part.eq(Part.WEB)
             "server" -> technology.part.eq(Part.SERVER)
             "infra" -> technology.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         }
     }
 
@@ -74,7 +74,7 @@ class RecordCommonMethod {
             "odori" -> odori.category.eq(OdoriCategory.getCategoryByEnum(category))
             "retro" -> retrospection.category.eq(RetrospectionCategory.getCategoryByEnum(category))
             "tech" -> technology.category.eq(TechnologyCategory.getCategoryByEnum(category))
-            else -> throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
         }
     }
 }

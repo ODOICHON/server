@@ -24,8 +24,7 @@ import com.example.jhouse_server.domain.record_review_apply.repository.RecordRev
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
-import com.example.jhouse_server.global.exception.ErrorCode.INVALID_VALUE_EXCEPTION
+import com.example.jhouse_server.global.exception.ErrorCode.NOT_FOUND_EXCEPTION
 import com.example.jhouse_server.global.exception.ErrorCode.UNAUTHORIZED_EXCEPTION
 import com.example.jhouse_server.global.util.RedisUtil
 import com.example.jhouse_server.global.util.findByIdOrThrow
@@ -99,7 +98,7 @@ class RecordServiceImpl(
                 val records = technologyRepository.findTechnologies(condition, pageable)
                 RecordPageResDto(records)
             }
-            else -> throw ApplicationException(INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
 
@@ -125,13 +124,13 @@ class RecordServiceImpl(
                 RecordResDto(tech.id, tech.title!!, tech.content!!, tech.hits, tech.part!!.value,
                     "tech", tech.category.value, tech.user!!.nickName, tech.createdAt, comments)
             }
-            else -> throw ApplicationException(INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
 
     override fun getRecordWithReview(recordId: Long): RecordWithReviewResDto {
         val record = recordRepository.findByIdWithUser(recordId)
-            .orElseThrow { ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION) }
+            .orElseThrow { ApplicationException(NOT_FOUND_EXCEPTION) }
         val recordReviewApplies = recordReviewApplyRepository.findByRecordWithUser(recordId)
         val recordReviews = recordReviewRepository.findByRecordWithUser(recordId)
         val recordReviewApplyDtoList = recordReviewApplies
@@ -178,7 +177,7 @@ class RecordServiceImpl(
             "odori" -> Odori(OdoriCategory.getCategory(category)!!, record)
             "retro" -> Retrospection(RetrospectionCategory.getCategory(category)!!, record)
             "tech" -> Technology(TechnologyCategory.getCategory(category)!!, record)
-            else -> throw ApplicationException(INVALID_VALUE_EXCEPTION)
+            else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
 
