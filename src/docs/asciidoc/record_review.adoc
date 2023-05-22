@@ -23,7 +23,7 @@ include::{snippets}/update-record-review/http-response.adoc[]
 ===== Response - Fail
 include::{snippets}/update-record-review-exception/http-response.adoc[]
 
-=== 2. 리뷰 삭제
+=== 3. 리뷰 삭제
 ===== Request
 include::{snippets}/delete-record-review/http-request.adoc[]
 ===== Response - Success
