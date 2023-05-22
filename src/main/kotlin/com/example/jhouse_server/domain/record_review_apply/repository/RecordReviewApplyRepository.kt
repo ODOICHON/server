@@ -14,6 +14,6 @@ interface RecordReviewApplyRepository: JpaRepository<RecordReviewApply, Long> {
     fun findWithRecord(@Param("recordId") recordId: Long, @Param("userId") userId: Long): Optional<RecordReviewApply>
 
     @EntityGraph(attributePaths = ["reviewer"])
-    @Query("select rra from RecordReviewApply rra where rra.record.id = :recordId order by rra.id")
-    fun findByRecordWithUser(@Param("recordId") recordId: Long): List<RecordReviewApply>
+    @Query("select rra from RecordReviewApply rra where rra.record.id = :recordId and rra.status <> 'MINE' order by rra.id")
+    fun findByRecordWithUserExcludeMine(@Param("recordId") recordId: Long): List<RecordReviewApply>
 }

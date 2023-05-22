@@ -131,7 +131,7 @@ class RecordServiceImpl(
     override fun getRecordWithReview(recordId: Long): RecordWithReviewResDto {
         val record = recordRepository.findByIdWithUser(recordId)
             .orElseThrow { ApplicationException(NOT_FOUND_EXCEPTION) }
-        val recordReviewApplies = recordReviewApplyRepository.findByRecordWithUser(recordId)
+        val recordReviewApplies = recordReviewApplyRepository.findByRecordWithUserExcludeMine(recordId)
         val recordReviews = recordReviewRepository.findByRecordWithUser(recordId)
         val recordReviewApplyDtoList = recordReviewApplies
             .map { RecordReviewApplyResDto(it.status.value, it.reviewer.nickName) }
