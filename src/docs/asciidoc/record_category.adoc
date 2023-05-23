@@ -14,15 +14,11 @@ architecture (기술 - 설계)
 === 1. 템플릿 저장
 ===== Request
 include::{snippets}/update-template/http-request.adoc[]
-===== Response - Success
+===== Response
 include::{snippets}/update-template/http-response.adoc[]
-===== Response - Fail
-include::{snippets}/update-template-exception/http-response.adoc[]
 
 === 2. 템플릿 조회
 ===== Request
 include::{snippets}/get-template/http-request.adoc[]
-===== Response - Success
+===== Response
 include::{snippets}/get-template/http-response.adoc[]
-===== Response - Fail
-include::{snippets}/get-template-exception/http-response.adoc[]
