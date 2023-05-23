@@ -1,0 +1,119 @@
+== Record API
+
+=== 1. 레코드 저장
+----
+part
+
+web, server, infra, all
+----
+----
+type - category
+
+odori - culture
+retro - retrospection
+tech - disaster
+tech - issue
+tech - new_tech
+tech - architecture
+----
+===== Request
+include::{snippets}/save-record/http-request.adoc[]
+===== Response - Success
+include::{snippets}/save-record/http-response.adoc[]
+
+=== 2. 레코드 수정
+===== Request
+include::{snippets}/update-record/http-request.adoc[]
+===== Response - Success
+include::{snippets}/update-record/http-response.adoc[]
+
+=== 3. 레코드 삭제
+===== Request
+include::{snippets}/delete-record/http-request.adoc[]
+===== Response - Success
+include::{snippets}/delete-record/http-response.adoc[]
+
+=== 4. 핫 레코드 목록 조회
+===== Request
+include::{snippets}/get-hot-records/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-hot-records/http-response.adoc[]
+
+=== 5. 레코드 목록 조회
+----
+/api/v1/record/{part}/{type}?category=&page=
+----
+----
+part
+
+web, server, infra, all
+----
+----
+type - category
+
+odori - culture
+retro - retrospection
+tech - disaster
+tech - issue
+tech - new_tech
+tech - architecture
+all - x
+----
+----
+page : 레코드 목록 페이지 번호 (0부터 1페이지)
+----
+===== Request
+include::{snippets}/get-records/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-records/http-response.adoc[]
+
+=== 6. 레코드 조회
+----
+page : 댓글 목록 페이지 번호 (0부터 1페이지)
+----
+----
+level : 댓글 / 대댓글 / 대대댓글 구분 (1 - 댓글, 2 - 대댓글 ...)
+----
+===== Request
+include::{snippets}/get-record/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-record/http-response.adoc[]
+
+=== 7. 레코드 조회 - 리뷰
+----
+reviews : 리뷰 댓글
+reviews.status : 리뷰 상태 (approve - 승인, reject - 반려, mine - 레코드 작성자)
+reviewers : 리뷰 신청자 (approve - 승인, reject - 반려, wait - 대기)
+----
+===== Request
+include::{snippets}/get-record-with-review/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-record-with-review/http-response.adoc[]
+
+=== 8. 레코드 목록 조회 - 리뷰 받는 사람
+----
+page : 레코드 목록 페이지 번호 (0부터 1페이지)
+
+status
+wait : 내가 작성한 글 중 대기상태인 글
+approve : 내가 작성한 글 중 승인 처리된 글
+reject : 내가 작성한 글 중 반려 처리된 글
+----
+===== Request
+include::{snippets}/get-reviewee-records/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-reviewee-records/http-response.adoc[]
+
+=== 9. 레코드 목록 조회 - 리뷰 하는 사람
+----
+page : 레코드 목록 페이지 번호 (0부터 1페이지)
+
+status
+wait : 내가 아직 리뷰하지 않은 글
+approve : 내가 승인 처리한 글
+reject : 내가 반려 처리한 글
+----
+===== Request
+include::{snippets}/get-reviewer-records/http-request.adoc[]
+===== Response - Success
+include::{snippets}/get-reviewer-records/http-response.adoc[]

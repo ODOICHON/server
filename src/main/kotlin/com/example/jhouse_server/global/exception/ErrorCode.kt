@@ -32,4 +32,7 @@ enum class ErrorCode(
 
     // Post
     ALREADY_LOVE(HttpStatus.BAD_REQUEST, "P0000", "이미 좋아요를 한 게시글입니다."),
+
+    // Record
+    ALREADY_APPROVE(HttpStatus.BAD_REQUEST, "R0000", "이미 승인처리된 글입니다."),
 }

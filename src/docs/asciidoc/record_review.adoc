@@ -1,0 +1,33 @@
+== Record Review API
+
+----
+status
+
+approve (승인)
+reject (반려)
+mine (레코드 작성자가 리뷰를 달 때)
+----
+
+=== 1. 리뷰 저장
+===== Request
+include::{snippets}/save-record-review/http-request.adoc[]
+===== Response - Success
+include::{snippets}/save-record-review/http-response.adoc[]
+===== Response - Fail
+include::{snippets}/save-record-review-exception/http-response.adoc[]
+
+=== 2. 리뷰 수정
+===== Request
+include::{snippets}/update-record-review/http-request.adoc[]
+===== Response - Success
+include::{snippets}/update-record-review/http-response.adoc[]
+===== Response - Fail
+include::{snippets}/update-record-review-exception/http-response.adoc[]
+
+=== 3. 리뷰 삭제
+===== Request
+include::{snippets}/delete-record-review/http-request.adoc[]
+===== Response - Success
+include::{snippets}/delete-record-review/http-response.adoc[]
+===== Response - Fail
+include::{snippets}/delete-record-review-exception/http-response.adoc[]
