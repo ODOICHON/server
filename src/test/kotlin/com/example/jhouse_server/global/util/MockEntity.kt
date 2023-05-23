@@ -246,6 +246,12 @@ class MockEntity {
             status = status
         )
 
+        fun recordReviewReqDtoAll(recordId: Long, content: String, status: String) = RecordReviewReqDto(
+            recordId = recordId,
+            content = content,
+            status = status
+        )
+
         fun recordReviewUpdateDto() = RecordReviewUpdateDto(
             content = "수정 내용",
             status = "approve"
