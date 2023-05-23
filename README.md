@@ -204,6 +204,10 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [JWT 예외처리](https://odoichon.github.io/server/src/main/resources/static/docs/jwt.html)
 - [좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
 - [ErrorCode 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/error.html)
+- [레코드 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record.html)
+- [레코드 카테고리 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record_category.html)
+- [레코드 댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record_comment.html)
+- [레코드 리뷰 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record_review.html)
 <br/>
 
 ### 기타 회고 및 문서화
