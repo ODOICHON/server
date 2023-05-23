@@ -33,7 +33,7 @@ class RecordRepositoryImpl(
 
     override fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(record)
             .leftJoin(record.user, user)
             .where(
@@ -47,7 +47,7 @@ class RecordRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(record)
             .leftJoin(record.user, user)
             .where(
@@ -61,7 +61,7 @@ class RecordRepositoryImpl(
 
     override fun findRevieweeRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(record)
             .leftJoin(record.user, QUser.user)
             .where(
@@ -74,7 +74,7 @@ class RecordRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content, QUser.user.nickName, record.createdAt, record.part))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content, QUser.user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(record)
             .leftJoin(record.user, QUser.user)
             .where(
@@ -87,7 +87,7 @@ class RecordRepositoryImpl(
 
     override fun findReviewerRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(recordReviewApply)
             .leftJoin(recordReviewApply.record, record)
             .leftJoin(recordReviewApply.reviewer, QUser.user)
@@ -101,7 +101,7 @@ class RecordRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part))
+            .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(recordReviewApply)
             .leftJoin(recordReviewApply.record, record)
             .leftJoin(recordReviewApply.reviewer, QUser.user)

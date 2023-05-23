@@ -18,7 +18,7 @@ class OdoriRepositoryImpl(
 
     override fun findOdoris(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
-            .select(QRecordThumbnailResDto(odori.id, odori.title, odori.content.substring(0, 50), user.nickName, odori.createdAt, odori.part))
+            .select(QRecordThumbnailResDto(odori.id, odori.title, odori.content.substring(0, 50), user.nickName, odori.createdAt, odori.part.stringValue().toLowerCase()))
             .from(odori)
             .leftJoin(odori.user, user)
             .where(
@@ -32,7 +32,7 @@ class OdoriRepositoryImpl(
             .fetch()
 
         val countQuery = jpaQueryFactory
-            .select(QRecordThumbnailResDto(odori.id, odori.title, odori.content.substring(0, 50), user.nickName, odori.createdAt, odori.part))
+            .select(QRecordThumbnailResDto(odori.id, odori.title, odori.content.substring(0, 50), user.nickName, odori.createdAt, odori.part.stringValue().toLowerCase()))
             .from(odori)
             .leftJoin(odori.user, user)
             .where(

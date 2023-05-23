@@ -84,7 +84,7 @@ data class RecordThumbnailResDto @QueryProjection constructor(
     @JsonFormat(pattern = "MM.dd.yyyy")
     @JsonProperty("create_at")
     val createAt: LocalDateTime,
-    val part: Part
+    val part: String
 )
 
 data class RecordPageResDto(
