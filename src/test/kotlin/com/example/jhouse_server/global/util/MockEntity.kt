@@ -7,6 +7,14 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentReqDto
 import com.example.jhouse_server.domain.comment.entity.Comment
+import com.example.jhouse_server.domain.record.dto.RecordPageCondition
+import com.example.jhouse_server.domain.record.dto.RecordReqDto
+import com.example.jhouse_server.domain.record.dto.RecordUpdateDto
+import com.example.jhouse_server.domain.record_category.dto.TemplateUpdateReqDto
+import com.example.jhouse_server.domain.record_comment.dto.RecordCommentReqDto
+import com.example.jhouse_server.domain.record_comment.dto.RecordCommentUpdateDto
+import com.example.jhouse_server.domain.record_review.dto.RecordReviewReqDto
+import com.example.jhouse_server.domain.record_review.dto.RecordReviewUpdateDto
 import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
@@ -50,13 +58,27 @@ class MockEntity {
             email = "test2_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저2",
-            phoneNum = "01011111111",
+            phoneNum = "01022222222",
+            age = "20대 미만",
+            joinPaths = mutableListOf("네이버 카페", "인스타그램")
+        )
+
+        fun testUserSignUpDto3() = UserSignUpReqDto(
+            email = "test3_jhouse_com",
+            password = "abcdefG123!",
+            nickName = "테스트유저3",
+            phoneNum = "01033333333",
             age = "20대 미만",
             joinPaths = mutableListOf("네이버 카페", "인스타그램")
         )
 
         fun testUserSignInDto() = UserSignInReqDto(
             email = "test_jhouse_com",
+            password = "abcdefG123!"
+        )
+
+        fun testUserSignInDto2() = UserSignInReqDto(
+            email = "test2_jhouse_com",
             password = "abcdefG123!"
         )
 
@@ -141,5 +163,108 @@ class MockEntity {
         fun comment(findBoard: Board, user: User): Comment {
             return Comment(findBoard, "댓글이란다.", user)
         }
+
+        fun templateSaveReqDto() = TemplateUpdateReqDto(
+            category = "culture",
+            template = "제목 : \n내용 : "
+        )
+
+        fun templateSaveExDto() = TemplateUpdateReqDto(
+            category = "exception",
+            template = "제목 : \n내용 : "
+        )
+
+        fun templateUpdateReqDto() = TemplateUpdateReqDto(
+            category = "culture",
+            template = "제목 : \n내용 : \n작성자 : "
+        )
+
+        fun odoriReqDto() = RecordReqDto(
+            title = "코드 리뷰 문화 도입",
+            content = "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
+            part = "server",
+            category = "culture",
+            type = "odori"
+        )
+
+        fun retroReqDto() = RecordReqDto(
+            title = "DDOS 대응 회고",
+            content = "DDOS 공격을 방지하기 위해 Bucket4j 라이브러리를 도입했습니다.",
+            part = "server",
+            category = "retrospection",
+            type = "retro"
+        )
+
+        fun techReqDtoNewTech() = RecordReqDto(
+            title = "인증 인가 직접 구현하기",
+            content = "스프링 시큐리티를 사용하지 않고, 인증 인가를 직접 구현했습니다.",
+            part = "server",
+            category = "new_tech",
+            type = "tech"
+        )
+
+        fun techReqDtoIssue() = RecordReqDto(
+            title = "이슈 제목",
+            content = "이슈 내용입니다.",
+            part = "server",
+            category = "issue",
+            type = "tech"
+        )
+
+        fun recordUpdateDto() = RecordUpdateDto(
+            title = "수정 제목",
+            content = "수정 내용"
+        )
+
+        fun recordPageConditionAll() = RecordPageCondition(
+            part = "all",
+            type = "all",
+            category = ""
+        )
+
+        fun recordPageConditionOdori() = RecordPageCondition(
+            part = "all",
+            type = "odori",
+            category = "culture"
+        )
+
+        fun recordPageConditionRetro() = RecordPageCondition(
+            part = "all",
+            type = "retro",
+            category = "retrospection"
+        )
+
+        fun recordPageConditionTech() = RecordPageCondition(
+            part = "all",
+            type = "tech",
+            category = "new_tech"
+        )
+
+        fun recordReviewReqDto(recordId: Long, status: String) = RecordReviewReqDto(
+            recordId = recordId,
+            content = "좋은 글 감사합니다!",
+            status = status
+        )
+
+        fun recordReviewReqDtoAll(recordId: Long, content: String, status: String) = RecordReviewReqDto(
+            recordId = recordId,
+            content = content,
+            status = status
+        )
+
+        fun recordReviewUpdateDto() = RecordReviewUpdateDto(
+            content = "수정 내용",
+            status = "approve"
+        )
+
+        fun recordCommentReqDto(recordId: Long, parentId: Long?) = RecordCommentReqDto(
+            recordId = recordId,
+            parentId = parentId,
+            content = "댓글입니다."
+        )
+
+        fun recordCommentUpdateDto() = RecordCommentUpdateDto(
+            content = "수정 내용"
+        )
     }
 }
