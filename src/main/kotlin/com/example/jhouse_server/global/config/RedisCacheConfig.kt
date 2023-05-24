@@ -24,7 +24,7 @@ class RedisCacheConfig {
         val redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer()))
-                .entryTtl(Duration.ofMinutes(3L))
+                .entryTtl(Duration.ofHours(1L))
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(cf!!).cacheDefaults(redisCacheConfiguration).build()
     }
 }
