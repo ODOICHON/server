@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.params.shadow.com.univocity.parsers.common.fields.FieldSelector
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.MediaType
@@ -23,6 +24,7 @@ import org.springframework.restdocs.payload.PayloadDocumentation.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
+import java.lang.reflect.Field
 
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -54,6 +56,44 @@ internal class BoardControllerTest @Autowired constructor(
         boardRepository.save(findBoard)
     }
 
+    @Test
+    @DisplayName("메인페이지 게시글 조회")
+    fun getBoardPreviewAll() {
+        val uri = "$uri/preview?prefix=INTRO&limit=5"
+        val resultActions = mockMvc.perform(
+                RestDocumentationRequestBuilders.get(uri)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+        )
+        resultActions.andExpect(status().isOk)
+                .andDo(print())
+                .andDo(
+                        document(
+                                "get-board-preview",
+                                responseFields(
+                                        beneathPath("data").withSubsectionId("data"),
+                                        *boardsResponseFieldSnippet()
+                                )
+                        )
+                )
+    }
+
+    private fun boardsResponseFieldSnippet(): Array<FieldDescriptor> {
+        return arrayOf(
+                fieldWithPath("boardId").description("게시글 ID"),
+                fieldWithPath("code").description("HTML 정적 코드"),
+                fieldWithPath("title").description("게시글 제목"),
+                fieldWithPath("oneLineContent").description("한줄 소개"),
+                fieldWithPath("nickName").description("작성자 닉네임"),
+                fieldWithPath("createdAt").description("생성일시"),
+                fieldWithPath("imageUrl").description("이미지 주소 리스트"),
+                fieldWithPath("commentCount").description("댓글 수"),
+                fieldWithPath("category").description("말머리"),
+                fieldWithPath("prefixCategory").description("커뮤니티 대분류"),
+                fieldWithPath("fixed").description("고정여부")
+        )
+    }
+
 
     @Test
     @DisplayName("게시글 조회")
@@ -77,6 +117,7 @@ internal class BoardControllerTest @Autowired constructor(
                         )
                 )
     }
+
 
     private fun pageResponseFieldSnippet(): Array<FieldDescriptor> {
         return arrayOf(

@@ -1,14 +1,12 @@
 package com.example.jhouse_server.domain.board
 
+import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
-import org.slf4j.LoggerFactory
+import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import java.sql.Timestamp
-import java.text.Normalizer
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
 
@@ -25,19 +23,20 @@ data class BoardReqDto(
     val fixed: Boolean? = null, // 홍보 게시글에 대해서만 true 설정 가능
 )
 
-data class BoardResDto(
-        val boardId: Long,
-        val title: String,
-        val code: String,
-        val oneLineContent: String,
-        val nickName: String,
-        val createdAt: Date,
-        val imageUrl: String?,
-        val commentCount: Int,
-        val category: String,
-        val prefixCategory: String,
-        val fixed: Boolean
-)
+//data class BoardResDto(
+//        val boardId: Long,
+//        val title: String,
+//        val code: String,
+//        val oneLineContent: String,
+//        val nickName: String,
+//        val createdAt: Date?,
+//        val imageUrl: String?,
+//        val commentCount: Int,
+//        val category: String,
+//        val prefixCategory: String,
+//        val fixed: Boolean
+//)
+
 
 data class BoardUpdateReqDto(
     @field:NotNull(message = "게시글 제목은 필수값입니다.")
@@ -72,6 +71,13 @@ data class BoardListDto(
         val search: String?,
         val order: String?
 )
+
+data class BoardPreviewListDto(
+        val prefix: String,
+        val category: String?,
+        val limit: Long
+)
+
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
     if (board.imageUrls.isEmpty()) {

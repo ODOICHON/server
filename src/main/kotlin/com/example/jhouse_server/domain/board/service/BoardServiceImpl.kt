@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.board.service
 
 import com.example.jhouse_server.domain.board.*
+import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.BoardCode
@@ -11,6 +12,8 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.util.findByIdOrThrow
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -37,6 +40,7 @@ class BoardServiceImpl(
         return boardRepository.save(board).id
     }
 
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun updateBoard(boardId: Long, req: BoardUpdateReqDto, user: User): Long {
         val board = boardRepository.findByIdOrThrow(boardId)
@@ -54,10 +58,14 @@ class BoardServiceImpl(
         ).id
     }
 
-
     override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
         return boardRepository.getBoardAll(boardListDto, pageable)
                 .map { toListDto(it) }
+    }
+
+    @Cacheable(key="#boardPreviewListDto.toString()", cacheManager = "cacheManager", value= ["board"])
+    override fun getBoardPreviewAll(boardPreviewListDto: BoardPreviewListDto): List<BoardResDto> {
+        return boardRepository.getBoardPreviewAll(boardPreviewListDto).map { toListDto(it) }
     }
 
     override fun getBoardOne(boardId: Long): BoardResOneDto {
@@ -66,6 +74,7 @@ class BoardServiceImpl(
         }
     }
 
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun deleteBoard(boardId: Long, user: User) {
         val board = boardRepository.findByIdOrThrow(boardId)
