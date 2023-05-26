@@ -209,6 +209,6 @@ class RecordServiceImplTest @Autowired constructor(
         assertThat(tech.content).isEqualTo(record3.content)
         assertThat(tech.part).isEqualTo("server")
         assertThat(tech.type).isEqualTo("tech")
-        assertThat(tech.category).isEqualTo("신 기술")
+        assertThat(tech.category).isEqualTo("new_tech")
     }
 }
