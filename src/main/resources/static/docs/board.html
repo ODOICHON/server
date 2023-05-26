@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ2MDc2NjUsImF1dGgiOiJVU0VSIn0.l3cPul4thS5MnUd8b9rY05mMLhJuQHNtWUlEorusJD-Fp_-1M138ivieVQXYoDFgM8d5LCoZOZQL6gFHxiOozQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ5MzE4ODEsImF1dGgiOiJVU0VSIn0.8OTrvzlJ9Sygq6mAgboLYNb7hMo_sRQgZMl-59iFDhMqlMD2EZXqGk-CZFsa0Wi8nbpq6KICEpE9bfTECbgIwQ
 Accept: application/json
 Content-Length: 316
 Host: localhost:8080
@@ -482,7 +482,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 389
+  "data" : 652
 }</code></pre>
 </div>
 </div>
@@ -495,7 +495,7 @@ Content-Length: 64
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ2MDc2NjUsImF1dGgiOiJVU0VSIn0.l3cPul4thS5MnUd8b9rY05mMLhJuQHNtWUlEorusJD-Fp_-1M138ivieVQXYoDFgM8d5LCoZOZQL6gFHxiOozQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ5MzE4ODEsImF1dGgiOiJVU0VSIn0.8OTrvzlJ9Sygq6mAgboLYNb7hMo_sRQgZMl-59iFDhMqlMD2EZXqGk-CZFsa0Wi8nbpq6KICEpE9bfTECbgIwQ
 Accept: application/json
 Content-Length: 312
 Host: localhost:8080
@@ -525,7 +525,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 387
+  "data" : 650
 }</code></pre>
 </div>
 </div>
@@ -539,7 +539,7 @@ Content-Length: 64
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/boards HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ2MDc2NjIsImF1dGgiOiJVU0VSIn0.Zz3fCARlTzEFRmJbpHQ9Y9ht9s5LUNJtnjoo13fOa6QCrgBVkuXL2tDl9S7IDNUD-Z9ktm36ycWHhifJoTnrUA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ5MzE4NzgsImF1dGgiOiJVU0VSIn0.Ou5gWpsfJOPN-PpIGmGku9AI6EZSvMGbe1OJFhIkQeopn7ioEwmoNxyNdTjeDPC_yga4drtJFKXsfcgv3UkEqQ
 Accept: application/json
 Content-Length: 317
 Host: localhost:8080
@@ -569,27 +569,31 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 382
+  "data" : 645
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_4_게시글_리스트_조회_페이징_처리">4. 게시글 리스트 조회 ( 페이징 처리 )</h4>
+<h4 id="_4_메인페이지_소개_게시글_조회">4. 메인페이지 소개 게시글 조회</h4>
 
 </div>
 <div class="sect3">
-<h4 id="_prefix_필수값">prefix : 필수값</h4>
+<h4 id="_prefix_community_intro">prefix : COMMUNITY, INTRO</h4>
 
 </div>
 <div class="sect3">
-<h4 id="_category_search_orderdefault_recent_선택값">category, search, order(default : RECENT) : 선택값</h4>
+<h4 id="_limit_개수">limit : 개수</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_category_intro_인_경우에만_작성">category : INTRO 인 경우에만 작성</h4>
 <div class="sect4">
 <h5 id="_request_4">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards?prefix=INTRO HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards/preview?prefix=INTRO&amp;limit=5 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -604,6 +608,58 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
+Content-Length: 531
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공",
+  "data" : [ {
+    "boardId" : 642,
+    "title" : "짱구는 못말려",
+    "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;짱구는 못말려&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;철수&lt;/i&gt;야 나랑 놀자 &lt;/div&gt; &lt;/body&gt;",
+    "oneLineContent" : "짱구는 못말려철수야 나랑 놀자",
+    "nickName" : "테스트유저1",
+    "createdAt" : "2023-05-24T12:07:56.354+00:00",
+    "imageUrl" : "img001",
+    "commentCount" : 1,
+    "category" : "TREND",
+    "prefixCategory" : "INTRO",
+    "fixed" : false
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_5_게시글_리스트_조회_페이징_처리">5. 게시글 리스트 조회 ( 페이징 처리 )</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_prefix_필수값">prefix : 필수값</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_category_search_orderdefault_recent_선택값">category, search, order(default : RECENT) : 선택값</h4>
+<div class="sect4">
+<h5 id="_request_5">Request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards?prefix=INTRO HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_response_5">Response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
 Content-Length: 1078
 
 {
@@ -611,12 +667,12 @@ Content-Length: 1078
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "boardId" : 383,
+      "boardId" : 646,
       "title" : "짱구는 못말려",
       "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;짱구는 못말려&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;철수&lt;/i&gt;야 나랑 놀자 &lt;/div&gt; &lt;/body&gt;",
       "oneLineContent" : "짱구는 못말려철수야 나랑 놀자",
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-05-20T18:04:23.159+00:00",
+      "createdAt" : "2023-05-24T12:07:59.738+00:00",
       "imageUrl" : "img001",
       "commentCount" : 1,
       "category" : "TREND",
@@ -632,13 +688,14 @@ Content-Length: 1078
       "pageSize" : 8,
       "pageNumber" : 0,
       "offset" : 0,
-      "unpaged" : false,
-      "paged" : true
+      "paged" : true,
+      "unpaged" : false
     },
     "totalPages" : 1,
     "totalElements" : 1,
     "last" : true,
     "numberOfElements" : 1,
+    "first" : true,
     "size" : 8,
     "sort" : {
       "unsorted" : true,
@@ -646,7 +703,6 @@ Content-Length: 1078
       "empty" : true
     },
     "number" : 0,
-    "first" : true,
     "empty" : false
   }
 }</code></pre>
@@ -655,19 +711,19 @@ Content-Length: 1078
 </div>
 </div>
 <div class="sect3">
-<h4 id="_5_게시글_상세_조회">5. 게시글 상세 조회</h4>
+<h4 id="_6_게시글_상세_조회">6. 게시글 상세 조회</h4>
 <div class="sect4">
-<h5 id="_request_5">Request</h5>
+<h5 id="_request_6">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards/384 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards/647 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_5">Response</h5>
+<h5 id="_response_6">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -681,21 +737,21 @@ Content-Length: 648
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "boardId" : 384,
+    "boardId" : 647,
     "title" : "짱구는 못말려",
     "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;짱구는 못말려&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;철수&lt;/i&gt;야 나랑 놀자 &lt;/div&gt; &lt;/body&gt;",
     "nickName" : "테스트유저1",
-    "createdAt" : "2023-05-20T18:04:24.563+00:00",
+    "createdAt" : "2023-05-24T12:08:00.621+00:00",
     "imageUrls" : [ "img001" ],
     "loveCount" : 0,
     "category" : "TREND",
     "prefixCategory" : "INTRO",
     "commentCount" : 1,
     "comments" : [ {
-      "commentId" : 1305,
+      "commentId" : 3739,
       "nickName" : "테스트유저1",
       "content" : "댓글이란다.",
-      "createdAt" : "2023-05-20T18:04:24.567+00:00"
+      "createdAt" : "2023-05-24T12:08:00.625+00:00"
     } ]
   }
 }</code></pre>
@@ -704,14 +760,14 @@ Content-Length: 648
 </div>
 </div>
 <div class="sect3">
-<h4 id="_6_게시글_수정">6. 게시글 수정</h4>
+<h4 id="_7_게시글_수정">7. 게시글 수정</h4>
 <div class="sect4">
-<h5 id="_request_6">Request</h5>
+<h5 id="_request_7">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/boards/385 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/boards/648 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ2MDc2NjQsImF1dGgiOiJVU0VSIn0.rEUojuiwBP8J4jeqn0kREK9Dl7raqnnvqZk_l1zUGYVZWrGlRdiQIduwf4yNol5Q3dwHeww1jZJ90Z06RJo4Ug
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ5MzE4ODAsImF1dGgiOiJVU0VSIn0.REPr4cXY1VsOZTtRSI9JVLuVdaSLMY8f_ejBf48oVFAOPGxnFYijTISG9kwv94H4cjRLqgDVyjAUsnAiXYeOjQ
 Accept: application/json
 Content-Length: 255
 Host: localhost:8080
@@ -728,7 +784,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_6">Response</h5>
+<h5 id="_response_7">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -741,26 +797,26 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 385
+  "data" : 648
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_7_게시글_삭제">7. 게시글 삭제</h4>
+<h4 id="_8_게시글_삭제">8. 게시글 삭제</h4>
 <div class="sect4">
-<h5 id="_request_7">Request</h5>
+<h5 id="_request_8">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/boards/380 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ2MDc2NjEsImF1dGgiOiJVU0VSIn0.rS4JPxTWOMwZASd3vNNAyMwargDyh89vMjvYKL3OcV5B4Yh3wsKESg-Qt6kDwNP6pQIDPDgjxVZwrwtIZvKUUQ
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/boards/643 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODQ5MzE4NzgsImF1dGgiOiJVU0VSIn0.Ou5gWpsfJOPN-PpIGmGku9AI6EZSvMGbe1OJFhIkQeopn7ioEwmoNxyNdTjeDPC_yga4drtJFKXsfcgv3UkEqQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_7">Response</h5>
+<h5 id="_response_8">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -779,9 +835,9 @@ Content-Length: 48
 </div>
 </div>
 <div class="sect3">
-<h4 id="_8_말머리_조회">8. 말머리 조회</h4>
+<h4 id="_9_말머리_조회">9. 말머리 조회</h4>
 <div class="sect4">
-<h5 id="_request_8">Request</h5>
+<h5 id="_request_9">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/boards/category?name=DEFAULT HTTP/1.1
@@ -791,7 +847,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_8">Response</h5>
+<h5 id="_response_9">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -822,7 +878,7 @@ Content-Length: 168
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-05-21 03:03:51 +0900
+Last updated 2023-05-24 21:07:23 +0900
 </div>
 </div>
 </body>

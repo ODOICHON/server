@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.board.controller
 
 import com.example.jhouse_server.domain.board.*
+import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
@@ -37,13 +38,19 @@ class BoardController(
         return ApplicationResponse.ok(boardService.updateBoard(boardId, req, user))
     }
 
-
+    // 커뮤니티 게시글 검색&조건&조회
     @GetMapping
     fun getBoardAll(
             @ModelAttribute boardListDto: BoardListDto,
             @PageableDefault(size=8, page=0) pageable: Pageable
     ): ApplicationResponse<Page<BoardResDto>> {
         return ApplicationResponse.ok(boardService.getBoardAll(boardListDto, pageable))
+    }
+
+    // 메인페이지 게시글 조회 (intro, community)
+    @GetMapping("/preview")
+    fun getBoardAllPreview(@ModelAttribute boardPreviewListDto: BoardPreviewListDto): ApplicationResponse<List<BoardResDto>>{
+        return ApplicationResponse.ok(boardService.getBoardPreviewAll(boardPreviewListDto))
     }
 
     @GetMapping("/{boardId}")

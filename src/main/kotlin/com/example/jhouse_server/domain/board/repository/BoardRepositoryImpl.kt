@@ -3,21 +3,19 @@ package com.example.jhouse_server.domain.board.repository
 import com.example.jhouse_server.admin.board.dto.AdminBoardSearch
 import com.example.jhouse_server.admin.board.dto.SearchFilter
 import com.example.jhouse_server.domain.board.BoardListDto
+import com.example.jhouse_server.domain.board.BoardPreviewListDto
 import com.example.jhouse_server.domain.board.PrefixCategory
+import com.example.jhouse_server.domain.board.dto.PreviewPrefixType
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.QBoard.board
 import com.example.jhouse_server.domain.board.entity.QBoardCode.boardCode
-import com.example.jhouse_server.domain.comment.entity.QComment
-import com.example.jhouse_server.domain.comment.entity.QComment.*
-import com.example.jhouse_server.domain.love.entity.QLove.*
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.hibernate.sql.ordering.antlr.OrderingSpecification
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 
@@ -75,6 +73,23 @@ class BoardRepositoryImpl(
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
     }
 
+    override fun getBoardPreviewAll(boardPreviewListDto: BoardPreviewListDto): List<Board> {
+        return jpaQueryFactory
+                .selectFrom(board)
+                .join(board.boardCode, boardCode).fetchJoin()
+                .join(board.user, user).fetchJoin()
+                .where(board.useYn.eq(true),searchPreviewWithPrefixCategory(boardPreviewListDto.prefix), searchWithBoardCategory(boardPreviewListDto.category))
+                .orderBy(board.fixed.desc(), board.love.size().desc())
+                .limit(boardPreviewListDto.limit)
+                .offset(0)
+                .fetch()
+    }
+
+    private fun searchPreviewWithPrefixCategory(prefix: String): BooleanExpression {
+        return if(PreviewPrefixType.valueOf(prefix) == PreviewPrefixType.COMMUNITY) board.prefixCategory.eq(PrefixCategory.ADVERTISEMENT).or(board.prefixCategory.eq(PrefixCategory.DEFAULT))
+                else board.prefixCategory.eq(PrefixCategory.valueOf(prefix))
+    }
+
 
     private fun searchWithBoardCategory(category: String?): BooleanExpression? {
         return if(category == null) null else board.category.eq(BoardCategory.valueOf(category))
@@ -103,8 +118,5 @@ class BoardRepositoryImpl(
             SearchFilter.WRITER -> user.nickName.contains(adminBoardSearch.keyword)
             else -> null
         }
-    }
-    private fun searchWithPrefixCategory(name: PrefixCategory) : BooleanExpression? {
-        return board.prefixCategory.eq(name)
     }
 }
