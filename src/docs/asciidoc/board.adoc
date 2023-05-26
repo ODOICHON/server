@@ -18,7 +18,18 @@ include::{snippets}/intro-board-create/http-request.adoc[]
 ===== Response
 include::{snippets}/intro-board-create/http-response.adoc[]
 
-==== 4. 게시글 리스트 조회 ( 페이징 처리 )
+==== 4. 메인페이지 소개 게시글 조회
+
+==== prefix : COMMUNITY, INTRO
+==== limit : 개수
+==== category : INTRO 인 경우에만 작성
+
+===== Request
+include::{snippets}/get-board-preview/http-request.adoc[]
+===== Response
+include::{snippets}/get-board-preview/http-response.adoc[]
+
+==== 5. 게시글 리스트 조회 ( 페이징 처리 )
 
 ==== prefix : 필수값
 ==== category, search, order(default : RECENT) : 선택값
@@ -28,25 +39,25 @@ include::{snippets}/get-board/http-request.adoc[]
 ===== Response
 include::{snippets}/get-board/http-response.adoc[]
 
-==== 5. 게시글 상세 조회
+==== 6. 게시글 상세 조회
 ===== Request
 include::{snippets}/get-board-detail/http-request.adoc[]
 ===== Response
 include::{snippets}/get-board-detail/http-response.adoc[]
 
-==== 6. 게시글 수정
+==== 7. 게시글 수정
 ===== Request
 include::{snippets}/board-update/http-request.adoc[]
 ===== Response
 include::{snippets}/board-update/http-response.adoc[]
 
-==== 7. 게시글 삭제
+==== 8. 게시글 삭제
 ===== Request
 include::{snippets}/board-delete/http-request.adoc[]
 ===== Response
 include::{snippets}/board-delete/http-response.adoc[]
 
-==== 8. 말머리 조회
+==== 9. 말머리 조회
 ===== Request
 include::{snippets}/board-category/http-request.adoc[]
 ===== Response

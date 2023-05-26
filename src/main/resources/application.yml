@@ -6,6 +6,12 @@ spring:
     include:
       secret
 
+  # 방금 추가한 부분
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+
   jpa:
     database: mysql
     hibernate:
