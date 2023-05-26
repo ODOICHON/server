@@ -112,17 +112,17 @@ class RecordServiceImpl(
             "O" -> {
                 val odori = record as Odori
                 RecordResDto(odori.id, odori.title!!, odori.content!!, odori.hits, odori.part!!.value,
-                    "odori", odori.category.value, odori.user!!.nickName, odori.createdAt, comments)
+                    "odori", odori.category.toString().lowercase(), odori.user!!.nickName, odori.createdAt, comments)
             }
             "R" -> {
                 val retro = record as Retrospection
                 RecordResDto(retro.id, retro.title!!, retro.content!!, retro.hits, retro.part!!.value,
-                    "retro", retro.category.value, retro.user!!.nickName, retro.createdAt, comments)
+                    "retro", retro.category.toString().lowercase(), retro.user!!.nickName, retro.createdAt, comments)
             }
             "T" -> {
                 val tech = record as Technology
                 RecordResDto(tech.id, tech.title!!, tech.content!!, tech.hits, tech.part!!.value,
-                    "tech", tech.category.value, tech.user!!.nickName, tech.createdAt, comments)
+                    "tech", tech.category.toString().lowercase(), tech.user!!.nickName, tech.createdAt, comments)
             }
             else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
