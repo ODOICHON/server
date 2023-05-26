@@ -5,6 +5,7 @@ import com.example.jhouse_server.admin.board.dto.SearchFilter
 import com.example.jhouse_server.domain.board.BoardListDto
 import com.example.jhouse_server.domain.board.BoardPreviewListDto
 import com.example.jhouse_server.domain.board.PrefixCategory
+import com.example.jhouse_server.domain.board.dto.PreviewPrefixType
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.QBoard.board
@@ -85,7 +86,7 @@ class BoardRepositoryImpl(
     }
 
     private fun searchPreviewWithPrefixCategory(prefix: String): BooleanExpression {
-        return if(prefix == "COMMUNITY") board.prefixCategory.eq(PrefixCategory.ADVERTISEMENT).or(board.prefixCategory.eq(PrefixCategory.DEFAULT))
+        return if(PreviewPrefixType.valueOf(prefix) == PreviewPrefixType.COMMUNITY) board.prefixCategory.eq(PrefixCategory.ADVERTISEMENT).or(board.prefixCategory.eq(PrefixCategory.DEFAULT))
                 else board.prefixCategory.eq(PrefixCategory.valueOf(prefix))
     }
 
