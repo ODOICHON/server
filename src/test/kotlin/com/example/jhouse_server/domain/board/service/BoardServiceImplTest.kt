@@ -1,11 +1,11 @@
 package com.example.jhouse_server.domain.board.service
 
 import com.example.jhouse_server.domain.board.BoardListDto
+import com.example.jhouse_server.domain.board.BoardPreviewListDto
 import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.user.UserSignInReqDto
-import com.example.jhouse_server.domain.user.UserSignUpReqDto
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -17,13 +17,11 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 @Transactional
 @SpringBootTest
@@ -158,6 +156,20 @@ internal class BoardServiceImplTest @Autowired constructor(
         // then
         assertThat(res).isEmpty()
     }
+
+    @Test
+    @DisplayName("메인페이지 게시글 조회")
+    fun get_board_preview_all() {
+        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
+        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        for (i in 0 until 5) {
+            boardService.createBoard(MockEntity.boardReqDto(), writer)
+        }
+        val boardPreviewListDto = BoardPreviewListDto("INTRO", "TREND", 5)
+        val result = boardService.getBoardPreviewAll(boardPreviewListDto)
+        assertThat(result.size).isEqualTo(5)
+    }
+
     @Test
     @DisplayName("게시글 조회")
     fun get_board_all() {
@@ -174,6 +186,7 @@ internal class BoardServiceImplTest @Autowired constructor(
         // then
         assertThat(res.content.size).isEqualTo(8)
     }
+
     @Test
     @DisplayName("게시글 조회_미리보기문구")
     fun get_board_all_one_line_content() {
@@ -194,7 +207,6 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 조회_삭제된 게시글 미노출")
     fun get_board_all_delete() {
         // given
-        val category = PrefixCategory.INTRO.name
         val pageable = PageRequest.of(0, 8)
         로그인(userSignUpReqDto.email, userSignUpReqDto.password)
         val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
