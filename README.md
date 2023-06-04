@@ -60,7 +60,7 @@
 - Bucket4j
 
 ### E-R 다이어그램
-![다이어그램](img/erd-img.png)
+![다이어그램](https://github.com/ODOICHON/server/assets/61505572/102a958b-e3cb-46bf-887f-28dbfbfdf531)
 
 ### 핵심 기능 ( 배포 이후 )
 **메모리 부족으로 인한 swap으로 가상 메모리 설정**
@@ -90,6 +90,12 @@
 유효기간이 긴 Refresh-token이 localstorage에 저장되면 XSS 공격 등으로 탈취 당할 위험이 있다고 판단하여 Cookie에 담아 저장하는 방식으로 변경하였습니다.
 
 리펙토링 과정은 [리프레시 토큰 저장방식 변경](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%86%A0%ED%81%B0-%EC%A0%80%EC%9E%A5%EB%B0%A9%EC%8B%9D-%EB%B3%80%EA%B2%BD)에서 자세히 확인할 수 있습니다.
+
+**테크 블로그 서비스 기획/개발**
+
+팀 오도리에서 주말의집 서비스 개발을 위해 거쳐온 지난 여정과 마주했던 이슈 및 회고에 대해 사용자들과 공유하고자 off the record로 시작하게 된 서비스입니다. 해당 서비스는 서버 파트 내부에서 자체적으로 기획/디자인/개발 하는 것이며, 본 서비스와 공용으로 사용하는 API가 있기에 해당 레포지토리에서 추가 확장으로 개발을 진행하였습니다. 프론트엔드 작업 내용은 [back-office](https://github.com/ODOICHON/back-office) 에서 확인할 수 있습니다.
+
+[테크 블로그 바로가기](https://duaily.net/tech) 에서 결과를 확인할 수 있습니다.
 
 ### 핵심 기능 ( 기능 개발 중 )
 **반응형 웹 화면**  
