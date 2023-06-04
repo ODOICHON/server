@@ -220,6 +220,7 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [태민 - 배포 도중 503에러](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%EB%8F%84%EC%A4%91-503-%EC%97%90%EB%9F%AC)  
 - [태민 - 로깅 & 로그관리](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-Service-layer-logging)
 - [태민 - 캐시 적용](https://github.com/ODOICHON/server/wiki/%5B%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%5D-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EC%A1%B0%ED%9A%8C-%EC%BA%90%EC%8B%9C-%EC%A0%81%EC%9A%A9)
+- [태민 - 쿼리 통일화](https://github.com/ODOICHON/server/wiki/%5B%EC%84%B1%EB%8A%A5%5D-Querydsl%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%BF%BC%EB%A6%AC-%ED%86%B5%EC%9D%BC%ED%99%94)
 - [은비 - ERD 설계](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-ERD-%EC%84%A4%EA%B3%84)
 - [은비 - Jasypt 라이브러리를 이용한 YML 파일 암호화하기](https://github.com/ODOICHON/server/wiki/%5Bproject%5D-Jasypt-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-YML-%ED%8C%8C%EC%9D%BC-%EC%95%94%ED%98%B8%ED%99%94%ED%95%98%EA%B8%B0)
 - [은비 - 테스트 코드를 작성하는 이유](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%5D-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)
