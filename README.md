@@ -245,7 +245,7 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [민혁 - 테크블로그(ERD 설계)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-ERD-%EC%84%A4%EA%B3%84)
 - [민혁 - 테크블로그(하위 경로 이슈)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%ED%95%98%EC%9C%84-%EA%B2%BD%EB%A1%9C-%EC%9D%B4%EC%8A%88)
 - [민혁 - 테크블로그(무한 대댓글)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%EB%AC%B4%ED%95%9C-%EB%8C%80%EB%8C%93%EA%B8%80)
-- [민혁 - 테크블로그(프로세스 시나리오)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4)
+- [민혁 - 테크블로그(리뷰 프로세스 시나리오)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%EB%A6%AC%EB%B7%B0-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4)
 
 ### 버전 관리
 🏷 VERSION 0.0.1 - 로그인/회원가입 API 연동 (2023.03.39)
