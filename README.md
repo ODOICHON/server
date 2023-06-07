@@ -60,7 +60,7 @@
 - Bucket4j
 
 ### E-R 다이어그램
-![다이어그램](img/erd-img.png)
+![다이어그램](https://github.com/ODOICHON/server/assets/61505572/102a958b-e3cb-46bf-887f-28dbfbfdf531)
 
 ### 핵심 기능 ( 배포 이후 )
 **메모리 부족으로 인한 swap으로 가상 메모리 설정**
@@ -90,6 +90,12 @@
 유효기간이 긴 Refresh-token이 localstorage에 저장되면 XSS 공격 등으로 탈취 당할 위험이 있다고 판단하여 Cookie에 담아 저장하는 방식으로 변경하였습니다.
 
 리펙토링 과정은 [리프레시 토큰 저장방식 변경](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%86%A0%ED%81%B0-%EC%A0%80%EC%9E%A5%EB%B0%A9%EC%8B%9D-%EB%B3%80%EA%B2%BD)에서 자세히 확인할 수 있습니다.
+
+**테크 블로그 서비스 기획/개발**
+
+팀 오도리에서 주말의집 서비스 개발을 위해 거쳐온 지난 여정과 마주했던 이슈 및 회고에 대해 사용자들과 공유하고자 off the record로 시작하게 된 서비스입니다. 해당 서비스는 서버 파트 내부에서 자체적으로 기획/디자인/개발 하는 것이며, 본 서비스와 공용으로 사용하는 API가 있기에 해당 레포지토리에서 추가 확장으로 개발을 진행하였습니다. 프론트엔드 작업 내용은 [back-office](https://github.com/ODOICHON/back-office) 에서 확인할 수 있습니다.
+
+[테크 블로그 바로가기](https://duaily.net/tech) 에서 결과를 확인할 수 있습니다.
 
 ### 핵심 기능 ( 기능 개발 중 )
 **반응형 웹 화면**  
@@ -219,6 +225,8 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [태민 - CI/CD workflow](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-CI-CD-workflow)  
 - [태민 - 배포 도중 503에러](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%EB%8F%84%EC%A4%91-503-%EC%97%90%EB%9F%AC)  
 - [태민 - 로깅 & 로그관리](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-Service-layer-logging)
+- [태민 - 캐시 적용](https://github.com/ODOICHON/server/wiki/%5B%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%5D-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EC%A1%B0%ED%9A%8C-%EC%BA%90%EC%8B%9C-%EC%A0%81%EC%9A%A9)
+- [태민 - 쿼리 통일화](https://github.com/ODOICHON/server/wiki/%5B%EC%84%B1%EB%8A%A5%5D-Querydsl%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%9C-%EC%BF%BC%EB%A6%AC-%ED%86%B5%EC%9D%BC%ED%99%94)
 - [은비 - ERD 설계](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-ERD-%EC%84%A4%EA%B3%84)
 - [은비 - Jasypt 라이브러리를 이용한 YML 파일 암호화하기](https://github.com/ODOICHON/server/wiki/%5Bproject%5D-Jasypt-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-YML-%ED%8C%8C%EC%9D%BC-%EC%95%94%ED%98%B8%ED%99%94%ED%95%98%EA%B8%B0)
 - [은비 - 테스트 코드를 작성하는 이유](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%5D-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%BD%94%EB%93%9C%EB%A5%BC-%EC%9E%91%EC%84%B1%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)
@@ -229,7 +237,15 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [은비 - SonarCloud 세팅 중 마주한 이슈 정리](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-SonarCloud-%EC%84%A4%EC%A0%95-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85)
 - [은비 - Github Actions와 SonarCloud 사용 중 트러블 슈팅 정리](https://github.com/ODOICHON/server/wiki/%5B%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85%5D-Github-Actions---SonarCloud)
 
+- [민혁 - Spring Security 없이 인증인가 구현하기](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D-Spring-Security-%EC%97%86%EC%9D%B4-%EC%9D%B8%EC%A6%9D%EC%9D%B8%EA%B0%80-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
 - [민혁 - DDOS 대응 방안](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-DDOS-%EB%8C%80%EC%9D%91-%EB%B0%A9%EC%95%88)
+- [민혁 - 유저 탈퇴 처리](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D-%EC%9C%A0%EC%A0%80-%ED%83%88%ED%87%B4-%EC%B2%98%EB%A6%AC)
+- [민혁 - 리프레시 토큰 저장방식 변경](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-%EB%A6%AC%ED%94%84%EB%A0%88%EC%8B%9C-%ED%86%A0%ED%81%B0-%EC%A0%80%EC%9E%A5%EB%B0%A9%EC%8B%9D-%EB%B3%80%EA%B2%BD)
+- [민혁 - 유저 테이블 암호화](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9C%A0%EC%A0%80-%ED%85%8C%EC%9D%B4%EB%B8%94-%EC%95%94%ED%98%B8%ED%99%94)
+- [민혁 - 테크블로그(ERD 설계)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-ERD-%EC%84%A4%EA%B3%84)
+- [민혁 - 테크블로그(하위 경로 이슈)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%ED%95%98%EC%9C%84-%EA%B2%BD%EB%A1%9C-%EC%9D%B4%EC%8A%88)
+- [민혁 - 테크블로그(무한 대댓글)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%EB%AC%B4%ED%95%9C-%EB%8C%80%EB%8C%93%EA%B8%80)
+- [민혁 - 테크블로그(리뷰 프로세스 시나리오)](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%ED%81%AC%EB%B8%94%EB%A1%9C%EA%B7%B8%5D-%EB%A6%AC%EB%B7%B0-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4)
 
 ### 버전 관리
 🏷 VERSION 0.0.1 - 로그인/회원가입 API 연동 (2023.03.39)
