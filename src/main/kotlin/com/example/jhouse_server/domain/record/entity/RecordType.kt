@@ -3,17 +3,17 @@ package com.example.jhouse_server.domain.record.entity
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 
-enum class Part(val value: String) {
+enum class RecordType(val value: String) {
     ALL("all"),
-    WEB("web"),
-    SERVER("server"),
-    INFRA("infra");
+    ODORI("odori"),
+    RETRO("retro"),
+    TECH("tech");
 
     companion object {
-        fun getPart(value: String): Part {
-            for(part in Part.values()) {
-                if(part.value == value.lowercase()) {
-                    return part
+        fun getType(value: String): RecordType {
+            for(type in RecordType.values()) {
+                if(type.value == value.lowercase()) {
+                    return type
                 }
             }
             throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)

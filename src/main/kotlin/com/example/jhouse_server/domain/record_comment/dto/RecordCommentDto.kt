@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 data class RecordCommentReqDto(
     @JsonProperty("record_id")
