@@ -3,7 +3,7 @@ package com.example.jhouse_server.domain.record.service
 import com.example.jhouse_server.domain.record.entity.Part
 import com.example.jhouse_server.domain.record.entity.RecordStatus
 import com.example.jhouse_server.domain.record.repository.RecordRepository
-import com.example.jhouse_server.domain.user.entity.AdminType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
@@ -47,7 +47,7 @@ class RecordServiceImplTest @Autowired constructor(
         userService.signUp(userSignUpDto)
         val user = userRepository.findByEmail(userSignUpDto.email).get()
         user.updateAuthority(Authority.ADMIN)
-        user.updateAdminType(AdminType.SERVER)
+        user.updateUserType(UserType.SERVER)
 
         //record setting
         val recordId1 = recordService.saveRecord(odoriReqDto, user)
