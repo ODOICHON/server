@@ -2,7 +2,7 @@ package com.example.jhouse_server.domain.record_comment.service
 
 import com.example.jhouse_server.domain.record.service.RecordService
 import com.example.jhouse_server.domain.record_comment.repository.RecordCommentRepository
-import com.example.jhouse_server.domain.user.entity.AdminType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
@@ -39,7 +39,7 @@ class RecordCommentServiceImplTest @Autowired constructor(
         userService.signUp(userSignUpDto)
         val user = userRepository.findByEmail(userSignUpDto.email).get()
         user.updateAuthority(Authority.ADMIN)
-        user.updateAdminType(AdminType.SERVER)
+        user.updateUserType(UserType.SERVER)
         userId = user.id
 
         //record setting

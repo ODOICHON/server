@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.user.repository
 
-import com.example.jhouse_server.domain.user.entity.AdminType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.jpa.repository.JpaRepository
@@ -20,6 +20,6 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
 
     fun findByEmailAndAuthority(email: String, authority: Authority) : Optional<User>
 
-    @Query("select u from User u where u.adminType = :adminType and u.id <> :userId")
-    fun findAllByAdminType(@Param("userId") userId: Long, @Param("adminType") adminType: AdminType): List<User>
+    @Query("select u from User u where u.userType = :userType and u.id <> :userId")
+    fun findAllByUserType(@Param("userId") userId: Long, @Param("userType") userType: UserType): List<User>
 }

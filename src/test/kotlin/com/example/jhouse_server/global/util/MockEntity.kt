@@ -240,6 +240,12 @@ class MockEntity {
             category = "new_tech"
         )
 
+        fun recordPageCondition(part: String, type: String, category: String) = RecordPageCondition(
+            part = part,
+            type = type,
+            category = category
+        )
+
         fun recordReviewReqDto(recordId: Long, status: String) = RecordReviewReqDto(
             recordId = recordId,
             content = "좋은 글 감사합니다!",

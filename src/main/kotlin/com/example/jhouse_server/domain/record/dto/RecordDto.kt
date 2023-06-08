@@ -1,6 +1,5 @@
 package com.example.jhouse_server.domain.record.dto
 
-import com.example.jhouse_server.domain.record.entity.Part
 import com.example.jhouse_server.domain.record_comment.dto.RecordCommentResDto
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewResDto
 import com.example.jhouse_server.domain.record_review_apply.dto.RecordReviewApplyResDto

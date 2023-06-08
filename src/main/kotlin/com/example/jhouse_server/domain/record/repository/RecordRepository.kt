@@ -1,9 +1,6 @@
 package com.example.jhouse_server.domain.record.repository
 
 import com.example.jhouse_server.domain.record.entity.Record
-import com.example.jhouse_server.domain.record.repository.odori.OdoriRepositoryCustom
-import com.example.jhouse_server.domain.record.repository.retrospection.RetrospectionRepositoryCustom
-import com.example.jhouse_server.domain.record.repository.technology.TechnologyRepositoryCustom
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
