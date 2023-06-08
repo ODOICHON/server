@@ -156,7 +156,6 @@ class RecordServiceImplTest @Autowired constructor(
         val recordId2 = recordIds[1]
         val recordId3 = recordIds[2]
         val recordId4 = recordIds[3]
-        val recordId5 = recordIds[4]
 
         val pageRequest1 = PageRequest.of(0, 4)
         val pageRequest2 = PageRequest.of(1, 4)
@@ -168,6 +167,19 @@ class RecordServiceImplTest @Autowired constructor(
         val retro = recordService.getRecords(recordPageConditionRetro, pageRequest1).records.content
         val tech = recordService.getRecords(recordPageConditionTech, pageRequest1).records.content
 
+        val allWeb = recordService.getRecords(MockEntity.recordPageCondition("web", "all", ""), pageRequest1).records.content
+        val allServer = recordService.getRecords(MockEntity.recordPageCondition("server", "all", ""), pageRequest1).records.content
+        val allInfra = recordService.getRecords(MockEntity.recordPageCondition("infra", "all", ""), pageRequest1).records.content
+        val odoriWeb = recordService.getRecords(MockEntity.recordPageCondition("web", "odori", "culture"), pageRequest1).records.content
+        val odoriServer = recordService.getRecords(MockEntity.recordPageCondition("server", "odori", "culture"), pageRequest1).records.content
+        val odoriInfra = recordService.getRecords(MockEntity.recordPageCondition("infra", "odori", "culture"), pageRequest1).records.content
+        val retroWeb = recordService.getRecords(MockEntity.recordPageCondition("web", "retro", "retrospection"), pageRequest1).records.content
+        val retroServer = recordService.getRecords(MockEntity.recordPageCondition("server", "retro", "retrospection"), pageRequest1).records.content
+        val retroInfra = recordService.getRecords(MockEntity.recordPageCondition("infra", "retro", "retrospection"), pageRequest1).records.content
+        val techWeb = recordService.getRecords(MockEntity.recordPageCondition("web", "tech", "new_tech"), pageRequest1).records.content
+        val techServer = recordService.getRecords(MockEntity.recordPageCondition("server", "tech", "new_tech"), pageRequest1).records.content
+        val techInfra = recordService.getRecords(MockEntity.recordPageCondition("infra", "tech", "new_tech"), pageRequest1).records.content
+
         //then
         assertThat(all1.size).isEqualTo(4)
         assertThat(all2.size).isEqualTo(1)
@@ -177,6 +189,19 @@ class RecordServiceImplTest @Autowired constructor(
         assertThat(odori.map { it.recordId }.toList()).contains(recordId1)
         assertThat(retro.map { it.recordId }.toList()).contains(recordId2)
         assertThat(tech.map { it.recordId }.toList()).isEqualTo(listOf(recordId3, recordId4))
+
+        assertThat(allWeb.size).isEqualTo(0)
+        assertThat(allServer.size).isEqualTo(4)
+        assertThat(allInfra.size).isEqualTo(0)
+        assertThat(odoriWeb.size).isEqualTo(0)
+        assertThat(odoriServer.size).isEqualTo(1)
+        assertThat(odoriInfra.size).isEqualTo(0)
+        assertThat(retroWeb.size).isEqualTo(0)
+        assertThat(retroServer.size).isEqualTo(1)
+        assertThat(retroInfra.size).isEqualTo(0)
+        assertThat(techWeb.size).isEqualTo(0)
+        assertThat(techServer.size).isEqualTo(2)
+        assertThat(techInfra.size).isEqualTo(0)
     }
 
     @Test
