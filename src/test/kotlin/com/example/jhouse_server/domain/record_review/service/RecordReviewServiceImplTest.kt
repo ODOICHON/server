@@ -5,7 +5,7 @@ import com.example.jhouse_server.domain.record_review.entity.RecordReviewStatus
 import com.example.jhouse_server.domain.record_review.repository.RecordReviewRepository
 import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApplyStatus
 import com.example.jhouse_server.domain.record_review_apply.repository.RecordReviewApplyRepository
-import com.example.jhouse_server.domain.user.entity.AdminType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
@@ -48,11 +48,11 @@ class RecordReviewServiceImplTest @Autowired constructor(
         val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
         val user3 = userRepository.findByEmail(userSignUpDto3.email).get()
         user1.updateAuthority(Authority.ADMIN)
-        user1.updateAdminType(AdminType.SERVER)
+        user1.updateUserType(UserType.SERVER)
         user2.updateAuthority(Authority.ADMIN)
-        user2.updateAdminType(AdminType.SERVER)
+        user2.updateUserType(UserType.SERVER)
         user3.updateAuthority(Authority.ADMIN)
-        user3.updateAdminType(AdminType.SERVER)
+        user3.updateUserType(UserType.SERVER)
 
         userIds.add(user1.id)
         userIds.add(user2.id)

@@ -2,7 +2,7 @@ package com.example.jhouse_server.domain.record_review.controller
 
 import com.example.jhouse_server.domain.record.service.RecordService
 import com.example.jhouse_server.domain.record_review.service.RecordReviewService
-import com.example.jhouse_server.domain.user.entity.AdminType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
@@ -52,9 +52,9 @@ class RecordReviewControllerTest @Autowired constructor(
         user = userRepository.findByEmail(userSignUpDto1.email).get()
         val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
         user!!.updateAuthority(Authority.ADMIN)
-        user!!.updateAdminType(AdminType.SERVER)
+        user!!.updateUserType(UserType.SERVER)
         user2.updateAuthority(Authority.ADMIN)
-        user2.updateAdminType(AdminType.SERVER)
+        user2.updateUserType(UserType.SERVER)
 
         val tokenDto = userService.signIn(userSignInDto1)
         accessToken = tokenDto.accessToken

@@ -1,19 +1,14 @@
 package com.example.jhouse_server.domain.record.repository.common
 
 import com.example.jhouse_server.domain.record.entity.Part
-import com.example.jhouse_server.domain.record.entity.QRecord
 import com.example.jhouse_server.domain.record.entity.QRecord.record
+import com.example.jhouse_server.domain.record.entity.RecordType
 import com.example.jhouse_server.domain.record.entity.odori.OdoriCategory
-import com.example.jhouse_server.domain.record.entity.odori.QOdori
 import com.example.jhouse_server.domain.record.entity.odori.QOdori.odori
-import com.example.jhouse_server.domain.record.entity.retrospection.QRetrospection
 import com.example.jhouse_server.domain.record.entity.retrospection.QRetrospection.retrospection
 import com.example.jhouse_server.domain.record.entity.retrospection.RetrospectionCategory
-import com.example.jhouse_server.domain.record.entity.technology.QTechnology
 import com.example.jhouse_server.domain.record.entity.technology.QTechnology.technology
 import com.example.jhouse_server.domain.record.entity.technology.TechnologyCategory
-import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQuery
 import org.springframework.data.domain.Page
@@ -29,52 +24,47 @@ class RecordCommonMethod {
     }
 
     fun recordPartEq(part: String): BooleanExpression? {
-        return when (part) {
-            "all" -> null
-            "web" -> record.part.eq(Part.WEB)
-            "server" -> record.part.eq(Part.SERVER)
-            "infra" -> record.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        return when (Part.getPart(part)) {
+            Part.ALL -> null
+            Part.WEB -> record.part.eq(Part.WEB)
+            Part.SERVER -> record.part.eq(Part.SERVER)
+            Part.INFRA -> record.part.eq(Part.INFRA)
         }
     }
 
     fun odoriPartEq(part: String): BooleanExpression? {
-        return when (part) {
-            "all" -> null
-            "web" -> odori.part.eq(Part.WEB)
-            "server" -> odori.part.eq(Part.SERVER)
-            "infra" -> odori.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        return when (Part.getPart(part)) {
+            Part.ALL -> null
+            Part.WEB -> odori.part.eq(Part.WEB)
+            Part.SERVER -> odori.part.eq(Part.SERVER)
+            Part.INFRA -> odori.part.eq(Part.INFRA)
         }
     }
 
     fun retroPartEq(part: String): BooleanExpression? {
-        return when (part) {
-            "all" -> null
-            "web" -> retrospection.part.eq(Part.WEB)
-            "server" -> retrospection.part.eq(Part.SERVER)
-            "infra" -> retrospection.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        return when (Part.getPart(part)) {
+            Part.ALL -> null
+            Part.WEB -> retrospection.part.eq(Part.WEB)
+            Part.SERVER -> retrospection.part.eq(Part.SERVER)
+            Part.INFRA -> retrospection.part.eq(Part.INFRA)
         }
     }
 
     fun techPartEq(part: String): BooleanExpression? {
-        return when (part) {
-            "all" -> null
-            "web" -> technology.part.eq(Part.WEB)
-            "server" -> technology.part.eq(Part.SERVER)
-            "infra" -> technology.part.eq(Part.INFRA)
-            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        return when (Part.getPart(part)) {
+            Part.ALL -> null
+            Part.WEB -> technology.part.eq(Part.WEB)
+            Part.SERVER -> technology.part.eq(Part.SERVER)
+            Part.INFRA -> technology.part.eq(Part.INFRA)
         }
     }
 
     fun categoryEq(type: String, category: String): BooleanExpression? {
-        return when (type) {
-            "all" -> null
-            "odori" -> odori.category.eq(OdoriCategory.getCategoryByEnum(category))
-            "retro" -> retrospection.category.eq(RetrospectionCategory.getCategoryByEnum(category))
-            "tech" -> technology.category.eq(TechnologyCategory.getCategoryByEnum(category))
-            else -> throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+        return when (RecordType.getType(type)) {
+            RecordType.ALL -> null
+            RecordType.ODORI -> odori.category.eq(OdoriCategory.getCategoryByEnum(category))
+            RecordType.RETRO -> retrospection.category.eq(RetrospectionCategory.getCategoryByEnum(category))
+            RecordType.TECH -> technology.category.eq(TechnologyCategory.getCategoryByEnum(category))
         }
     }
 }

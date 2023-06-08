@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.record_category.controller
 
 import com.example.jhouse_server.domain.record_category.service.RecordCategoryService
-import com.example.jhouse_server.domain.user.entity.AdminType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
@@ -34,7 +34,6 @@ class RecordCategoryControllerTest @Autowired constructor(
     private val userSignUpDto = MockEntity.testUserSignUpDto()
     private val userSignInDto = MockEntity.testUserSignInDto()
     private val templateSaveReqDto = MockEntity.templateSaveReqDto()
-    private val templateSaveExDto = MockEntity.templateSaveExDto()
 
     private var accessToken: String? = null
 
@@ -44,7 +43,7 @@ class RecordCategoryControllerTest @Autowired constructor(
 
         val user = userRepository.findByEmail(userSignUpDto.email).get()
         user.updateAuthority(Authority.ADMIN)
-        user.updateAdminType(AdminType.SERVER)
+        user.updateUserType(UserType.SERVER)
 
         val tokenDto = userService.signIn(userSignInDto)
         accessToken = tokenDto.accessToken

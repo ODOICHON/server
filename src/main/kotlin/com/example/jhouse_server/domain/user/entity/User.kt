@@ -58,7 +58,7 @@ class User(
     val id : Long = 0L,
 ): BaseEntity() {
     @Enumerated(EnumType.STRING)
-    var adminType: AdminType? = null
+    var userType: UserType? = null
 
     fun update(phoneNum: String) {
         this.phoneNum = phoneNum
@@ -76,8 +76,8 @@ class User(
         this.authority = authority
     }
 
-    fun updateAdminType(adminType: AdminType) {
-        this.adminType = adminType
+    fun updateUserType(userType: UserType) {
+        this.userType = userType
     }
 
     fun withdrawalUser() {

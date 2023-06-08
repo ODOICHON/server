@@ -4,6 +4,7 @@ import com.example.jhouse_server.domain.record.dto.*
 import com.example.jhouse_server.domain.record.entity.Part
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record.entity.RecordStatus
+import com.example.jhouse_server.domain.record.entity.RecordType
 import com.example.jhouse_server.domain.record.entity.odori.Odori
 import com.example.jhouse_server.domain.record.entity.odori.OdoriCategory
 import com.example.jhouse_server.domain.record.entity.retrospection.Retrospection
@@ -81,24 +82,23 @@ class RecordServiceImpl(
     }
 
     override fun getRecords(condition: RecordPageCondition, pageable: Pageable): RecordPageResDto {
-        return when (condition.type) {
-            "all" -> {
+        return when (RecordType.getType(condition.type)) {
+            RecordType.ALL -> {
                 val records = recordRepository.findRecords(condition, pageable)
                 RecordPageResDto(records)
             }
-            "odori" -> {
+            RecordType.ODORI -> {
                 val records = odoriRepository.findOdoris(condition, pageable)
                 RecordPageResDto(records)
             }
-            "retro" -> {
+            RecordType.RETRO -> {
                 val records = retrospectionRepository.findRetrospections(condition, pageable)
                 RecordPageResDto(records)
             }
-            "tech" -> {
+            RecordType.TECH -> {
                 val records = technologyRepository.findTechnologies(condition, pageable)
                 RecordPageResDto(records)
             }
-            else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
 
@@ -112,17 +112,17 @@ class RecordServiceImpl(
             "O" -> {
                 val odori = record as Odori
                 RecordResDto(odori.id, odori.title!!, odori.content!!, odori.hits, odori.part!!.value,
-                    "odori", odori.category.toString().lowercase(), odori.user!!.nickName, odori.createdAt, comments)
+                    RecordType.ODORI.value, odori.category.toString().lowercase(), odori.user!!.nickName, odori.createdAt, comments)
             }
             "R" -> {
                 val retro = record as Retrospection
                 RecordResDto(retro.id, retro.title!!, retro.content!!, retro.hits, retro.part!!.value,
-                    "retro", retro.category.toString().lowercase(), retro.user!!.nickName, retro.createdAt, comments)
+                    RecordType.RETRO.value, retro.category.toString().lowercase(), retro.user!!.nickName, retro.createdAt, comments)
             }
             "T" -> {
                 val tech = record as Technology
                 RecordResDto(tech.id, tech.title!!, tech.content!!, tech.hits, tech.part!!.value,
-                    "tech", tech.category.toString().lowercase(), tech.user!!.nickName, tech.createdAt, comments)
+                    RecordType.TECH.value, tech.category.toString().lowercase(), tech.user!!.nickName, tech.createdAt, comments)
             }
             else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
@@ -173,10 +173,10 @@ class RecordServiceImpl(
     }
 
     private fun matchType(record: Record, category: String, type: String): Record {
-        return when (type) {
-            "odori" -> Odori(OdoriCategory.getCategoryByEnum(category)!!, record)
-            "retro" -> Retrospection(RetrospectionCategory.getCategoryByEnum(category)!!, record)
-            "tech" -> Technology(TechnologyCategory.getCategoryByEnum(category)!!, record)
+        return when (RecordType.getType(type)) {
+            RecordType.ODORI -> Odori(OdoriCategory.getCategoryByEnum(category)!!, record)
+            RecordType.RETRO -> Retrospection(RetrospectionCategory.getCategoryByEnum(category)!!, record)
+            RecordType.TECH -> Technology(TechnologyCategory.getCategoryByEnum(category)!!, record)
             else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
@@ -189,7 +189,7 @@ class RecordServiceImpl(
 
     private fun applyForReview(record: Record, user: User) {
         recordReviewApplyRepository.save(RecordReviewApply(RecordReviewApplyStatus.MINE, record, user))
-        val reviewers = userRepository.findAllByAdminType(user.id, user.adminType!!)
+        val reviewers = userRepository.findAllByUserType(user.id, user.userType!!)
         reviewers.forEach {
             val recordReviewApply = RecordReviewApply(RecordReviewApplyStatus.WAIT, record, it)
             recordReviewApplyRepository.save(recordReviewApply)

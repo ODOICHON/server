@@ -4,7 +4,6 @@ import com.example.jhouse_server.domain.record.dto.*
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.domain.Pageable
-import javax.servlet.http.HttpServletRequest
 
 interface RecordService {
 

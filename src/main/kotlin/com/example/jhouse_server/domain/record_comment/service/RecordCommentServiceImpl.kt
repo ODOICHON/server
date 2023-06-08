@@ -26,10 +26,10 @@ class RecordCommentServiceImpl(
         val record = recordRepository.findByIdOrThrow(recordCommentReqDto.recordId)
         var parent: RecordComment? = null
         val refCount = recordCommentRepository.findNextRef(record)
-        var ref: Long = if(refCount == null) 1 else (refCount + 1).toLong()
+        var ref: Long = (refCount + 1).toLong()
         var step: Long = 1
         var level: Long = 1
-        var allChildrenSize: Long = 0
+        val allChildrenSize: Long = 0
         if(recordCommentReqDto.parentId != null) {
             parent = recordCommentRepository.findByIdOrThrow(recordCommentReqDto.parentId)
 
@@ -43,7 +43,9 @@ class RecordCommentServiceImpl(
             updateAllChildrenSize(parent)
             updateStep(comments, step)
         }
-        return recordCommentRepository.save(RecordComment(recordCommentReqDto.content, record, user, ref, step, level, allChildrenSize, parent)).id
+        return recordCommentRepository.save(
+            RecordComment(recordCommentReqDto.content, record, user, ref, step, level, allChildrenSize, parent)
+        ).id
     }
 
     @Transactional
