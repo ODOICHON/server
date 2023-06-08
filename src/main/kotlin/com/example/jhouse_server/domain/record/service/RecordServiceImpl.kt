@@ -161,6 +161,8 @@ class RecordServiceImpl(
             record.updateRecordStatus(RecordStatus.APPROVE)
         } else if(recordReviewApplies.any { it.status == RecordReviewApplyStatus.REJECT }) {
             record.updateRecordStatus(RecordStatus.REJECT)
+        } else {
+            record.updateRecordStatus(RecordStatus.WAIT)
         }
     }
 
