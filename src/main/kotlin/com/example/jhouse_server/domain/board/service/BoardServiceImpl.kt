@@ -29,6 +29,7 @@ class BoardServiceImpl(
     val boardCodeRepository: BoardCodeRepository
 ): BoardService {
 
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun createBoard(req: BoardReqDto, user: User): Long {
         val content = getContent(req.code!!)
@@ -40,7 +41,7 @@ class BoardServiceImpl(
         return boardRepository.save(board).id
     }
 
-//    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun updateBoard(boardId: Long, req: BoardUpdateReqDto, user: User): Long {
         val board = boardRepository.findByIdOrThrow(boardId)
@@ -74,7 +75,7 @@ class BoardServiceImpl(
         }
     }
 
-//    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun deleteBoard(boardId: Long, user: User) {
         val board = boardRepository.findByIdOrThrow(boardId)
