@@ -29,6 +29,7 @@ class BoardServiceImpl(
     val boardCodeRepository: BoardCodeRepository
 ): BoardService {
 
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun createBoard(req: BoardReqDto, user: User): Long {
         val content = getContent(req.code!!)
