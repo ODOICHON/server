@@ -10,6 +10,8 @@ interface RecordRepositoryCustom {
 
     fun findHotRecords(weekAgo: LocalDateTime): List<RecordHotThumbnailResDto>
 
+    fun findRestHotRecords(weekAgo: LocalDateTime, limit: Long): List<RecordHotThumbnailResDto>
+
     fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto>
 
     fun findRevieweeRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): Page<RecordThumbnailResDto>

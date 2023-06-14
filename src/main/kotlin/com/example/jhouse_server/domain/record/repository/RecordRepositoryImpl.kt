@@ -31,6 +31,16 @@ class RecordRepositoryImpl(
             .fetch()
     }
 
+    override fun findRestHotRecords(weekAgo: LocalDateTime, limit: Long): List<RecordHotThumbnailResDto> {
+        return jpaQueryFactory
+            .select(QRecordHotThumbnailResDto(record.id, record.title))
+            .from(record)
+            .where(record.createdAt.lt(weekAgo), record.status.eq(RecordStatus.APPROVE))
+            .orderBy(record.createdAt.desc(), record.hits.desc())
+            .limit(limit)
+            .fetch()
+    }
+
     override fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
             .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
