@@ -100,7 +100,7 @@ class RecordRepositoryImpl(
             .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(recordReviewApply)
             .leftJoin(recordReviewApply.record, record)
-            .leftJoin(recordReviewApply.reviewer, QUser.user)
+            .leftJoin(record.user, QUser.user)
             .where(
                 recordReviewApply.reviewer.eq(user),
                 recordReviewApplyStatusEq(condition.status)
@@ -114,7 +114,7 @@ class RecordRepositoryImpl(
             .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), QUser.user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))
             .from(recordReviewApply)
             .leftJoin(recordReviewApply.record, record)
-            .leftJoin(recordReviewApply.reviewer, QUser.user)
+            .leftJoin(record.user, QUser.user)
             .where(
                 recordReviewApply.reviewer.eq(user),
                 recordReviewApplyStatusEq(condition.status)
