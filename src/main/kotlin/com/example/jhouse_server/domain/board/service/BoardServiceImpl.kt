@@ -7,6 +7,7 @@ import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.BoardCode
 import com.example.jhouse_server.domain.board.repository.BoardCodeRepository
 import com.example.jhouse_server.domain.board.repository.BoardRepository
+import com.example.jhouse_server.domain.board.repository.dto.CustomPageImpl
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -59,9 +60,10 @@ class BoardServiceImpl(
         ).id
     }
 
+    @Cacheable(key="#boardListDto.toString()+#pageable.pageNumber.toString()", cacheManager = "cacheManager", value = ["board"])
     override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
-        return boardRepository.getBoardAll(boardListDto, pageable)
-                .map { toListDto(it) }
+        val boardAll = boardRepository.getBoardAll(boardListDto, pageable)
+        return CustomPageImpl(boardAll.content, boardAll.number, boardAll.size, boardAll.totalElements)
     }
 
     @Cacheable(key="#boardPreviewListDto.toString()", cacheManager = "cacheManager", value= ["board"])
