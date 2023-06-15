@@ -29,10 +29,14 @@ import com.example.jhouse_server.global.exception.ErrorCode.NOT_FOUND_EXCEPTION
 import com.example.jhouse_server.global.exception.ErrorCode.UNAUTHORIZED_EXCEPTION
 import com.example.jhouse_server.global.util.RedisUtil
 import com.example.jhouse_server.global.util.findByIdOrThrow
+import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.stream.Collectors
+import java.util.stream.Stream
 
 @Service
 @Transactional(readOnly = true)
@@ -61,6 +65,7 @@ class RecordServiceImpl(
     }
 
     @Transactional
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["record"])
     override fun updateRecord(recordUpdateDto: RecordUpdateDto, user: User, recordId: Long): Long {
         val record = recordRepository.findByIdOrThrow(recordId)
         validateUser(record, user)
@@ -69,15 +74,23 @@ class RecordServiceImpl(
     }
 
     @Transactional
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["record"])
     override fun deleteRecord(user: User, recordId: Long) {
         val record = recordRepository.findByIdOrThrow(recordId)
         validateUser(record, user)
         recordRepository.delete(record)
     }
 
+    @Cacheable(key = "'hot'", cacheManager = "cacheManager", value = ["record"])
     override fun getHotRecords(): RecordHotResDto {
-        val weekAgo = LocalDateTime.now().minusWeeks(7)
-        val hotRecords = recordRepository.findHotRecords(weekAgo)
+        val weekAgo = LocalDateTime.now().minusWeeks(1)
+        var hotRecords = recordRepository.findHotRecords(weekAgo)
+        if(hotRecords.size < 3) {
+            val restHotRecords = recordRepository.findRestHotRecords(weekAgo, (3 - hotRecords.size).toLong())
+            hotRecords = Stream.of(hotRecords, restHotRecords)
+                .flatMap { t -> t.stream() }
+                .collect(Collectors.toList())
+        }
         return RecordHotResDto(hotRecords)
     }
 
@@ -161,6 +174,8 @@ class RecordServiceImpl(
             record.updateRecordStatus(RecordStatus.APPROVE)
         } else if(recordReviewApplies.any { it.status == RecordReviewApplyStatus.REJECT }) {
             record.updateRecordStatus(RecordStatus.REJECT)
+        } else {
+            record.updateRecordStatus(RecordStatus.WAIT)
         }
     }
 
