@@ -2,7 +2,6 @@ package com.example.jhouse_server.domain.board.service
 
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.dto.BoardResDto
-import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable

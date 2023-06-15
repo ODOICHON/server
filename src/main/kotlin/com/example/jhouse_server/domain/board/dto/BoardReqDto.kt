@@ -4,7 +4,8 @@ import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotNull
@@ -24,16 +25,27 @@ data class BoardReqDto(
 )
 
 //data class BoardResDto(
+//        @JsonProperty
 //        val boardId: Long,
+//        @JsonProperty
 //        val title: String,
+//        @JsonProperty
 //        val code: String,
+//        @JsonProperty
 //        val oneLineContent: String,
+//        @JsonProperty
 //        val nickName: String,
+//        @JsonProperty
 //        val createdAt: Date?,
+//        @JsonProperty
 //        val imageUrl: String?,
+//        @JsonProperty
 //        val commentCount: Int,
+//        @JsonProperty
 //        val category: String,
+//        @JsonProperty
 //        val prefixCategory: String,
+//        @JsonProperty
 //        val fixed: Boolean
 //)
 
