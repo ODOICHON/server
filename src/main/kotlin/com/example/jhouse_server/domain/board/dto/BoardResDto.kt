@@ -2,7 +2,7 @@ package com.example.jhouse_server.domain.board.dto
 
 import java.util.*
 
-class BoardResDto(){
+class BoardResDto() {
     var boardId: Long = 0
     lateinit var title: String
     lateinit var code: String
@@ -26,10 +26,10 @@ class BoardResDto(){
                 category: String,
                 prefixCategory: String,
                 fixed: Boolean
-                ) : this() {
-        this.boardId=  boardId
+    ) : this() {
+        this.boardId = boardId
         this.title = title
-        this.code= code
+        this.code = code
         this.oneLineContent = oneLineContent
         this.nickName = nickName
         this.createdAt = createdAt
@@ -39,6 +39,4 @@ class BoardResDto(){
         this.prefixCategory = prefixCategory
         this.fixed = fixed
     }
-
-
 }
