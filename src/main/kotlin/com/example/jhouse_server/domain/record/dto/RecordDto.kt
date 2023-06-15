@@ -93,9 +93,11 @@ data class RecordPageResDto(
 data class RecordHotThumbnailResDto @QueryProjection constructor(
     @JsonProperty("record_id")
     val recordId: Long,
+    @JsonProperty("title")
     val title: String
 )
 
 data class RecordHotResDto(
+    @JsonProperty("records")
     val records: List<RecordHotThumbnailResDto>
 )
