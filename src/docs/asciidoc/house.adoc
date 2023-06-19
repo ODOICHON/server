@@ -1,0 +1,48 @@
+== House API
+
+==== 1. 빈집 게시글 작성하기
+===== Request
+include::{snippets}/save-house/http-request.adoc[]
+====== Request fields
+include::{snippets}/save-house/request-fields.adoc[]
+===== Response
+include::{snippets}/save-house/http-response.adoc[]
+===== Response fields
+include::{snippets}/save-house/response-fields.adoc[]
+
+==== 2. 빈집 게시글 수정하기
+===== Request
+include::{snippets}/update-house/http-request.adoc[]
+===== Request Fields
+include::{snippets}/update-house/request-fields.adoc[]
+
+===== Response
+include::{snippets}/update-house/http-response.adoc[]
+
+==== 3. 빈집 게시글 삭제하기
+삭제 시, 빈집 게시글 아이디를 path-variable로 넘겨주세요.
+
+===== Request
+include::{snippets}/delete-house/http-request.adoc[]
+===== Response
+include::{snippets}/delete-house/http-response.adoc[]
+
+
+==== 4. 빈집 게시글 목록 조회
+===== Request
+include::{snippets}/get-house-all/http-request.adoc[]
+====== Request Fields
+include::{snippets}/get-house-all/request-parameters.adoc[]
+
+====== Response
+include::{snippets}/get-house-all/http-response.adoc[]
+====== Response Fields
+include::{snippets}/get-house-all/response-fields-data.adoc[]
+
+===== 5. 빈집 게시글 단일 조회
+====== Request
+include::{snippets}/get-house-one/http-request.adoc[]
+====== Response
+include::{snippets}/get-house-one/http-response.adoc[]
+====== Response Fields
+include::{snippets}/get-house-one/response-fields.adoc[]
