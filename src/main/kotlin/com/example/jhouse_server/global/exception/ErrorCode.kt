@@ -35,4 +35,7 @@ enum class ErrorCode(
 
     // Record
     ALREADY_APPROVE(HttpStatus.BAD_REQUEST, "R0000", "이미 승인처리된 글입니다."),
+
+    // House
+    LENGTH_OUT_OF_CONTENTS(HttpStatus.BAD_REQUEST, "H0000", "빈집 게시글의 내용이 10000자를 넘었습니다."),
 }
