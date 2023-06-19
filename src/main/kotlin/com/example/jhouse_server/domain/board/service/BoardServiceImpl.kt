@@ -88,42 +88,40 @@ class BoardServiceImpl(
     override fun getCategory(name: String): List<CodeResDto> {
         return BoardCategory.values().filter { it.superCategory.name == name }.map { CodeResDto(it.value, it.name) }
     }
+경}
+fun getContent(code: String): String {
+    var str = code
+    str = Normalizer.normalize(str, Normalizer.Form.NFKC)
+    var mat: Matcher
 
+    // <script> 파싱
+    val script = Pattern.compile("<(no)?script[^>]*>.*?</(no)?script>", Pattern.DOTALL)
+    mat = script.matcher(str)
+    str = mat.replaceAll("")
 
-    fun getContent(code: String): String {
-        var str = code
-        str = Normalizer.normalize(str, Normalizer.Form.NFKC)
-        var mat: Matcher
+    // <style> 파싱
+    val style = Pattern.compile("<style[^>]*>.*</style>", Pattern.DOTALL)
+    mat = style.matcher(str)
+    str = mat.replaceAll("")
 
-        // <script> 파싱
-        val script = Pattern.compile("<(no)?script[^>]*>.*?</(no)?script>", Pattern.DOTALL)
-        mat = script.matcher(str)
-        str = mat.replaceAll("")
+    // <tag> 파싱
+    val tag = Pattern.compile("<(\"[^\"]*\"|\'[^\']*\'|[^\'\">])*>")
+    mat = tag.matcher(str)
+    str = mat.replaceAll("")
 
-        // <style> 파싱
-        val style = Pattern.compile("<style[^>]*>.*</style>", Pattern.DOTALL)
-        mat = style.matcher(str)
-        str = mat.replaceAll("")
+    // ntag 파싱
+    val ntag = Pattern.compile("<\\w+\\s+[^<]*\\s*>")
+    mat = ntag.matcher(str)
+    str = mat.replaceAll("")
 
-        // <tag> 파싱
-        val tag = Pattern.compile("<(\"[^\"]*\"|\'[^\']*\'|[^\'\">])*>")
-        mat = tag.matcher(str)
-        str = mat.replaceAll("")
+    // entity ref 처리
+    val entity = Pattern.compile("&[^;]+;")
+    mat = entity.matcher(str)
+    str = mat.replaceAll("")
 
-        // ntag 파싱
-        val ntag = Pattern.compile("<\\w+\\s+[^<]*\\s*>")
-        mat = ntag.matcher(str)
-        str = mat.replaceAll("")
-
-        // entity ref 처리
-        val entity = Pattern.compile("&[^;]+;")
-        mat = entity.matcher(str)
-        str = mat.replaceAll("")
-
-        // whitespace 처리
-        val wspace = Pattern.compile("\\s\\s+")
-        mat = wspace.matcher(str)
-        str = mat.replaceAll("")
-        return str
-    }
+    // whitespace 처리
+    val wspace = Pattern.compile("\\s\\s+")
+    mat = wspace.matcher(str)
+    str = mat.replaceAll("")
+    return str
 }
