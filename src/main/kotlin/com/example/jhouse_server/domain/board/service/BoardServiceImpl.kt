@@ -88,7 +88,7 @@ class BoardServiceImpl(
     override fun getCategory(name: String): List<CodeResDto> {
         return BoardCategory.values().filter { it.superCategory.name == name }.map { CodeResDto(it.value, it.name) }
     }
-경}
+}
 fun getContent(code: String): String {
     var str = code
     str = Normalizer.normalize(str, Normalizer.Form.NFKC)
