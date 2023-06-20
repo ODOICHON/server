@@ -7,6 +7,8 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentReqDto
 import com.example.jhouse_server.domain.comment.entity.Comment
+import com.example.jhouse_server.domain.house.dto.HouseReqDto
+import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.record.dto.RecordPageCondition
 import com.example.jhouse_server.domain.record.dto.RecordReqDto
 import com.example.jhouse_server.domain.record.dto.RecordUpdateDto
@@ -271,6 +273,41 @@ class MockEntity {
 
         fun recordCommentUpdateDto() = RecordCommentUpdateDto(
             content = "수정 내용"
+        )
+
+        fun houseReqDto() = HouseReqDto(
+            rentalType = RentalType.SALE,
+            city = "서울시 서대문구 남가좌동 거북골로 34",
+            zipCode = "12345",
+            size = "120909000",
+            purpose = "주거용 ( 방3, 화장실 2 )",
+            floorNum = 2,
+            sumFloor = 3,
+            contact = "070-1234-5678",
+            createdDate = "1990-09-09",
+            price = 12000,
+            monthlyPrice = 0.0,
+            agentName = "행복부동산",
+            title = "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+            code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
+            imageUrls = mutableListOf("img-001", "img-002")
+            )
+        fun houseUpdateReqDto() = HouseReqDto(
+            rentalType = RentalType.JEONSE,
+            city = "서울시 서대문구 남가좌동 거북골로 90",
+            zipCode = "12345",
+            size = "120909000",
+            purpose = "게스트하우스 ( 방3, 화장실 2 )",
+            floorNum = 2,
+            sumFloor = 3,
+            contact = "070-1234-5678",
+            createdDate = "1990-09-09",
+            price = 12000,
+            monthlyPrice = 0.0,
+            agentName = "부자부동산",
+            title = "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
+            code = "<body> <div> <h2>부자부동산 최신 매물로</h2> </div> <div> <i>게스트하우스용 주택</i>을 소개합니다. </div> </body>",
+            imageUrls = mutableListOf("img-001", "img-002")
         )
     }
 }
