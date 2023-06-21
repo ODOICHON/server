@@ -270,6 +270,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("data.rentalType").description("매물 타입"),
                         fieldWithPath("data.city").description("매물 위치"),
                         fieldWithPath("data.zipcode").description("우편 주소"),
+                        fieldWithPath("data.size").description("매물 크기 ( 견적 )"),
                         fieldWithPath("data.purpose").description("매물 목적/용도"),
                         fieldWithPath("data.floorNum").description("매물 층수"),
                         fieldWithPath("data.sumFloor").description("매물이 위치한 건물 총 층수"),
