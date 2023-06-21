@@ -269,17 +269,22 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 
 
 ### REST DOCS 기반 API 명세서
-
+**주말의집 서비스**
 - [사용자 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/user.html)
 - [게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/board.html)
 - [댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/comment.html)
 - [JWT 예외처리](https://odoichon.github.io/server/src/main/resources/static/docs/jwt.html)
 - [좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
-- [ErrorCode 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/error.html)
+- [빈집 게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/house.html)
+
+**테크블로그 서비스**
 - [레코드 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record.html)
 - [레코드 카테고리 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record_category.html)
 - [레코드 댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record_comment.html)
 - [레코드 리뷰 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record_review.html)
+
+**공통 문서**
+- [ErrorCode 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/error.html)
 <br/>
 
 ### 기타 회고 및 문서화
