@@ -70,7 +70,7 @@ data class HouseResOneDto(
 
 fun toDto(house: House) : HouseResOneDto {
     return HouseResOneDto(house.id, house.houseType, house.address.city,
-        house.address.zipcode, house.purpose, house.size, house.floorNum, house.sumFloor, house.contact,
+        house.address.zipcode, house.size, house.purpose, house.floorNum, house.sumFloor, house.contact,
         house.createdDate, house.price, house.monthlyPrice,
         house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
         Timestamp.valueOf(house.createdAt), false)
