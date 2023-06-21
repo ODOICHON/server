@@ -51,6 +51,7 @@ data class HouseResOneDto(
     val rentalType: RentalType,
     val city: String,
     val zipcode: String,
+    val size: String,
     val purpose: String,
     val floorNum: Int,
     val sumFloor: Int,
@@ -69,7 +70,7 @@ data class HouseResOneDto(
 
 fun toDto(house: House) : HouseResOneDto {
     return HouseResOneDto(house.id, house.houseType, house.address.city,
-        house.address.zipcode, house.purpose, house.floorNum, house.sumFloor, house.contact,
+        house.address.zipcode, house.purpose, house.size, house.floorNum, house.sumFloor, house.contact,
         house.createdDate, house.price, house.monthlyPrice,
         house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
         Timestamp.valueOf(house.createdAt), false)
