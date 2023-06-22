@@ -44,7 +44,8 @@ data class HouseResDto(
     val monthlyPrice: Double,
     val nickName: String,
     val createdAt: Date,
-    val isCompleted: Boolean
+    val isCompleted: Boolean,
+    val imageUrl : String // 썸네일
 )
 data class HouseResOneDto(
     val houseId: Long,
@@ -77,5 +78,5 @@ fun toDto(house: House) : HouseResOneDto {
 }
 
 fun toListDto(house: House) : HouseResDto {
-    return HouseResDto(house.id, house.houseType!!, house.address.city, house.price, house.monthlyPrice, house.user.nickName, Timestamp.valueOf(house.createdAt), false )
+    return HouseResDto(house.id, house.houseType!!, house.address.city, house.price, house.monthlyPrice, house.user.nickName, Timestamp.valueOf(house.createdAt), false, house.imageUrls[0] )
 }
