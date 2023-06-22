@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.user.entity
 
 import com.example.jhouse_server.domain.board.entity.Board
-import com.example.jhouse_server.domain.house.entity.Scrap
+import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.record.entity.Record

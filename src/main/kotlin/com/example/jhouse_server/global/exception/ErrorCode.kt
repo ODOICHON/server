@@ -39,4 +39,5 @@ enum class ErrorCode(
     // House
     LENGTH_OUT_OF_CONTENTS(HttpStatus.BAD_REQUEST, "H0000", "빈집 게시글의 내용이 10000자를 넘었습니다."),
     DONT_REPORT_HOUSE_MINE(HttpStatus.UNAUTHORIZED, "H0001", "게시글 작성자 본인이 자신의 게시글을 신고할 수 없습니다."),
+    ALREADY_SCRAP(HttpStatus.BAD_REQUEST, "H0002", "이미 스크랩한 게시글입니다."),
 }

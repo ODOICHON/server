@@ -1,15 +1,10 @@
 package com.example.jhouse_server.domain.house.entity
 
-import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.entity.*
+import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
-import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
-import java.time.LocalDate
 import javax.persistence.*
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 
 @Entity
 class House(
@@ -110,5 +105,10 @@ class House(
 
     fun applyEntity() {
         this.applied = true
+    }
+
+    fun addScrap(scrap: Scrap) : House {
+        this.scrap.add(scrap)
+        return this
     }
 }
