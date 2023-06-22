@@ -93,7 +93,7 @@ class HouseController(
     }
 
     /**
-     * 빈집 게시글 상세 조회
+     * 빈집 게시글 상세 조회 ( 비로그인 )
      *
      * @author dldmsql
      * @param houseId Long 빈집 게시글 ID
@@ -104,6 +104,23 @@ class HouseController(
         @PathVariable houseId: Long
     ) : ApplicationResponse<HouseResOneDto> {
         return ApplicationResponse.ok(houseService.getHouseOne(houseId))
+    }
+
+    /**
+     * 빈집 게시글 상세 조회 ( 로그인 )
+     *
+     * @author dldmsql
+     * @param houseId Long 빈집 게시글 ID
+     * @param user User
+     * @return HouseResOneDto
+     * */
+    @Auth
+    @GetMapping("/user-scrap/{houseId}")
+    fun getHouseOneWithUser(
+        @PathVariable houseId: Long,
+        @AuthUser user: User
+    ) : ApplicationResponse<HouseResOneDto> {
+        return ApplicationResponse.ok(houseService.getHouseOneWithUser(houseId, user))
     }
 
     /**

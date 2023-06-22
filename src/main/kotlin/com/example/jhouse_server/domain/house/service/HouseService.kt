@@ -12,5 +12,6 @@ interface HouseService {
     fun deleteHouse(houseId: Long, user: User)
     fun getHouseOne(houseId: Long): HouseResOneDto
     fun reportHouse(houseId: Long, reportReqDto: ReportReqDto, user: User)
+    fun getHouseOneWithUser(houseId: Long, user: User): HouseResOneDto
 
 }

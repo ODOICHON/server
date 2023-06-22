@@ -5,6 +5,7 @@ import com.example.jhouse_server.domain.house.dto.*
 import com.example.jhouse_server.domain.house.entity.Address
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.repository.HouseRepository
+import com.example.jhouse_server.domain.scrap.repository.ScrapRepository
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class HouseServiceImpl(
     val houseRepository: HouseRepository,
-
+    val scrapRepository: ScrapRepository,
 ) : HouseService {
 
     @Transactional
@@ -57,7 +58,7 @@ class HouseServiceImpl(
     }
 
     override fun getHouseOne(houseId: Long): HouseResOneDto {
-        return houseRepository.findByIdOrThrow(houseId).run { toDto(this) }
+        return houseRepository.findByIdOrThrow(houseId).run { toDto(this, false) }
     }
 
     @Transactional
@@ -65,5 +66,11 @@ class HouseServiceImpl(
         val house = houseRepository.findByIdOrThrow(houseId)
         if(house.user == user) throw ApplicationException(ErrorCode.DONT_REPORT_HOUSE_MINE)
         else house.reportEntity(reportReqDto.reportReason)
+    }
+
+    override fun getHouseOneWithUser(houseId: Long, user: User): HouseResOneDto {
+        val house = houseRepository.findByIdOrThrow(houseId)
+        val isScraped = scrapRepository.existsByHouseAndSubscriber(house, user)
+        return toDto(house, isScraped)
     }
 }

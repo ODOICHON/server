@@ -64,19 +64,20 @@ data class HouseResOneDto(
     val imageUrls: List<String>,
     val nickName: String, // 게시글 작성자
     val createdAt: Date,
-    val isCompleted: Boolean
+    val isCompleted: Boolean, // 거래 완료 여부
+    val isScraped : Boolean, // 게시글 스크랩 여부
 )
 
 data class ReportReqDto(
     val reportReason: String
 )
 
-fun toDto(house: House) : HouseResOneDto {
+fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
     return HouseResOneDto(house.id, house.houseType, house.address.city,
         house.address.zipcode, house.size, house.purpose, house.floorNum, house.contact,
         house.createdDate, house.price, house.monthlyPrice,
         house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
-        Timestamp.valueOf(house.createdAt), false)
+        Timestamp.valueOf(house.createdAt), false, isScraped)
 }
 
 fun toListDto(house: House) : HouseResDto {
