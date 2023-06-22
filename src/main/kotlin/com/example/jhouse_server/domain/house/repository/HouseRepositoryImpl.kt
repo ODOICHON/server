@@ -30,10 +30,11 @@ class HouseRepositoryImpl(
     }
 
     /**
-     * 검색어 필터링 함수
+     * 검색어 필터링 함수경
+     * 게시글 제목과 게시글 작성자 닉네임
      * */
     private fun searchWithKeyword(keyword: String?): BooleanExpression? {
-        return if(keyword == null) null else house.content.contains(keyword).or(house.title.contains(keyword))
+        return if(keyword == null) null else house.user.nickName.contains(keyword).or(house.title.contains(keyword))
     }
 
     /**
