@@ -35,7 +35,7 @@ class HouseServiceImpl(
         val address = Address(req.city!!, req.zipCode!!)
         val content = getContent(req.code!!)
         val house = House(req.rentalType!!, address, req.size!!, req.purpose!!, req.floorNum,
-            req.sumFloor, req.contact!!, req.createdDate, req.price!!, req.monthlyPrice,
+            req.contact!!, req.createdDate, req.price!!, req.monthlyPrice,
             req.agentName, req.title, content, req.code, req.imageUrls, user)
         return houseRepository.save(house).id
     }
@@ -51,7 +51,7 @@ class HouseServiceImpl(
         if (user != house.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         val content = getContent(req.code!!)
         return house.updateEntity(
-            req.rentalType!!, req.size!!, req.purpose!!, req.floorNum, req.sumFloor, req.contact!!,
+            req.rentalType!!, req.size!!, req.purpose!!, req.floorNum, req.contact!!,
             req.createdDate, req.price!!, req.monthlyPrice, req.agentName, req.title, content, req.code, req.imageUrls
         ).id
     }
@@ -65,5 +65,10 @@ class HouseServiceImpl(
 
     override fun getHouseOne(houseId: Long): HouseResOneDto {
         return houseRepository.findByIdOrThrow(houseId).run { toDto(this) }
+    }
+
+    @Transactional
+    override fun reportHouse(houseId: Long, user: User): Long {
+        TODO("Not yet implemented")
     }
 }

@@ -26,9 +26,6 @@ class House(
     @Column(nullable = true)
     var floorNum : Int, // 층수 ( 다가구인 경우에만 )
 
-    @Column(nullable = true)
-    var sumFloor : Int, // 총 층수
-
     var contact : String, // 바로 연락 가능한 연락처
 
     var createdDate : String, // 준공연도,
@@ -62,7 +59,6 @@ class House(
          size: String,
          purpose: String,
          floorNum: Int,
-         sumFloor: Int,
          contact: String,
          createdDate: String,
          price: Int,
@@ -77,7 +73,6 @@ class House(
         this.size = size
         this.purpose = purpose
         this.floorNum = floorNum
-        this.sumFloor = sumFloor
         this.contact = contact
         this.createdDate = createdDate
         this.price = price
