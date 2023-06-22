@@ -22,7 +22,7 @@ class HouseController(
 ) {
 
     /**
-     * 빈집 게시글 작성
+     * 빈집 게시글 작성 ( 일반 사용자의 경우, 신청 상태로 변경 )
      *
      * @author dldmsql
      * @param req HouseReqDto 빈집 게시글 작성 시, 입력되는 데이터

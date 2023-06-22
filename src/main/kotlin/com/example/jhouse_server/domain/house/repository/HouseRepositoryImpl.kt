@@ -25,6 +25,7 @@ class HouseRepositoryImpl(
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
+                house.applied.eq(false), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -37,6 +38,7 @@ class HouseRepositoryImpl(
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
+                house.applied.eq(false), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
             )
         return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong()}
     }

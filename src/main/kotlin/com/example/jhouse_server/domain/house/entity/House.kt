@@ -107,4 +107,8 @@ class House(
         this.reported = true
         this.reportReason = reportReason
     }
+
+    fun applyEntity() {
+        this.applied = true
+    }
 }

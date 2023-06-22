@@ -30,6 +30,7 @@ class HouseServiceImpl(
         val house = House(req.rentalType!!, address, req.size!!, req.purpose!!, req.floorNum,
             req.contact!!, req.createdDate, req.price!!, req.monthlyPrice,
             req.agentName, req.title, content, req.code, req.imageUrls, user)
+        if (user.authority == Authority.USER) house.applyEntity()
         return houseRepository.save(house).id
     }
 
