@@ -36,20 +36,35 @@ class House(
     var monthlyPrice : Double, // 월세의 경우,
 
     var agentName: String, // 공인중개사명
+
     var title: String, // 게시글 제목
+
     @Column(length = Int.MAX_VALUE)
     var content : String, // 게시글 내용
+
     @Column(length = Int.MAX_VALUE)
     var code : String, // 게시글 코드
+
     @Column(length = Int.MAX_VALUE)
     @Convert(converter = BoardImageUrlConverter::class) // 이미지 url ","로 슬라이싱
     var imageUrls : List<String>,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     var user : User,
-    var useYn : Boolean = true, // 삭제여부
+
+    var useYn : Boolean = true, // 삭제여부 ( 미삭제 : true, 삭제 : false )
+
+    var reported : Boolean = false, // 신고여부 ( 신고: true, 미신고 : false )
+
+    @Column(nullable = true, length = 101)
+    var reportReason : String? = null, // 신고 사유 ( 100자 )
+
+    var applied : Boolean = false, // 신청여부 ( 신청 : true, 미신청 : false )
+
     @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL], orphanRemoval = true)
     var scrap: MutableList<Scrap> = mutableListOf(),
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 ) : BaseEntity() {
@@ -86,5 +101,10 @@ class House(
     }
     fun deleteEntity() {
         this.useYn = false
+    }
+
+    fun reportEntity(reportReason: String) {
+        this.reported = true
+        this.reportReason = reportReason
     }
 }

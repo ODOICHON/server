@@ -19,18 +19,30 @@ class HouseRepositoryImpl(
         val result = jpaQueryFactory
             .selectFrom(house)
             .join(house.user, user).fetchJoin()
-            .where(house.useYn.eq(true), house.houseType.eq(RentalType.valueOf(houseListDto.rentalType)), filterWithCity(houseListDto.city), searchWithKeyword(houseListDto.search))
+            .where(
+                house.useYn.eq(true), // 삭제 X
+                house.houseType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
+                filterWithCity(houseListDto.city), // 매물 위치 필터링
+                searchWithKeyword(houseListDto.search), // 키워드 검색어
+                house.reported.eq(false), // 신고 X
+            )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
         val countQuery = jpaQueryFactory
             .selectFrom(house)
-            .where(house.useYn.eq(true), house.houseType.eq(RentalType.valueOf(houseListDto.rentalType)), house.address.city.eq(houseListDto.city))
+            .where(
+                house.useYn.eq(true), // 삭제 X
+                house.houseType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
+                filterWithCity(houseListDto.city), // 매물 위치 필터링
+                searchWithKeyword(houseListDto.search), // 키워드 검색어
+                house.reported.eq(false), // 신고 X
+            )
         return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong()}
     }
 
     /**
-     * 검색어 필터링 함수경
+     * 검색어 필터링 함수
      * 게시글 제목과 게시글 작성자 닉네임
      * */
     private fun searchWithKeyword(keyword: String?): BooleanExpression? {

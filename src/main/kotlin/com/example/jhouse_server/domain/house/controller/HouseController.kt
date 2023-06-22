@@ -1,16 +1,13 @@
 package com.example.jhouse_server.domain.house.controller
 
-import com.example.jhouse_server.domain.board.BoardListDto
-import com.example.jhouse_server.domain.house.dto.HouseListDto
-import com.example.jhouse_server.domain.house.dto.HouseReqDto
-import com.example.jhouse_server.domain.house.dto.HouseResDto
-import com.example.jhouse_server.domain.house.dto.HouseResOneDto
+import com.example.jhouse_server.domain.house.dto.*
 import com.example.jhouse_server.domain.house.service.HouseService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.aop.EnableValidation
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.aspectj.weaver.ast.Not
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -107,5 +104,24 @@ class HouseController(
         @PathVariable houseId: Long
     ) : ApplicationResponse<HouseResOneDto> {
         return ApplicationResponse.ok(houseService.getHouseOne(houseId))
+    }
+
+    /**
+     * 빈집 게시글 신고
+     *
+     * @author dldmsql
+     * @param houseId Long 빈집 게시글 ID
+     * @param user User 현재 로그인한 유저
+     * @return nothing
+     * */
+    @Auth
+    @PutMapping("/report/{houseId}")
+    fun reportHouse(
+        @PathVariable houseId: Long,
+        @RequestBody reportReqDto: ReportReqDto,
+        @AuthUser user: User
+    ) : ApplicationResponse<Nothing> {
+        houseService.reportHouse(houseId, reportReqDto, user)
+        return ApplicationResponse.ok()
     }
 }

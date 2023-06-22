@@ -1,10 +1,5 @@
 package com.example.jhouse_server.domain.house.service
 
-import com.example.jhouse_server.domain.board.PrefixCategory
-import com.example.jhouse_server.domain.board.entity.Board
-import com.example.jhouse_server.domain.board.entity.BoardCategory
-import com.example.jhouse_server.domain.board.entity.BoardCode
-import com.example.jhouse_server.domain.board.repository.BoardCodeRepository
 import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.getContent
 import com.example.jhouse_server.domain.house.dto.*
@@ -13,7 +8,6 @@ import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
-import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.util.findByIdOrThrow
@@ -21,7 +15,6 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDate
 
 @Service
 @Transactional(readOnly = true)
@@ -68,7 +61,9 @@ class HouseServiceImpl(
     }
 
     @Transactional
-    override fun reportHouse(houseId: Long, user: User): Long {
-        TODO("Not yet implemented")
+    override fun reportHouse(houseId: Long, reportReqDto: ReportReqDto, user: User) {
+        val house = houseRepository.findByIdOrThrow(houseId)
+        if(house.user == user) throw ApplicationException(ErrorCode.DONT_REPORT_HOUSE_MINE)
+        else house.reportEntity(reportReqDto.reportReason)
     }
 }

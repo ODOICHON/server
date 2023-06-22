@@ -67,6 +67,10 @@ data class HouseResOneDto(
     val isCompleted: Boolean
 )
 
+data class ReportReqDto(
+    val reportReason: String
+)
+
 fun toDto(house: House) : HouseResOneDto {
     return HouseResOneDto(house.id, house.houseType, house.address.city,
         house.address.zipcode, house.size, house.purpose, house.floorNum, house.contact,
