@@ -1,6 +1,5 @@
 package com.example.jhouse_server.domain.house.service
 
-import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.getContent
 import com.example.jhouse_server.domain.house.dto.*
 import com.example.jhouse_server.domain.house.entity.Address
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class HouseServiceImpl(
     val houseRepository: HouseRepository,
-    val boardRepository: BoardRepository,
+
 ) : HouseService {
 
     @Transactional
