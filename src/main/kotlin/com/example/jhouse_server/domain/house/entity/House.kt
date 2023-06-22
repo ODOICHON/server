@@ -111,4 +111,8 @@ class House(
         this.scrap.add(scrap)
         return this
     }
+
+    fun deleteScrap(scrap: Scrap) {
+        this.scrap.remove(scrap)
+    }
 }

@@ -29,4 +29,12 @@ class ScrapServiceImpl(
         scrapRepository.save(scrap)
         return house.addScrap(scrap).id
     }
+
+    @Transactional
+    override fun unScrapHouse(houseId: Long, user: User) {
+        val house = houseRepository.findByIdOrThrow(houseId)
+        val scrap = scrapRepository.findByHouseAndSubscriber(house, user)
+        house.deleteScrap(scrap)
+        scrapRepository.deleteById(scrap.id)
+    }
 }

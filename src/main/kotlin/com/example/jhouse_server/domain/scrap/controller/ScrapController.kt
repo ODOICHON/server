@@ -5,6 +5,7 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -24,6 +25,16 @@ class ScrapController(
         @AuthUser user: User
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(scrapService.scrapHouse(houseId, user))
+    }
+
+    @Auth
+    @DeleteMapping("/{houseId}")
+    fun unScrapHouse(
+        @PathVariable houseId: Long,
+        @AuthUser user: User
+    ) : ApplicationResponse<Nothing> {
+        scrapService.unScrapHouse(houseId, user)
+        return ApplicationResponse.ok()
     }
 
 }

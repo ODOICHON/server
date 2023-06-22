@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface ScrapRepository : JpaRepository<Scrap, Long> {
 
     fun existsByHouseAndSubscriber(house: House, subscriber: User) : Boolean
+    fun findByHouseAndSubscriber(house: House, subscriber: User) : Scrap
 }
