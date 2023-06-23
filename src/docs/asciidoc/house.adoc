@@ -1,6 +1,9 @@
 == House API
 
 ==== 1. 빈집 게시글 작성하기
+
+빈집 게시글 작성 시, tmpYn 플래그를 통해 임시저장 여부를 판단합니다.
+
 ===== Request
 include::{snippets}/save-house/http-request.adoc[]
 ====== Request fields
@@ -10,7 +13,23 @@ include::{snippets}/save-house/http-response.adoc[]
 ===== Response fields
 include::{snippets}/save-house/response-fields.adoc[]
 
+
+==== 1-2. 빈집 게시글 유효성 검사
+
+빈집 게시글 작성 시, 게시글의 내용이 10,000자를 넘기는 지 확인하는 유효성 검사에 대한 내용입니다.
+
+===== Request
+include::{snippets}/save-house-too-long/http-request.adoc[]
+===== Request Fields
+include::{snippets}/save-house-too-long/request-fields.adoc[]
+
+===== Response
+include::{snippets}/save-house-too-long/http-response.adoc[]
+
 ==== 2. 빈집 게시글 수정하기
+
+임시저장 상태 혹은 저장 상태의 게시글을 수정할 수 있습니다. 임시저장에서 저장으로 상태 변경을 원하는 경우, tmpYn 값을 false로 변경해주셔야 합니다.
+
 ===== Request
 include::{snippets}/update-house/http-request.adoc[]
 ===== Request Fields
@@ -31,7 +50,9 @@ include::{snippets}/delete-house/http-response.adoc[]
 ==== 4. 빈집 게시글 목록 조회
 
 빈집 게시글 목록 조회 시, param에 따라 필터링을 거칩니다.
-내부적으로 *신고여부*, *삭제여부*, *일반유저의 게시글 승인여부* 에 대한 필터링을 거칩니다.
+내부적으로 *신고여부*, *삭제여부*, *일반유저의 게시글 승인여부*, *임시저장여부* 에 대한 필터링을 거칩니다.
+
+임시저장 상태의 게시글을 조회하고 싶은 경우, 8번 API를 호출해주세요.
 
 한 페이지에 기본 8개를 제공합니다. 개수를 조절하고 싶은 경우 요청 쿼리에 *size* 를 포함해주세요.
 
@@ -80,3 +101,15 @@ include::{snippets}/report-house/request-fields.adoc[]
 
 ====== Response
 include::{snippets}/report-house/http-response.adoc[]
+
+===== 8. 임시저장된 게시글 목록 조회하기
+
+본인이 작성한 게시글 중 임시저장 상태의 게시글 데이터만 목록으로 반환합니다. 따라서 토큰이 필요합니다!
+
+====== Request
+include::{snippets}/get-tmp-save-house-all/http-request.adoc[]
+====== Response
+include::{snippets}/get-tmp-save-house-all/http-response.adoc[]
+
+====== Response Fields
+include::{snippets}/get-tmp-save-house-all/response-fields-data.adoc[]

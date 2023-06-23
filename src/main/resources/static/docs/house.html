@@ -451,9 +451,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MTcxMDMsImF1dGgiOiJVU0VSIn0.X_sqpbWIKuR_ZEJY2L-Ag4XZ3Q3HyHBgmI6TOxJWqbWn0TV9UYCzHuk_SHCPpi-BnIvI3v5sfEhiU5kQKMii-w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA1MDAsImF1dGgiOiJVU0VSIn0.7-xZZMwfeQCGE7atOzbEC9plm6HhHdRHSOSGiV3LOuPD4BhHo1lbWPXoK6qk6YhWxTCpMAop9gSLjOahzKB16Q
 Accept: application/json
-Content-Length: 615
+Content-Length: 634
 Host: localhost:8080
 
 {
@@ -470,7 +470,8 @@ Host: localhost:8080
   "agentName" : "행복부동산",
   "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
   "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;행복부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;주거용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
-  "imageUrls" : [ "img-001", "img-002" ]
+  "imageUrls" : [ "img-001", "img-002" ],
+  "tmpYn" : false
 }</code></pre>
 </div>
 </div>
@@ -560,6 +561,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이미지 주소를 string 배열 형식으로 입력해주세요.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tmpYn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -578,7 +584,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 213
+  "data" : 403
 }</code></pre>
 </div>
 </div>
@@ -624,11 +630,11 @@ Content-Length: 64
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/190 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/380 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MTcxMDMsImF1dGgiOiJVU0VSIn0.X_sqpbWIKuR_ZEJY2L-Ag4XZ3Q3HyHBgmI6TOxJWqbWn0TV9UYCzHuk_SHCPpi-BnIvI3v5sfEhiU5kQKMii-w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA1MDAsImF1dGgiOiJVU0VSIn0.7-xZZMwfeQCGE7atOzbEC9plm6HhHdRHSOSGiV3LOuPD4BhHo1lbWPXoK6qk6YhWxTCpMAop9gSLjOahzKB16Q
 Accept: application/json
-Content-Length: 638
+Content-Length: 657
 Host: localhost:8080
 
 {
@@ -645,7 +651,8 @@ Host: localhost:8080
   "agentName" : "부자부동산",
   "title" : "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
   "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;부자부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;게스트하우스용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
-  "imageUrls" : [ "img-001", "img-002" ]
+  "imageUrls" : [ "img-001", "img-002" ],
+  "tmpYn" : false
 }</code></pre>
 </div>
 </div>
@@ -736,6 +743,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">이미지 주소를 string 배열 형식으로 입력해주세요.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tmpYn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false)</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -753,7 +765,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 190
+  "data" : 380
 }</code></pre>
 </div>
 </div>
@@ -768,9 +780,9 @@ Content-Length: 64
 <h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/189 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/379 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MTcxMDIsImF1dGgiOiJVU0VSIn0.lNZo713t0-dLwn9rKpkZYmS_dz2YOe44KGGlnwT_0qdF-hOm2wb5yCnRSfkVqC-mk7Vjff4K2kC9eZYYU1mWwA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA0OTksImF1dGgiOiJVU0VSIn0.e2CnOWtGwgcyNZKITr0bP0ZUW84yI3gDqCHwtP7L1ns3Lp96N7o24mkV-DRXiQuKPATWEJso6JCFlqiXOy1t_w
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -862,83 +874,83 @@ Content-Length: 3244
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 215,
+      "houseId" : 416,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.461+00:00",
+      "createdAt" : "2023-06-23T11:11:41.196+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 217,
+      "houseId" : 418,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.464+00:00",
+      "createdAt" : "2023-06-23T11:11:41.200+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 219,
+      "houseId" : 420,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.467+00:00",
+      "createdAt" : "2023-06-23T11:11:41.204+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 221,
+      "houseId" : 422,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.469+00:00",
+      "createdAt" : "2023-06-23T11:11:41.207+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 223,
+      "houseId" : 424,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.472+00:00",
+      "createdAt" : "2023-06-23T11:11:41.210+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 225,
+      "houseId" : 426,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.475+00:00",
+      "createdAt" : "2023-06-23T11:11:41.213+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 227,
+      "houseId" : 428,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.478+00:00",
+      "createdAt" : "2023-06-23T11:11:41.217+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 229,
+      "houseId" : 430,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T10:15:03.482+00:00",
+      "createdAt" : "2023-06-23T11:11:41.226+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     } ],
@@ -949,21 +961,21 @@ Content-Length: 3244
         "sorted" : false
       },
       "offset" : 0,
-      "pageSize" : 8,
       "pageNumber" : 0,
+      "pageSize" : 8,
       "paged" : true,
       "unpaged" : false
     },
     "last" : false,
-    "totalElements" : 11,
     "totalPages" : 2,
+    "totalElements" : 11,
+    "number" : 0,
     "first" : true,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
-    "number" : 0,
     "size" : 8,
     "numberOfElements" : 8,
     "empty" : false
@@ -1141,7 +1153,7 @@ Content-Length: 3244
 <h6 id="_request_5">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/237 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/438 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1163,7 +1175,7 @@ Content-Length: 867
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 237,
+    "houseId" : 438,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1179,7 +1191,7 @@ Content-Length: 867
     "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;행복부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;주거용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
-    "createdAt" : "2023-06-23T10:15:03.663+00:00",
+    "createdAt" : "2023-06-23T11:11:41.379+00:00",
     "isCompleted" : false,
     "isScraped" : false
   }
@@ -1318,9 +1330,9 @@ Content-Length: 867
 <h6 id="_request_6">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/191 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/381 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MTcxMDMsImF1dGgiOiJVU0VSIn0.X_sqpbWIKuR_ZEJY2L-Ag4XZ3Q3HyHBgmI6TOxJWqbWn0TV9UYCzHuk_SHCPpi-BnIvI3v5sfEhiU5kQKMii-w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA1MDAsImF1dGgiOiJVU0VSIn0.7-xZZMwfeQCGE7atOzbEC9plm6HhHdRHSOSGiV3LOuPD4BhHo1lbWPXoK6qk6YhWxTCpMAop9gSLjOahzKB16Q
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1341,7 +1353,7 @@ Content-Length: 866
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 191,
+    "houseId" : 381,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1357,7 +1369,7 @@ Content-Length: 866
     "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;행복부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;주거용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
-    "createdAt" : "2023-06-23T10:15:03.157+00:00",
+    "createdAt" : "2023-06-23T11:11:40.501+00:00",
     "isCompleted" : false,
     "isScraped" : true
   }
@@ -1499,9 +1511,9 @@ Content-Length: 866
 <h6 id="_request_7">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/214 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/404 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjg3NTE3MTAzLCJhdXRoIjoiVVNFUiJ9.SnuG-rDlqm4iTXGgZGoKEmx1PwwGpOch6X74f13OjS7TmLNgWogGgvKGOQrAqkk9gM28KWNYzgo04ZRB9bFBCA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjg3NTIwNTAwLCJhdXRoIjoiVVNFUiJ9.KuQue3Biw47f_mIyynwDIc8MNfcvxfSbxLTZTzDeHMBAiHqY9w-KYpryTxs6xt8PDInlWjHCPtbK9PckXfNUlA
 Accept: application/json
 Content-Length: 77
 Host: localhost:8080
