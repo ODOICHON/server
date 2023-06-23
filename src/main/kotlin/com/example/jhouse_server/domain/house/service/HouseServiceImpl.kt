@@ -30,7 +30,8 @@ class HouseServiceImpl(
         val house = House(req.rentalType!!, address, req.size!!, req.purpose!!, req.floorNum,
             req.contact!!, req.createdDate, req.price!!, req.monthlyPrice,
             req.agentName, req.title, content, req.code, req.imageUrls, user)
-        if (user.authority == Authority.USER) house.applyEntity()
+        if(req.tmpYn) house.tmpSaveEntity()
+        if (!req.tmpYn && user.authority == Authority.USER) house.applyEntity()
         return houseRepository.save(house).id
     }
 
@@ -44,6 +45,7 @@ class HouseServiceImpl(
         house.address.updateEntity(req.city!!, req.zipCode!!)
         if (user != house.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         val content = getContent(req.code!!)
+        if(!req.tmpYn) house.saveEntity()
         return house.updateEntity(
             req.rentalType!!, req.size!!, req.purpose!!, req.floorNum, req.contact!!,
             req.createdDate, req.price!!, req.monthlyPrice, req.agentName, req.title, content, req.code, req.imageUrls
@@ -72,5 +74,9 @@ class HouseServiceImpl(
         val house = houseRepository.findByIdOrThrow(houseId)
         val isScraped = scrapRepository.existsByHouseAndSubscriber(house, user)
         return toDto(house, isScraped)
+    }
+
+    override fun getTmpSaveHouseAll(user: User, pageable: Pageable): Page<HouseResDto> {
+        return houseRepository.getTmpSaveHouseAll(user, pageable).map { toListDto(it) }
     }
 }

@@ -50,6 +50,8 @@ class House(
 
     var useYn : Boolean = true, // 삭제여부 ( 미삭제 : true, 삭제 : false )
 
+    var tmpYn : Boolean = false, // 임시저장여부 ( 임시저장: true, 저장 : false )
+
     var reported : Boolean = false, // 신고여부 ( 신고: true, 미신고 : false )
 
     @Column(nullable = true, length = 101)
@@ -128,5 +130,14 @@ class House(
 
     fun deleteScrap(scrap: Scrap) {
         this.scrap.remove(scrap)
+    }
+
+    // 임시저장
+    fun tmpSaveEntity() {
+        this.tmpYn = true
+    }
+
+    fun saveEntity() {
+        this.tmpYn = false
     }
 }

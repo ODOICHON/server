@@ -22,7 +22,7 @@ class HouseController(
 ) {
 
     /**
-     * 빈집 게시글 작성 ( 일반 사용자의 경우, 신청 상태로 변경 )
+     * 빈집 게시글 작성 ( 일반 사용자의 경우, 신청 상태로 변경 ) - 임시작성
      *
      * @author dldmsql
      * @param req HouseReqDto 빈집 게시글 작성 시, 입력되는 데이터
@@ -40,7 +40,7 @@ class HouseController(
     }
 
     /**
-     * 빈집 게시글 수정
+     * 빈집 게시글 수정 - 임시저장에서 저장으로 상태변경 가능
      *
      * @author dldmsql
      * @param houseId Long 빈집 게시글 ID
@@ -140,5 +140,22 @@ class HouseController(
     ) : ApplicationResponse<Nothing> {
         houseService.reportHouse(houseId, reportReqDto, user)
         return ApplicationResponse.ok()
+    }
+
+    /**
+     * 임시저장 게시글 목록 조회
+     *
+     * @author dldmsql
+     * @param user User 현재 로그인한 유저
+     * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
+     * @return Page<HouseResDto>
+     * */
+    @Auth
+    @GetMapping("/tmp-save")
+    fun getTmpSaveHouseAll(
+        @AuthUser user: User,
+        @PageableDefault(size=8, page=0) pageable: Pageable
+    ) : ApplicationResponse<Page<HouseResDto>> {
+        return ApplicationResponse.ok(houseService.getTmpSaveHouseAll(user, pageable))
     }
 }

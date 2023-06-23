@@ -28,7 +28,8 @@ data class HouseReqDto(
     val agentName : String,
     val title: String,
     val code: String,
-    val imageUrls: List<String>
+    val imageUrls: List<String>,
+    val tmpYn : Boolean, // false -> save , true -> tmpSave
 )
 data class HouseListDto(
     val rentalType: String,
