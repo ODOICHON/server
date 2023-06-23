@@ -1,0 +1,24 @@
+== Scrap API
+
+==== 1. 게시글 스크랩
+
+===== Request
+include::{snippets}/scrap-house/http-request.adoc[]
+
+===== Response
+include::{snippets}/scrap-house/http-response.adoc[]
+
+==== 2. 이미 스크랩한 게시글인 경우
+
+===== Request
+include::{snippets}/scrap-house-already/http-request.adoc[]
+===== Response
+include::{snippets}/scrap-house-already/http-response.adoc[]
+
+==== 3. 게시글 스크랩 해제
+====== Request
+include::{snippets}/unScrap-house/http-request.adoc[]
+
+====== Response
+include::{snippets}/unScrap-house/http-response.adoc[]
+
