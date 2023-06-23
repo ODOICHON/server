@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.house.repository
 
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.entity.House
+import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
 import com.example.jhouse_server.domain.house.entity.QHouse.house
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.user.entity.QUser.user
@@ -25,7 +26,7 @@ class HouseRepositoryImpl(
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
-                house.applied.eq(false), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
+                house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -38,7 +39,7 @@ class HouseRepositoryImpl(
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
-                house.applied.eq(false), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
+                house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
             )
         return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong()}
     }

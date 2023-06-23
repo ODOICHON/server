@@ -55,7 +55,11 @@ class House(
     @Column(nullable = true, length = 101)
     var reportReason : String? = null, // 신고 사유 ( 100자 )
 
-    var applied : Boolean = false, // 신청여부 ( 신청 : true, 미신청 : false )
+    @Convert(converter = HouseReviewStatusConverter::class)
+    var applied : HouseReviewStatus? = null, // 신청여부 ( 신청 : true, 미신청 : false )
+
+    @Column(nullable = true)
+    var rejectReason: String? = null, // 관리자가 게시글을 반려한 이유
 
     @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL], orphanRemoval = true)
     var scrap: MutableList<Scrap> = mutableListOf(),
@@ -92,6 +96,7 @@ class House(
         this.code = code
         this.content = content
         this.imageUrls = imageUrls
+        this.applied = HouseReviewStatus.APPROVE
         return this
     }
     fun deleteEntity() {
@@ -104,7 +109,16 @@ class House(
     }
 
     fun applyEntity() {
-        this.applied = true
+        this.applied = HouseReviewStatus.APPLY
+    }
+
+    fun approveEntity() {
+        this.applied = HouseReviewStatus.APPROVE
+    }
+
+    fun rejectEntity(rejectReason: String) {
+        this.applied = HouseReviewStatus.REJECT
+        this.rejectReason = rejectReason
     }
 
     fun addScrap(scrap: Scrap) : House {
