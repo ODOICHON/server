@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.house.dto
 
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.entity.RentalType
+import com.example.jhouse_server.global.aop.CodeValid
 import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotBlank
@@ -27,6 +28,7 @@ data class HouseReqDto(
     var monthlyPrice: Double,
     val agentName : String,
     val title: String,
+    @CodeValid
     val code: String,
     val imageUrls: List<String>,
     val tmpYn : Boolean, // false -> save , true -> tmpSave
