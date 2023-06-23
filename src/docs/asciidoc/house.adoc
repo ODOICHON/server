@@ -29,6 +29,14 @@ include::{snippets}/delete-house/http-response.adoc[]
 
 
 ==== 4. 빈집 게시글 목록 조회
+
+빈집 게시글 목록 조회 시, param에 따라 필터링을 거칩니다.
+내부적으로 *신고여부*, *삭제여부*, *일반유저의 게시글 승인여부* 에 대한 필터링을 거칩니다.
+
+한 페이지에 기본 8개를 제공합니다. 개수를 조절하고 싶은 경우 요청 쿼리에 *size* 를 포함해주세요.
+
+게시글 키워드 검색에 대상은 게시글의 제목과 작성자의 닉네임으로 제한합니다. ( 기능 명세서 참고 )
+
 ===== Request
 include::{snippets}/get-house-all/http-request.adoc[]
 ====== Request Fields
@@ -39,10 +47,36 @@ include::{snippets}/get-house-all/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-house-all/response-fields-data.adoc[]
 
-===== 5. 빈집 게시글 단일 조회
+===== 5. 빈집 게시글 단일 조회 - 비로그인 상태
+
+해당 API는 비로그인 상태일 때, 빈집 게시글 상세 조회 API 입니다.
+
 ====== Request
 include::{snippets}/get-house-one/http-request.adoc[]
 ====== Response
 include::{snippets}/get-house-one/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-house-one/response-fields.adoc[]
+
+===== 6. 빈집 게시글 단일 조회 - 로그인 상태
+
+====== Request
+include::{snippets}/get-house-one-with-user/http-request.adoc[]
+
+====== Response
+include::{snippets}/get-house-one-with-user/http-response.adoc[]
+====== Response Fields
+include::{snippets}/get-house-one-with-user/response-fields.adoc[]
+
+===== 7.빈집 게시글 신고하기
+
+해당 API는 허위 매물 혹은 잘못된 정보 제공에 대한 게시글 신고 기능을 제공합니다. 단, 본인의 게시글은 신고할 수 없습니다.
+
+====== Request
+include::{snippets}/report-house/http-request.adoc[]
+
+====== Request Fields
+include::{snippets}/report-house/request-fields.adoc[]
+
+====== Response
+include::{snippets}/report-house/http-response.adoc[]
