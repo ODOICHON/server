@@ -9,6 +9,7 @@ import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.util.ApiControllerConfig
 import com.example.jhouse_server.global.util.MockEntity
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseReqDto
+import com.example.jhouse_server.global.util.MockEntity.Companion.houseTmpReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseUpdateReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.reportReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignInDto2
@@ -111,6 +112,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("title").description("빈집 게시글의 제목을 입력해주세요."),
                         fieldWithPath("code").description("빈집 게시글의 내용을 입력해주세요."),
                         fieldWithPath("imageUrls").description("이미지 주소를 string 배열 형식으로 입력해주세요."),
+                        fieldWithPath("tmpYn").description("임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false) "),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
@@ -163,6 +165,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("title").description("빈집 게시글의 제목을 입력해주세요."),
                         fieldWithPath("code").description("빈집 게시글의 내용을 입력해주세요."),
                         fieldWithPath("imageUrls").description("이미지 주소를 string 배열 형식으로 입력해주세요."),
+                        fieldWithPath("tmpYn").description("임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false) "),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
@@ -397,6 +400,93 @@ internal class HouseControllerTest @Autowired constructor(
                     ),
                     requestFields(
                         fieldWithPath("reportReason").description("신고 이유는 필수값입니다."),
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("임시저장된 게시글 목록 조회")
+    fun getTmpSaveHouseAll() {
+        // given
+        // dummy for house ( with tmpSave )
+        for(i in 0..10) {
+            val houseId = houseService.createHouse(houseTmpReqDto(), user!!)
+            houseIds.add(houseId)
+        }
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/tmp-save?page=0&size=8")
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "get-tmp-save-house-all",
+                    requestParameters(
+                        parameterWithName("page").description("페이지 번호 (0부터 !)"),
+                        parameterWithName("size").description("페이지 당 넘겨 받을 개수 ( 기본값 8개 )")
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *pageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 길이 초과")
+    fun createHouse_outOfLength() {
+        // given
+        val req: String = objectMapper.writeValueAsString(MockEntity.houseTooLongReqDto())
+
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri")
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .content(req)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isBadRequest)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "save-house-too-long",
+                    requestFields(
+                        fieldWithPath("rentalType").description("매매 타입 ( SALE(매매), JEONSE(전세), MONTHLYRENT(월세) )은 필수값입니다. "),
+                        fieldWithPath("city").description("주소는 '시도'로 시작하되, 줄이지 않은 표현으로 작성해야 합니다. 예: 서울시 서대문구 거북골로 34"),
+                        fieldWithPath("zipCode").description("우편번호 ( string 형식입니다. )"),
+                        fieldWithPath("size").description("집 크기는 m^2 단위로 산정해서 작성해야 합니다. string 형식입니다."),
+                        fieldWithPath("purpose").description("매물 목적/용도 예: 거주 ( 방3, 화장실 2 )"),
+                        fieldWithPath("floorNum").description("매물이 위치한 층수 ( 단독주택인 경우, null 로 전달 시 서버에서 0으로 세팅 )"),
+                        fieldWithPath("contact").description("연락 가능한 연락처를 01000000000 형식으로 작성"),
+                        fieldWithPath("createdDate").description("준공연도는 숫자만 입력해주세요. YYYY 형태로 서버에서 관리합니다."),
+                        fieldWithPath("price").description("매물가격은 만원 단위로 산정해서 작성해주세요. ( 월세의 경우, 보증금을 작성해주세요. )"),
+                        fieldWithPath("monthlyPrice").description("월세 가격은 만원 단위로 산정해서 소수점 포함으로 작성해주세요. Double 형식으로 관리합니다."),
+                        fieldWithPath("agentName").description("공인중개사명을 작성해주세요. ( 없는 경우, 서버에서 null로 관리합니다. )"),
+                        fieldWithPath("title").description("빈집 게시글의 제목을 입력해주세요."),
+                        fieldWithPath("code").description("빈집 게시글의 내용을 입력해주세요."),
+                        fieldWithPath("imageUrls").description("이미지 주소를 string 배열 형식으로 입력해주세요."),
+                        fieldWithPath("tmpYn").description("임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false) "),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
