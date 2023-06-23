@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain.house.entity
+package com.example.jhouse_server.domain.scrap.entity
 
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.user.entity.User
