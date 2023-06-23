@@ -29,6 +29,7 @@
 - Spring Framework ( Spring Boot 2.7.8, Spring MVC )
 - Spring Data JPA, Redis, QueryDsl
 - Junit5, AssertJ, Mockito
+- Rest Docs
 
 **Build Tool**
 - Gradle( Kotlin )
@@ -48,16 +49,31 @@
 - CloudWatch, Slack
 - Jacoco, SonarCloud
 - Docker
+- Lambda
 
-**WEB**
+**WEB for back-office**
 - Javascript
 - HTML/CSS
 - Thymeleaf
 - Bootstrap 5
 
+**WEB for tech-blog**
+- Typescript
+- HTML/CSS
+- Vue3
+- Vuex
+- Vue-Router
+- Bootstrap 5
+- Axios
+- npm
+- Toast-ui for vue
+
 **기타 주요 라이브러리**
 - JWT
 - Bucket4j
+- Cache
+- Coolsms
+- Jasypt
 
 ### E-R 다이어그램
 ![다이어그램](https://github.com/ODOICHON/server/assets/61505572/102a958b-e3cb-46bf-887f-28dbfbfdf531)
@@ -274,8 +290,9 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/board.html)
 - [댓글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/comment.html)
 - [JWT 예외처리](https://odoichon.github.io/server/src/main/resources/static/docs/jwt.html)
-- [좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
+- [커뮤니티 게시글 좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
 - [빈집 게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/house.html)
+- [빈집 게시글 스크랩 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/scrap.html)
 
 **테크블로그 서비스**
 - [레코드 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record.html)
@@ -324,7 +341,13 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 
 🏷 VERSION 0.0.2 - 메인 페이지 화면 작업 및 소개 게시판 API 연동 (2023.04.25)
 
-🏷 VERSION 0.0.3 - 백오피스 메인 기능 개발 (2023.04.xx)
+🏷 VERSION 0.0.3 - 관리자 페이지 개발 (2023.05.10)
+
+🏷 VERSION 0.0.4 - 커뮤니티 게시판 API 연동 (2023.06.01)
+
+🏷 VERSION 0.0.5 - 백오피스 메인 기능 개발 (2023.06.15)
+
+🏷 VERSION 0.0.6 - 빈집 게시판 API 연동 (2023.06.xx)
 
 ### 팀 구성
 | Name    | <center>이은비</center>|<center>윤태민</center> |<center>문민혁</center> | 
