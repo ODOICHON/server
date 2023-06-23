@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.house.controller
 
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.house.service.HouseService
+import com.example.jhouse_server.domain.scrap.service.ScrapService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
@@ -9,6 +10,10 @@ import com.example.jhouse_server.global.util.ApiControllerConfig
 import com.example.jhouse_server.global.util.MockEntity
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseUpdateReqDto
+import com.example.jhouse_server.global.util.MockEntity.Companion.reportReqDto
+import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignInDto2
+import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignUpDto2
+import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -32,13 +37,19 @@ import org.springframework.transaction.annotation.Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class HouseControllerTest @Autowired constructor(
     private val houseService: HouseService,
+    private val houseRepository: HouseRepository,
+    private val scrapService: ScrapService,
     private val userService: UserService,
     private val userRepository: UserRepository
 ): ApiControllerConfig("/api/v1/houses") {
     private var accessToken: String? = null
+    private var accessToken2 : String? = null
     private val userSignUpReqDto = MockEntity.testUserSignUpDto()
+    private val userSignUpReqDto2 = testUserSignUpDto2()
     private val userSignInReqDto = MockEntity.testUserSignInDto()
+    private val userSignInReqDto2 = testUserSignInDto2()
     private var user: User? = null
+    private var anotherUser: User? = null
     private var houseIds : MutableList<Long> = mutableListOf()
 
     @BeforeEach
@@ -49,7 +60,12 @@ internal class HouseControllerTest @Autowired constructor(
         // signIn
         val tokenDto = userService.signIn(userSignInReqDto)
         accessToken = tokenDto.accessToken
-
+        // another user signUp
+        userService.signUp(userSignUpReqDto2)
+        anotherUser = userRepository.findByEmail(userSignUpReqDto2.email).get()
+        // another user signIn
+        val tokenDto2 = userService.signIn(userSignInReqDto2)
+        accessToken2 = tokenDto2.accessToken
     }
     @AfterEach
     fun `더미데이터_초기화`() {
@@ -231,7 +247,7 @@ internal class HouseControllerTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("빈집 게시글 단일 조회")
+    @DisplayName("빈집 게시글 단일 조회 - 비로그인")
     fun getHouseOne() {
         // given
         // dummy for house
@@ -281,7 +297,106 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("data.imageUrls").description("게시글 이미지 주소"),
                         fieldWithPath("data.nickName").description("게시글 작성자"),
                         fieldWithPath("data.createdAt").description("게시글 작성일자"),
-                        fieldWithPath("data.isCompleted").description("매물 거래 완료 여부")
+                        fieldWithPath("data.isCompleted").description("매물 거래 완료 여부"),
+                        fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 상세 조회 - 로그인")
+    fun getHouseOneWithUser() {
+        // dummy for house
+        for(i in 0..10) {
+            houseIds.add(houseService.createHouse(houseReqDto(), user!!))
+            houseIds.add(houseService.createHouse(houseUpdateReqDto(), user!!))
+        }
+
+        val houseId = houseIds[0]
+
+        scrapService.scrapHouse(houseId, user!!)
+
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/user-scrap/{houseId}", houseId)
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "get-house-one-with-user",
+                    pathParameters(
+                        parameterWithName("houseId").description("빈집 게시글 아이디")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("data.houseId").description("빈집 게시글 아이디"),
+                        fieldWithPath("data.rentalType").description("매물 타입"),
+                        fieldWithPath("data.city").description("매물 위치"),
+                        fieldWithPath("data.zipcode").description("우편 주소"),
+                        fieldWithPath("data.size").description("매물 크기 ( 견적 )"),
+                        fieldWithPath("data.purpose").description("매물 목적/용도"),
+                        fieldWithPath("data.floorNum").description("매물 층수"),
+                        fieldWithPath("data.contact").description("연락 가능한 연락처"),
+                        fieldWithPath("data.createdDate").description("준공연도"),
+                        fieldWithPath("data.price").description("매물 가격"),
+                        fieldWithPath("data.monthlyPrice").description("월세 가격"),
+                        fieldWithPath("data.agentName").description("공인중개사명"),
+                        fieldWithPath("data.title").description("게시글 제목"),
+                        fieldWithPath("data.code").description("게시글 내용"),
+                        fieldWithPath("data.imageUrls").description("게시글 이미지 주소"),
+                        fieldWithPath("data.nickName").description("게시글 작성자"),
+                        fieldWithPath("data.createdAt").description("게시글 작성일자"),
+                        fieldWithPath("data.isCompleted").description("매물 거래 완료 여부"),
+                        fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부 ( 로그인 상태일 때, 상세 조회 시 유저 데이터로부터 스크랩 여부를 판단합니다. )")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 신고하기")
+    fun reportHouse() {
+        // given
+        val houseId = houseService.createHouse(MockEntity.houseReqDto(), user!!)
+        val req: String = objectMapper.writeValueAsString(reportReqDto())
+
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .put("$uri/report/{houseId}", houseId)
+                .header(HttpHeaders.AUTHORIZATION, accessToken2)
+                .content(req)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "update-house",
+                    pathParameters(
+                        parameterWithName("houseId").description("빈집 게시글 아이디"),
+                    ),
+                    requestFields(
+                        fieldWithPath("reportReason").description("신고 이유는 필수값입니다."),
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지"),
                     )
                 )
             )
@@ -297,6 +412,7 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].nickName").description("게시글 작성자"),
             fieldWithPath("content[].createdAt").description("게시글 작성날짜"),
             fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
+            fieldWithPath("content[].imgaeUrl").description("썸네일 이미지 주소"),
             fieldWithPath("pageable.sort.empty").description(""),
             fieldWithPath("pageable.sort.unsorted").description(""),
             fieldWithPath("pageable.sort.sorted").description(""),

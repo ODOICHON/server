@@ -8,6 +8,7 @@ import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentReqDto
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.dto.HouseReqDto
+import com.example.jhouse_server.domain.house.dto.ReportReqDto
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.record.dto.RecordPageCondition
 import com.example.jhouse_server.domain.record.dto.RecordReqDto
@@ -306,6 +307,10 @@ class MockEntity {
             title = "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>부자부동산 최신 매물로</h2> </div> <div> <i>게스트하우스용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002")
+        )
+
+        fun reportReqDto() = ReportReqDto(
+            reportReason = "허위 매물로 게시글을 작성하였습니다."
         )
     }
 }
