@@ -445,13 +445,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <div class="sect3">
 <h4 id="_1_빈집_게시글_작성하기">1. 빈집 게시글 작성하기</h4>
+<div class="paragraph">
+<p>빈집 게시글 작성 시, tmpYn 플래그를 통해 임시저장 여부를 판단합니다.</p>
+</div>
 <div class="sect4">
 <h5 id="_request">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA1MDAsImF1dGgiOiJVU0VSIn0.7-xZZMwfeQCGE7atOzbEC9plm6HhHdRHSOSGiV3LOuPD4BhHo1lbWPXoK6qk6YhWxTCpMAop9gSLjOahzKB16Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNTEsImF1dGgiOiJVU0VSIn0.6KnufyHXCto5vMn0asjHms3-Qra6VFmdgOgjuAO8EFBahnjcZGl9LFPq24Gjuup_n1tYri-GsOD7tj8PPW3OcA
 Accept: application/json
 Content-Length: 634
 Host: localhost:8080
@@ -584,7 +587,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 403
+  "data" : 588
 }</code></pre>
 </div>
 </div>
@@ -625,32 +628,35 @@ Content-Length: 64
 </div>
 </div>
 <div class="sect3">
-<h4 id="_2_빈집_게시글_수정하기">2. 빈집 게시글 수정하기</h4>
+<h4 id="_1_2_빈집_게시글_유효성_검사">1-2. 빈집 게시글 유효성 검사</h4>
+<div class="paragraph">
+<p>빈집 게시글 작성 시, 게시글의 내용이 10,000자를 넘기는 지 확인하는 유효성 검사에 대한 내용입니다.</p>
+</div>
 <div class="sect4">
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/380 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA1MDAsImF1dGgiOiJVU0VSIn0.7-xZZMwfeQCGE7atOzbEC9plm6HhHdRHSOSGiV3LOuPD4BhHo1lbWPXoK6qk6YhWxTCpMAop9gSLjOahzKB16Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNTEsImF1dGgiOiJVU0VSIn0.6KnufyHXCto5vMn0asjHms3-Qra6VFmdgOgjuAO8EFBahnjcZGl9LFPq24Gjuup_n1tYri-GsOD7tj8PPW3OcA
 Accept: application/json
-Content-Length: 657
+Content-Length: 25999
 Host: localhost:8080
 
 {
-  "rentalType" : "JEONSE",
-  "city" : "서울시 서대문구 남가좌동 거북골로 90",
+  "rentalType" : "SALE",
+  "city" : "서울시 서대문구 남가좌동 거북골로 34",
   "zipCode" : "12345",
   "size" : "120909000",
-  "purpose" : "게스트하우스 ( 방3, 화장실 2 )",
+  "purpose" : "주거용 ( 방3, 화장실 2 )",
   "floorNum" : 2,
   "contact" : "070-1234-5678",
   "createdDate" : "1990-09-09",
   "price" : 12000,
   "monthlyPrice" : 0.0,
-  "agentName" : "부자부동산",
-  "title" : "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
-  "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;부자부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;게스트하우스용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
+  "agentName" : "행복부동산",
+  "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+  "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;글자수가 10,000자를 넘어서는지 테스트해보기 위한 글입니다. 행복부동산 최신 매물입니다.&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; 오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요? &lt;/div&gt; &lt;/body&gt;",
   "imageUrls" : [ "img-001", "img-002" ],
   "tmpYn" : false
 }</code></pre>
@@ -755,6 +761,155 @@ Host: localhost:8080
 <h5 id="_response_2">Response</h5>
 <div class="listingblock">
 <div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 100
+
+{
+  "code" : "C0002",
+  "message" : "게시글의 내용이 10,000자를 넘을 수 없습니다."
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_2_빈집_게시글_수정하기">2. 빈집 게시글 수정하기</h4>
+<div class="paragraph">
+<p>임시저장 상태 혹은 저장 상태의 게시글을 수정할 수 있습니다. 임시저장에서 저장으로 상태 변경을 원하는 경우, tmpYn 값을 false로 변경해주셔야 합니다.</p>
+</div>
+<div class="sect4">
+<h5 id="_request_3">Request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/565 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNTAsImF1dGgiOiJVU0VSIn0.jdX7hKl0J9cXcm7LdGfJRGNKlXP3JAM8AI6RxYkPB4BEL454ITZS_xeuqoDNIpT2bMktBVqhyJUpi7iutg3yfA
+Accept: application/json
+Content-Length: 657
+Host: localhost:8080
+
+{
+  "rentalType" : "JEONSE",
+  "city" : "서울시 서대문구 남가좌동 거북골로 90",
+  "zipCode" : "12345",
+  "size" : "120909000",
+  "purpose" : "게스트하우스 ( 방3, 화장실 2 )",
+  "floorNum" : 2,
+  "contact" : "070-1234-5678",
+  "createdDate" : "1990-09-09",
+  "price" : 12000,
+  "monthlyPrice" : 0.0,
+  "agentName" : "부자부동산",
+  "title" : "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
+  "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;부자부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;게스트하우스용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
+  "imageUrls" : [ "img-001", "img-002" ],
+  "tmpYn" : false
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_request_fields_3">Request Fields</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rentalType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매매 타입 ( SALE(매매), JEONSE(전세), MONTHLYRENT(월세) )은 필수값입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>city</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">주소는 '시도&#8217;로 시작하되, 줄이지 않은 표현으로 작성해야 합니다. 예: 서울시 서대문구 거북골로 34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>zipCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">우편번호 ( string 형식입니다. )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">집 크기는 m^2 단위로 산정해서 작성해야 합니다. string 형식입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>purpose</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매물 목적/용도 예: 거주 ( 방3, 화장실 2 )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>floorNum</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매물이 위치한 층수 ( 단독주택인 경우, null 로 전달 시 서버에서 0으로 세팅 )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>contact</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">연락 가능한 연락처를 01000000000 형식으로 작성</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createdDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">준공연도는 숫자만 입력해주세요. YYYY 형태로 서버에서 관리합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매물가격은 만원 단위로 산정해서 작성해주세요. ( 월세의 경우, 보증금을 작성해주세요. )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>monthlyPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">월세 가격은 만원 단위로 산정해서 소수점 포함으로 작성해주세요. Double 형식으로 관리합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>agentName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사명을 작성해주세요. ( 없는 경우, 서버에서 null로 관리합니다. )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글의 제목을 입력해주세요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글의 내용을 입력해주세요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imageUrls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 주소를 string 배열 형식으로 입력해주세요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tmpYn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_response_3">Response</h5>
+<div class="listingblock">
+<div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
@@ -765,7 +920,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 380
+  "data" : 565
 }</code></pre>
 </div>
 </div>
@@ -777,19 +932,19 @@ Content-Length: 64
 <p>삭제 시, 빈집 게시글 아이디를 path-variable로 넘겨주세요.</p>
 </div>
 <div class="sect4">
-<h5 id="_request_3">Request</h5>
+<h5 id="_request_4">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/379 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/564 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA0OTksImF1dGgiOiJVU0VSIn0.e2CnOWtGwgcyNZKITr0bP0ZUW84yI3gDqCHwtP7L1ns3Lp96N7o24mkV-DRXiQuKPATWEJso6JCFlqiXOy1t_w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNTAsImF1dGgiOiJVU0VSIn0.jdX7hKl0J9cXcm7LdGfJRGNKlXP3JAM8AI6RxYkPB4BEL454ITZS_xeuqoDNIpT2bMktBVqhyJUpi7iutg3yfA
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_3">Response</h5>
+<h5 id="_response_4">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -811,7 +966,10 @@ Content-Length: 48
 <h4 id="_4_빈집_게시글_목록_조회">4. 빈집 게시글 목록 조회</h4>
 <div class="paragraph">
 <p>빈집 게시글 목록 조회 시, param에 따라 필터링을 거칩니다.
-내부적으로 <strong>신고여부</strong>, <strong>삭제여부</strong>, <strong>일반유저의 게시글 승인여부</strong> 에 대한 필터링을 거칩니다.</p>
+내부적으로 <strong>신고여부</strong>, <strong>삭제여부</strong>, <strong>일반유저의 게시글 승인여부</strong>, <strong>임시저장여부</strong> 에 대한 필터링을 거칩니다.</p>
+</div>
+<div class="paragraph">
+<p>임시저장 상태의 게시글을 조회하고 싶은 경우, 8번 API를 호출해주세요.</p>
 </div>
 <div class="paragraph">
 <p>한 페이지에 기본 8개를 제공합니다. 개수를 조절하고 싶은 경우 요청 쿼리에 <strong>size</strong> 를 포함해주세요.</p>
@@ -820,7 +978,7 @@ Content-Length: 48
 <p>게시글 키워드 검색에 대상은 게시글의 제목과 작성자의 닉네임으로 제한합니다. ( 기능 명세서 참고 )</p>
 </div>
 <div class="sect4">
-<h5 id="_request_4">Request</h5>
+<h5 id="_request_5">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses?rentalType=SALE&amp;city=%EC%84%9C%EC%9A%B8&amp;search= HTTP/1.1
@@ -830,7 +988,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_request_fields_3">Request Fields</h6>
+<h6 id="_request_fields_4">Request Fields</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -859,7 +1017,7 @@ Host: localhost:8080</code></pre>
 </table>
 </div>
 <div class="sect5">
-<h6 id="_response_4">Response</h6>
+<h6 id="_response_5">Response</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -874,83 +1032,83 @@ Content-Length: 3244
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 416,
+      "houseId" : 601,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.196+00:00",
+      "createdAt" : "2023-06-23T13:22:31.919+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 418,
+      "houseId" : 603,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.200+00:00",
+      "createdAt" : "2023-06-23T13:22:31.924+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 420,
+      "houseId" : 605,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.204+00:00",
+      "createdAt" : "2023-06-23T13:22:31.927+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 422,
+      "houseId" : 607,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.207+00:00",
+      "createdAt" : "2023-06-23T13:22:31.930+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 424,
+      "houseId" : 609,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.210+00:00",
+      "createdAt" : "2023-06-23T13:22:31.934+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 426,
+      "houseId" : 611,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.213+00:00",
+      "createdAt" : "2023-06-23T13:22:31.937+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 428,
+      "houseId" : 613,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.217+00:00",
+      "createdAt" : "2023-06-23T13:22:31.941+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     }, {
-      "houseId" : 430,
+      "houseId" : 615,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-06-23T11:11:41.226+00:00",
+      "createdAt" : "2023-06-23T13:22:31.945+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001"
     } ],
@@ -961,21 +1119,21 @@ Content-Length: 3244
         "sorted" : false
       },
       "offset" : 0,
-      "pageNumber" : 0,
       "pageSize" : 8,
+      "pageNumber" : 0,
       "paged" : true,
       "unpaged" : false
     },
     "last" : false,
-    "totalPages" : 2,
     "totalElements" : 11,
-    "number" : 0,
-    "first" : true,
+    "totalPages" : 2,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "first" : true,
+    "number" : 0,
     "size" : 8,
     "numberOfElements" : 8,
     "empty" : false
@@ -1150,10 +1308,10 @@ Content-Length: 3244
 <p>해당 API는 비로그인 상태일 때, 빈집 게시글 상세 조회 API 입니다.</p>
 </div>
 <div class="sect5">
-<h6 id="_request_5">Request</h6>
+<h6 id="_request_6">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/438 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/623 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1161,7 +1319,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_response_5">Response</h6>
+<h6 id="_response_6">Response</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1175,7 +1333,7 @@ Content-Length: 867
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 438,
+    "houseId" : 623,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1191,7 +1349,7 @@ Content-Length: 867
     "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;행복부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;주거용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
-    "createdAt" : "2023-06-23T11:11:41.379+00:00",
+    "createdAt" : "2023-06-23T13:22:32.126+00:00",
     "isCompleted" : false,
     "isScraped" : false
   }
@@ -1327,19 +1485,19 @@ Content-Length: 867
 <div class="sect4">
 <h5 id="_6_빈집_게시글_단일_조회_로그인_상태">6. 빈집 게시글 단일 조회 - 로그인 상태</h5>
 <div class="sect5">
-<h6 id="_request_6">Request</h6>
+<h6 id="_request_7">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/381 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/566 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjA1MDAsImF1dGgiOiJVU0VSIn0.7-xZZMwfeQCGE7atOzbEC9plm6HhHdRHSOSGiV3LOuPD4BhHo1lbWPXoK6qk6YhWxTCpMAop9gSLjOahzKB16Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNTEsImF1dGgiOiJVU0VSIn0.6KnufyHXCto5vMn0asjHms3-Qra6VFmdgOgjuAO8EFBahnjcZGl9LFPq24Gjuup_n1tYri-GsOD7tj8PPW3OcA
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect5">
-<h6 id="_response_6">Response</h6>
+<h6 id="_response_7">Response</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1353,7 +1511,7 @@ Content-Length: 866
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 381,
+    "houseId" : 566,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1369,7 +1527,7 @@ Content-Length: 866
     "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;행복부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;주거용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
-    "createdAt" : "2023-06-23T11:11:40.501+00:00",
+    "createdAt" : "2023-06-23T13:22:31.132+00:00",
     "isCompleted" : false,
     "isScraped" : true
   }
@@ -1508,12 +1666,12 @@ Content-Length: 866
 <p>해당 API는 허위 매물 혹은 잘못된 정보 제공에 대한 게시글 신고 기능을 제공합니다. 단, 본인의 게시글은 신고할 수 없습니다.</p>
 </div>
 <div class="sect5">
-<h6 id="_request_7">Request</h6>
+<h6 id="_request_8">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/404 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/589 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjg3NTIwNTAwLCJhdXRoIjoiVVNFUiJ9.KuQue3Biw47f_mIyynwDIc8MNfcvxfSbxLTZTzDeHMBAiHqY9w-KYpryTxs6xt8PDInlWjHCPtbK9PckXfNUlA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjg3NTI4MzUxLCJhdXRoIjoiVVNFUiJ9.dGdmHbVSgmreb5U3wGplJMGoynKaS9fQ0r_lDrfQW-s7Y6FXXT0py0sSaUv0_j_zLzkxMIURobTPCVbeZ6e6IA
 Accept: application/json
 Content-Length: 77
 Host: localhost:8080
@@ -1525,7 +1683,7 @@ Host: localhost:8080
 </div>
 </div>
 <div class="sect5">
-<h6 id="_request_fields_4">Request Fields</h6>
+<h6 id="_request_fields_5">Request Fields</h6>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1549,7 +1707,7 @@ Host: localhost:8080
 </table>
 </div>
 <div class="sect5">
-<h6 id="_response_7">Response</h6>
+<h6 id="_response_8">Response</h6>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1567,6 +1725,309 @@ Content-Length: 48
 </div>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_8_임시저장된_게시글_목록_조회하기">8. 임시저장된 게시글 목록 조회하기</h5>
+<div class="paragraph">
+<p>본인이 작성한 게시글 중 임시저장 상태의 게시글 데이터만 목록으로 반환합니다. 따라서 토큰이 필요합니다!</p>
+</div>
+<div class="sect5">
+<h6 id="_request_9">Request</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/tmp-save?page=0&amp;size=8 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNTEsImF1dGgiOiJVU0VSIn0.6KnufyHXCto5vMn0asjHms3-Qra6VFmdgOgjuAO8EFBahnjcZGl9LFPq24Gjuup_n1tYri-GsOD7tj8PPW3OcA
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_response_9">Response</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 3244
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공",
+  "data" : {
+    "content" : [ {
+      "houseId" : 590,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.539+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 591,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.541+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 592,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.542+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 593,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.544+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 594,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.546+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 595,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.547+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 596,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.550+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    }, {
+      "houseId" : 597,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-06-23T13:22:31.552+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001"
+    } ],
+    "pageable" : {
+      "sort" : {
+        "empty" : true,
+        "unsorted" : true,
+        "sorted" : false
+      },
+      "offset" : 0,
+      "pageSize" : 8,
+      "pageNumber" : 0,
+      "paged" : true,
+      "unpaged" : false
+    },
+    "last" : false,
+    "totalElements" : 11,
+    "totalPages" : 2,
+    "sort" : {
+      "empty" : true,
+      "unsorted" : true,
+      "sorted" : false
+    },
+    "first" : true,
+    "number" : 0,
+    "size" : 8,
+    "numberOfElements" : 8,
+    "empty" : false
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_response_fields_5">Response Fields</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].houseId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].rentalType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매매 타입</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].city</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매물 위치</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].price</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">매물 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].monthlyPrice</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">월세 가격</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].createdAt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 작성날짜</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].isCompleted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">거래 완료 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].imageUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">썸네일 이미지 주소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.offset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.pageSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.unpaged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.paged</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>last</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalPages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>totalElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.unsorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sort.sorted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>first</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfElements</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>empty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1574,7 +2035,7 @@ Content-Length: 48
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-06-23 16:41:18 +0900
+Last updated 2023-06-23 21:37:08 +0900
 </div>
 </div>
 </body>
