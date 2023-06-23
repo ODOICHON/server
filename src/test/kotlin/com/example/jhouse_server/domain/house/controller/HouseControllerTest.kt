@@ -208,10 +208,14 @@ internal class HouseControllerTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회")
     fun getHouseAll() {
         // given
-        // dummy for house
+        // dummy for house ( with approve )
         for(i in 0..10) {
-            houseIds.add(houseService.createHouse(houseReqDto(), user!!))
-            houseIds.add(houseService.createHouse(houseUpdateReqDto(), user!!))
+            val houseId = houseService.createHouse(houseReqDto(), user!!)
+            houseRepository.findByIdOrThrow(houseId).approveEntity()
+            houseIds.add(houseId)
+            val houseId2 = houseService.createHouse(houseUpdateReqDto(), user!!)
+            houseRepository.findByIdOrThrow(houseId2).approveEntity()
+            houseIds.add(houseId2)
         }
         // when
         val resultActions = mockMvc.perform(
@@ -387,7 +391,7 @@ internal class HouseControllerTest @Autowired constructor(
             .andDo(MockMvcResultHandlers.print())
             .andDo(
                 document(
-                    "update-house",
+                    "report-house",
                     pathParameters(
                         parameterWithName("houseId").description("빈집 게시글 아이디"),
                     ),
@@ -412,7 +416,7 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].nickName").description("게시글 작성자"),
             fieldWithPath("content[].createdAt").description("게시글 작성날짜"),
             fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
-            fieldWithPath("content[].imgaeUrl").description("썸네일 이미지 주소"),
+            fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
             fieldWithPath("pageable.sort.empty").description(""),
             fieldWithPath("pageable.sort.unsorted").description(""),
             fieldWithPath("pageable.sort.sorted").description(""),
