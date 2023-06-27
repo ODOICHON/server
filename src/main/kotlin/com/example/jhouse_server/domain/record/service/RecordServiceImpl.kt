@@ -204,7 +204,7 @@ class RecordServiceImpl(
 
     private fun applyForReview(record: Record, user: User) {
         recordReviewApplyRepository.save(RecordReviewApply(RecordReviewApplyStatus.MINE, record, user))
-        val reviewers = userRepository.findAllByUserType(user.id, user.userType!!)
+        val reviewers = userRepository.findAllByUserType(user.id, user.userType)
         reviewers.forEach {
             val recordReviewApply = RecordReviewApply(RecordReviewApplyStatus.WAIT, record, it)
             recordReviewApplyRepository.save(recordReviewApply)

@@ -23,6 +23,7 @@ import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.UserType
 
 class MockEntity {
     companion object {
@@ -44,7 +45,8 @@ class MockEntity {
             nickName = "철수",
             phoneNum = "01098765432",
             authority = Authority.ADMIN,
-            age = Age.TWENTY
+            age = Age.TWENTY,
+            userType = UserType.NONE
         )
 
 
@@ -74,6 +76,25 @@ class MockEntity {
             phoneNum = "01033333333",
             age = "20대 미만",
             joinPaths = mutableListOf("네이버 카페", "인스타그램")
+        )
+
+        fun testAgentSignUpDto() = AgentSignUpReqDto(
+            email = "agent_jhouse_com",
+            password = "abcdefG123!",
+            nickName = "공인중개사",
+            phoneNum = "01044444444",
+            age = "20대 미만",
+            joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+            agentCode = "123-456-789-01",
+            businessCode = "12345-6789",
+            companyName = "주말내집",
+            agentName = "오도리",
+            companyPhoneNum = "0212345678",
+            assistantName = null,
+            companyAddress = "서울특별시",
+            companyAddressDetail = "강남구",
+            companyEmail = "agent@duaily.net",
+            estate = "아파트"
         )
 
         fun testUserSignInDto() = UserSignInReqDto(
