@@ -1,6 +1,6 @@
 == User API
 
-=== 1. 회원가입
+=== 1-1. 회원가입
 ===== Request
 include::{snippets}/sign-up/http-request.adoc[]
 ===== Response - Success
@@ -11,6 +11,13 @@ include::{snippets}/password-validation/http-response.adoc[]
 include::{snippets}/nickname-validation/http-response.adoc[]
 include::{snippets}/phonenum-validation/http-response.adoc[]
 
+=== 1-2. 공인중개사 회원가입
+===== Request
+include::{snippets}/agent-sign-up/http-request.adoc[]
+===== Request Field
+include::{snippets}/agent-sign-up/request-fields.adoc[]
+===== Response
+include::{snippets}/agent-sign-up/http-response.adoc[]
 
 === 2. 로그인
 ===== Request
