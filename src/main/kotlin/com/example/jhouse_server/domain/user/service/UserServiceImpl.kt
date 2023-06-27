@@ -2,8 +2,8 @@ package com.example.jhouse_server.domain.user.service
 
 import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.*
-import com.example.jhouse_server.domain.user.repository.UserJoinPathRepository
 import com.example.jhouse_server.domain.user.repository.UserRepository
+import com.example.jhouse_server.domain.user.service.common.UserServiceCommonMethod
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode.*
 import com.example.jhouse_server.global.jwt.TokenDto
@@ -13,19 +13,16 @@ import com.example.jhouse_server.global.util.SmsUtil
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.math.BigInteger
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
 import java.util.*
 
 @Service
 @Transactional(readOnly = true)
 class UserServiceImpl (
         val userRepository: UserRepository,
-        val userJoinPathRepository: UserJoinPathRepository,
         val tokenProvider: TokenProvider,
         val redisUtil: RedisUtil,
-        val smsUtil: SmsUtil
+        val smsUtil: SmsUtil,
+        val userServiceCommonMethod: UserServiceCommonMethod
 ): UserService {
     private val SMS_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
@@ -64,26 +61,28 @@ class UserServiceImpl (
 
     @Transactional
     override fun signUp(userSignUpReqDto: UserSignUpReqDto) {
+        userServiceCommonMethod.validateDuplicate(userSignUpReqDto.email, userSignUpReqDto.nickName, userSignUpReqDto.phoneNum)
+
         val age: Age = Age.getAge(userSignUpReqDto.age)!!
         val joinPaths: MutableList<JoinPath> = mutableListOf()
         for(joinPath in userSignUpReqDto.joinPaths) {
             joinPaths.add(JoinPath.getJoinPath(joinPath)!!)
         }
 
-        val user = User(userSignUpReqDto.email, encodePassword(userSignUpReqDto.password),
+        val user = User(userSignUpReqDto.email, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
                 userSignUpReqDto.nickName, userSignUpReqDto.phoneNum,
-                Authority.USER, age)
+                Authority.USER, age, UserType.NONE)
         userRepository.save(user)
 
         for(joinPath in joinPaths) {
-            saveUserJoinPath(joinPath, user)
+            userServiceCommonMethod.saveUserJoinPath(joinPath, user)
         }
     }
 
     override fun signIn(userSignInReqDto: UserSignInReqDto): TokenDto {
         val user = userRepository.findByEmail(userSignInReqDto.email)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
-        if (user.password != encodePassword(userSignInReqDto.password)) {
+        if (user.password != userServiceCommonMethod.encodePassword(userSignInReqDto.password)) {
             throw ApplicationException(DONT_MATCH_PASSWORD)
         }
 
@@ -114,7 +113,7 @@ class UserServiceImpl (
 
     @Transactional
     override fun updatePassword(user: User, password: String) {
-        val encodePassword = encodePassword(password)
+        val encodePassword = userServiceCommonMethod.encodePassword(password)
         if (user.password == encodePassword) {
             throw ApplicationException(SAME_PASSWORD)
         }
@@ -131,18 +130,5 @@ class UserServiceImpl (
         val random: Random = Random()
 
         return String.format("%04d", random.nextInt(10000))
-    }
-
-    private fun encodePassword(password: String): String {
-        val messageDigest = MessageDigest.getInstance("SHA-512")
-        messageDigest.reset()
-        messageDigest.update(password.toByteArray(StandardCharsets.UTF_8))
-
-        return String.format("%0128x", BigInteger(1, messageDigest.digest()))
-    }
-
-    private fun saveUserJoinPath(joinPath: JoinPath, user: User) {
-        val userJoinPath = UserJoinPath(joinPath, user)
-        userJoinPathRepository.save(userJoinPath)
     }
 }

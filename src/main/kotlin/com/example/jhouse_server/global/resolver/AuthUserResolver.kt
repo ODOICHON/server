@@ -1,8 +1,14 @@
 package com.example.jhouse_server.global.resolver
 
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.UserType
+import com.example.jhouse_server.domain.user.entity.agent.Agent
+import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.annotation.AuthUser
+import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
+import com.example.jhouse_server.global.exception.ErrorCode.UNAUTHORIZED_EXCEPTION
 import com.example.jhouse_server.global.jwt.TokenProvider
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
@@ -34,7 +40,15 @@ class AuthUserResolver (
         tokenProvider.validateToken(jwt, true)
 
         val email: String = tokenProvider.getSubject(jwt)
+        val user = userRepository.findByEmail(email).orElseThrow()
 
-        return userRepository.findByEmail(email).orElseThrow()
+        if(tokenProvider.getType(jwt) == UserType.AGENT) {
+            val agent = user as Agent
+            if (agent.status == AgentStatus.WAIT) {
+                throw ApplicationException(UNAUTHORIZED_EXCEPTION)
+            }
+        }
+
+        return user
     }
 }
