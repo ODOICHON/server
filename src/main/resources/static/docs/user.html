@@ -444,7 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_user_api">User API</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_1_회원가입">1. 회원가입</h3>
+<h3 id="_1_1_회원가입">1-1. 회원가입</h3>
 <div class="sect4">
 <h5 id="_request">Request</h5>
 <div class="listingblock">
@@ -549,9 +549,160 @@ Content-Length: 83
 </div>
 </div>
 <div class="sect2">
-<h3 id="_2_로그인">2. 로그인</h3>
+<h3 id="_1_2_공인중개사_회원가입">1-2. 공인중개사 회원가입</h3>
 <div class="sect4">
 <h5 id="_request_2">Request</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/agents/sign-up HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 564
+Host: localhost:8080
+
+{
+  "email" : "agent_jhouse_com",
+  "password" : "abcdefG123!",
+  "nick_name" : "공인중개사",
+  "phone_num" : "01044444444",
+  "age" : "20대 미만",
+  "join_paths" : [ "네이버 카페", "인스타그램" ],
+  "agent_code" : "123-456-789-01",
+  "business_code" : "12345-6789",
+  "company_name" : "주말내집",
+  "agent_name" : "오도리",
+  "company_phone_num" : "0212345678",
+  "assistant_name" : null,
+  "company_address" : "서울특별시",
+  "company_address_detail" : "강남구",
+  "company_email" : "agent@duaily.net",
+  "estate" : "아파트"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_request_field">Request Field</h5>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nick_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone_num</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">전화번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">연령대</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>join_paths</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">가입 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>agent_code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사 등록번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>business_code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사업자 등록번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>company_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사 사무소 상호명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>agent_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대표자 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>company_phone_num</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사 사무소 대표 전화번호</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>assistant_name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">중개 보조원명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>company_address</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사 사무소 주소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>company_address_detail</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사 사무소 상세 주소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>company_email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">공인중개사 이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>estate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">주거래 매물</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_response">Response</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 48
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_2_로그인">2. 로그인</h3>
+<div class="sect4">
+<h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/sign-in HTTP/1.1
@@ -575,15 +726,15 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODgxMzEzNjJ9.hMYghXdlsKLsZD9eQTbD3QRUX2V8bvTnqiM7KQTAq9h0CsNKYd6AD3Y1pacxpybZUockJwyrakyJbdCOa3Yx6w; Path=/; Domain=localhost; Max-Age=604800; Expires=Fri, 30 Jun 2023 13:22:42 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODg0NzczNzB9.i30RHy3GsCUdSa5VRU57fMUqrwtAyaKR2Tb58oJSbApJEWfTKouALLGQKRnTd4wTGyEIBHMqAdRbATBhFrL5vw; Path=/; Domain=localhost; Max-Age=604800; Expires=Tue, 4 Jul 2023 13:29:30 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
-Content-Length: 280
+Content-Length: 299
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.-wL4Pk3I-aDCxu6HJ1_GWp-4h4HFYppFncZ8R6kUSey5gLGeF0rdSQ_csM-iDWWRLoQuTeXjXhs2cAg6PNo3Xw"
   }
 }</code></pre>
 </div>
@@ -656,18 +807,18 @@ Content-Length: 83
 <div class="sect2">
 <h3 id="_3_토큰_재발급">3. 토큰 재발급</h3>
 <div class="sect4">
-<h5 id="_request_3">Request</h5>
+<h5 id="_request_4">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/reissue HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 215
+Content-Length: 234
 Host: localhost:8080
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.NcQgnscOokil5JQybZL8a3J1KdawSQlVPI5aQ30_XeVPOUaLIa8-2HnZksbzMREv_yqMGtp6s_SUs2G_nn4pZw
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw"
+  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.NcQgnscOokil5JQybZL8a3J1KdawSQlVPI5aQ30_XeVPOUaLIa8-2HnZksbzMREv_yqMGtp6s_SUs2G_nn4pZw"
 }</code></pre>
 </div>
 </div>
@@ -680,15 +831,15 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleH
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODgxMzEzNjJ9.hMYghXdlsKLsZD9eQTbD3QRUX2V8bvTnqiM7KQTAq9h0CsNKYd6AD3Y1pacxpybZUockJwyrakyJbdCOa3Yx6w; Path=/; Domain=localhost; Max-Age=604800; Expires=Fri, 30 Jun 2023 13:22:42 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODg0NzczNzF9.mqX6Z6tW9onH4gvY-lzaWV3CaaorURbDzRxoo-PKmBhIXWsTNvT3iWYEhv9pP1wU2Gv1nXJ04QIICIT1FXfM-Q; Path=/; Domain=localhost; Max-Age=604800; Expires=Tue, 4 Jul 2023 13:29:31 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
-Content-Length: 280
+Content-Length: 299
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.NcQgnscOokil5JQybZL8a3J1KdawSQlVPI5aQ30_XeVPOUaLIa8-2HnZksbzMREv_yqMGtp6s_SUs2G_nn4pZw"
   }
 }</code></pre>
 </div>
@@ -698,25 +849,25 @@ Content-Length: 280
 <div class="sect2">
 <h3 id="_4_로그아웃">4. 로그아웃</h3>
 <div class="sect4">
-<h5 id="_request_4">Request</h5>
+<h5 id="_request_5">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.-wL4Pk3I-aDCxu6HJ1_GWp-4h4HFYppFncZ8R6kUSey5gLGeF0rdSQ_csM-iDWWRLoQuTeXjXhs2cAg6PNo3Xw
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response">Response</h5>
+<h5 id="_response_2">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODgxMzEzNjJ9.hMYghXdlsKLsZD9eQTbD3QRUX2V8bvTnqiM7KQTAq9h0CsNKYd6AD3Y1pacxpybZUockJwyrakyJbdCOa3Yx6w; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODg0NzczNzB9.i30RHy3GsCUdSa5VRU57fMUqrwtAyaKR2Tb58oJSbApJEWfTKouALLGQKRnTd4wTGyEIBHMqAdRbATBhFrL5vw; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
@@ -731,7 +882,7 @@ Content-Length: 48
 <div class="sect2">
 <h3 id="_5_이메일_중복_검사">5. 이메일 중복 검사</h3>
 <div class="sect4">
-<h5 id="_request_5">Request</h5>
+<h5 id="_request_6">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/check/email HTTP/1.1
@@ -787,7 +938,7 @@ Content-Length: 80
 <div class="sect2">
 <h3 id="_6_닉네임_중복_검사">6. 닉네임 중복 검사</h3>
 <div class="sect4">
-<h5 id="_request_6">Request</h5>
+<h5 id="_request_7">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/check/nick-name HTTP/1.1
@@ -843,7 +994,7 @@ Content-Length: 80
 <div class="sect2">
 <h3 id="_7_인증문자_전송">7. 인증문자 전송</h3>
 <div class="sect4">
-<h5 id="_request_7">Request</h5>
+<h5 id="_request_8">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/send/sms HTTP/1.1
@@ -913,7 +1064,7 @@ Content-Length: 79
 <div class="sect2">
 <h3 id="_8_인증문자_검증">8. 인증문자 검증</h3>
 <div class="sect4">
-<h5 id="_request_8">Request</h5>
+<h5 id="_request_9">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/check/sms HTTP/1.1
@@ -924,7 +1075,7 @@ Host: localhost:8080
 
 {
   "phone_num" : "01011111111",
-  "code" : "2523"
+  "code" : "2628"
 }</code></pre>
 </div>
 </div>
@@ -985,12 +1136,12 @@ Content-Length: 83
 <div class="sect2">
 <h3 id="_9_닉네임_수정">9. 닉네임 수정</h3>
 <div class="sect4">
-<h5 id="_request_9">Request</h5>
+<h5 id="_request_10">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/nick-name HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.NcQgnscOokil5JQybZL8a3J1KdawSQlVPI5aQ30_XeVPOUaLIa8-2HnZksbzMREv_yqMGtp6s_SUs2G_nn4pZw
 Accept: application/json
 Content-Length: 30
 Host: localhost:8080
@@ -1056,12 +1207,12 @@ Content-Length: 80
 <div class="sect2">
 <h3 id="_10_비밀번호_수정">10. 비밀번호 수정</h3>
 <div class="sect4">
-<h5 id="_request_10">Request</h5>
+<h5 id="_request_11">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjMsImF1dGgiOiJVU0VSIn0.NcCIfHpsDOaqb7r7Foz-lR6ge9sX3rav6_UK79AUeokod13YErg7ltbmN_Oz5w6XOkELg5TPRjh2BPy9mZI0Vg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzIsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.A1mtlj4J7ysOOUz73dTySM0jhEblcJv5SDlWx72e68dxdfh_PSfDSunfFlUzGD7I7xSpFC0yQ1Sf6X0VXkU8tA
 Accept: application/json
 Content-Length: 32
 Host: localhost:8080
@@ -1127,18 +1278,18 @@ Content-Length: 83
 <div class="sect2">
 <h3 id="_11_유저_정보_조회">11. 유저 정보 조회</h3>
 <div class="sect4">
-<h5 id="_request_11">Request</h5>
+<h5 id="_request_12">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.-wL4Pk3I-aDCxu6HJ1_GWp-4h4HFYppFncZ8R6kUSey5gLGeF0rdSQ_csM-iDWWRLoQuTeXjXhs2cAg6PNo3Xw
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_2">Response</h5>
+<h5 id="_response_3">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1146,13 +1297,13 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 232
+Content-Length: 230
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "id" : 30824,
+    "id" : 733,
     "email" : "test_jhouse_com",
     "nick_name" : "테스트유저1",
     "phone_num" : "01011111111",
@@ -1167,18 +1318,18 @@ Content-Length: 232
 <div class="sect2">
 <h3 id="_12_유저_탈퇴">12. 유저 탈퇴</h3>
 <div class="sect4">
-<h5 id="_request_12">Request</h5>
+<h5 id="_request_13">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/withdrawal HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc1MjgzNjIsImF1dGgiOiJVU0VSIn0.W3NEe4OsuPiv5aspYqoixz8YvsPuvlKEv6ZYOiX8Zr9hF9_xebEeBDqGVrxcYkem1BHTXMJd_FDraeOlwlzLNw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODc4NzQzNzAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.-wL4Pk3I-aDCxu6HJ1_GWp-4h4HFYppFncZ8R6kUSey5gLGeF0rdSQ_csM-iDWWRLoQuTeXjXhs2cAg6PNo3Xw
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
 <div class="sect4">
-<h5 id="_response_3">Response</h5>
+<h5 id="_response_4">Response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -1202,7 +1353,7 @@ Content-Length: 48
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-04-28 15:42:33 +0900
+Last updated 2023-06-27 22:29:11 +0900
 </div>
 </div>
 </body>

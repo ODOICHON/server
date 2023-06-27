@@ -13,6 +13,7 @@ import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
 
 @Entity
+@DiscriminatorValue("U")
 class User(
     @Convert(converter = CryptoConverter::class)
     var email: String,
@@ -33,6 +34,10 @@ class User(
     @Convert(converter = CryptoConverter::class)
     @Enumerated(EnumType.STRING)
     var age: Age,
+
+    @Convert(converter = CryptoConverter::class)
+    @Enumerated(EnumType.STRING)
+    var userType: UserType,
 
     @OneToMany(mappedBy = "user")
     val joinPaths: MutableList<UserJoinPath> = mutableListOf(),
@@ -65,8 +70,6 @@ class User(
     @GeneratedValue(strategy = GenerationType.AUTO)
     val id : Long = 0L,
 ): BaseEntity() {
-    @Enumerated(EnumType.STRING)
-    var userType: UserType? = null
 
     fun update(phoneNum: String) {
         this.phoneNum = phoneNum

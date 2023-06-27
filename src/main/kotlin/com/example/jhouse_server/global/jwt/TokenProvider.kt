@@ -2,6 +2,7 @@ package com.example.jhouse_server.global.jwt
 
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode.*
 import io.jsonwebtoken.*
@@ -21,6 +22,8 @@ class TokenProvider {
 
     private val AUTHORITIES_KEY: String = "auth"
 
+    private val USER_TYPE_KEY: String = "type"
+
     private val BEARER_PREFIX: String = "Bearer "
 
     private val key: Key
@@ -37,6 +40,7 @@ class TokenProvider {
                 .setSubject(user.email)
                 .setExpiration(Date(now.time + ACCESS_TOKEN_EXPIRE_TIME))
                 .claim(AUTHORITIES_KEY, user.authority)
+                .claim(USER_TYPE_KEY, user.userType)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact()
 
@@ -93,5 +97,11 @@ class TokenProvider {
         val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
 
         return Authority.valueOf(claims[AUTHORITIES_KEY].toString())
+    }
+
+    fun getType(token: String): UserType {
+        val claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).body
+
+        return UserType.valueOf(claims[USER_TYPE_KEY].toString())
     }
 }

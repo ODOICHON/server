@@ -28,8 +28,8 @@ internal class LoveServiceImplTest @Autowired constructor(
     val userService: UserService,
     val userRepository: UserRepository
 ) {
-    private val userSignUpReqDto = MockEntity.testUserSignUpDto()
-    private val testSignUpReqDto = MockEntity.testUser1()
+    private val userSignUpReqDto = MockEntity.testUserSignUpDto2()
+    private val testSignUpReqDto = MockEntity.testUserSignUpDto()
     @BeforeEach
     fun `회원가입`() {
         // default user
