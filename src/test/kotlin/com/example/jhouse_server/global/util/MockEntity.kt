@@ -46,7 +46,7 @@ class MockEntity {
             phoneNum = "01098765432",
             authority = Authority.ADMIN,
             age = Age.TWENTY,
-            userType = UserType.NONE
+            userType = UserType.SERVER
         )
 
 
