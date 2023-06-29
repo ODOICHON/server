@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.house.dto
 
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.entity.RentalType
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.aop.CodeValid
 import java.sql.Timestamp
 import java.util.*
@@ -66,6 +67,7 @@ data class HouseResOneDto(
     val code: String,
     val imageUrls: List<String>,
     val nickName: String, // 게시글 작성자
+    val userType: UserType, // 게시글 작성자의 타입 ( 일반회원, 공인중개사 )
     val createdAt: Date,
     val isCompleted: Boolean, // 거래 완료 여부
     val isScraped : Boolean, // 게시글 스크랩 여부
@@ -80,7 +82,7 @@ fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
         house.address.zipcode, house.size, house.purpose, house.floorNum, house.contact,
         house.createdDate, house.price, house.monthlyPrice,
         house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
-        Timestamp.valueOf(house.createdAt), false, isScraped)
+        house.user.userType, Timestamp.valueOf(house.createdAt),  false, isScraped)
 }
 
 fun toListDto(house: House) : HouseResDto {

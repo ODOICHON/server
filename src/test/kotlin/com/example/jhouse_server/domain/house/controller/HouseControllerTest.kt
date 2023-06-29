@@ -303,6 +303,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("data.code").description("게시글 내용"),
                         fieldWithPath("data.imageUrls").description("게시글 이미지 주소"),
                         fieldWithPath("data.nickName").description("게시글 작성자"),
+                        fieldWithPath("data.userType").description("게시글 작성자 타입 ( 일반회원 : NONE, 공인중개사 : AGENT )"),
                         fieldWithPath("data.createdAt").description("게시글 작성일자"),
                         fieldWithPath("data.isCompleted").description("매물 거래 완료 여부"),
                         fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부")
@@ -363,6 +364,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("data.code").description("게시글 내용"),
                         fieldWithPath("data.imageUrls").description("게시글 이미지 주소"),
                         fieldWithPath("data.nickName").description("게시글 작성자"),
+                        fieldWithPath("data.userType").description("게시글 작성자 타입 ( 일반회원 : NONE, 공인중개사 : AGENT )"),
                         fieldWithPath("data.createdAt").description("게시글 작성일자"),
                         fieldWithPath("data.isCompleted").description("매물 거래 완료 여부"),
                         fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부 ( 로그인 상태일 때, 상세 조회 시 유저 데이터로부터 스크랩 여부를 판단합니다. )")
