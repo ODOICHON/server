@@ -247,7 +247,7 @@ internal class HouseControllerTest @Autowired constructor(
 //                        fieldWithPath("code").description("결과 코드"),
 //                        fieldWithPath("message").description("응답 메세지"),
                         beneathPath("data").withSubsectionId("data"),
-                        *pageResponseFieldSnippet()
+                        *customPageResponseFieldSnippet()
                     )
                 )
             )
@@ -517,6 +517,30 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("pageable.pageSize").description(""),
             fieldWithPath("pageable.unpaged").description(""),
             fieldWithPath("pageable.paged").description(""),
+            fieldWithPath("last").description(""),
+            fieldWithPath("totalPages").description(""),
+            fieldWithPath("totalElements").description(""),
+            fieldWithPath("size").description(""),
+            fieldWithPath("number").description(""),
+            fieldWithPath("sort.empty").description(""),
+            fieldWithPath("sort.unsorted").description(""),
+            fieldWithPath("sort.sorted").description(""),
+            fieldWithPath("first").description(""),
+            fieldWithPath("numberOfElements").description(""),
+            fieldWithPath("empty").description(""),
+        )
+    }
+    private fun customPageResponseFieldSnippet(): Array<FieldDescriptor> {
+        return arrayOf(
+            fieldWithPath("content[].houseId").description("빈집 게시글 ID"),
+            fieldWithPath("content[].rentalType").description("매매 타입"),
+            fieldWithPath("content[].city").description("매물 위치"),
+            fieldWithPath("content[].price").description("매물 가격"),
+            fieldWithPath("content[].monthlyPrice").description("월세 가격"),
+            fieldWithPath("content[].nickName").description("게시글 작성자"),
+            fieldWithPath("content[].createdAt").description("게시글 작성날짜"),
+            fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
+            fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
             fieldWithPath("last").description(""),
             fieldWithPath("totalPages").description(""),
             fieldWithPath("totalElements").description(""),
