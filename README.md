@@ -197,6 +197,18 @@
 </div>
 </details>
 
+**커뮤니티 게시판에서 페이징 데이터 캐싱으로 조회 성능 향상**
+
+레디스를 이용해 커뮤니티 게시판에서 페이징 데이터를 캐싱하여 조회 성능을 향상 시켰습니다. 데이터에 수정 혹은 삭제 발생이 캐싱 내용도 함께 변경되도록 하였으며, 3시간의 유효시간을 걸어두었습니다.
+
+**빈집 거래 서비스 론칭을 위한 사용자 타입 추가, 공인중개사**
+
+빈집 거래 서비스는 지역 사회의 빈집 문제 해결을 위한 것입니다. 빈집 매물에 대한 신뢰성을 높이고자 공인중개사 사용자를 추가하여 빈집 매물을 본 서비스를 통해 홍보하고 거래로 이어지도록 합니다.
+일반 사용자 역시 빈집 매물을 등록할 수 있지만, 관리자에게 우선적으로 승인이 되어야 합니다. 
+
+**빈집 게시글 글자수 제한, 유효성검사를 위한 Validator 커스터마이징**
+
+커뮤니티 게시글과 달리 빈집 게시글은 10,000자의 글자 수 제한이 있습니다. 게시글 내용에는 순수한 글자만이 있는 것이 아닌 이미지 주소, HTML 태그 등 부가적 요소들이 포함됩니다. 이러한 요소들을 파싱하면서 제외시키고 순수한 내용에 대한 글자 길이를 확인하기 위해 CodeValid 어노테이션을 만들고 별도의 validator를 구현하였습니다.
 
 ### 핵심 기능 ( 기능 개발 중 )
 **반응형 웹 화면**  
@@ -318,9 +330,7 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 
 일종의 카테고리라고 볼 수 있는 말머리 데이터에 대해서는 각 게시판 마다 고유의 말머리가 존재하며, 해당 데이터의 추가 및 삭제는 관리자만이 할 수 있습니다. 
 
-해당 데이터는 서버 측 DB에서 관리하고 있으며 데이터의 변경에도 유연하게 대응할 수 있도록 Frontend에서 해당 데이터를 DB로부터 조회하여 화면에 노출합니다.
-
-### 기타 회고 및 문서화
+### 그외 회고 및 문서화
 - [은비 - 인프라 아키텍처 설계 및 구성 과정](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B5%AC%EC%84%B1)
 - [태민 - 인프라 구축 및 무중단 배포 프로세스](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%B6%95-%EB%B0%8F-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4)
 - [태민 - 관리자 페이지(server)](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-server)
@@ -341,7 +351,11 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 - [은비 - Jacoco + SonarlCloud 적용과정](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B8%ED%8C%85%5D-Jacoco-&-SonarCloud-%EC%A0%81%EC%9A%A9)
 - [은비 - SonarCloud 세팅 중 마주한 이슈 정리](https://github.com/ODOICHON/server/wiki/%5B%EC%9D%B4%EC%8A%88%5D-SonarCloud-%EC%84%A4%EC%A0%95-%ED%8A%B8%EB%9F%AC%EB%B8%94-%EC%8A%88%ED%8C%85)
 - [은비 - Github Actions와 SonarCloud 사용 중 트러블 슈팅 정리](https://github.com/ODOICHON/server/wiki/%5B%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85%5D-Github-Actions---SonarCloud)
-
+- [은비 - 주말의집 서버팀은 이렇게 일해요!](https://github.com/ODOICHON/server/wiki/%5B%ED%8C%80%EB%AC%B8%ED%99%94%5D-%EC%A3%BC%EB%A7%90%EC%9D%98%EC%A7%91-%EC%84%9C%EB%B2%84%ED%8C%80%EC%9D%80-%EC%9D%B4%EB%A0%87%EA%B2%8C-%EC%9D%BC%ED%95%B4%EC%9A%94!)
+- [은비 - Validator 커스터마이징하여 글자수 유효성 검사하기](https://github.com/ODOICHON/server/wiki/%5B%EA%B8%B0%EB%8A%A5%EA%B5%AC%ED%98%84%5D-Validator-%EC%B2%98%EB%A6%AC%EB%A5%BC-%EC%9C%84%ED%95%9C-%EC%BB%A4%EC%8A%A4%ED%84%B0%EB%A7%88%EC%9D%B4%EC%A7%95)
+- [은비 - 객체지향적 코드 작성을 위한 임베디드 방식 적용하기](https://github.com/ODOICHON/server/wiki/%5B%EA%B8%B0%EC%88%A0%EC%A0%81%EC%9A%A9%5D-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%A0%81-%EC%BD%94%EB%93%9C-%EC%9E%91%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-%EB%85%B8%EB%A0%A5,-@Embedded-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0)
+- [은비 - 게시글 내용의 데이터 타입 변경 이유](https://github.com/ODOICHON/server/wiki/%5B%ED%85%8C%EC%9D%B4%EB%B8%94-%EC%84%A4%EA%B3%84%5D-%EA%B2%8C%EC%8B%9C%EA%B8%80-%EB%82%B4%EC%9A%A9%EC%9D%98-%EB%8D%B0%EC%9D%B4%ED%84%B0-%ED%83%80%EC%9E%85-%EC%A7%80%EC%A0%95,-varchar-vs-text)
+- [은비 - 프로젝트 설계(추가된 내용 반영)](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EB%B0%8F-%EC%95%A0%ED%94%8C%EB%A6%AC%EC%BC%80%EC%9D%B4%EC%85%98-%EC%84%A4%EA%B3%84)
 - [민혁 - Spring Security 없이 인증인가 구현하기](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D-Spring-Security-%EC%97%86%EC%9D%B4-%EC%9D%B8%EC%A6%9D%EC%9D%B8%EA%B0%80-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
 - [민혁 - DDOS 대응 방안](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-DDOS-%EB%8C%80%EC%9D%91-%EB%B0%A9%EC%95%88)
 - [민혁 - 유저 탈퇴 처리](https://github.com/ODOICHON/server/wiki/%5BAPI-%EA%B5%AC%ED%98%84%5D-%EC%9C%A0%EC%A0%80-%ED%83%88%ED%87%B4-%EC%B2%98%EB%A6%AC)
@@ -370,4 +384,5 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 | ------- | --------------------------------------------- | ------------------------------------ | --------------------------------------------- | 
 | Profile | <center> <img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/61505572?v=4" /> </center>|<center><img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/80155336?v=4" /></center>|<center><img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/102985637?v=4" /></center>|
 | Role    | <center>Team Leader<br> Back-end, DevOps</center>   | <center>Back-end, <br> DevOps</center>    | <center>Back-end ,<br> DevOps</center>  | 
+| Part    | <center> 프로젝트 세팅 <br> 커뮤니티 API <br> 빈집 거래 API <br> 테크 블로그 프론트엔드 100% 개발 </center>   | <center> 인프라 세팅 <br> 관리자페이지(SSR) 100% 개발 <br> 성능 개선(캐싱, 동적쿼리 리펙토링) </center>    | <center> 사용자 API <br> DDoS 방지 처리 <br> 테크 블로그 API 100% 개발 </center>  | 
 GitHub | <center>[@dldmsql](https://github.com/dldmsql)</center> | <center>[@YoonTaeMinnnn](https://github.com/YoonTaeMinnnn) </center>| <center>[@MoonMinHyuk1](https://github.com/MoonMinHyuk1) </center>|
