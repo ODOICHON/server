@@ -38,6 +38,15 @@ class RedisCacheConfig {
         // path는 DiskStoreConfiguration 클래스의 ENV enum 참조하거나 PhysicalPath로 설정
         configuration.diskStore(DiskStoreConfiguration().path("java.io.tmpdir"))
         val manager = net.sf.ehcache.CacheManager.create(configuration)
+
+        // 기존 캐시 제거
+        val cacheManager = EhCacheCacheManager(manager)
+        cacheManager.afterPropertiesSet()
+        cacheManager.cacheManager?.getCache("getCache")?.let { cache ->
+            manager.removeCache(cache.name)
+        }
+
+        // 새로운 캐시 생성
         val getCacheConfig: CacheConfiguration = CacheConfiguration()
             .maxEntriesLocalHeap(1000) // 로컬 힙 메모리에서 최대로 사용할 수 있는 값
             .maxEntriesLocalDisk(10000)
