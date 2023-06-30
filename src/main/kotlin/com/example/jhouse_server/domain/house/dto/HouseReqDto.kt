@@ -4,9 +4,9 @@ import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.aop.CodeValid
+import java.io.Serializable
 import java.sql.Timestamp
 import java.util.*
-import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 data class HouseReqDto(
@@ -38,18 +38,40 @@ data class HouseListDto(
     val rentalType: String,
     val city: String?,
     val search: String?
-)
-data class HouseResDto(
-    val houseId: Long,
-    val rentalType: RentalType,
-    val city: String,
-    val price: Int,
-    val monthlyPrice: Double,
-    val nickName: String,
-    val createdAt: Date,
-    val isCompleted: Boolean,
-    val imageUrl : String // 썸네일
-)
+): Serializable
+
+class HouseResDto() {
+    var houseId: Long = 0
+    lateinit var rentalType: RentalType
+    lateinit  var city: String
+    var price: Int? = 0
+    var monthlyPrice: Double? = 0.0
+    lateinit var nickName: String
+    lateinit var createdAt: Date
+    var isCompleted: Boolean = false
+    var imageUrl : String? = null // 썸네일
+    constructor(
+        houseId : Long,
+        rentalType : RentalType,
+        city: String,
+        price: Int,
+        monthlyPrice : Double,
+        nickName: String,
+        createdAt: Date,
+        isCompleted: Boolean,
+        imageUrl: String
+    ) : this() {
+        this.houseId = houseId
+        this.rentalType = rentalType
+        this.city = city
+        this.price = price
+        this.monthlyPrice = monthlyPrice
+        this.nickName = nickName
+        this.createdAt = createdAt
+        this.isCompleted = isCompleted
+        this.imageUrl = imageUrl
+    }
+ }
 data class HouseResOneDto(
     val houseId: Long,
     val rentalType: RentalType,
