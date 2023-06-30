@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.house.service
 
+import com.example.jhouse_server.domain.board.repository.dto.CustomPageImpl
 import com.example.jhouse_server.domain.board.service.getContent
 import com.example.jhouse_server.domain.house.dto.*
 import com.example.jhouse_server.domain.house.entity.Address
@@ -11,6 +12,7 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.util.findByIdOrThrow
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -34,9 +36,10 @@ class HouseServiceImpl(
         if (!req.tmpYn && user.authority == Authority.USER) house.applyEntity()
         return houseRepository.save(house).id
     }
-
+    @Cacheable(cacheNames = ["getCache"], cacheManager = "ehCacheCacheManager")
     override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable): Page<HouseResDto> {
-        return houseRepository.getHouseAll(houseListDto, pageable).map{ toListDto(it) }
+        val houseAll = houseRepository.getHouseAll(houseListDto, pageable).map { toListDto(it) }
+        return CustomPageImpl(houseAll.content, houseAll.number, houseAll.size, houseAll.totalElements)
     }
 
     @Transactional
