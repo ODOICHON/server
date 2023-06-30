@@ -216,7 +216,7 @@
 <details>
   <summary>백오피스 관리자 페이지 화면</summary>
   <div markdown="1">
-    <img width="1470" alt="스크린샷 2023-04-25 오후 5 03 44" src="https://user-  images.githubusercontent.com/80155336/235109603-fbd9d512-f47d-4edb-bf78-e99603ed426d.png">  
+    <img width="1470" alt="스크린샷 2023-04-25 오후 5 03 44" src="https://user-images.githubusercontent.com/80155336/235109603-fbd9d512-f47d-4edb-bf78-e99603ed426d.png">  
 <img width="578" alt="스크린샷 2023-04-28 오후 6 25 04" src="https://user-images.githubusercontent.com/80155336/235110024-628d77cf-12ec-4919-a309-9848885698d1.png">  <br/>
 [사진 - 백오피스 중 관리자 페이지]  
   </div>
