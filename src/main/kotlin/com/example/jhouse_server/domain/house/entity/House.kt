@@ -98,7 +98,7 @@ class House(
         this.code = code
         this.content = content
         this.imageUrls = imageUrls
-        this.applied = HouseReviewStatus.APPROVE
+//        this.applied = HouseReviewStatus.APPROVE
         return this
     }
     fun deleteEntity() {

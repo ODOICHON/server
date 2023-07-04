@@ -9,6 +9,7 @@ import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.scrap.repository.ScrapRepository
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.util.findByIdOrThrow
@@ -33,7 +34,8 @@ class HouseServiceImpl(
             req.contact!!, req.createdDate, req.price!!, req.monthlyPrice,
             req.agentName, req.title, content, req.code, req.imageUrls, user)
         if(req.tmpYn) house.tmpSaveEntity()
-        if (!req.tmpYn && user.authority == Authority.USER) house.applyEntity()
+        if(user.userType == UserType.AGENT || user.authority == Authority.ADMIN) house.approveEntity()
+        else if (!req.tmpYn && user.userType == UserType.NONE) house.applyEntity()
         return houseRepository.save(house).id
     }
     @Cacheable(cacheNames = ["getCache"], cacheManager = "ehCacheCacheManager")
@@ -48,7 +50,10 @@ class HouseServiceImpl(
         house.address.updateEntity(req.city!!, req.zipCode!!)
         if (user != house.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         val content = getContent(req.code!!)
-        if(!req.tmpYn) house.saveEntity()
+        if(!req.tmpYn) {
+            house.saveEntity()
+            if(user.userType == UserType.NONE) house.applyEntity()
+        }
         return house.updateEntity(
             req.rentalType!!, req.size!!, req.purpose!!, req.floorNum, req.contact!!,
             req.createdDate, req.price!!, req.monthlyPrice, req.agentName, req.title, content, req.code, req.imageUrls
