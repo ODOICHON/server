@@ -1,6 +1,8 @@
 package com.example.jhouse_server.domain.user.service
 
 import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.entity.WithdrawalStatus
+import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.MockEntity
@@ -100,5 +102,18 @@ class UserServiceImplTest @Autowired constructor(
         val findUser = userRepository.findByEmail(email).orElseThrow()
 
         assertThat(user).isEqualTo(findUser)
+    }
+
+    @Test
+    @DisplayName("유저 탈퇴 테스트")
+    fun withdrawalTest() {
+        // given
+        userService.signUp(userSignUpDto)
+        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        // when
+        userService.withdrawal(user)
+
+        // then
+        assertThat(user.withdrawalStatus).isEqualTo(WAIT)
     }
 }

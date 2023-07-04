@@ -150,7 +150,6 @@ tasks.jacocoTestReport {
     excludes.add("**/build/generated/source/**")
     excludes.add("com/example/jhouse_server/domain/user/repository/**")
     excludes.add("com/example/jhouse_server/domain/board/repository/**")
-    excludes.add("com.example.jhouse_server.domain.user.WithdrawalUser")
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
@@ -188,7 +187,6 @@ tasks.jacocoTestCoverageVerification {
     excludes.add("com/example/jhouse_server/admin/**")
     excludes.add("com/example/jhouse_server/domain/board/entity/BoardCategoryConverter.kt")
     excludes.add("com/example/jhouse_server/domain/board/entity/PrefixCategoryConverter.kt")
-    excludes.add("com.example.jhouse_server.domain.user.WithdrawalUser")
     excludes.add("**/resources/**")
 
 
