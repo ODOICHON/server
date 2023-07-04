@@ -15,7 +15,6 @@ class Agent(
     @Convert(converter = CryptoConverter::class)
     var businessCode: String,
 
-    @Convert(converter = CryptoConverter::class)
     var companyName: String,
 
     @Convert(converter = CryptoConverter::class)
@@ -37,7 +36,7 @@ class Agent(
 
     @Enumerated(EnumType.STRING)
     var status: AgentStatus
-): User(email, password, nickName, phoneNum, authority, age, userType) {
+): User(email, password, nickName, phoneNum, authority, age, userType, withdrawalStatus = null) {
 
     fun updateStatus(status: AgentStatus) {
         this.status = status
