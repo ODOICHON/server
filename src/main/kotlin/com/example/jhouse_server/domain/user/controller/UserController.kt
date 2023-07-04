@@ -135,7 +135,7 @@ class UserController(
             @AuthUser user: User
     ): ApplicationResponse<Nothing> {
         userService.withdrawal(user)
-
+        println(user.withdrawalStatus)
         return ApplicationResponse.ok()
     }
 
