@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.user.service
 
 import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.*
+import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.common.UserServiceCommonMethod
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -71,7 +72,7 @@ class UserServiceImpl (
 
         val user = User(userSignUpReqDto.email, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
                 userSignUpReqDto.nickName, userSignUpReqDto.phoneNum,
-                Authority.USER, age, UserType.NONE)
+                Authority.USER, age, UserType.NONE, null)
         userRepository.save(user)
 
         for(joinPath in joinPaths) {
@@ -123,7 +124,7 @@ class UserServiceImpl (
 
     @Transactional
     override fun withdrawal(user: User) {
-        user.withdrawalUser()
+        user.updateWithdrawalStatus(WAIT)
     }
 
     private fun createCode(): String {

@@ -3,7 +3,7 @@ package com.example.jhouse_server.admin.board.controller
 import com.example.jhouse_server.admin.board.dto.AdminBoardDeleteList
 import com.example.jhouse_server.admin.board.dto.AdminBoardFixList
 import com.example.jhouse_server.admin.board.dto.AdminBoardSearch
-import com.example.jhouse_server.admin.board.dto.SearchFilter
+import com.example.jhouse_server.admin.board.dto.BoardSearchFilter
 import com.example.jhouse_server.admin.board.service.AdminBoardService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
@@ -30,13 +30,10 @@ class AdminBoardController(
                             , @PageableDefault(size = 10, page = 0) pageable: Pageable): String {
         val result = adminBoardService.getSearchFixableBoardResult(adminBoardSearch, pageable)
         model.addAttribute("boardList", result)
-        for (board in result) {
-            println(board.id)
-        }
 
         val pageCom = pageable.pageNumber / 5
         model.addAttribute("pageCom", pageCom)
-        model.addAttribute("filterList", SearchFilter.values())
+        model.addAttribute("filterList", BoardSearchFilter.values())
         val total = adminBoardService.getFixableBoardTotal()
         model.addAttribute("total", total)
 
@@ -69,7 +66,7 @@ class AdminBoardController(
 
         val pageCom = pageable.pageNumber / 5
         model.addAttribute("pageCom", pageCom)
-        model.addAttribute("filterList", SearchFilter.values())
+        model.addAttribute("filterList", BoardSearchFilter.values())
         val total = adminBoardService.getDeletableBoardTotal()
         model.addAttribute("total", total)
 

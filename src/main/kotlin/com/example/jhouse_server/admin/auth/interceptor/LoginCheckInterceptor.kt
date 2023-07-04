@@ -1,6 +1,6 @@
-package com.example.jhouse_server.admin.user.interceptor
+package com.example.jhouse_server.admin.auth.interceptor
 
-import com.example.jhouse_server.admin.user.SessionConst
+import com.example.jhouse_server.admin.auth.SessionConst
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

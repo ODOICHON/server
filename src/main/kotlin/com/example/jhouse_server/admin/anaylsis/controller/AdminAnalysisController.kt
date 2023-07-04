@@ -17,6 +17,7 @@ class AdminAnalysisController (
         val result = analysisService.getAnalysisJoinPathResult()
         model.addAttribute("joinPathResults", result)
         return "analysis/joinPath"
+
     }
 
     @GetMapping("/age")

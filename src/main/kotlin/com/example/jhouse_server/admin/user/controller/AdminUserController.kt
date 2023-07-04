@@ -1,82 +1,96 @@
 package com.example.jhouse_server.admin.user.controller
 
-import com.example.jhouse_server.admin.user.SessionConst
-import com.example.jhouse_server.admin.user.dto.LoginForm
-import com.example.jhouse_server.domain.user.entity.Authority
+import com.example.jhouse_server.admin.user.dto.join.AdminAgentSearch
+import com.example.jhouse_server.admin.user.dto.join.AdminJoinAgentList
+import com.example.jhouse_server.admin.user.dto.join.AgentSearchFilter
+import com.example.jhouse_server.admin.user.dto.withdrawal.AdminUserWithdrawalSearch
+import com.example.jhouse_server.admin.user.dto.withdrawal.AdminWithdrawalList
+import com.example.jhouse_server.admin.user.dto.withdrawal.UserSearchFilter
+import com.example.jhouse_server.admin.user.service.AdminUserService
+import com.example.jhouse_server.domain.user.entity.UserType
+import com.example.jhouse_server.domain.user.entity.UserType.*
+import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
+import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
+import com.example.jhouse_server.domain.user.repository.AgentRepository
 import com.example.jhouse_server.domain.user.repository.UserRepository
-import com.example.jhouse_server.domain.user.service.UserService
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
-import org.springframework.validation.BindingResult
-import org.springframework.validation.annotation.Validated
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import java.math.BigInteger
-import java.nio.charset.StandardCharsets
-import java.security.MessageDigest
-import javax.servlet.http.HttpServletRequest
 
 @Controller
-@RequestMapping("/admin")
-class AdminUserController (
-        var userRepository: UserRepository,
-        var userService: UserService
-        ){
+@RequestMapping("/admin/user")
+class AdminUserController(
+    var userRepository: UserRepository,
+    var agentRepository: AgentRepository,
+    var adminUserService: AdminUserService
+) {
 
-        // 메인 페이지 - 로그인 화면
-        @GetMapping
-        fun getSignIn(@ModelAttribute("loginForm") loginForm: LoginForm) : String {
-                return "login"
+
+    // 공인중계사 가입요청 리스트
+    @GetMapping("/join")
+    fun getAgentList(@ModelAttribute("searchForm") adminAgentSearch: AdminAgentSearch,
+                     @ModelAttribute("joinList") adminJoinAgentList: AdminJoinAgentList,
+                     model: Model,
+                     @PageableDefault(size=10, page=0) pageable: Pageable): String{
+
+        val pageCom = pageable.pageNumber / 5
+        model.addAttribute("pageCom", pageCom)
+        val total = agentRepository.countByStatus(AgentStatus.WAIT)
+        model.addAttribute("total", total)
+        model.addAttribute("agentList", userRepository.getWaitingAgentResult(adminAgentSearch, pageable))
+        model.addAttribute("filterList", AgentSearchFilter.values())
+        return "user/agentJoin"
+
+    }
+
+    @PostMapping("/join")
+    fun agentJoin(@ModelAttribute("joinList") adminJoinAgentList: AdminJoinAgentList): String {
+        adminUserService.agentJoin(adminJoinAgentList)
+        return "redirect:/admin/user/join"
+    }
+
+    private fun setModel(userType: UserType, model: Model, pageable: Pageable, filterList: List<Any>) {
+        val pageCom = pageable.pageNumber / 5
+        model.addAttribute("pageCom", pageCom)
+        val total = userRepository.countByWithdrawalStatusAndUserType(WAIT, userType)
+        model.addAttribute("total", total)
+        model.addAttribute("filterList", filterList)
+    }
+
+    // 탈퇴요청 공인중개사 리스트
+    @GetMapping("/withdrawal/agent")
+    fun getDeleteReqAgentList(@ModelAttribute("searchForm") adminAgentSearch: AdminAgentSearch
+                              , @ModelAttribute("withdrawalList") adminWithdrawalList: AdminWithdrawalList
+                              , model: Model
+                              , @PageableDefault(size=10, page=0) pageable: Pageable): String{
+        setModel(AGENT, model, pageable, AgentSearchFilter.values().toList())
+        model.addAttribute("agentList", userRepository.getAgentWithdrawalReqResult(adminAgentSearch, pageable))
+        return "user/agentWithdrawal"
+    }
+
+    // 탈퇴요청 일반회원 리스트
+    @GetMapping("/withdrawal")
+    fun getDeleteReqUserList(@ModelAttribute("searchForm") adminUserWithdrawalSearch: AdminUserWithdrawalSearch
+                             , @ModelAttribute("withdrawalList") adminWithdrawalList: AdminWithdrawalList
+                             , model: Model
+                             , @PageableDefault(size=10, page=0) pageable: Pageable): String {
+        setModel(NONE, model, pageable, UserSearchFilter.values().toList())
+        model.addAttribute("userList", userRepository.getUserWithdrawalReqResult(adminUserWithdrawalSearch, pageable))
+        return "user/userWithdrawal"
+    }
+
+    @PostMapping("/withdrawal/{type}")
+    fun withdrawalAgent(@PathVariable("type") type: String,@ModelAttribute("withdrawalList") adminWithdrawalList: AdminWithdrawalList): String{
+        adminUserService.withdrawalUser(adminWithdrawalList)
+        if (type == "agent") {
+            return "redirect:/admin/user/withdrawal/agent"
         }
-
-        @GetMapping("/main")
-        fun getMain() : String{
-                return "main"
-        }
-
-        @GetMapping("/test")
-        fun getTest() : String{
-                return "test"
-        }
-
-
-        @PostMapping
-        fun signIn(@Validated @ModelAttribute("loginForm") loginForm: LoginForm,
-                                                bindingResult: BindingResult,
-                                                @RequestParam("redirectURI", defaultValue = "/admin/analysis/join-path") redirectURI : String,
-                                                request: HttpServletRequest) : String {
-                val findUser = userRepository.findByEmailAndAuthority(loginForm.email!!, Authority.ADMIN)
-                if (findUser.isEmpty){
-                        bindingResult.reject("emailNotFound", "존재하지 않는 아이디입니다")
-                        return "login"
-                }
-                val user = findUser.get()
-                if (!user.password.equals(encodePassword(loginForm.password))) {
-                        bindingResult.reject("passwordNotMatch", "비밀번호가 일치하지 않습니다")
-                        return "login"
-                }
-                val session = request.getSession(true)
-                session.setAttribute(SessionConst.LOGINUSER, user)
-                return "redirect:$redirectURI"
-        }
-
-        @PostMapping("/logout")
-        fun logout(httpServletRequest: HttpServletRequest): String {
-                httpServletRequest.getSession(false)?.invalidate()
-                return "redirect:/admin"
-        }
-
-        private fun encodePassword(password: String?): String {
-                val messageDigest = MessageDigest.getInstance("SHA-512")
-                messageDigest.reset()
-                if (password != null) {
-                        messageDigest.update(password.toByteArray(StandardCharsets.UTF_8))
-                }
-                return String.format("%0128x", BigInteger(1, messageDigest.digest()))
-        }
-
-
-
+        return "redirect:/admin/user/withdrawal"
+    }
 }

@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.board.repository
 
 import com.example.jhouse_server.admin.board.dto.AdminBoardSearch
-import com.example.jhouse_server.admin.board.dto.SearchFilter
+import com.example.jhouse_server.admin.board.dto.BoardSearchFilter
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.dto.PreviewPrefixType
@@ -112,9 +112,9 @@ class BoardRepositoryImpl(
 
     private fun searchFilter(adminBoardSearch: AdminBoardSearch) : BooleanExpression? {
         return when (adminBoardSearch.filter) {
-            SearchFilter.TITLE -> board.title.contains(adminBoardSearch.keyword)
-            SearchFilter.CONTENT -> board.content.contains(adminBoardSearch.keyword)
-            SearchFilter.WRITER -> user.nickName.contains(adminBoardSearch.keyword)
+            BoardSearchFilter.TITLE -> board.title.contains(adminBoardSearch.keyword)
+            BoardSearchFilter.CONTENT -> board.content.contains(adminBoardSearch.keyword)
+            BoardSearchFilter.WRITER -> user.nickName.contains(adminBoardSearch.keyword)
             else -> null
         }
     }
