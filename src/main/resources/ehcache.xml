@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+  updateCheck="false">
+
+  <diskStore path="java.io.tmpdir" />
+
+  <cache name="getCache"
+    maxEntriesLocalHeap="1000"
+    maxEntriesLocalDisk="10000"
+    eternal="false"
+    diskSpoolBufferSizeMB="20"
+    timeToIdleSeconds="1800" timeToLiveSeconds="1800"
+    memoryStoreEvictionPolicy="LFU"
+    transactionalMode="off">
+    <persistence strategy="localTempSwap" />
+  </cache>
+</ehcache>

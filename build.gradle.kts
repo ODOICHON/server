@@ -77,6 +77,9 @@ dependencies {
     implementation("ca.pjer:logback-awslogs-appender:1.6.0")
     // cache
     implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("net.sf.ehcache:ehcache:2.10.6")
+    implementation("javax.cache:cache-api:1.1.0")
+    implementation ("com.fasterxml.jackson.core:jackson-databind")
 }
 
 tasks.withType<KotlinCompile> {

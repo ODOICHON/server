@@ -6,7 +6,6 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
 import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
-import org.aspectj.weaver.ast.Not
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
