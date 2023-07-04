@@ -9,7 +9,6 @@ import com.example.jhouse_server.domain.comment.dto.CommentReqDto
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.dto.HouseReqDto
 import com.example.jhouse_server.domain.house.dto.ReportReqDto
-import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.record.dto.RecordPageCondition
 import com.example.jhouse_server.domain.record.dto.RecordReqDto
@@ -46,7 +45,8 @@ class MockEntity {
             phoneNum = "01098765432",
             authority = Authority.ADMIN,
             age = Age.TWENTY,
-            userType = UserType.SERVER
+            userType = UserType.SERVER,
+            withdrawalStatus = null
         )
 
 

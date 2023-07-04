@@ -1,4 +1,4 @@
-package com.example.jhouse_server.admin.user
+package com.example.jhouse_server.admin.auth
 
 interface SessionConst{
     companion object{
