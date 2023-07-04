@@ -91,9 +91,7 @@ class HouseRepositoryImpl(
     private fun filterWithCity(city: String?): BooleanExpression? {
         return if(city == null) null
         else {
-            if(city == "수도권") house.address.city.contains("서울")
-                .or(house.address.city.contains("인천"))
-                .or(house.address.city.contains("경기"))
+            if(city == "수도권") house.address.city.contains("서울").or(house.address.city.contains("인천")).or(house.address.city.contains("경기"))
             else house.address.city.contains(city)
         }
     }
