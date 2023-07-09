@@ -75,7 +75,7 @@ class HouseServiceImpl(
     override fun reportHouse(houseId: Long, reportReqDto: ReportReqDto, user: User) {
         val house = houseRepository.findByIdOrThrow(houseId)
         if(house.user == user) throw ApplicationException(ErrorCode.DONT_REPORT_HOUSE_MINE)
-        else house.reportEntity(reportReqDto.reportReason)
+        else house.reportEntity(reportReqDto.reportReason, reportReqDto.reportType)
     }
 
     override fun getHouseOneWithUser(houseId: Long, user: User): HouseResOneDto {
