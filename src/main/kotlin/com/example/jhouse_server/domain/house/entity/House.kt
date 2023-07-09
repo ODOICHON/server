@@ -54,6 +54,9 @@ class House(
 
     var reported : Boolean = false, // 신고여부 ( 신고: true, 미신고 : false )
 
+    @Convert(converter = ReportTypeConverter::class)
+    var reportType: ReportType? = null, // 신고분류
+
     @Column(nullable = true, length = 101)
     var reportReason : String? = null, // 신고 사유 ( 100자 )
 
@@ -105,9 +108,10 @@ class House(
         this.useYn = false
     }
 
-    fun reportEntity(reportReason: String) {
+    fun reportEntity(reportReason: String, reportType: String) {
         this.reported = true
         this.reportReason = reportReason
+        this.reportType = ReportType.valueOf(reportType)
     }
 
     fun applyEntity() {
