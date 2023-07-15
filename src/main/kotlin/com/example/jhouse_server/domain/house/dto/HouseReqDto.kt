@@ -4,10 +4,12 @@ import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.aop.CodeValid
+import org.hibernate.validator.constraints.Length
 import java.io.Serializable
 import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
 data class HouseReqDto(
     @field:NotNull(message = "매매 타입은 필수값입니다.")
@@ -96,7 +98,10 @@ data class HouseResOneDto(
 )
 
 data class ReportReqDto(
-    val reportReason: String
+    @field:NotNull(message = "신고사유는 필수값입니다.")
+    val reportType: String, // 신고분류
+    @field:Length(min = 1, max = 100)
+    val reportReason: String // 신고사유
 )
 
 fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {

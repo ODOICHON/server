@@ -401,7 +401,8 @@ internal class HouseControllerTest @Autowired constructor(
                         parameterWithName("houseId").description("빈집 게시글 아이디"),
                     ),
                     requestFields(
-                        fieldWithPath("reportReason").description("신고 이유는 필수값입니다."),
+                        fieldWithPath("reportReason").description("신고 이유는 필수값입니다. ( 최소 1자이상 최대 100자 이하로 작성해야 합니다. )"),
+                        fieldWithPath("reportType").description("신고 분류는 필수값입니다. ( FAKE_SALE : 허위매물, ADVERTISING_BOARD : 스팸게시글/광고 , ETC : 기타 ) "),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),

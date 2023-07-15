@@ -253,8 +253,6 @@ SSR 방식을 선택한 이유는 제한된 접근자와 적은 수의 트래픽
 
 공인중개사 혹은 일반 사용자가 업로드한 빈집 게시글이 허위 게시글이거나 상업적 목적으로 잘못된 정보를 기재한 경우 유저들로부터 신고를 받으며 이러한 게시글을 삭제 처리를 합니다.
 
-백오피스 개발에 관련된 자세한 내용은 [관리자페이지 - server](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-server)와 [관리자페이지 - client](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-%08client-with-Thymeleaf) 에서 확인할 수 있습니다.
-
 > `뒤에서 묵묵히 역할하는 관리자 페이지`는 지속적으로 업데이트 중입니다.
 
 **로컬 로그인**
@@ -333,7 +331,6 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 ### 그외 회고 및 문서화
 - [은비 - 인프라 아키텍처 설계 및 구성 과정](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98-%EA%B5%AC%EC%84%B1)
 - [태민 - 인프라 구축 및 무중단 배포 프로세스](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-%EC%9D%B8%ED%94%84%EB%9D%BC-%EA%B5%AC%EC%B6%95-%EB%B0%8F-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4)
-- [태민 - 관리자 페이지(server)](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-server)
 - [태민 - 관리자 페이지(client with Thymeleaf)](https://github.com/ODOICHON/server/wiki/%5B%EA%B4%80%EB%A6%AC%EC%9E%90-%ED%8E%98%EC%9D%B4%EC%A7%80%5D-%08client-with-Thymeleaf)  
 - [태민 - server health-check](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-server-health-check) 
 - [태민 - CI/CD workflow](https://github.com/ODOICHON/server/wiki/%5B%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%A4%EA%B3%84%5D-CI-CD-workflow)  

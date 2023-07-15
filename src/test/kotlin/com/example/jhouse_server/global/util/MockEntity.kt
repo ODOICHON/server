@@ -372,7 +372,8 @@ class MockEntity {
         )
 
         fun reportReqDto() = ReportReqDto(
-            reportReason = "허위 매물로 게시글을 작성하였습니다."
+            reportReason = "허위 매물로 게시글을 작성하였습니다.",
+            reportType = "FAKE_SALE"
         )
 
         fun houseTmpReqDto() = HouseReqDto(
