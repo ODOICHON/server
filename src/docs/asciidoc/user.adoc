@@ -100,8 +100,16 @@ include::{snippets}/get-user/http-request.adoc[]
 ===== Response
 include::{snippets}/get-user/http-response.adoc[]
 
-=== 12. 유저 탈퇴
+=== 12. 회원정보 수정
+===== Request
+include::{snippets}/update-user/http-request.adoc[]
+===== Response
+include::{snippets}/update-user/http-response.adoc[]
+
+=== 13. 유저 탈퇴
 ===== Request
 include::{snippets}/withdrawal/http-request.adoc[]
-===== Response
+===== Response - Success
 include::{snippets}/withdrawal/http-response.adoc[]
+===== Response - Fail
+include::{snippets}/withdrawal-exception/http-response.adoc[]

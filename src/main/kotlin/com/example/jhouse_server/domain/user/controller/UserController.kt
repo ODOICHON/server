@@ -108,6 +108,17 @@ class UserController(
     }
 
     @Auth
+    @PutMapping
+    fun update(
+        @AuthUser user: User,
+        @Validated @RequestBody userUpdateReqDto: UserUpdateReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.update(user, userUpdateReqDto)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
     @PutMapping("/update/nick-name")
     fun updateNickName(
             @AuthUser user: User,
@@ -132,10 +143,11 @@ class UserController(
     @Auth
     @PostMapping("/withdrawal")
     fun withdrawal(
-            @AuthUser user: User
+            @AuthUser user: User,
+            @Validated @RequestBody withdrawalUserReqDto: WithdrawalUserReqDto
     ): ApplicationResponse<Nothing> {
-        userService.withdrawal(user)
-        println(user.withdrawalStatus)
+        userService.withdrawal(user, withdrawalUserReqDto)
+
         return ApplicationResponse.ok()
     }
 

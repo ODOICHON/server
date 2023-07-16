@@ -1,6 +1,8 @@
 package com.example.jhouse_server.domain.user.service
 
+import com.example.jhouse_server.domain.user.DefaultUser
 import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.entity.WithdrawalReason
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.repository.UserRepository
@@ -48,6 +50,7 @@ class UserServiceImplTest @Autowired constructor(
         assertThat(findUser.email).isEqualTo(userSignUpDto.email)
         assertThat(findUser.nickName).isEqualTo(userSignUpDto.nickName)
         assertThat(findUser.phoneNum).isEqualTo(userSignUpDto.phoneNum)
+        assertThat(findUser.profileImageUrl).isEqualTo(DefaultUser().profileImageUrl)
     }
 
     @Test
@@ -105,15 +108,39 @@ class UserServiceImplTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("회원정보 수정 테스트")
+    fun update() {
+        //given
+        userService.signUp(userSignUpDto)
+        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val password = user.password
+        val userUpdateReqDto = MockEntity.userUpdateReqDto("")
+
+        //when
+        userService.update(user, userUpdateReqDto)
+
+        //then
+        assertThat(user.nickName).isEqualTo(userUpdateReqDto.nickName)
+        assertThat(user.phoneNum).isEqualTo(userUpdateReqDto.phoneNum)
+        assertThat(user.password).isEqualTo(password)
+    }
+
+    @Test
     @DisplayName("유저 탈퇴 테스트")
     fun withdrawalTest() {
         // given
         userService.signUp(userSignUpDto)
         val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto(null)
+
         // when
-        userService.withdrawal(user)
+        userService.withdrawal(user, withdrawalUserReqDto)
+        val withdrawal = user.withdrawal!!
 
         // then
         assertThat(user.withdrawalStatus).isEqualTo(WAIT)
+        assertThat(withdrawal.content).isNull()
+        assertThat(withdrawal.reason.size).isEqualTo(3)
+        assertThat(withdrawal.reason).isEqualTo(listOf(WithdrawalReason.ROW_USE, WithdrawalReason.INSUFFICIENT_CONTENT, WithdrawalReason.ETC))
     }
 }
