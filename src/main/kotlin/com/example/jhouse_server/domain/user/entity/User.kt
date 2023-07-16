@@ -8,9 +8,12 @@ import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
 import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
+import com.example.jhouse_server.domain.user.DefaultUser
+import com.example.jhouse_server.domain.user.UserUpdateReqDto
 import com.example.jhouse_server.domain.user.WithdrawalUser
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.global.entity.BaseEntity
+import org.springframework.util.StringUtils
 import javax.persistence.*
 
 @Entity
@@ -27,6 +30,8 @@ class User(
         @Convert(converter = CryptoConverter::class)
         var phoneNum: String,
 
+        var profileImageUrl: String,
+
         @Convert(converter = CryptoConverter::class)
         @Enumerated(EnumType.STRING)
         var authority: Authority,
@@ -42,6 +47,10 @@ class User(
         @Convert(converter = CryptoConverter::class)
         @Enumerated(EnumType.STRING)
         var withdrawalStatus: WithdrawalStatus?,
+
+        @OneToOne(cascade = [CascadeType.PERSIST], orphanRemoval = true)
+        @JoinColumn(name = "withdrawal_id")
+        var withdrawal: Withdrawal?,
 
         @OneToMany(mappedBy = "user")
         val joinPaths: MutableList<UserJoinPath> = mutableListOf(),
@@ -71,12 +80,14 @@ class User(
         val recordComments: MutableList<RecordComment> = mutableListOf(),
 
         @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Long = 0L,
 ): BaseEntity() {
 
-    fun update(phoneNum: String) {
-        this.phoneNum = phoneNum
+    fun update(nickName: String?, password: String?, phoneNum: String?) {
+        if(nickName != null && StringUtils.hasText(nickName)) this.nickName = nickName
+        if(password != null && StringUtils.hasText(password)) this.password = password
+        if(phoneNum != null && StringUtils.hasText(phoneNum)) this.phoneNum = phoneNum
     }
 
     fun updateNickName(nickName: String) {
@@ -105,5 +116,9 @@ class User(
 
     fun updateWithdrawalStatus(withdrawalStatus: WithdrawalStatus) {
         this.withdrawalStatus = withdrawalStatus
+    }
+
+    fun updateWithdrawal(withdrawal: Withdrawal) {
+        this.withdrawal = withdrawal
     }
 }

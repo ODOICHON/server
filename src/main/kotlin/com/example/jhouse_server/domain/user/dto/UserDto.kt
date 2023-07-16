@@ -56,6 +56,17 @@ data class UserSignInReqDto(
         val password: String
 )
 
+data class UserUpdateReqDto(
+        @field:Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$", message = "비밀번호 형식에 맞지 않습니다.")
+        val password: String,
+        @JsonProperty("nick_name")
+        val nickName: String?,
+        @JsonProperty("new_password")
+        val newPassword: String?,
+        @JsonProperty("phone_num")
+        val phoneNum: String?
+)
+
 data class CheckSmsReqDto(
         @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}", message = "전화번호 형식에 맞지 않습니다.")
         @JsonProperty("phone_num") val phoneNum: String,
@@ -89,13 +100,25 @@ data class UserResDto(
         @JsonProperty("nick_name") val nickName: String,
         @JsonProperty("phone_num") val phoneNum: String,
         val authority: Authority,
-        val age: Age
+        val age: Age,
+        @JsonProperty("profile_image_url")
+        val profileImageUrl: String
+)
+
+data class WithdrawalUserReqDto(
+        @NotNull
+        val reason: List<String>,
+        val content: String?
 )
 
 data class WithdrawalUser (
         val nickname: String = "탈퇴한 회원"
 )
 
+data class DefaultUser (
+        val profileImageUrl: String = "https://duaily-content.s3.ap-northeast-2.amazonaws.com/default_profile_image.png"
+)
+
 fun toDto(user: User) : UserResDto {
-    return UserResDto(user.id, user.email, user.nickName, user.phoneNum, user.authority, user.age)
+    return UserResDto(user.id, user.email, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl)
 }

@@ -470,7 +470,7 @@ tech - architecture</pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/record HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODg4NzUyMDksImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.glqoRuIOhB0jaeUiAHnCRNnrrA7EkesLc9Kqa9KaSZBM0TkLLSdt0ZVUG3tDJHif9NzTkXO5hc-Q5L4TInsA2g
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDQsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.RF-Wlgm6hl5LE7vvQlXHTKC11kYInURSQlwYkPjmm0yoGkV5NQFBZa2nA9k_x3Fuc7a1tVpYeM6XV_zaUziyNA
 Accept: application/json
 Content-Length: 189
 Host: localhost:8080
@@ -499,7 +499,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 634
+  "data" : 631
 }</code></pre>
 </div>
 </div>
@@ -511,9 +511,9 @@ Content-Length: 64
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/record/494 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/record/491 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODg4NzUyMDgsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.zpMhxjvAjnIuF3hXklVOfCM9LjwqHfzHkYWNUStC51hAGP_O0wX8Gaq1x2HWJNUteHLMvNoPtSvO9JJV31IpGQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDMsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.4CCuPkKIoBtDagqpASQoj6z4U-FpDsvz7LazeFCbHeMUAZPs4cDeRjtzAflQ-8zP_PHpZFCV1cX_EUQyuDWsrQ
 Accept: application/json
 Content-Length: 62
 Host: localhost:8080
@@ -539,7 +539,7 @@ Content-Length: 64
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 494
+  "data" : 491
 }</code></pre>
 </div>
 </div>
@@ -551,9 +551,9 @@ Content-Length: 64
 <h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/record/541 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/record/538 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODg4NzUyMDgsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.zpMhxjvAjnIuF3hXklVOfCM9LjwqHfzHkYWNUStC51hAGP_O0wX8Gaq1x2HWJNUteHLMvNoPtSvO9JJV31IpGQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDMsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.4CCuPkKIoBtDagqpASQoj6z4U-FpDsvz7LazeFCbHeMUAZPs4cDeRjtzAflQ-8zP_PHpZFCV1cX_EUQyuDWsrQ
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -607,13 +607,13 @@ Content-Length: 322
   "message" : "성공",
   "data" : {
     "records" : [ {
-      "record_id" : 574,
+      "record_id" : 571,
       "title" : "코드 리뷰 문화 도입"
     }, {
-      "record_id" : 577,
+      "record_id" : 574,
       "title" : "DDOS 대응 회고"
     }, {
-      "record_id" : 580,
+      "record_id" : 577,
       "title" : "인증 인가 직접 구현하기"
     } ]
   }
@@ -682,18 +682,18 @@ Content-Length: 1284
   "data" : {
     "records" : {
       "content" : [ {
+        "record_id" : 646,
+        "title" : "인증 인가 직접 구현하기",
+        "content" : "스프링 시큐리티를 사용하지 않고, 인증 인가를 직접 구현했습니다.",
+        "nick_name" : "테스트유저2",
+        "create_at" : "07.16.2023",
+        "part" : "server"
+      }, {
         "record_id" : 649,
         "title" : "인증 인가 직접 구현하기",
         "content" : "스프링 시큐리티를 사용하지 않고, 인증 인가를 직접 구현했습니다.",
         "nick_name" : "테스트유저2",
-        "create_at" : "07.09.2023",
-        "part" : "server"
-      }, {
-        "record_id" : 652,
-        "title" : "인증 인가 직접 구현하기",
-        "content" : "스프링 시큐리티를 사용하지 않고, 인증 인가를 직접 구현했습니다.",
-        "nick_name" : "테스트유저2",
-        "create_at" : "07.09.2023",
+        "create_at" : "07.16.2023",
         "part" : "server"
       } ],
       "pageable" : {
@@ -703,22 +703,22 @@ Content-Length: 1284
           "sorted" : false
         },
         "offset" : 0,
-        "pageSize" : 4,
         "pageNumber" : 0,
-        "unpaged" : false,
-        "paged" : true
+        "pageSize" : 4,
+        "paged" : true,
+        "unpaged" : false
       },
       "last" : true,
       "totalElements" : 2,
       "totalPages" : 1,
+      "first" : true,
+      "size" : 4,
+      "number" : 0,
       "sort" : {
         "empty" : true,
         "unsorted" : true,
         "sorted" : false
       },
-      "first" : true,
-      "number" : 0,
-      "size" : 4,
       "numberOfElements" : 2,
       "empty" : false
     }
@@ -744,7 +744,7 @@ Content-Length: 1284
 <h5 id="_request_6">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/record/595?page=0 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/record/592?page=0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -766,7 +766,7 @@ Content-Length: 1502
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "record_id" : 595,
+    "record_id" : 592,
     "title" : "코드 리뷰 문화 도입",
     "content" : "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
     "hits" : 1,
@@ -774,26 +774,26 @@ Content-Length: 1502
     "type" : "odori",
     "category" : "culture",
     "nick_name" : "테스트유저2",
-    "create_at" : "07.09.2023",
+    "create_at" : "07.16.2023",
     "comments" : {
       "content" : [ {
-        "comment_id" : 610,
+        "comment_id" : 607,
         "level" : 1,
         "content" : "댓글입니다.",
         "nick_name" : "테스트유저1",
-        "create_at" : "07.09.2023"
+        "create_at" : "07.16.2023"
       }, {
-        "comment_id" : 612,
+        "comment_id" : 609,
         "level" : 2,
         "content" : "댓글입니다.",
         "nick_name" : "테스트유저1",
-        "create_at" : "07.09.2023"
+        "create_at" : "07.16.2023"
       }, {
-        "comment_id" : 611,
+        "comment_id" : 608,
         "level" : 1,
         "content" : "댓글입니다.",
         "nick_name" : "테스트유저1",
-        "create_at" : "07.09.2023"
+        "create_at" : "07.16.2023"
       } ],
       "pageable" : {
         "sort" : {
@@ -802,22 +802,22 @@ Content-Length: 1502
           "sorted" : false
         },
         "offset" : 0,
-        "pageSize" : 10,
         "pageNumber" : 0,
-        "unpaged" : false,
-        "paged" : true
+        "pageSize" : 10,
+        "paged" : true,
+        "unpaged" : false
       },
       "last" : true,
       "totalElements" : 3,
       "totalPages" : 1,
+      "first" : true,
+      "size" : 10,
+      "number" : 0,
       "sort" : {
         "empty" : true,
         "unsorted" : true,
         "sorted" : false
       },
-      "first" : true,
-      "number" : 0,
-      "size" : 10,
       "numberOfElements" : 3,
       "empty" : false
     }
@@ -840,9 +840,9 @@ reviewers : 리뷰 신청자 (approve - 승인, reject - 반려, wait - 대기)<
 <h5 id="_request_7">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/record/review/550 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/record/review/547 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODg4NzUyMDgsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.zpMhxjvAjnIuF3hXklVOfCM9LjwqHfzHkYWNUStC51hAGP_O0wX8Gaq1x2HWJNUteHLMvNoPtSvO9JJV31IpGQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDQsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.RF-Wlgm6hl5LE7vvQlXHTKC11kYInURSQlwYkPjmm0yoGkV5NQFBZa2nA9k_x3Fuc7a1tVpYeM6XV_zaUziyNA
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -863,31 +863,31 @@ Content-Length: 974
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "record_id" : 550,
+    "record_id" : 547,
     "title" : "코드 리뷰 문화 도입",
     "content" : "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
     "hits" : 0,
     "part" : "server",
     "nick_name" : "테스트유저2",
-    "create_at" : "07.09.2023",
+    "create_at" : "07.16.2023",
     "reviews" : [ {
-      "review_id" : 565,
+      "review_id" : 562,
       "content" : "이 부분 수정해주세요.",
       "status" : "reject",
       "nick_name" : "테스트유저1",
-      "create_at" : "07.09.2023"
+      "create_at" : "07.16.2023"
     }, {
-      "review_id" : 566,
+      "review_id" : 563,
       "content" : "수정했습니다.",
       "status" : "mine",
       "nick_name" : "테스트유저2",
-      "create_at" : "07.09.2023"
+      "create_at" : "07.16.2023"
     }, {
-      "review_id" : 567,
+      "review_id" : 564,
       "content" : "확인했습니다!",
       "status" : "approve",
       "nick_name" : "테스트유저1",
-      "create_at" : "07.09.2023"
+      "create_at" : "07.16.2023"
     } ],
     "reviewers" : [ {
       "status" : "approve",
@@ -917,7 +917,7 @@ reject : 내가 작성한 글 중 반려 처리된 글</pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/record/reviewee?status=wait&amp;page=0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODg4NzUyMDcsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ._754OJ2XIlqBQMOl6NKcs_YveKMm2NQ6_MM1oHE8_bS8H2HX2TOKBkEHdOXx0MlfZHvLb8_bxmcfyjTXRX0BSw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDMsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.4CCuPkKIoBtDagqpASQoj6z4U-FpDsvz7LazeFCbHeMUAZPs4cDeRjtzAflQ-8zP_PHpZFCV1cX_EUQyuDWsrQ
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -940,25 +940,25 @@ Content-Length: 1448
   "data" : {
     "records" : {
       "content" : [ {
-        "record_id" : 464,
-        "title" : "코드 리뷰 문화 도입",
-        "content" : "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
-        "nick_name" : "테스트유저1",
-        "create_at" : "07.09.2023",
-        "part" : "server"
-      }, {
         "record_id" : 467,
-        "title" : "DDOS 대응 회고",
-        "content" : "DDOS 공격을 방지하기 위해 Bucket4j 라이브러리를 도입했습니다.",
-        "nick_name" : "테스트유저1",
-        "create_at" : "07.09.2023",
-        "part" : "server"
-      }, {
-        "record_id" : 470,
         "title" : "이슈 제목",
         "content" : "이슈 내용입니다.",
         "nick_name" : "테스트유저1",
-        "create_at" : "07.09.2023",
+        "create_at" : "07.16.2023",
+        "part" : "server"
+      }, {
+        "record_id" : 461,
+        "title" : "코드 리뷰 문화 도입",
+        "content" : "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
+        "nick_name" : "테스트유저1",
+        "create_at" : "07.16.2023",
+        "part" : "server"
+      }, {
+        "record_id" : 464,
+        "title" : "DDOS 대응 회고",
+        "content" : "DDOS 공격을 방지하기 위해 Bucket4j 라이브러리를 도입했습니다.",
+        "nick_name" : "테스트유저1",
+        "create_at" : "07.16.2023",
         "part" : "server"
       } ],
       "pageable" : {
@@ -968,22 +968,22 @@ Content-Length: 1448
           "sorted" : false
         },
         "offset" : 0,
-        "pageSize" : 3,
         "pageNumber" : 0,
-        "unpaged" : false,
-        "paged" : true
+        "pageSize" : 3,
+        "paged" : true,
+        "unpaged" : false
       },
       "last" : true,
       "totalElements" : 3,
       "totalPages" : 1,
+      "first" : true,
+      "size" : 3,
+      "number" : 0,
       "sort" : {
         "empty" : true,
         "unsorted" : true,
         "sorted" : false
       },
-      "first" : true,
-      "number" : 0,
-      "size" : 3,
       "numberOfElements" : 3,
       "empty" : false
     }
@@ -1011,7 +1011,7 @@ reject : 내가 반려 처리한 글</pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/record/reviewer?status=approve&amp;page=0 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODg4NzUyMDgsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.zpMhxjvAjnIuF3hXklVOfCM9LjwqHfzHkYWNUStC51hAGP_O0wX8Gaq1x2HWJNUteHLMvNoPtSvO9JJV31IpGQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDMsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.4CCuPkKIoBtDagqpASQoj6z4U-FpDsvz7LazeFCbHeMUAZPs4cDeRjtzAflQ-8zP_PHpZFCV1cX_EUQyuDWsrQ
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1034,18 +1034,18 @@ Content-Length: 1224
   "data" : {
     "records" : {
       "content" : [ {
-        "record_id" : 503,
+        "record_id" : 500,
         "title" : "코드 리뷰 문화 도입",
         "content" : "pr 날린 코드에 대해 팀원들이 리뷰해줍니다.",
         "nick_name" : "테스트유저2",
-        "create_at" : "07.09.2023",
+        "create_at" : "07.16.2023",
         "part" : "server"
       }, {
-        "record_id" : 506,
+        "record_id" : 503,
         "title" : "DDOS 대응 회고",
         "content" : "DDOS 공격을 방지하기 위해 Bucket4j 라이브러리를 도입했습니다.",
         "nick_name" : "테스트유저2",
-        "create_at" : "07.09.2023",
+        "create_at" : "07.16.2023",
         "part" : "server"
       } ],
       "pageable" : {
@@ -1055,22 +1055,22 @@ Content-Length: 1224
           "sorted" : false
         },
         "offset" : 0,
-        "pageSize" : 3,
         "pageNumber" : 0,
-        "unpaged" : false,
-        "paged" : true
+        "pageSize" : 3,
+        "paged" : true,
+        "unpaged" : false
       },
       "last" : true,
       "totalElements" : 2,
       "totalPages" : 1,
+      "first" : true,
+      "size" : 3,
+      "number" : 0,
       "sort" : {
         "empty" : true,
         "unsorted" : true,
         "sorted" : false
       },
-      "first" : true,
-      "number" : 0,
-      "size" : 3,
       "numberOfElements" : 2,
       "empty" : false
     }
@@ -1086,7 +1086,7 @@ Content-Length: 1224
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-05-25 14:02:45 +0900
+Last updated 2023-06-27 14:55:35 +0900
 </div>
 </div>
 </body>
