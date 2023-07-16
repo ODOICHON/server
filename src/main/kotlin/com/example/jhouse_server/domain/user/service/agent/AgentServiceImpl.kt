@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.user.service.agent
 
 import com.example.jhouse_server.domain.user.AgentSignUpReqDto
+import com.example.jhouse_server.domain.user.DefaultUser
 import com.example.jhouse_server.domain.user.entity.*
 import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
@@ -29,7 +30,7 @@ class AgentServiceImpl(
         val address = agentSignUpReqDto.companyAddress.plus(" ").plus(agentSignUpReqDto.companyAddressDetail)
 
         val agent = Agent(agentSignUpReqDto.email, userServiceCommonMethod.encodePassword(agentSignUpReqDto.password),
-            agentSignUpReqDto.nickName, agentSignUpReqDto.phoneNum, Authority.USER, age, UserType.AGENT,
+            agentSignUpReqDto.nickName, agentSignUpReqDto.phoneNum, DefaultUser().profileImageUrl, Authority.USER, age, UserType.AGENT,
             agentSignUpReqDto.agentCode, agentSignUpReqDto.businessCode, agentSignUpReqDto.companyName,
             agentSignUpReqDto.agentName, agentSignUpReqDto.companyPhoneNum, agentSignUpReqDto.assistantName,
             address, agentSignUpReqDto.companyEmail, Estate.getEstate(agentSignUpReqDto.estate), AgentStatus.WAIT)

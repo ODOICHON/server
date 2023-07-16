@@ -34,7 +34,8 @@ class AdminUserServiceTest @Autowired constructor(
         // given
         userService.signUp(userSignUpDto)
         val user = userRepository.findByEmail(userSignUpDto.email).get()
-        userService.withdrawal(user)
+        val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto(null)
+        userService.withdrawal(user, withdrawalUserReqDto)
 
         // when
         adminUserService.withdrawalUser(getAdminWithdrawalList(user.id))

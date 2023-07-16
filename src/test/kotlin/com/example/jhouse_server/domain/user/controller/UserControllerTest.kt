@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.user.controller
 
 import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.ApiControllerConfig
@@ -25,6 +26,7 @@ import javax.servlet.http.Cookie
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class UserControllerTest @Autowired constructor(
+        private val userRepository: UserRepository,
         private val userService: UserService,
         private val redisUtil: RedisUtil,
         private val tokenProvider: TokenProvider
@@ -69,7 +71,8 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("data.nick_name").description("닉네임"),
                                         fieldWithPath("data.phone_num").description("전화번호"),
                                         fieldWithPath("data.authority").description("권한"),
-                                        fieldWithPath("data.age").description("연령대")
+                                        fieldWithPath("data.age").description("연령대"),
+                                        fieldWithPath("data.profile_image_url").description("프로필 이미지 URL"),
                                 )
                         )
                 )
@@ -625,19 +628,66 @@ internal class UserControllerTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("회원정보 수정 테스트")
+    fun update() {
+        //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
+        val userUpdateReqDto = MockEntity.userUpdateReqDto("abcdefg12345!")
+        val content: String = objectMapper.writeValueAsString(userUpdateReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .put("$uri")
+                .header(AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "update-user",
+                    requestFields(
+                        fieldWithPath("password").description("비밀번호"),
+                        fieldWithPath("nick_name").description("닉네임"),
+                        fieldWithPath("new_password").description("변경할 비밀번호"),
+                        fieldWithPath("phone_num").description("전화번호")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+    }
+
+    @Test
     @DisplayName("사용자 탈퇴 테스트")
     fun withdrawal() {
         //given
         userService.signUp(userSignUpDto)
         val tokenDto = userService.signIn(userSignInDto)
         val accessToken = tokenDto.accessToken
+        val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto("content!")
+        val content: String = objectMapper.writeValueAsString(withdrawalUserReqDto)
 
         //when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders
                 .post("$uri/withdrawal")
                 .header(AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
         )
 
         //then
@@ -647,6 +697,44 @@ internal class UserControllerTest @Autowired constructor(
             .andDo(
                 document(
                     "withdrawal",
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("사용자 탈퇴 테스트 - 예외처리")
+    fun withdrawalException() {
+        //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
+        val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto("content!")
+        val content: String = objectMapper.writeValueAsString(withdrawalUserReqDto)
+        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        userService.withdrawal(user, withdrawalUserReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri/withdrawal")
+                .header(AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isBadRequest)
+            .andDo(print())
+            .andDo(
+                document(
+                    "withdrawal-exception",
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
                         fieldWithPath("message").description("응답 메세지")

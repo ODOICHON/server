@@ -1,9 +1,6 @@
 package com.example.jhouse_server.domain.user.service
 
-import com.example.jhouse_server.domain.user.CheckSmsReqDto
-import com.example.jhouse_server.domain.user.UserResDto
-import com.example.jhouse_server.domain.user.UserSignInReqDto
-import com.example.jhouse_server.domain.user.UserSignUpReqDto
+import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.jwt.TokenDto
 
@@ -26,9 +23,11 @@ interface UserService {
 
     fun logout(token: String)
 
+    fun update(user: User, userUpdateReqDto: UserUpdateReqDto)
+
     fun updateNickName(user: User, nickName: String)
 
     fun updatePassword(user: User, password: String)
 
-    fun withdrawal(user: User)
+    fun withdrawal(user: User, withdrawalUserReqDto: WithdrawalUserReqDto)
 }
