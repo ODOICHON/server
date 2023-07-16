@@ -43,10 +43,12 @@ class MockEntity {
             password = "passworD123!",
             nickName = "철수",
             phoneNum = "01098765432",
+            profileImageUrl = DefaultUser().profileImageUrl,
             authority = Authority.ADMIN,
             age = Age.TWENTY,
             userType = UserType.SERVER,
-            withdrawalStatus = null
+            withdrawalStatus = null,
+            withdrawal = null
         )
 
 
@@ -169,6 +171,18 @@ class MockEntity {
 
         fun testPasswordDto() = PasswordReqDto(
             password = "abcdFGH123!"
+        )
+
+        fun userUpdateReqDto(password: String) = UserUpdateReqDto(
+            password = "abcdefG123!",
+            nickName = "nickname",
+            newPassword = password,
+            phoneNum = "01012345678"
+        )
+
+        fun withdrawalUserReqDto(content: String?) = WithdrawalUserReqDto(
+            reason = listOf("이용빈도 낮음", "콘텐츠 및 정보 부족", "기타"),
+            content = content
         )
 
         fun boardReqDto() = BoardReqDto(

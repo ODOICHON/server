@@ -1,6 +1,5 @@
 package com.example.jhouse_server.domain.user.service.common
 
-import com.example.jhouse_server.domain.user.UserSignUpReqDto
 import com.example.jhouse_server.domain.user.entity.JoinPath
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.UserJoinPath
@@ -12,12 +11,19 @@ import org.springframework.stereotype.Component
 import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
+import java.util.regex.Pattern
 
 @Component
 class UserServiceCommonMethod(
     val userRepository: UserRepository,
     val userJoinPathRepository: UserJoinPathRepository
 ) {
+
+    private val NICK_NAME_PATTERN = "^(?=.*[a-zA-Z0-9가-힣])[A-Za-z0-9가-힣]{1,20}\$"
+
+    private val PASSWORD_PATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$"
+
+    private val PHONE_NUM_PATTERN = "^01(?:0|1|[6-9])[0-9]{7,8}"
 
     fun encodePassword(password: String): String {
         val messageDigest = MessageDigest.getInstance("SHA-512")
@@ -40,6 +46,30 @@ class UserServiceCommonMethod(
             throw ApplicationException(ErrorCode.EXIST_NICK_NAME)
         }
         if(userRepository.existsByPhoneNum(phoneNum)) {
+            throw ApplicationException(ErrorCode.EXIST_PHONE_NUM)
+        }
+    }
+
+    fun validateNickName(nickName: String) {
+        if (!Pattern.matches(NICK_NAME_PATTERN, nickName)) {
+            throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+        }
+        if (userRepository.existsByNickName(nickName)) {
+            throw ApplicationException(ErrorCode.EXIST_NICK_NAME)
+        }
+    }
+
+    fun validatePassword(password: String) {
+        if (!Pattern.matches(PASSWORD_PATTERN, password)) {
+            throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+        }
+    }
+
+    fun validatePhoneNum(phoneNum: String) {
+        if (!Pattern.matches(PHONE_NUM_PATTERN, phoneNum)) {
+            throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
+        }
+        if (userRepository.existsByPhoneNum(phoneNum)) {
             throw ApplicationException(ErrorCode.EXIST_PHONE_NUM)
         }
     }

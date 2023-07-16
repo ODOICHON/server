@@ -4,6 +4,7 @@ import com.example.jhouse_server.domain.user.*
 import com.example.jhouse_server.domain.user.entity.*
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.repository.UserRepository
+import com.example.jhouse_server.domain.user.repository.WithdrawalRepository
 import com.example.jhouse_server.domain.user.service.common.UserServiceCommonMethod
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode.*
@@ -14,12 +15,14 @@ import com.example.jhouse_server.global.util.SmsUtil
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.StringUtils
 import java.util.*
 
 @Service
 @Transactional(readOnly = true)
 class UserServiceImpl (
         val userRepository: UserRepository,
+        val withdrawalRepository: WithdrawalRepository,
         val tokenProvider: TokenProvider,
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil,
@@ -71,8 +74,8 @@ class UserServiceImpl (
         }
 
         val user = User(userSignUpReqDto.email, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
-                userSignUpReqDto.nickName, userSignUpReqDto.phoneNum,
-                Authority.USER, age, UserType.NONE, null)
+                userSignUpReqDto.nickName, userSignUpReqDto.phoneNum, DefaultUser().profileImageUrl,
+                Authority.USER, age, UserType.NONE, null, null)
         userRepository.save(user)
 
         for(joinPath in joinPaths) {
@@ -104,6 +107,29 @@ class UserServiceImpl (
     }
 
     @Transactional
+    override fun update(user: User, userUpdateReqDto: UserUpdateReqDto) {
+        if(user.password != userServiceCommonMethod.encodePassword(userUpdateReqDto.password)) {
+            throw ApplicationException(DONT_MATCH_PASSWORD)
+        }
+        var nickName: String? = null
+        var password: String? = null
+        var phoneNum: String? = null
+        if(userUpdateReqDto.nickName != null && StringUtils.hasText(userUpdateReqDto.nickName)) {
+            userServiceCommonMethod.validateNickName(userUpdateReqDto.nickName)
+            nickName = userUpdateReqDto.nickName
+        }
+        if(userUpdateReqDto.newPassword != null && StringUtils.hasText(userUpdateReqDto.newPassword)) {
+            userServiceCommonMethod.validatePassword(userUpdateReqDto.newPassword)
+            password = userServiceCommonMethod.encodePassword(userUpdateReqDto.newPassword)
+        }
+        if(userUpdateReqDto.phoneNum != null && StringUtils.hasText(userUpdateReqDto.phoneNum)) {
+            userServiceCommonMethod.validatePhoneNum(userUpdateReqDto.phoneNum)
+            phoneNum = userUpdateReqDto.phoneNum
+        }
+        user.update(nickName, password, phoneNum)
+    }
+
+    @Transactional
     override fun updateNickName(user: User, nickName: String) {
         if (userRepository.existsByNickName(nickName)) {
             throw ApplicationException(EXIST_NICK_NAME)
@@ -123,7 +149,15 @@ class UserServiceImpl (
     }
 
     @Transactional
-    override fun withdrawal(user: User) {
+    override fun withdrawal(user: User, withdrawalUserReqDto: WithdrawalUserReqDto) {
+        if(user.withdrawal != null) {
+            throw ApplicationException(WITHDRAWAL_WAIT)
+        }
+        val withdrawalReasons = withdrawalUserReqDto.reason.map { WithdrawalReason.getReasonByValue(it) }.toList()
+        val withdrawal = Withdrawal(withdrawalReasons, withdrawalUserReqDto.content)
+
+        withdrawalRepository.save(withdrawal)
+        user.updateWithdrawal(withdrawal)
         user.updateWithdrawalStatus(WAIT)
     }
 
