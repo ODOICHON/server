@@ -1,11 +1,11 @@
 package com.example.jhouse_server.admin.user.controller
 
-import com.example.jhouse_server.admin.user.dto.join.AdminAgentSearch
-import com.example.jhouse_server.admin.user.dto.join.AdminJoinAgentList
-import com.example.jhouse_server.admin.user.dto.join.AgentSearchFilter
-import com.example.jhouse_server.admin.user.dto.withdrawal.AdminUserWithdrawalSearch
-import com.example.jhouse_server.admin.user.dto.withdrawal.AdminWithdrawalList
-import com.example.jhouse_server.admin.user.dto.withdrawal.UserSearchFilter
+import com.example.jhouse_server.admin.user.dto.AdminAgentSearch
+import com.example.jhouse_server.admin.user.dto.AdminJoinAgentList
+import com.example.jhouse_server.admin.user.dto.AgentSearchFilter
+import com.example.jhouse_server.admin.user.dto.AdminUserWithdrawalSearch
+import com.example.jhouse_server.admin.user.dto.AdminWithdrawalList
+import com.example.jhouse_server.admin.user.dto.UserSearchFilter
 import com.example.jhouse_server.admin.user.service.AdminUserService
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.UserType.*
@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/admin/user")
 class AdminUserController(
-    var userRepository: UserRepository,
-    var agentRepository: AgentRepository,
-    var adminUserService: AdminUserService
+    val userRepository: UserRepository,
+    val agentRepository: AgentRepository,
+    val adminUserService: AdminUserService
 ) {
 
 
@@ -92,5 +92,13 @@ class AdminUserController(
             return "redirect:/admin/user/withdrawal/agent"
         }
         return "redirect:/admin/user/withdrawal"
+    }
+
+    @GetMapping("/withdrawal/reason/{id}")
+    fun withdrawalDetail(@PathVariable id: Long, model: Model): String {
+        val findUser = userRepository.findById(id).get()
+        model.addAttribute("user", findUser)
+
+        return "user/withdrawalDetail"
     }
 }

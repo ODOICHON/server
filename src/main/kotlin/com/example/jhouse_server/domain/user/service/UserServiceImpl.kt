@@ -74,8 +74,8 @@ class UserServiceImpl (
         }
 
         val user = User(userSignUpReqDto.email, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
-                userSignUpReqDto.nickName, userSignUpReqDto.phoneNum, DefaultUser().profileImageUrl,
-                Authority.USER, age, UserType.NONE, null, null)
+                        userSignUpReqDto.nickName, userSignUpReqDto.phoneNum, DefaultUser().profileImageUrl,
+                        Authority.USER, age, UserType.NONE, null, null)
         userRepository.save(user)
 
         for(joinPath in joinPaths) {
@@ -84,7 +84,7 @@ class UserServiceImpl (
     }
 
     override fun signIn(userSignInReqDto: UserSignInReqDto): TokenDto {
-        val user = userRepository.findByEmail(userSignInReqDto.email)
+        val user = userRepository.findByEmailAndSuspension(userSignInReqDto.email, false)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
         if (user.password != userServiceCommonMethod.encodePassword(userSignInReqDto.password)) {
             throw ApplicationException(DONT_MATCH_PASSWORD)
@@ -97,7 +97,7 @@ class UserServiceImpl (
 
         val accessToken = tokenProvider.resolveToken(bearerToken).toString()
         val email = tokenProvider.getSubject(accessToken)
-        val user = userRepository.findByEmail(email)
+        val user = userRepository.findByEmailAndSuspension(email, false)
                 .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
         return tokenProvider.createTokenResponse(user)
     }
