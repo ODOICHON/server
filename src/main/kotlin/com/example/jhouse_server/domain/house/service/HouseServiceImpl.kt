@@ -5,13 +5,17 @@ import com.example.jhouse_server.domain.board.service.getContent
 import com.example.jhouse_server.domain.house.dto.*
 import com.example.jhouse_server.domain.house.entity.Address
 import com.example.jhouse_server.domain.house.entity.House
+import com.example.jhouse_server.domain.house.entity.Report
+import com.example.jhouse_server.domain.house.entity.ReportType
 import com.example.jhouse_server.domain.house.repository.HouseRepository
+import com.example.jhouse_server.domain.house.repository.ReportRepository
 import com.example.jhouse_server.domain.scrap.repository.ScrapRepository
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
+import com.example.jhouse_server.global.exception.ErrorCode.*
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
@@ -24,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional
 class HouseServiceImpl(
     val houseRepository: HouseRepository,
     val scrapRepository: ScrapRepository,
+    val reportRepository: ReportRepository
 ) : HouseService {
 
     @Transactional
@@ -48,7 +53,7 @@ class HouseServiceImpl(
     override fun updateHouse(houseId: Long, req: HouseReqDto, user: User): Long {
         val house = houseRepository.findByIdOrThrow(houseId)
         house.address.updateEntity(req.city!!, req.zipCode!!)
-        if (user != house.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
+        if (user != house.user) throw ApplicationException(UNAUTHORIZED_EXCEPTION)
         val content = getContent(req.code!!)
         if(!req.tmpYn) {
             house.saveEntity()
@@ -64,7 +69,7 @@ class HouseServiceImpl(
     override fun deleteHouse(houseId: Long, user: User) {
         val house = houseRepository.findByIdOrThrow(houseId)
         if (user == house.user || user.authority == Authority.ADMIN) house.deleteEntity()
-        else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
+        else throw ApplicationException(UNAUTHORIZED_EXCEPTION)
     }
 
     override fun getHouseOne(houseId: Long): HouseResOneDto {
@@ -74,8 +79,11 @@ class HouseServiceImpl(
     @Transactional
     override fun reportHouse(houseId: Long, reportReqDto: ReportReqDto, user: User) {
         val house = houseRepository.findByIdOrThrow(houseId)
-        if(house.user == user) throw ApplicationException(ErrorCode.DONT_REPORT_HOUSE_MINE)
-        else house.reportEntity(reportReqDto.reportReason, reportReqDto.reportType)
+        if(house.user == user) throw ApplicationException(DONT_REPORT_HOUSE_MINE)
+        else if(reportRepository.existsByReporterAndHouse(user, house)) throw ApplicationException(DUPLICATE_REPORT)
+        val report = Report(house, user, ReportType.valueOf(reportReqDto.reportType), reportReqDto.reportReason)
+        house.reportEntity()
+        reportRepository.save(report)
     }
 
     override fun getHouseOneWithUser(houseId: Long, user: User): HouseResOneDto {
