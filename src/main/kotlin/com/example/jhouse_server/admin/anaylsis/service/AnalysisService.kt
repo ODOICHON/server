@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AnalysisService (
-        var userRepository: UserRepository
+        val userRepository: UserRepository
         ){
 
     fun getAnalysisAgeResult() : List<Double> {

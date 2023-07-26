@@ -25,6 +25,8 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
 
     fun findByEmail(email: String): Optional<User>
 
+    fun findByEmailAndSuspension(email: String, suspension: Boolean): Optional<User>
+
     fun findByEmailAndAuthority(email: String, authority: Authority) : Optional<User>
 
     @Query("select u from User u where u.userType = :userType and u.id <> :userId")
