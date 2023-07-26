@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/admin/analysis")
 class AdminAnalysisController (
-    var analysisService: AnalysisService
+    val analysisService: AnalysisService
         ){
 
     @GetMapping("/join-path")
