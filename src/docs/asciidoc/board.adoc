@@ -63,4 +63,20 @@ include::{snippets}/board-category/http-request.adoc[]
 ===== Response
 include::{snippets}/board-category/http-response.adoc[]
 
+==== 10. 자신이 작성한 게시글 목록 조회
+===== Request
+include::{snippets}/my-page-board-all/http-request.adoc[]
+===== Response
+include::{snippets}/my-page-board-all/http-response.adoc[]
 
+==== 11. 자신이 작성한 댓글의 게시글 목록 조회
+===== Request
+include::{snippets}/my-page-comment-all/http-request.adoc[]
+===== Response
+include::{snippets}/my-page-comment-all/http-response.adoc[]
+
+==== 12. 자신이 좋아요한 게시글 목록 조회
+===== Request
+include::{snippets}/my-page-love-all/http-request.adoc[]
+===== Response
+include::{snippets}/my-page-love-all/http-response.adoc[]
