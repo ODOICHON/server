@@ -86,6 +86,7 @@
 - [커뮤니티 게시글 좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
 - [빈집 게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/house.html)
 - [빈집 게시글 스크랩 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/scrap.html)
+- [알림 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/notification.html)
 
 **테크블로그 서비스**
 - [레코드 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record.html)
