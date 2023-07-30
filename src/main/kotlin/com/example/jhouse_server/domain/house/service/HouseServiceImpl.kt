@@ -14,7 +14,6 @@ import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.global.exception.ApplicationException
-import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.exception.ErrorCode.*
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.cache.annotation.Cacheable
@@ -94,5 +93,13 @@ class HouseServiceImpl(
 
     override fun getTmpSaveHouseAll(user: User, pageable: Pageable): Page<HouseResDto> {
         return houseRepository.getTmpSaveHouseAll(user, pageable).map { toListDto(it) }
+    }
+
+    override fun getScrapHouseAll(user: User, pageable: Pageable): Page<HouseResDto> {
+        return houseRepository.getScrapHouseAll(user, pageable).map { toListDto(it) }
+    }
+
+    override fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<HouseResDto> {
+        return houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable).map { toListDto(it) }
     }
 }

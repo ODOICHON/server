@@ -42,6 +42,11 @@ data class HouseListDto(
     val search: String?
 ): Serializable
 
+data class HouseAgentListDto(
+    val search: String?,
+    val isCompleted: Boolean? //거래 기능 개발 후 판매상태 조건 추가
+)
+
 class HouseResDto() {
     var houseId: Long = 0
     lateinit var rentalType: RentalType
@@ -52,6 +57,7 @@ class HouseResDto() {
     lateinit var createdAt: Date
     var isCompleted: Boolean = false
     var imageUrl : String? = null // 썸네일
+    lateinit var title: String
     constructor(
         houseId : Long,
         rentalType : RentalType,
@@ -61,7 +67,8 @@ class HouseResDto() {
         nickName: String,
         createdAt: Date,
         isCompleted: Boolean,
-        imageUrl: String
+        imageUrl: String,
+        title: String
     ) : this() {
         this.houseId = houseId
         this.rentalType = rentalType
@@ -72,6 +79,7 @@ class HouseResDto() {
         this.createdAt = createdAt
         this.isCompleted = isCompleted
         this.imageUrl = imageUrl
+        this.title = title
     }
  }
 data class HouseResOneDto(
@@ -113,5 +121,5 @@ fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
 }
 
 fun toListDto(house: House) : HouseResDto {
-    return HouseResDto(house.id, house.houseType!!, house.address.city, house.price, house.monthlyPrice, house.user.nickName, Timestamp.valueOf(house.createdAt), false, house.imageUrls[0] )
+    return HouseResDto(house.id, house.houseType!!, house.address.city, house.price, house.monthlyPrice, house.user.nickName, Timestamp.valueOf(house.createdAt), false, house.imageUrls[0], house.title)
 }

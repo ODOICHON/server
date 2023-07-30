@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.board.controller
 
 import com.example.jhouse_server.domain.board.*
+import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.user.entity.User
@@ -77,5 +78,30 @@ class BoardController(
         return ApplicationResponse.ok(boardService.getCategory(name))
     }
 
+    @Auth
+    @GetMapping("/my")
+    fun getUserBoardAll(
+        @AuthUser user: User,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): ApplicationResponse<Page<BoardMyPageResDto>> {
+        return ApplicationResponse.ok(boardService.getUserBoardAll(user, pageable))
+    }
 
+    @Auth
+    @GetMapping("/my/comment")
+    fun getUserCommentAll(
+        @AuthUser user: User,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): ApplicationResponse<Page<BoardMyPageResDto>> {
+        return ApplicationResponse.ok(boardService.getUserCommentAll(user, pageable))
+    }
+
+    @Auth
+    @GetMapping("/my/love")
+    fun getUserLoveAll(
+        @AuthUser user: User,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): ApplicationResponse<Page<BoardMyPageResDto>> {
+        return ApplicationResponse.ok(boardService.getUserLoveAll(user, pageable))
+    }
 }

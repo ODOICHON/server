@@ -3,13 +3,19 @@ package com.example.jhouse_server.domain.board.repository
 import com.example.jhouse_server.admin.board.dto.AdminBoardSearch
 import com.example.jhouse_server.admin.board.dto.BoardSearchFilter
 import com.example.jhouse_server.domain.board.*
+import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.dto.PreviewPrefixType
+import com.example.jhouse_server.domain.board.dto.toMyPageListDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.QBoard.board
 import com.example.jhouse_server.domain.board.entity.QBoardCode.boardCode
+import com.example.jhouse_server.domain.comment.entity.QComment.comment
+import com.example.jhouse_server.domain.love.entity.QLove.love
+import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
+import com.example.jhouse_server.domain.user.entity.User
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
@@ -82,6 +88,62 @@ class BoardRepositoryImpl(
                 .limit(boardPreviewListDto.limit)
                 .offset(0)
                 .fetch()
+    }
+
+    /**
+     * 자신이 작성한 게시글 목록 조회
+     */
+    override fun getUserBoardAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+        val result = jpaQueryFactory
+            .selectFrom(board)
+            .where(board.useYn.eq(true), board.user.eq(user))
+            .orderBy(board.fixed.desc())
+            .limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .fetch()
+        val countQuery = jpaQueryFactory
+            .selectFrom(board)
+            .where(board.useYn.eq(true), board.user.eq(user))
+
+        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
+    }
+
+    /**
+     * 자신이 작성한 댓글의 게시글 목록 조회
+     */
+    override fun getUserCommentAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+        val result = jpaQueryFactory
+            .selectFrom(board).distinct()
+            .join(board.comment, comment).fetchJoin()
+            .where(board.useYn.eq(true), comment.user.eq(user))
+            .orderBy(board.fixed.desc())
+            .limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .fetch()
+        val countQuery = jpaQueryFactory
+            .selectFrom(board).distinct()
+            .where(board.useYn.eq(true), comment.user.eq(user))
+
+        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
+    }
+
+    /**
+     * 자신이 좋아요한 게시글 목록 조회
+     */
+    override fun getUserLoveAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+        val result = jpaQueryFactory
+            .selectFrom(board).distinct()
+            .join(board.love, love).fetchJoin()
+            .where(board.useYn.eq(true), love.user.eq(user))
+            .orderBy(board.fixed.desc())
+            .limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .fetch()
+        val countQuery = jpaQueryFactory
+            .selectFrom(board).distinct()
+            .where(board.useYn.eq(true), love.user.eq(user))
+
+        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
     }
 
     private fun searchPreviewWithPrefixCategory(prefix: String): BooleanExpression {

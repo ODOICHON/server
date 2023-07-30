@@ -3,9 +3,12 @@ package com.example.jhouse_server.domain.house.controller
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.house.service.HouseService
 import com.example.jhouse_server.domain.scrap.service.ScrapService
+import com.example.jhouse_server.domain.user.UserSignInReqDto
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
+import com.example.jhouse_server.domain.user.service.agent.AgentService
 import com.example.jhouse_server.global.util.ApiControllerConfig
 import com.example.jhouse_server.global.util.MockEntity
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseReqDto
@@ -41,7 +44,8 @@ internal class HouseControllerTest @Autowired constructor(
     private val houseRepository: HouseRepository,
     private val scrapService: ScrapService,
     private val userService: UserService,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val agentService: AgentService
 ): ApiControllerConfig("/api/v1/houses") {
     private var accessToken: String? = null
     private var accessToken2 : String? = null
@@ -52,6 +56,10 @@ internal class HouseControllerTest @Autowired constructor(
     private var user: User? = null
     private var anotherUser: User? = null
     private var houseIds : MutableList<Long> = mutableListOf()
+    private val agentSignUpReqDto = MockEntity.testAgentSignUpDto()
+    private val agentSignInReqDto = UserSignInReqDto(agentSignUpReqDto.email, agentSignUpReqDto.password)
+    private var agent: Agent? = null
+    private var agentAccessToken: String? = null
 
     @BeforeEach
     fun `로그인_더미데이터_생성`() {
@@ -67,6 +75,13 @@ internal class HouseControllerTest @Autowired constructor(
         // another user signIn
         val tokenDto2 = userService.signIn(userSignInReqDto2)
         accessToken2 = tokenDto2.accessToken
+        // agent signUp
+        agentService.signUp(agentSignUpReqDto)
+        agent = userRepository.findByEmail(agentSignInReqDto.email).get() as Agent
+        agentService.approveStatus(agent!!)
+        // agent signIn
+        val tokenDto3 = userService.signIn(agentSignInReqDto)
+        agentAccessToken = tokenDto3.accessToken
     }
     @AfterEach
     fun `더미데이터_초기화`() {
@@ -451,6 +466,75 @@ internal class HouseControllerTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("스크랩한 게시글 목록 조회")
+    fun getScrapHouseAll() {
+        // given
+        for(i in 0..10) {
+            val houseId = houseService.createHouse(houseReqDto(), user!!)
+            if(i <= 5) scrapService.scrapHouse(houseId, user!!)
+        }
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/scrap?page=0")
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "get-scrap-house-all",
+                    requestParameters(
+                        parameterWithName("page").description("페이지 번호"),
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *pageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("마이페이지 게시글 목록 조회 - 공인중개사")
+    fun getAgentHouseAll() {
+        // given
+        for(i in 0..10) {
+            houseService.createHouse(houseReqDto(), agent!!)
+        }
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/agent?page=0&search=&isCompleted=")
+                .header(HttpHeaders.AUTHORIZATION, agentAccessToken)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "get-agent-house-all",
+                    requestParameters(
+                        parameterWithName("page").description("페이지 번호"),
+                        parameterWithName("search").description("검색어"),
+                        parameterWithName("isCompleted").description("판매 상태"),
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *pageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    @Test
     @DisplayName("빈집 게시글 생성 - 길이 초과")
     fun createHouse_outOfLength() {
         // given
@@ -510,6 +594,7 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].createdAt").description("게시글 작성날짜"),
             fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
             fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
+            fieldWithPath("content[].title").description("게시글 제목"),
             fieldWithPath("pageable.sort.empty").description(""),
             fieldWithPath("pageable.sort.unsorted").description(""),
             fieldWithPath("pageable.sort.sorted").description(""),
@@ -542,6 +627,7 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].createdAt").description("게시글 작성날짜"),
             fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
             fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
+            fieldWithPath("content[].title").description("게시글 제목"),
             fieldWithPath("last").description(""),
             fieldWithPath("totalPages").description(""),
             fieldWithPath("totalElements").description(""),
