@@ -4,6 +4,7 @@ import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.PrefixCategoryConverter
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.love.entity.Love
+import com.example.jhouse_server.domain.notification.entity.Notification
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -41,6 +42,8 @@ class Board(
     var love : MutableList<Love> = mutableListOf(),
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
     var comment : MutableList<Comment> = mutableListOf(),
+    @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var notification : MutableList<Notification> = mutableListOf(),
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long = 0L
 ) : BaseEntity() {

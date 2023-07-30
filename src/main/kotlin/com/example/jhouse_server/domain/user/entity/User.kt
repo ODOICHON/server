@@ -4,6 +4,7 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.entity.House
+import com.example.jhouse_server.domain.notification.entity.Notification
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
@@ -80,6 +81,9 @@ class User(
 
     @OneToMany(mappedBy = "user")
     val recordComments: MutableList<RecordComment> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user")
+    val notifications: MutableList<Notification> = mutableListOf(),
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

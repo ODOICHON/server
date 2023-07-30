@@ -7,6 +7,8 @@ import com.example.jhouse_server.domain.comment.dto.CommentUpdateReqDto
 import com.example.jhouse_server.domain.comment.dto.toDto
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
+import com.example.jhouse_server.domain.notification.entity.Notification
+import com.example.jhouse_server.domain.notification.repository.NotificationRepository
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -20,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional
 class CommentServiceImpl(
         val commentRepository: CommentRepository,
         val boardRepository: BoardRepository,
+        val notificationRepository: NotificationRepository
 ) : CommentService {
     override fun getCommentAll(postId: Long): List<CommentResDto> {
         return boardRepository.findByIdOrThrow(postId).comment.map { toDto(it) }
@@ -31,7 +34,14 @@ class CommentServiceImpl(
         val comment = Comment(
                 board, req.content!!, user
         )
-        return commentRepository.save(comment).id
+        commentRepository.save(comment)
+        if(user != board.user) {
+            val notification = Notification(comment.content, user.nickName, false, board, board.user)
+            notificationRepository.save(notification)
+            notification.mappingUser(board.user)
+        }
+
+        return comment.id
     }
 
     @Transactional

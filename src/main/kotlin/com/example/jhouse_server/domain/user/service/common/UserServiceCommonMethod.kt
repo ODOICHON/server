@@ -21,7 +21,7 @@ class UserServiceCommonMethod(
 
     private val NICK_NAME_PATTERN = "^(?=.*[a-zA-Z0-9가-힣])[A-Za-z0-9가-힣]{1,20}\$"
 
-    private val PASSWORD_PATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$"
+    private val PW_PATTERN = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#\$%^&*.?])[A-Za-z0-9!@#\$%^&*.?]{8,16}\$"
 
     private val PHONE_NUM_PATTERN = "^01(?:0|1|[6-9])[0-9]{7,8}"
 
@@ -60,7 +60,7 @@ class UserServiceCommonMethod(
     }
 
     fun validatePassword(password: String) {
-        if (!Pattern.matches(PASSWORD_PATTERN, password)) {
+        if (!Pattern.matches(PW_PATTERN, password)) {
             throw ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)
         }
     }
