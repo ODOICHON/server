@@ -20,7 +20,7 @@ class NotificationServiceImpl(
     override fun getNotifications(user: User, pageable: Pageable, req: NotificationReqDto): SliceNotificationResDto {
         val notifications = notificationRepository.findNotifications(user, pageable, req)
         var nextId: Long? = null
-        if(notifications.content.size != 0) nextId = notifications.content[notifications.content.size - 1].id
+        if(notifications.content.isNotEmpty()) nextId = notifications.content[notifications.content.size - 1].id
         return SliceNotificationResDto(nextId, notifications)
     }
 
