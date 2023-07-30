@@ -113,3 +113,17 @@ include::{snippets}/get-tmp-save-house-all/http-response.adoc[]
 
 ====== Response Fields
 include::{snippets}/get-tmp-save-house-all/response-fields-data.adoc[]
+
+===== 9. 스크랩한 게시글 목록 조회하기
+
+====== Request
+include::{snippets}/get-scrap-house-all/http-request.adoc[]
+====== Response
+include::{snippets}/get-scrap-house-all/http-response.adoc[]
+
+===== 8. 마이페이지 게시글 목록 조회하기 (공인중개사)
+
+====== Request
+include::{snippets}/get-agent-house-all/http-request.adoc[]
+====== Response
+include::{snippets}/get-agent-house-all/http-response.adoc[]

@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.board.controller
 
 import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.BoardService
+import com.example.jhouse_server.domain.love.entity.Love
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.jwt.TokenDto
@@ -15,12 +16,16 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.shadow.com.univocity.parsers.common.fields.FieldSelector
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation.*
+import org.springframework.restdocs.request.RequestDocumentation
+import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
+import org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
@@ -379,4 +384,137 @@ internal class BoardControllerTest @Autowired constructor(
             )
     }
 
+    @Test
+    @DisplayName("자신이 작성한 게시글 목록 조회")
+    fun getUserBoardAll() {
+        //given
+        로그인()
+        val user = userRepository.findByEmail(userSignInReqDto.email)
+        board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
+        val findBoard = boardRepository.findByIdOrThrow(board)
+        boardRepository.save(findBoard)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/my?page=0")
+                .header(AUTHORIZATION, tokenDto.accessToken)
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "my-page-board-all",
+                    requestParameters(
+                        parameterWithName("page").description("페이지 번호"),
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *customPageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("자신이 작성한 댓글의 게시글 목록 조회")
+    fun getUserCommentAll() {
+        //given
+        로그인()
+        val user = userRepository.findByEmail(userSignInReqDto.email)
+        board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
+        val findBoard = boardRepository.findByIdOrThrow(board)
+        findBoard.addComment(MockEntity.comment(findBoard, user.get()))
+        findBoard.addComment(MockEntity.comment(findBoard, user.get()))
+        boardRepository.save(findBoard)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/my/comment?page=0")
+                .header(AUTHORIZATION, tokenDto.accessToken)
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "my-page-comment-all",
+                    requestParameters(
+                        parameterWithName("page").description("페이지 번호"),
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *customPageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("자신이 좋아요한 게시글 목록 조회")
+    fun getUserLoveAll() {
+        //given
+        로그인()
+        val user = userRepository.findByEmail(userSignInReqDto.email)
+        var findBoard = boardRepository.findByIdOrThrow(board)
+        findBoard.addLove(Love(user.get(), findBoard))
+        boardRepository.save(findBoard)
+        board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
+        findBoard = boardRepository.findByIdOrThrow(board)
+        findBoard.addLove(Love(user.get(), findBoard))
+        boardRepository.save(findBoard)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/my/love?page=0")
+                .header(AUTHORIZATION, tokenDto.accessToken)
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "my-page-love-all",
+                    requestParameters(
+                        parameterWithName("page").description("페이지 번호"),
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *customPageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+
+    private fun customPageResponseFieldSnippet(): Array<FieldDescriptor> {
+        return arrayOf(
+            fieldWithPath("content[].boardId").description("게시글 ID"),
+            fieldWithPath("content[].title").description("게시글 제목"),
+            fieldWithPath("content[].oneLineContent").description("한줄 소개"),
+            fieldWithPath("content[].createdAt").description("생성일시"),
+            fieldWithPath("content[].imageUrl").description("이미지 주소 리스트"),
+            fieldWithPath("content[].category").description("말머리"),
+            fieldWithPath("content[].prefixCategory").description("커뮤니티 대분류"),
+            fieldWithPath("last").description(""),
+            fieldWithPath("totalPages").description(""),
+            fieldWithPath("totalElements").description(""),
+            fieldWithPath("size").description(""),
+            fieldWithPath("number").description(""),
+            fieldWithPath("sort.empty").description(""),
+            fieldWithPath("sort.unsorted").description(""),
+            fieldWithPath("sort.sorted").description(""),
+            fieldWithPath("first").description(""),
+            fieldWithPath("numberOfElements").description(""),
+            fieldWithPath("empty").description(""),
+        )
+    }
 }

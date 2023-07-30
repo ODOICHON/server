@@ -155,4 +155,40 @@ class HouseController(
     ) : ApplicationResponse<Page<HouseResDto>> {
         return ApplicationResponse.ok(houseService.getTmpSaveHouseAll(user, pageable))
     }
+
+    /**
+     * 스크랩 게시글 목록 조회
+     *
+     * @author MoonMinHyuk
+     * @param user User 현재 로그인한 유저
+     * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
+     * @return Page<HouseResDto>
+     */
+    @Auth
+    @GetMapping("/scrap")
+    fun getScrapHouseAll(
+        @AuthUser user: User,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): ApplicationResponse<Page<HouseResDto>> {
+        return ApplicationResponse.ok(houseService.getScrapHouseAll(user, pageable))
+    }
+
+    /**
+     * 마이페이지 게시글 목록 조회 (공인중개사)
+     *
+     * @author MoonMinHyuk
+     * @param houseAgentListDto HouseAgentListDto 게시글 필터링 dto
+     * @param user User 현재 로그인한 유저
+     * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
+     * @return Page<HouseResDto>
+     */
+    @Auth
+    @GetMapping("/agent")
+    fun getAgentHouseAll(
+        @ModelAttribute houseAgentListDto: HouseAgentListDto,
+        @AuthUser user: User,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): ApplicationResponse<Page<HouseResDto>> {
+        return ApplicationResponse.ok(houseService.getAgentHouseAll(user, houseAgentListDto, pageable))
+    }
 }
