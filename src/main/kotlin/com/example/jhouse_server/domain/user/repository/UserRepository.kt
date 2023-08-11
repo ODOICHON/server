@@ -29,5 +29,6 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
 
     @Query("select u from User u where u.userType = :userType and u.id <> :userId")
     fun findAllByUserType(@Param("userId") userId: Long, @Param("userType") userType: UserType): List<User>
+    fun findByNickName(nickName: String): Optional<User>
 
 }
