@@ -175,14 +175,14 @@ class HouseController(
     ) : ApplicationResponse<Nothing> {
         houseService.updateStatus(user, houseId, dealReqDto)
         return ApplicationResponse.ok()
-=======
-     * 스크랩 게시글 목록 조회
-     *
-     * @author MoonMinHyuk
-     * @param user User 현재 로그인한 유저
-     * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
-     * @return Page<HouseResDto>
-     */
+    }
+    /** 스크랩 게시글 목록 조회
+    *
+    * @author MoonMinHyuk
+    * @param user User 현재 로그인한 유저
+    * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
+    * @return Page<HouseResDto>
+    */
     @Auth
     @GetMapping("/scrap")
     fun getScrapHouseAll(
@@ -209,6 +209,5 @@ class HouseController(
         @PageableDefault(size=10, page=0) pageable: Pageable
     ): ApplicationResponse<Page<HouseResDto>> {
         return ApplicationResponse.ok(houseService.getAgentHouseAll(user, houseAgentListDto, pageable))
->>>>>>> origin/dev
     }
 }
