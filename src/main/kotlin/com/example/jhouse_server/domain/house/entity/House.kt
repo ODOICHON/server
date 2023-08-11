@@ -9,7 +9,7 @@ import javax.persistence.*
 @Entity
 class House(
     @Convert(converter = RentalTypeConverter::class)
-    var houseType: RentalType, // 매물유형
+    var rentalType: RentalType, // 매물유형
 
     @Embedded
     var address: Address, // 주소
@@ -60,8 +60,13 @@ class House(
     @Column(nullable = true)
     var rejectReason: String? = null, // 관리자가 게시글을 반려한 이유
 
+    var dealState: DealState = DealState.ONGOING, // 판매상태 ( 기본값 : 진행중 )
+
     @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL], orphanRemoval = true)
     var scrap: MutableList<Scrap> = mutableListOf(),
+
+    @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var houseTag: MutableList<HouseTag> = mutableListOf(),
 
     @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL])
     var reports: MutableList<Report> = mutableListOf(),
@@ -85,7 +90,7 @@ class House(
          content : String,
          imageUrls: List<String>
     ) : House {
-        this.houseType = rentalType
+        this.rentalType = rentalType
         this.size = size
         this.purpose = purpose
         this.floorNum = floorNum
@@ -98,7 +103,6 @@ class House(
         this.code = code
         this.content = content
         this.imageUrls = imageUrls
-//        this.applied = HouseReviewStatus.APPROVE
         return this
     }
     fun deleteEntity() {
@@ -138,5 +142,18 @@ class House(
 
     fun saveEntity() {
         this.tmpYn = false
+    }
+
+    fun updateDealStatus() {
+        this.dealState = DealState.COMPLETED
+    }
+
+    fun addHouseTag(houseTag: HouseTag) : House {
+        this.houseTag.add(houseTag)
+        return this
+    }
+
+    fun deleteHouseTag(houseTag: HouseTag) {
+        this.houseTag.remove(houseTag)
     }
 }

@@ -128,6 +128,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("code").description("빈집 게시글의 내용을 입력해주세요."),
                         fieldWithPath("imageUrls").description("이미지 주소를 string 배열 형식으로 입력해주세요."),
                         fieldWithPath("tmpYn").description("임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false) "),
+                        fieldWithPath("recommendedTag").description("추천태그를 입력해주세요.( 없는 경우, 빈 문자열 리스트로 보내주세요. )"),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
@@ -181,6 +182,7 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("code").description("빈집 게시글의 내용을 입력해주세요."),
                         fieldWithPath("imageUrls").description("이미지 주소를 string 배열 형식으로 입력해주세요."),
                         fieldWithPath("tmpYn").description("임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false) "),
+                        fieldWithPath("recommendedTag").description("추천태그를 입력해주세요.( 없는 경우, 빈 문자열 리스트로 보내주세요. )"),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
@@ -238,7 +240,7 @@ internal class HouseControllerTest @Autowired constructor(
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders
-                .get("$uri?rentalType=SALE&city=서울&search=")
+                .get("$uri?rentalType=SALE&city=서울&search=&recommendedTag=")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
@@ -254,13 +256,10 @@ internal class HouseControllerTest @Autowired constructor(
                     requestParameters(
                         parameterWithName("rentalType").description("매매 타입"),
                         parameterWithName("city").description("지역 필터링"),
+                        parameterWithName("recommendedTag").description("추천 태그명"),
                         parameterWithName("search").description("검색어"),
-//                        parameterWithName("page").description("페이지 번호 (0부터 !)"),
-//                        parameterWithName("size").description("페이지 당 넘겨 받을 개수 ( 기본값 8개 )")
                     ),
                     responseFields(
-//                        fieldWithPath("code").description("결과 코드"),
-//                        fieldWithPath("message").description("응답 메세지"),
                         beneathPath("data").withSubsectionId("data"),
                         *customPageResponseFieldSnippet()
                     )
@@ -321,7 +320,9 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("data.userType").description("게시글 작성자 타입 ( 일반회원 : NONE, 공인중개사 : AGENT )"),
                         fieldWithPath("data.createdAt").description("게시글 작성일자"),
                         fieldWithPath("data.isCompleted").description("매물 거래 완료 여부"),
-                        fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부")
+                        fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부"),
+                        fieldWithPath("data.recommendedTag").description("빈집 게시글 추천 태그명"),
+                        fieldWithPath("data.recommendedTagName").description("빈집 게시글 추천 태그 한글명"),
                     )
                 )
             )
@@ -382,7 +383,9 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("data.userType").description("게시글 작성자 타입 ( 일반회원 : NONE, 공인중개사 : AGENT )"),
                         fieldWithPath("data.createdAt").description("게시글 작성일자"),
                         fieldWithPath("data.isCompleted").description("매물 거래 완료 여부"),
-                        fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부 ( 로그인 상태일 때, 상세 조회 시 유저 데이터로부터 스크랩 여부를 판단합니다. )")
+                        fieldWithPath("data.isScraped").description("빈집 게시글 스크랩 여부 ( 로그인 상태일 때, 상세 조회 시 유저 데이터로부터 스크랩 여부를 판단합니다. )"),
+                        fieldWithPath("data.recommendedTag").description("빈집 게시글 추천 태그명"),
+                        fieldWithPath("data.recommendedTagName").description("빈집 게시글 추천 태그 한글명"),
                     )
                 )
             )
@@ -574,6 +577,48 @@ internal class HouseControllerTest @Autowired constructor(
                         fieldWithPath("code").description("빈집 게시글의 내용을 입력해주세요."),
                         fieldWithPath("imageUrls").description("이미지 주소를 string 배열 형식으로 입력해주세요."),
                         fieldWithPath("tmpYn").description("임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false) "),
+                        fieldWithPath("recommendedTag").description("추천태그를 입력해주세요.( 없는 경우, 빈 문자열 리스트로 보내주세요. )"),
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("매물 상태 변경")
+    fun update_status() {
+        // given
+        val houseId = houseService.createHouse(houseReqDto(), user!!)
+        val req: String = objectMapper.writeValueAsString(MockEntity.updateStatus("테스트유저2"))
+
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .put("$uri/status/{houseId}", houseId)
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .content(req)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "update-house-deal-status",
+                    requestFields(
+                        fieldWithPath("score").description("만족도 점수는 0 ~ 5까지 정수로 표현해야 합니다. ) "),
+                        fieldWithPath("review").description("리뷰 내용은 선택값 입니다.."),
+                        fieldWithPath("nickName").description("닉네임은 선택값 입니다. 없을 경우 null 혹은 빈 문자열로 보내주세요. "),
+                        fieldWithPath("age").description("나이는 선택값 입니다. 10대, 20대, 30대와 같이 string 타입으로 보내주셔야 합니다. "),
+                        fieldWithPath("contact").description("구매자 연락처는 필수값 입니다. "),
+                        fieldWithPath("dealDate").description("거래 날짜는 필수값 입니다."),
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),
@@ -595,6 +640,8 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
             fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
             fieldWithPath("content[].title").description("게시글 제목"),
+            fieldWithPath("content[].recommendedTag").description("추천 태그명 리스트"),
+            fieldWithPath("content[].recommendedTagName").description("추천 태그명 한글 리스트"),
             fieldWithPath("pageable.sort.empty").description(""),
             fieldWithPath("pageable.sort.unsorted").description(""),
             fieldWithPath("pageable.sort.sorted").description(""),
@@ -628,6 +675,8 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].isCompleted").description("거래 완료 여부"),
             fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
             fieldWithPath("content[].title").description("게시글 제목"),
+            fieldWithPath("content[].recommendedTag").description("추천 태그명 리스트"),
+            fieldWithPath("content[].recommendedTagName").description("추천 태그명 한글 리스트"),
             fieldWithPath("last").description(""),
             fieldWithPath("totalPages").description(""),
             fieldWithPath("totalElements").description(""),

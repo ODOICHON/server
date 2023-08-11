@@ -1,5 +1,11 @@
 == Board API
 
+*게시글 작성 시, category 값은 Optional 입니다.*
+
+null로 보낼 경우, 서버 측에서 EMPTY 값으로 매핑 시키며 추후 수정 시, EMPTY 값으로 넣어주셔야 합니다.
+
+조회 시, category에 대한 필터링을 원한다면 유의미한 ENUM 값을 넣어주시면 됩니다. 없을 경우, 전체 조회로 간주합니다.
+
 ==== 1. 홍보 게시글 작성하기
 ===== Request
 include::{snippets}/ads-board-create/http-request.adoc[]
@@ -33,6 +39,10 @@ include::{snippets}/get-board-preview/http-response.adoc[]
 
 ==== prefix : 필수값
 ==== category, search, order(default : RECENT) : 선택값
+
+prefix 값은 게시판 타입입니다. 소개/자유/홍보
+
+category 값은 말머리 입니다. 없을 경우, 값을 보내지 않으면 말머리에 대한 필터링을 거치지 않고 데이터를 반환합니다.
 
 ===== Request
 include::{snippets}/get-board/http-request.adoc[]
