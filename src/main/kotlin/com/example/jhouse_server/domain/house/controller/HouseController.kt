@@ -155,4 +155,24 @@ class HouseController(
     ) : ApplicationResponse<Page<HouseResDto>> {
         return ApplicationResponse.ok(houseService.getTmpSaveHouseAll(user, pageable))
     }
+
+    /**
+     * 빈집 매물 상태 변경
+     *
+     * @author dldmsql
+     * @param user User 현재 로그인한 유저
+     * @param houseId Long 빈집 매물 게시글
+     * @param dealReqDto DealReqDto 판매 완료
+     * @return Nothing
+     * */
+    @Auth
+    @PutMapping("/status/{houseId}")
+    fun updateStatus(
+        @AuthUser user: User,
+        @PathVariable houseId: Long,
+        @RequestBody dealReqDto: DealReqDto,
+    ) : ApplicationResponse<Nothing> {
+        houseService.updateStatus(user, houseId, dealReqDto)
+        return ApplicationResponse.ok()
+    }
 }

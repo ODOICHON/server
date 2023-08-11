@@ -14,5 +14,6 @@ interface HouseService {
     fun reportHouse(houseId: Long, reportReqDto: ReportReqDto, user: User)
     fun getHouseOneWithUser(houseId: Long, user: User): HouseResOneDto
     fun getTmpSaveHouseAll(user: User, pageable: Pageable): Page<HouseResDto>
+    fun updateStatus(user: User, houseId: Long, dealReqDto: DealReqDto)
 
 }
