@@ -113,3 +113,19 @@ include::{snippets}/get-tmp-save-house-all/http-response.adoc[]
 
 ====== Response Fields
 include::{snippets}/get-tmp-save-house-all/response-fields-data.adoc[]
+
+
+===== 9. 빈집 매물 상태 변경하기
+
+본인이 작성한 게시글에 한해서만 상태 변경이 가능합니다. 재등록을 서버 측에서 제한하지 않았기에 클라이언트 측에서 재변경이 안되도록 이벤트를 걸어주셔야 합니다.
+
+리뷰 내용은 필수값은 아니지만, 점수는 필수로 입력해야 하며 이는 양의 정수로 0~5까지 표현할 수 있습니다.
+
+====== Request
+include::{snippets}/update-house-deal-status/http-request.adoc[]
+
+====== Request Fields
+include::{snippets}/update-house-deal-status/request-fields.adoc[]
+
+====== Response
+include::{snippets}/update-house-deal-status/http-response.adoc[]
