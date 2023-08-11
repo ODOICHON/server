@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletRequest
 @Controller
 @RequestMapping("/admin")
 class AdminAuthController (
-        var userRepository: UserRepository,
-        var userService: UserService
+        val userRepository: UserRepository,
+        val userService: UserService
         ){
 
         // 메인 페이지 - 로그인 화면

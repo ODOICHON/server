@@ -1,5 +1,8 @@
 package com.example.jhouse_server.domain.board.dto
 
+import com.example.jhouse_server.domain.board.entity.Board
+import com.example.jhouse_server.domain.board.sliceContentWithRegex
+import java.sql.Timestamp
 import java.util.*
 
 class BoardResDto() {
@@ -39,4 +42,39 @@ class BoardResDto() {
         this.prefixCategory = prefixCategory
         this.fixed = fixed
     }
+}
+
+class BoardMyPageResDto() {
+    var boardId: Long = 0
+    lateinit var title: String
+    lateinit var oneLineContent: String
+    var createdAt: Date? = null
+    var imageUrl: String? = null
+    lateinit var category: String
+    lateinit var prefixCategory: String
+
+    constructor(boardId: Long,
+                title: String,
+                oneLineContent: String,
+                createdAt: Date?,
+                imageUrl: String?,
+                category: String,
+                prefixCategory: String,
+    ) : this() {
+        this.boardId = boardId
+        this.title = title
+        this.oneLineContent = oneLineContent
+        this.createdAt = createdAt
+        this.imageUrl = imageUrl
+        this.category = category
+        this.prefixCategory = prefixCategory
+    }
+}
+
+fun toMyPageListDto(board : Board) : BoardMyPageResDto {
+    val oneLineContent = sliceContentWithRegex(board.content)
+    if (board.imageUrls.isEmpty()) {
+        return BoardMyPageResDto(board.id, board.title, oneLineContent, Timestamp.valueOf(board.createdAt), null, board.category.name, board.prefixCategory.name)
+    }
+    return BoardMyPageResDto(board.id, board.title, oneLineContent, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.category.name, board.prefixCategory.name)
 }

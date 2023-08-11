@@ -1,9 +1,12 @@
 package com.example.jhouse_server.domain.house.repository
 
+import com.example.jhouse_server.domain.house.dto.HouseAgentListDto
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.entity.*
 import com.example.jhouse_server.domain.house.entity.QHouse.house
 import com.example.jhouse_server.domain.house.entity.QHouseTag.houseTag
+import com.example.jhouse_server.domain.house.entity.RentalType
+import com.example.jhouse_server.domain.scrap.entity.QScrap.scrap
 import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
@@ -90,6 +93,74 @@ class HouseRepositoryImpl(
             )
             .fetchOne()!!
         return PageableExecutionUtils.getPage(result, pageable) { countQuery }
+    }
+
+    /**
+     * 자신이 스크랩한 게시글 목록 조회
+     */
+    override fun getScrapHouseAll(user: User, pageable: Pageable): Page<House> {
+        val result = jpaQueryFactory
+            .selectFrom(house)
+            .join(house.user, QUser.user).fetchJoin()
+            .join(house.scrap, scrap)
+            .where(
+                house.useYn.eq(true), // 삭제 X
+                house.reported.eq(false), // 신고 X
+                scrap.subscriber.eq(user)
+            )
+            .limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .fetch()
+        val countQuery = jpaQueryFactory
+            .selectFrom(house)
+            .where(
+                house.useYn.eq(true), // 삭제 X
+                house.reported.eq(false), // 신고 X
+                scrap.subscriber.eq(user)
+            )
+        return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong() }
+    }
+
+    /**
+     * 마이페이지 빈집거래 목록 조회 (공인중개사)
+     *
+     * 거래 기능 개발 후, 판매상태 동적 조건 추가 필요
+     * 일반 사용자도 경우도 Deal 테이블과 연관해서 필요
+     */
+    override fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<House> {
+        val result = jpaQueryFactory
+            .selectFrom(house)
+            .join(house.user, QUser.user).fetchJoin()
+            .where(
+                house.useYn.eq(true), // 삭제 X
+                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
+                house.reported.eq(false), // 신고 X
+                house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
+                house.tmpYn.eq(false), // 임시저장 X
+                house.user.eq(user)
+            )
+            .limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .fetch()
+        val countQuery = jpaQueryFactory
+            .selectFrom(house)
+            .where(
+                house.useYn.eq(true), // 삭제 X
+                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
+                house.reported.eq(false), // 신고 X
+                house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
+                house.tmpYn.eq(false), // 임시저장 X
+                house.user.eq(user)
+            )
+        return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong() }
+    }
+
+    /**
+     * 게시글 제목 필터링
+     */
+    private fun searchWithKeywordAgent(keyword: String?): BooleanExpression? {
+        return if (keyword == null) null
+        else house.title.contains(keyword)
     }
 
     /**

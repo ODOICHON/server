@@ -4,6 +4,7 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.entity.House
+import com.example.jhouse_server.domain.notification.entity.Notification
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
@@ -19,69 +20,74 @@ import javax.persistence.*
 @Entity
 @DiscriminatorValue("U")
 class User(
-        @Convert(converter = CryptoConverter::class)
-        var email: String,
+    @Convert(converter = CryptoConverter::class)
+    var email: String,
 
-        @Convert(converter = CryptoConverter::class)
-        var password: String,
+    @Convert(converter = CryptoConverter::class)
+    var password: String,
 
-        var nickName: String,
+    var nickName: String,
 
-        @Convert(converter = CryptoConverter::class)
-        var phoneNum: String,
+    @Convert(converter = CryptoConverter::class)
+    var phoneNum: String,
 
-        var profileImageUrl: String,
+    var profileImageUrl: String,
 
-        @Convert(converter = CryptoConverter::class)
-        @Enumerated(EnumType.STRING)
-        var authority: Authority,
+    @Convert(converter = CryptoConverter::class)
+    @Enumerated(EnumType.STRING)
+    var authority: Authority,
 
-        @Convert(converter = CryptoConverter::class)
-        @Enumerated(EnumType.STRING)
-        var age: Age,
+    @Convert(converter = CryptoConverter::class)
+    @Enumerated(EnumType.STRING)
+    var age: Age,
 
-        @Convert(converter = CryptoConverter::class)
-        @Enumerated(EnumType.STRING)
-        var userType: UserType,
+    @Convert(converter = CryptoConverter::class)
+    @Enumerated(EnumType.STRING)
+    var userType: UserType,
 
-        @Convert(converter = CryptoConverter::class)
-        @Enumerated(EnumType.STRING)
-        var withdrawalStatus: WithdrawalStatus?,
+    @Convert(converter = CryptoConverter::class)
+    @Enumerated(EnumType.STRING)
+    var withdrawalStatus: WithdrawalStatus?,
 
-        @OneToOne(cascade = [CascadeType.PERSIST], orphanRemoval = true)
-        @JoinColumn(name = "withdrawal_id")
-        var withdrawal: Withdrawal?,
+    @OneToOne(cascade = [CascadeType.PERSIST], orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "withdrawal_id")
+    var withdrawal: Withdrawal?,
 
-        @OneToMany(mappedBy = "user")
-        val joinPaths: MutableList<UserJoinPath> = mutableListOf(),
+    var suspension: Boolean = false,
 
-        @OneToMany(mappedBy = "user")
-        val comments: MutableList<Comment> = mutableListOf(),
+    @OneToMany(mappedBy = "user")
+    val joinPaths: MutableList<UserJoinPath> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user")
-        val boards: MutableList<Board> = mutableListOf(),
+    @OneToMany(mappedBy = "user")
+    val comments: MutableList<Comment> = mutableListOf(),
 
-        @OneToMany(mappedBy = "subscriber")
-        val scraps: MutableList<Scrap> = mutableListOf(),
+    @OneToMany(mappedBy = "user")
+    val boards: MutableList<Board> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user")
-        val houses: MutableList<House> = mutableListOf(),
+    @OneToMany(mappedBy = "subscriber")
+    val scraps: MutableList<Scrap> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user")
-        val records: MutableList<Record> = mutableListOf(),
+    @OneToMany(mappedBy = "user")
+    val houses: MutableList<House> = mutableListOf(),
 
-        @OneToMany(mappedBy = "reviewer")
-        val applies: MutableList<RecordReviewApply> = mutableListOf(),
+    @OneToMany(mappedBy = "user")
+    val records: MutableList<Record> = mutableListOf(),
 
-        @OneToMany(mappedBy = "reviewer")
-        val reviews: MutableList<RecordReview> = mutableListOf(),
+    @OneToMany(mappedBy = "reviewer")
+    val applies: MutableList<RecordReviewApply> = mutableListOf(),
 
-        @OneToMany(mappedBy = "user")
-        val recordComments: MutableList<RecordComment> = mutableListOf(),
+    @OneToMany(mappedBy = "reviewer")
+    val reviews: MutableList<RecordReview> = mutableListOf(),
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
-        val id: Long = 0L,
+    @OneToMany(mappedBy = "user")
+    val recordComments: MutableList<RecordComment> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user")
+    val notifications: MutableList<Notification> = mutableListOf(),
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    val id: Long = 0L,
 ): BaseEntity() {
 
     fun update(nickName: String?, password: String?, phoneNum: String?) {
@@ -120,5 +126,9 @@ class User(
 
     fun updateWithdrawal(withdrawal: Withdrawal) {
         this.withdrawal = withdrawal
+    }
+
+    fun updateSuspension(status: Boolean) {
+        this.suspension = status
     }
 }

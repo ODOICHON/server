@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Service
 @Transactional(readOnly = true)
 class AdminBoardService(
-        var boardRepository: BoardRepository
+        val boardRepository: BoardRepository
 ) {
 
     /*

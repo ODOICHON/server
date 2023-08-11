@@ -54,9 +54,17 @@ data class HouseListDto(
     val search: String? // 검색어 ( 제목과 닉네임 )
 ): Serializable
 
+<<<<<<< HEAD
 /**
  * 빈집 매물 게시글 리스트 조회 시, 응답 DTO
  * */
+=======
+data class HouseAgentListDto(
+    val search: String?,
+    val isCompleted: Boolean? //거래 기능 개발 후 판매상태 조건 추가
+)
+
+>>>>>>> origin/dev
 class HouseResDto() {
     var houseId: Long = 0 // 게시글 아이디
     lateinit var rentalType: RentalType // 매물 유형
@@ -67,9 +75,13 @@ class HouseResDto() {
     lateinit var createdAt: Date // 게시글 작성일자 ( yyyy-MM-dd ) -> 클라이언트 측에서 파싱
     var isCompleted: Boolean = false // 매물 거래 여부
     var imageUrl : String? = null // 썸네일
+<<<<<<< HEAD
     lateinit var title: String // 게시글 제목
     lateinit var recommendedTag: List<RecommendedTag> // 추천 태그
     lateinit var recommendedTagName: List<String> // 추천 태그명
+=======
+    lateinit var title: String
+>>>>>>> origin/dev
     constructor(
         houseId : Long,
         rentalType : RentalType,
@@ -80,9 +92,13 @@ class HouseResDto() {
         createdAt: Date,
         isCompleted: Boolean,
         imageUrl: String,
+<<<<<<< HEAD
         title: String,
         recommendedTag: List<RecommendedTag>,
         recommendedTagName: List<String>
+=======
+        title: String
+>>>>>>> origin/dev
     ) : this() {
         this.houseId = houseId
         this.rentalType = rentalType
@@ -94,8 +110,11 @@ class HouseResDto() {
         this.isCompleted = isCompleted
         this.imageUrl = imageUrl
         this.title = title
+<<<<<<< HEAD
         this.recommendedTag = recommendedTag
         this.recommendedTagName = recommendedTagName
+=======
+>>>>>>> origin/dev
     }
  }
 
@@ -152,6 +171,7 @@ fun getTagByNameFromHouseTags(houseTag: List<RecommendedTag>) : List<Recommended
 }
 
 fun toListDto(house: House) : HouseResDto {
+<<<<<<< HEAD
     val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
     val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
     return HouseResDto(house.id, house.rentalType, house.address.city, house.price, house.monthlyPrice,
@@ -173,3 +193,7 @@ data class DealReqDto(
     @field:Pattern(regexp = "\"\"\"^\\d{4}-\\d{2}-\\d{2}\$\"\"\"", message = "팔린날짜는 필수값입니다. ( yyyy-MM-dd )")
     val dealDate : String,
 )
+=======
+    return HouseResDto(house.id, house.houseType!!, house.address.city, house.price, house.monthlyPrice, house.user.nickName, Timestamp.valueOf(house.createdAt), false, house.imageUrls[0], house.title)
+}
+>>>>>>> origin/dev

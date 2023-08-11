@@ -114,8 +114,21 @@ include::{snippets}/get-tmp-save-house-all/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-tmp-save-house-all/response-fields-data.adoc[]
 
+===== 9. 스크랩한 게시글 목록 조회하기
 
-===== 9. 빈집 매물 상태 변경하기
+====== Request
+include::{snippets}/get-scrap-house-all/http-request.adoc[]
+====== Response
+include::{snippets}/get-scrap-house-all/http-response.adoc[]
+
+===== 10. 마이페이지 게시글 목록 조회하기 (공인중개사)
+
+====== Request
+include::{snippets}/get-agent-house-all/http-request.adoc[]
+====== Response
+include::{snippets}/get-agent-house-all/http-response.adoc[]
+
+===== 11. 빈집 매물 상태 변경하기
 
 본인이 작성한 게시글에 한해서만 상태 변경이 가능합니다. 재등록을 서버 측에서 제한하지 않았기에 클라이언트 측에서 재변경이 안되도록 이벤트를 걸어주셔야 합니다.
 

@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.board.service
 
 import com.example.jhouse_server.domain.board.*
+import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
@@ -87,6 +88,21 @@ class BoardServiceImpl(
 
     override fun getCategory(name: String): List<CodeResDto> {
         return BoardCategory.values().filter { it.superCategory.name == name }.map { CodeResDto(it.value, it.name) }
+    }
+
+    override fun getUserBoardAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+        val boards = boardRepository.getUserBoardAll(user, pageable)
+        return CustomPageImpl(boards.content, boards.number, boards.size, boards.totalElements)
+    }
+
+    override fun getUserCommentAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+        val boards = boardRepository.getUserCommentAll(user, pageable)
+        return CustomPageImpl(boards.content, boards.number, boards.size, boards.totalElements)
+    }
+
+    override fun getUserLoveAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+        val boards = boardRepository.getUserLoveAll(user, pageable)
+        return CustomPageImpl(boards.content, boards.number, boards.size, boards.totalElements)
     }
 }
 fun getContent(code: String): String {

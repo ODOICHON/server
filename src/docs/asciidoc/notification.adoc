@@ -1,0 +1,23 @@
+== Notification API
+
+----
+알림은 댓글 저장시 자동 저장,
+무한 스크롤 형태로 구현해 요청시 page번호가 아닌 id값을 입력해야함
+----
+
+=== 1. 알림 조회
+===== Request
+include::{snippets}/get-notifications/http-request.adoc[]
+===== Request Params
+include::{snippets}/get-notifications/request-parameters.adoc[]
+===== Response
+include::{snippets}/get-notifications/http-response.adoc[]
+include::{snippets}/get-notifications/response-fields.adoc[]
+
+=== 2. 알림 읽음 처리
+===== Request
+include::{snippets}/update-notification/http-request.adoc[]
+===== Path Params
+include::{snippets}/update-notification/path-parameters.adoc[]
+===== Response
+include::{snippets}/update-notification/http-response.adoc[]

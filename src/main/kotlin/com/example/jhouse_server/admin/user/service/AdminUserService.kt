@@ -1,8 +1,8 @@
 package com.example.jhouse_server.admin.user.service
 
-import com.example.jhouse_server.admin.user.dto.join.AdminJoinAgentList
-import com.example.jhouse_server.admin.user.dto.withdrawal.AdminUserWithdrawalSearch
-import com.example.jhouse_server.admin.user.dto.withdrawal.AdminWithdrawalList
+
+import com.example.jhouse_server.admin.user.dto.AdminJoinAgentList
+import com.example.jhouse_server.admin.user.dto.AdminWithdrawalList
 import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
 import com.example.jhouse_server.domain.user.repository.AgentRepository
 import com.example.jhouse_server.domain.user.repository.UserRepository

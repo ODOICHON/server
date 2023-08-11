@@ -85,20 +85,58 @@ class MockEntity {
         fun testAgentSignUpDto() = AgentSignUpReqDto(
             email = "agent_jhouse_com",
             password = "abcdefG123!",
-            nickName = "공인중개사",
-            phoneNum = "01044444444",
+            nickName = "공인중개사1",
+            phoneNum = "01044444441",
             age = "20대 미만",
             joinPaths = mutableListOf("네이버 카페", "인스타그램"),
             agentCode = "123-456-789-01",
             businessCode = "12345-6789",
             companyName = "주말내집",
             agentName = "오도리",
-            companyPhoneNum = "0212345678",
+            companyPhoneNum = "0212345671",
             assistantName = null,
             companyAddress = "서울특별시",
             companyAddressDetail = "강남구",
             companyEmail = "agent@duaily.net",
             estate = "아파트"
+        )
+
+        fun testAgentSignUpDto2() = AgentSignUpReqDto(
+                email = "agent_jhouse_com1",
+                password = "abcdefG123!",
+                nickName = "공인중개사2",
+                phoneNum = "01044444442",
+                age = "20대 미만",
+                joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+                agentCode = "123-456-789-01",
+                businessCode = "12345-6789",
+                companyName = "주말내집",
+                agentName = "오도리",
+                companyPhoneNum = "0212345672",
+                assistantName = null,
+                companyAddress = "서울특별시",
+                companyAddressDetail = "강남구",
+                companyEmail = "agent@duaily.net",
+                estate = "아파트"
+        )
+
+        fun testAgentSignUpDto3() = AgentSignUpReqDto(
+                email = "agent_jhouse_com3",
+                password = "abcdefG123!",
+                nickName = "공인중개사3",
+                phoneNum = "01044444443",
+                age = "20대 미만",
+                joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+                agentCode = "123-456-789-01",
+                businessCode = "12345-6789",
+                companyName = "주말내집",
+                agentName = "오도리",
+                companyPhoneNum = "0212345673",
+                assistantName = null,
+                companyAddress = "서울특별시",
+                companyAddressDetail = "강남구",
+                companyEmail = "agent@duaily.net",
+                estate = "아파트"
         )
 
         fun testUserSignInDto() = UserSignInReqDto(
