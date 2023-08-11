@@ -14,11 +14,13 @@ class Deal(
 
     var review: String?,
 
-    @OneToOne
-    var buyer: User,
+    // TODO OneToOne 관계로 가져갈까 PK만 FK로 갖고 있을까
+    var buyerId: Long?,
 
     @OneToOne
     var house: House,
+
+    val fixed : Boolean = true, // 생성과 동시에 변경 불가능하도록 고정하기 위한 플래그 변수
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long = 0L
