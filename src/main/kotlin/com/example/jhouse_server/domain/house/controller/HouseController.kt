@@ -157,13 +157,32 @@ class HouseController(
     }
 
     /**
-     * 스크랩 게시글 목록 조회
+<<<<<<< HEAD
+     * 빈집 매물 상태 변경
      *
-     * @author MoonMinHyuk
+     * @author dldmsql
      * @param user User 현재 로그인한 유저
-     * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
-     * @return Page<HouseResDto>
-     */
+     * @param houseId Long 빈집 매물 게시글
+     * @param dealReqDto DealReqDto 판매 완료
+     * @return Nothing
+     * */
+    @Auth
+    @PutMapping("/status/{houseId}")
+    fun updateStatus(
+        @AuthUser user: User,
+        @PathVariable houseId: Long,
+        @RequestBody dealReqDto: DealReqDto,
+    ) : ApplicationResponse<Nothing> {
+        houseService.updateStatus(user, houseId, dealReqDto)
+        return ApplicationResponse.ok()
+    }
+    /** 스크랩 게시글 목록 조회
+    *
+    * @author MoonMinHyuk
+    * @param user User 현재 로그인한 유저
+    * @param pageable Pageable 페이징 처리를 위한 쿼리 인터페이스
+    * @return Page<HouseResDto>
+    */
     @Auth
     @GetMapping("/scrap")
     fun getScrapHouseAll(

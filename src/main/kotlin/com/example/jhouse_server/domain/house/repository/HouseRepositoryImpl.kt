@@ -2,51 +2,66 @@ package com.example.jhouse_server.domain.house.repository
 
 import com.example.jhouse_server.domain.house.dto.HouseAgentListDto
 import com.example.jhouse_server.domain.house.dto.HouseListDto
-import com.example.jhouse_server.domain.house.entity.House
-import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
+import com.example.jhouse_server.domain.house.entity.*
 import com.example.jhouse_server.domain.house.entity.QHouse.house
+import com.example.jhouse_server.domain.house.entity.QHouseTag.houseTag
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.scrap.entity.QScrap.scrap
 import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
 import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 
+
 class HouseRepositoryImpl(
     private var jpaQueryFactory: JPAQueryFactory
 ): HouseRepositoryCustom {
-    override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable) : Page<House> {
+    /**
+     * TODO N+1 문제 해결을 위한 DTO transform()으로 튜닝
+     * */
+    override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable): Page<House> {
         val result = jpaQueryFactory
             .selectFrom(house)
-            .join(house.user, user).fetchJoin()
+            .innerJoin(house.user)
+            .leftJoin(house.houseTag)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                house.houseType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
+                house.rentalType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
                 house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
                 house.tmpYn.eq(false), // 임시저장 X
+                filterWithRecommendedTags(houseListDto.recommendedTag), // 게시글 추천 태그 필터링
             )
+            .groupBy(house.id)
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
-        val countQuery = jpaQueryFactory
-            .selectFrom(house)
+
+        val countQuery : Long = jpaQueryFactory
+            .select(house.count())
+            .from(house)
+            .innerJoin(house.user, user)
+            .leftJoin(house.houseTag)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                house.houseType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
+                house.rentalType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
                 house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
                 house.tmpYn.eq(false), // 임시저장 X
+                filterWithRecommendedTags(houseListDto.recommendedTag),
             )
-        return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong()}
+            .fetchOne()!!
+
+        return PageableExecutionUtils.getPage(result, pageable) { countQuery }
     }
 
     /**
@@ -55,7 +70,7 @@ class HouseRepositoryImpl(
     override fun getTmpSaveHouseAll(user: User, pageable: Pageable): Page<House> {
         val result = jpaQueryFactory
             .selectFrom(house)
-            .join(house.user, QUser.user).fetchJoin()
+            .innerJoin(house.user)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
@@ -65,15 +80,19 @@ class HouseRepositoryImpl(
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
-        val countQuery = jpaQueryFactory
-            .selectFrom(house)
+
+        val countQuery : Long = jpaQueryFactory
+            .select(house.count())
+            .from(house)
+            .innerJoin(house.user)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.tmpYn.eq(true), // 임시저장 X
                 house.user.eq(user)
             )
-        return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong()}
+            .fetchOne()!!
+        return PageableExecutionUtils.getPage(result, pageable) { countQuery }
     }
 
     /**
@@ -164,4 +183,17 @@ class HouseRepositoryImpl(
             else house.address.city.contains(city)
         }
     }
+
+    /**
+     * 추천 태그 필터링 함수
+     * [] -> isEmpty()
+     * 그외 -> Enum name
+     * */
+    private fun filterWithRecommendedTags(recommendedTag : List<RecommendedTag>): BooleanExpression? {
+        return if(recommendedTag.isEmpty()) null else house.houseTag.any().recommendedTag.`in`(
+            JPAExpressions.select(QHouseTag.houseTag.recommendedTag)
+                .from(QHouseTag.houseTag)
+                .where(QHouseTag.houseTag.recommendedTag.`in`(recommendedTag)))
+    }
+
 }

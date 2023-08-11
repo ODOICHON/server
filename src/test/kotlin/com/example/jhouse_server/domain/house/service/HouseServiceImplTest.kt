@@ -3,7 +3,9 @@ package com.example.jhouse_server.domain.house.service
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.dto.ReportReqDto
 import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
+import com.example.jhouse_server.domain.house.entity.RecommendedTag
 import com.example.jhouse_server.domain.house.entity.RentalType
+import com.example.jhouse_server.domain.house.repository.DealRepository
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.scrap.repository.ScrapRepository
 import com.example.jhouse_server.domain.scrap.service.ScrapService
@@ -41,6 +43,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     val userRepository: UserRepository,
     val scrapService: ScrapService,
     val scrapRepository: ScrapRepository,
+    val dealRepository: DealRepository,
 ) {
     private val userSignUpReqDto = MockEntity.testUserSignUpDto2()
     private val testSignUpReqDto = MockEntity.testUserSignUpDto()
@@ -73,7 +76,7 @@ internal class HouseServiceImplTest @Autowired constructor(
         val house = houseRepository.findByIdOrThrow(houseId)
 
         // then
-        assertThat(house.houseType).isEqualTo(houseReqDto().rentalType)
+        assertThat(house.rentalType).isEqualTo(houseReqDto().rentalType)
         assertThat(house.applied).isEqualTo(HouseReviewStatus.APPLY)
 
     }
@@ -310,23 +313,23 @@ internal class HouseServiceImplTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 수도권, '' ]")
+    @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 경기, 추천태그 리스트, '' ]")
     fun getHouseAll() {
         // given
-        val houseListDto = HouseListDto(RentalType.SALE.name, "수도권", "")
+        val houseListDto = HouseListDto(RentalType.SALE.name, "경기", listOf(), null)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
         val house = houseService.getHouseAll(houseListDto, pageable)
         // then
-        assertThat(house.totalElements).isEqualTo(12)
+        assertThat(house.totalElements).isEqualTo(0)
     }
 
     @Test
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 전라, '' ]")
     fun getHouseAll_another_city() {
         // given
-        val houseListDto = HouseListDto(RentalType.SALE.name, "전라", "")
+        val houseListDto = HouseListDto(RentalType.SALE.name, "전라", listOf(), null)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
@@ -339,7 +342,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 전세, 수도권, '' ]")
     fun getHouseAll_another_rentalType() {
         // given
-        val houseListDto = HouseListDto(RentalType.JEONSE.name, "수도권", "")
+        val houseListDto = HouseListDto(RentalType.JEONSE.name, "수도권", listOf(), null)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
@@ -352,13 +355,39 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 수도권, '행복부동산' ]")
     fun getHouseAll_with_keyword() {
         // given
-        val houseListDto = HouseListDto(RentalType.SALE.name, "수도권", "행복부동산")
+        val houseListDto = HouseListDto(RentalType.SALE.name, "수도권", listOf(), "행복부동산")
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
         val house = houseService.getHouseAll(houseListDto, pageable)
         // then
         assertThat(house.totalElements).isEqualTo(12)
+    }
+
+    @Test
+    @DisplayName("빈집 거래 상태 변경")
+    fun update_status() {
+        // given
+        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val houseId = houseService.createHouse(houseReqDto(), writer)
+        val req = MockEntity.updateStatus("테스트유저2")
+        // when
+        houseService.updateStatus(writer, houseId, req)
+        // then
+        assertThat(dealRepository.findByHouseId(houseId).get()).isNotNull
+    }
+
+    @Test
+    @DisplayName("빈집 거래 상태 변경 - 닉네임 공백이거나 null일 경우")
+    fun update_status_nickName_isBlank() {
+        // given
+        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val houseId = houseService.createHouse(houseReqDto(), writer)
+        val req = MockEntity.updateStatus("")
+        // when
+        houseService.updateStatus(writer, houseId, req)
+        // then
+        assertThat(dealRepository.findByHouseId(houseId).get()).isNotNull
     }
 
     private fun createHouseAll() {
