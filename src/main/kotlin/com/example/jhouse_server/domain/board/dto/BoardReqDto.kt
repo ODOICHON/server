@@ -16,47 +16,21 @@ data class BoardReqDto(
     val title: String? = null,
     @field:NotNull(message = "code는 필수값입니다.")
     val code: String? = null,
-    @field:NotNull(message = "말머리는 필수값입니다.")
-    val category: BoardCategory? = null,
+//    @field:NotNull(message = "말머리는 필수값입니다.")
+    val category: BoardCategory?,
     val imageUrls: List<String>,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: PrefixCategory? = null,
     val fixed: Boolean? = null, // 홍보 게시글에 대해서만 true 설정 가능
 )
 
-//data class BoardResDto(
-//        @JsonProperty
-//        val boardId: Long,
-//        @JsonProperty
-//        val title: String,
-//        @JsonProperty
-//        val code: String,
-//        @JsonProperty
-//        val oneLineContent: String,
-//        @JsonProperty
-//        val nickName: String,
-//        @JsonProperty
-//        val createdAt: Date?,
-//        @JsonProperty
-//        val imageUrl: String?,
-//        @JsonProperty
-//        val commentCount: Int,
-//        @JsonProperty
-//        val category: String,
-//        @JsonProperty
-//        val prefixCategory: String,
-//        @JsonProperty
-//        val fixed: Boolean
-//)
-
-
 data class BoardUpdateReqDto(
     @field:NotNull(message = "게시글 제목은 필수값입니다.")
     val title: String? = null,
     @field:NotNull(message = "code는 필수값입니다.")
     val code: String? = null,
-    @field:NotNull(message = "말머리는 필수값입니다.")
-    val category: String? = null,
+//    @field:NotNull(message = "말머리는 필수값입니다.")
+    val category: String?,
     val imageUrls: List<String>,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: String? = null,
@@ -102,8 +76,6 @@ fun toDto(board: Board) : BoardResOneDto {
     return BoardResOneDto(board.id, board.title, board.boardCode.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
 }
 fun sliceContentWithRegex(content : String) : String {
-//    val pattern = Regex("^[a-zA-Z가-힣].*[.!?]$")
-//    val validatedString = pattern.find(content)?.value ?: ""
     return if (content.length >= 200) {
         content.take(200)
     } else {

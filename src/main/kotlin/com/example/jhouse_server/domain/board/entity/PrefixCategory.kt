@@ -6,7 +6,8 @@ import javax.persistence.Converter
 enum class PrefixCategory(val value: String) {
     DEFAULT("자유"),
     INTRO("소개"),
-    ADVERTISEMENT("홍보");
+    ADVERTISEMENT("홍보"),
+    ALL("공통");
 
 }
 
