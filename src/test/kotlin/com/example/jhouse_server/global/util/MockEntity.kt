@@ -7,8 +7,10 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentReqDto
 import com.example.jhouse_server.domain.comment.entity.Comment
+import com.example.jhouse_server.domain.house.dto.DealReqDto
 import com.example.jhouse_server.domain.house.dto.HouseReqDto
 import com.example.jhouse_server.domain.house.dto.ReportReqDto
+import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.record.dto.RecordPageCondition
 import com.example.jhouse_server.domain.record.dto.RecordReqDto
@@ -327,7 +329,8 @@ class MockEntity {
             title = "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002"),
-            tmpYn = false
+            tmpYn = false,
+            listOf()
             )
         fun houseUpdateReqDto() = HouseReqDto(
             rentalType = RentalType.JEONSE,
@@ -344,7 +347,8 @@ class MockEntity {
             title = "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>부자부동산 최신 매물로</h2> </div> <div> <i>게스트하우스용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002"),
-            tmpYn = false
+            tmpYn = false,
+            listOf()
         )
 
         fun reportReqDto() = ReportReqDto(
@@ -367,7 +371,8 @@ class MockEntity {
             title = "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002"),
-            tmpYn = true
+            tmpYn = true,
+            listOf()
         )
 
         fun houseTooLongReqDto() = HouseReqDto(
@@ -541,7 +546,17 @@ class MockEntity {
                     "세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n" +
                     "정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요? </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002"),
-            tmpYn = false
+            tmpYn = false,
+            listOf()
+        )
+
+        fun updateStatus(nickName : String) = DealReqDto(
+            score = 5,
+            review = "It's Good!",
+            nickName = nickName,
+            age = "30대",
+            contact = "010-1111-1111",
+            dealDate = "2023-01-01"
         )
     }
 }
