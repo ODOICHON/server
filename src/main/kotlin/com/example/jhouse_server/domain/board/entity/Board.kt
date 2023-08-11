@@ -60,7 +60,7 @@ class Board(
         this.boardCode = code
         this.content = content
         this.category = BoardCategory.values().firstOrNull { it.name == category }
-            ?: throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)
+            ?: BoardCategory.EMPTY
         this.imageUrls = imageUrls
         this.prefixCategory = PrefixCategory.values().firstOrNull { it.name == prefixCategory }
             ?: throw ApplicationException(ErrorCode.NOT_FOUND_EXCEPTION)

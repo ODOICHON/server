@@ -15,6 +15,8 @@ enum class BoardCategory(val value: String, val superCategory: PrefixCategory) {
 
     TREND("트렌드", PrefixCategory.INTRO),
     REVIEW("후기", PrefixCategory.INTRO),
+
+    EMPTY("태그 없음", PrefixCategory.ALL),
     ;
 }
 

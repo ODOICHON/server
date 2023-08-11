@@ -16,8 +16,8 @@ data class BoardReqDto(
     val title: String? = null,
     @field:NotNull(message = "code는 필수값입니다.")
     val code: String? = null,
-    @field:NotNull(message = "말머리는 필수값입니다.")
-    val category: BoardCategory? = null,
+//    @field:NotNull(message = "말머리는 필수값입니다.")
+    val category: BoardCategory?,
     val imageUrls: List<String>,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: PrefixCategory? = null,
@@ -29,8 +29,8 @@ data class BoardUpdateReqDto(
     val title: String? = null,
     @field:NotNull(message = "code는 필수값입니다.")
     val code: String? = null,
-    @field:NotNull(message = "말머리는 필수값입니다.")
-    val category: String? = null,
+//    @field:NotNull(message = "말머리는 필수값입니다.")
+    val category: String?,
     val imageUrls: List<String>,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
     val prefixCategory: String? = null,

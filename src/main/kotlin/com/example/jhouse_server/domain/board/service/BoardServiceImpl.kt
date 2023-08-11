@@ -37,8 +37,9 @@ class BoardServiceImpl(
         val content = getContent(req.code!!)
         val fixed = if(req.prefixCategory == PrefixCategory.ADVERTISEMENT) req.fixed!! else false
         val code = boardCodeRepository.save(BoardCode(req.code))
+        val category = BoardCategory.values().firstOrNull { it == req.category } ?: BoardCategory.EMPTY
         val board = Board(
-            req.title!!, content, req.category!!, req.imageUrls, user, req.prefixCategory!!, fixed, code
+            req.title!!, content, category, req.imageUrls, user, req.prefixCategory!!, fixed, code
         )
         return boardRepository.save(board).id
     }

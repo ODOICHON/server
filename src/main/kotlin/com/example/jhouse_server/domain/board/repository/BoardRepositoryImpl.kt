@@ -13,7 +13,6 @@ import com.example.jhouse_server.domain.board.entity.QBoard.board
 import com.example.jhouse_server.domain.board.entity.QBoardCode.boardCode
 import com.example.jhouse_server.domain.comment.entity.QComment.comment
 import com.example.jhouse_server.domain.love.entity.QLove.love
-import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
 import com.querydsl.core.types.OrderSpecifier
@@ -22,6 +21,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
+import org.springframework.util.StringUtils.hasText
 
 class BoardRepositoryImpl(
         private var jpaQueryFactory: JPAQueryFactory
@@ -65,7 +65,7 @@ class BoardRepositoryImpl(
                 .selectFrom(board)
                 .join(board.boardCode, boardCode).fetchJoin()
                 .join(board.user, user).fetchJoin()
-                .where(board.useYn.eq(true), board.prefixCategory.eq(PrefixCategory.valueOf(boardListDto.prefix)),searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
+                .where(board.useYn.eq(true), filterWithPrefixCategory(boardListDto.prefix) ,searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
                 .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order))
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
@@ -75,6 +75,10 @@ class BoardRepositoryImpl(
                 .where(board.useYn.eq(true), board.prefixCategory.eq(PrefixCategory.valueOf(boardListDto.prefix)),searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toListDto(it) }
+    }
+
+    private fun filterWithPrefixCategory(prefix: String): BooleanExpression? {
+        return if(!hasText(prefix)) null else board.prefixCategory.eq(PrefixCategory.valueOf(prefix))
     }
 
 
