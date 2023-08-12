@@ -4,6 +4,28 @@
 
 빈집 게시글 작성 시, tmpYn 플래그를 통해 임시저장 여부를 판단합니다.
 
+RecommendedTag 값에는 아래 표를 참고해서 Enum 명을 보내주셔야 합니다.
+|===
+|Enum 명 |한글 명
+
+|WANT_TO_INTERIOR_FOR_THE_FIRST_TIME
+|처음부터 인테리어 하고 싶어요.
+
+|WANT_TO_READY_HOUSE
+|어느 정도 준비된 집이 좋아요.
+
+|HAVE_CHILDREN
+|아이와 함께 살아요.
+
+|WANT_TO_LOOK_A_GOOD_VIEW
+|경치가 좋은 집을 원해요.
+
+|WANT_TO_FARM
+|농사 짓기를 원해요.
+
+|===
+
+
 ===== Request
 include::{snippets}/save-house/http-request.adoc[]
 ====== Request fields
