@@ -448,13 +448,50 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>빈집 게시글 작성 시, tmpYn 플래그를 통해 임시저장 여부를 판단합니다.</p>
 </div>
+<div class="paragraph">
+<p>RecommendedTag 값에는 아래 표를 참고해서 Enum 명을 보내주셔야 합니다.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Enum 명</th>
+<th class="tableblock halign-left valign-top">한글 명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_INTERIOR_FOR_THE_FIRST_TIME</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처음부터 인테리어 하고 싶어요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_READY_HOUSE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">어느 정도 준비된 집이 좋아요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HAVE_CHILDREN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이와 함께 살아요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_LOOK_A_GOOD_VIEW</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">경치가 좋은 집을 원해요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_FARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">농사 짓기를 원해요.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect4">
 <h5 id="_request">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDIsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.K1JkyWdqjUTmIGeKpUefxQQFAEOM1hRmWjxcR0Rx9iSEnf1uKPi_5FxcujVUZTPpkQhvnJiNcC7cYNtwRux_ZA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
 Content-Length: 660
 Host: localhost:8080
@@ -593,7 +630,7 @@ Content-Length: 65
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 1230
+  "data" : 1415
 }</code></pre>
 </div>
 </div>
@@ -644,7 +681,7 @@ Content-Length: 65
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.o_4GKM-gCwr55EAwkIos0ytUML3bbMCbXc7aPUiauSW7BRpk_n3SV5Hw-swGbwYOIRDjHHxFUBYo0-frAsqKxQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
 Content-Length: 26025
 Host: localhost:8080
@@ -797,9 +834,9 @@ Content-Length: 100
 <h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/1207 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/1392 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDIsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.K1JkyWdqjUTmIGeKpUefxQQFAEOM1hRmWjxcR0Rx9iSEnf1uKPi_5FxcujVUZTPpkQhvnJiNcC7cYNtwRux_ZA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
 Accept: application/json
 Content-Length: 683
 Host: localhost:8080
@@ -938,7 +975,7 @@ Content-Length: 65
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 1207
+  "data" : 1392
 }</code></pre>
 </div>
 </div>
@@ -953,9 +990,9 @@ Content-Length: 65
 <h5 id="_request_4">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/1206 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/1391 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDIsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.K1JkyWdqjUTmIGeKpUefxQQFAEOM1hRmWjxcR0Rx9iSEnf1uKPi_5FxcujVUZTPpkQhvnJiNcC7cYNtwRux_ZA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1080,78 +1117,78 @@ Content-Length: 4238
       "recommendedTag" : [ "WANT_TO_FARM", "WANT_TO_READY_HOUSE" ],
       "recommendedTagName" : [ "농사 짓기를 원해요.", "어느 정도 준비된 집이 좋아요." ]
     }, {
-      "houseId" : 1254,
+      "houseId" : 1439,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.395+00:00",
+      "createdAt" : "2023-08-12T05:23:34.954+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1256,
+      "houseId" : 1441,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.398+00:00",
+      "createdAt" : "2023-08-12T05:23:34.958+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1258,
+      "houseId" : 1443,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.400+00:00",
+      "createdAt" : "2023-08-12T05:23:34.961+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1260,
+      "houseId" : 1445,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.403+00:00",
+      "createdAt" : "2023-08-12T05:23:34.968+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1262,
+      "houseId" : 1447,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.409+00:00",
+      "createdAt" : "2023-08-12T05:23:34.970+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1264,
+      "houseId" : 1449,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.412+00:00",
+      "createdAt" : "2023-08-12T05:23:34.973+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
@@ -1162,13 +1199,13 @@ Content-Length: 4238
     "totalElements" : 14,
     "last" : false,
     "totalPages" : 2,
-    "first" : true,
-    "number" : 0,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "first" : true,
+    "number" : 0,
     "numberOfElements" : 8,
     "empty" : false
   }
@@ -1320,7 +1357,7 @@ Content-Length: 4238
 <h6 id="_request_6">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/1276 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/1461 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1342,7 +1379,7 @@ Content-Length: 953
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 1276,
+    "houseId" : 1461,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1359,7 +1396,7 @@ Content-Length: 953
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
     "userType" : "NONE",
-    "createdAt" : "2023-08-12T05:14:03.670+00:00",
+    "createdAt" : "2023-08-12T05:23:35.166+00:00",
     "isCompleted" : false,
     "isScraped" : false,
     "recommendedTag" : [ ],
@@ -1515,9 +1552,9 @@ Content-Length: 953
 <h6 id="_request_7">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/1208 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/1393 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDIsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.K1JkyWdqjUTmIGeKpUefxQQFAEOM1hRmWjxcR0Rx9iSEnf1uKPi_5FxcujVUZTPpkQhvnJiNcC7cYNtwRux_ZA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1538,7 +1575,7 @@ Content-Length: 952
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 1208,
+    "houseId" : 1393,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1555,7 +1592,7 @@ Content-Length: 952
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
     "userType" : "NONE",
-    "createdAt" : "2023-08-12T05:14:02.500+00:00",
+    "createdAt" : "2023-08-12T05:23:34.155+00:00",
     "isCompleted" : false,
     "isScraped" : true,
     "recommendedTag" : [ ],
@@ -1714,9 +1751,9 @@ Content-Length: 952
 <h6 id="_request_8">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/1231 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/1416 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjkxODE5MDQyLCJhdXRoIjoiVVNFUiIsInR5cGUiOiJOT05FIn0.y22VfABchgiCHRbpgbu9L2_kRXgKk6KGUv35ONkeBNkZU530d44iOIYq3VewS7ZSYrg3_zGqZJ3wsbjInE276w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjkxODE5NjE0LCJhdXRoIjoiVVNFUiIsInR5cGUiOiJOT05FIn0.hXi05ueNIVsTSt4Za1aICJTguIaqmh0ijZJiaC16kOxM3iBTs4Ak3TdCwNg-Sf1-49tZKB8sKrndOI0unaibsw
 Accept: application/json
 Content-Length: 107
 Host: localhost:8080
@@ -1787,7 +1824,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/tmp-save?page=0&amp;size=8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.o_4GKM-gCwr55EAwkIos0ytUML3bbMCbXc7aPUiauSW7BRpk_n3SV5Hw-swGbwYOIRDjHHxFUBYo0-frAsqKxQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1809,104 +1846,104 @@ Content-Length: 4468
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 1243,
+      "houseId" : 1428,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.116+00:00",
+      "createdAt" : "2023-08-12T05:23:34.703+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1244,
+      "houseId" : 1429,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.118+00:00",
+      "createdAt" : "2023-08-12T05:23:34.704+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1245,
+      "houseId" : 1430,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.120+00:00",
+      "createdAt" : "2023-08-12T05:23:34.705+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1246,
+      "houseId" : 1431,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.121+00:00",
+      "createdAt" : "2023-08-12T05:23:34.707+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1247,
+      "houseId" : 1432,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.122+00:00",
+      "createdAt" : "2023-08-12T05:23:34.708+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1248,
+      "houseId" : 1433,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.123+00:00",
+      "createdAt" : "2023-08-12T05:23:34.709+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1249,
+      "houseId" : 1434,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.125+00:00",
+      "createdAt" : "2023-08-12T05:23:34.710+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1250,
+      "houseId" : 1435,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:03.125+00:00",
+      "createdAt" : "2023-08-12T05:23:34.711+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
@@ -1920,22 +1957,22 @@ Content-Length: 4468
         "sorted" : false
       },
       "offset" : 0,
-      "pageSize" : 8,
       "pageNumber" : 0,
+      "pageSize" : 8,
       "paged" : true,
       "unpaged" : false
     },
     "last" : false,
     "totalElements" : 11,
     "totalPages" : 2,
-    "first" : true,
-    "size" : 8,
-    "number" : 0,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "size" : 8,
+    "first" : true,
+    "number" : 0,
     "numberOfElements" : 8,
     "empty" : false
   }
@@ -2125,7 +2162,7 @@ Content-Length: 4468
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/scrap?page=0 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.Y5H5BVCe8dVS2d1QgHyQ1knW2SJOFbdoWDX_xR4b9qcGMtxgA1NC4PJobt5pQ63gxWRYQ1RCJIxKEPxfE4lPAQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2146,78 +2183,78 @@ Content-Length: 3498
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 1194,
+      "houseId" : 1379,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:01.848+00:00",
+      "createdAt" : "2023-08-12T05:23:33.547+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1195,
+      "houseId" : 1380,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:01.867+00:00",
+      "createdAt" : "2023-08-12T05:23:33.566+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1196,
+      "houseId" : 1381,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:01.875+00:00",
+      "createdAt" : "2023-08-12T05:23:33.572+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1197,
+      "houseId" : 1382,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:01.881+00:00",
+      "createdAt" : "2023-08-12T05:23:33.576+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1198,
+      "houseId" : 1383,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:01.886+00:00",
+      "createdAt" : "2023-08-12T05:23:33.580+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1199,
+      "houseId" : 1384,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-08-12T05:14:01.892+00:00",
+      "createdAt" : "2023-08-12T05:23:33.585+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
@@ -2231,22 +2268,22 @@ Content-Length: 3498
         "sorted" : false
       },
       "offset" : 0,
-      "pageSize" : 10,
       "pageNumber" : 0,
+      "pageSize" : 10,
       "paged" : true,
       "unpaged" : false
     },
     "last" : true,
     "totalElements" : 6,
     "totalPages" : 1,
-    "first" : true,
-    "size" : 10,
-    "number" : 0,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "size" : 10,
+    "first" : true,
+    "number" : 0,
     "numberOfElements" : 6,
     "empty" : false
   }
@@ -2262,7 +2299,7 @@ Content-Length: 3498
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/agent?page=0&amp;search=&amp;isCompleted= HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudF9qaG91c2VfY29tIiwiZXhwIjoxNjkxODE5MDQyLCJhdXRoIjoiVVNFUiIsInR5cGUiOiJBR0VOVCJ9.6g3RpDpwCI60oRpeAxn34Xcu1zqrFfHQydsno7pBPi7e1tpAm3kWBCLbRKo08aZLg1mnPYsRUv5Sz4RhArRrCg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudF9qaG91c2VfY29tIiwiZXhwIjoxNjkxODE5NjE0LCJhdXRoIjoiVVNFUiIsInR5cGUiOiJBR0VOVCJ9.NKl0loHbOn9ByWcWQJ2zTTAdA3vguFuPo0ynrhsPszEqDEjjIivGEDchAeqRqGx-H38AoDVeya6fhxTNqXPfJQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -2283,130 +2320,130 @@ Content-Length: 5441
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 1232,
+      "houseId" : 1417,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.972+00:00",
+      "createdAt" : "2023-08-12T05:23:34.567+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1233,
+      "houseId" : 1418,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.973+00:00",
+      "createdAt" : "2023-08-12T05:23:34.568+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1234,
+      "houseId" : 1419,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.975+00:00",
+      "createdAt" : "2023-08-12T05:23:34.569+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1235,
+      "houseId" : 1420,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.976+00:00",
+      "createdAt" : "2023-08-12T05:23:34.570+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1236,
+      "houseId" : 1421,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.978+00:00",
+      "createdAt" : "2023-08-12T05:23:34.575+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1237,
+      "houseId" : 1422,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.979+00:00",
+      "createdAt" : "2023-08-12T05:23:34.576+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1238,
+      "houseId" : 1423,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.980+00:00",
+      "createdAt" : "2023-08-12T05:23:34.577+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1239,
+      "houseId" : 1424,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.981+00:00",
+      "createdAt" : "2023-08-12T05:23:34.578+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1240,
+      "houseId" : 1425,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.982+00:00",
+      "createdAt" : "2023-08-12T05:23:34.580+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
       "recommendedTag" : [ ],
       "recommendedTagName" : [ ]
     }, {
-      "houseId" : 1241,
+      "houseId" : 1426,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "공인중개사1",
-      "createdAt" : "2023-08-12T05:14:02.985+00:00",
+      "createdAt" : "2023-08-12T05:23:34.581+00:00",
       "isCompleted" : false,
       "imageUrl" : "img-001",
       "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
@@ -2420,22 +2457,22 @@ Content-Length: 5441
         "sorted" : false
       },
       "offset" : 0,
-      "pageSize" : 10,
       "pageNumber" : 0,
+      "pageSize" : 10,
       "paged" : true,
       "unpaged" : false
     },
     "last" : false,
     "totalElements" : 11,
     "totalPages" : 2,
-    "first" : true,
-    "size" : 10,
-    "number" : 0,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "size" : 10,
+    "first" : true,
+    "number" : 0,
     "numberOfElements" : 10,
     "empty" : false
   }
@@ -2456,9 +2493,9 @@ Content-Length: 5441
 <h6 id="_request_12">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/status/1205 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/status/1390 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTkwNDIsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.K1JkyWdqjUTmIGeKpUefxQQFAEOM1hRmWjxcR0Rx9iSEnf1uKPi_5FxcujVUZTPpkQhvnJiNcC7cYNtwRux_ZA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
 Accept: application/json
 Content-Length: 158
 Host: localhost:8080
@@ -2549,7 +2586,7 @@ Content-Length: 48
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-08-11 15:53:01 +0900
+Last updated 2023-08-12 14:19:15 +0900
 </div>
 </div>
 </body>
