@@ -448,15 +448,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>빈집 게시글 작성 시, tmpYn 플래그를 통해 임시저장 여부를 판단합니다.</p>
 </div>
+<div class="paragraph">
+<p>RecommendedTag 값에는 아래 표를 참고해서 Enum 명을 보내주셔야 합니다.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Enum 명</th>
+<th class="tableblock halign-left valign-top">한글 명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_INTERIOR_FOR_THE_FIRST_TIME</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">처음부터 인테리어 하고 싶어요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_READY_HOUSE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">어느 정도 준비된 집이 좋아요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HAVE_CHILDREN</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">아이와 함께 살아요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_LOOK_A_GOOD_VIEW</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">경치가 좋은 집을 원해요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WANT_TO_FARM</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">농사 짓기를 원해요.</p></td>
+</tr>
+</tbody>
+</table>
 <div class="sect4">
 <h5 id="_request">Request</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.2VA6ZIW9qnrLP-dXrB0oRm6Ot8l8AyjFmVmGh9PPHd2432i-vFbpFO127J6szlEa8JnXnuI3n0fAofyyjr88Xw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
-Content-Length: 634
+Content-Length: 660
 Host: localhost:8080
 
 {
@@ -474,7 +511,8 @@ Host: localhost:8080
   "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
   "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;행복부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;주거용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
   "imageUrls" : [ "img-001", "img-002" ],
-  "tmpYn" : false
+  "tmpYn" : false,
+  "recommendedTag" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -569,6 +607,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천태그를 입력해주세요.( 없는 경우, 빈 문자열 리스트로 보내주세요. )</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -582,12 +625,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 63
+Content-Length: 65
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 25
+  "data" : 1415
 }</code></pre>
 </div>
 </div>
@@ -638,9 +681,9 @@ Content-Length: 63
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/houses HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.2VA6ZIW9qnrLP-dXrB0oRm6Ot8l8AyjFmVmGh9PPHd2432i-vFbpFO127J6szlEa8JnXnuI3n0fAofyyjr88Xw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
-Content-Length: 25999
+Content-Length: 26025
 Host: localhost:8080
 
 {
@@ -658,7 +701,8 @@ Host: localhost:8080
   "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
   "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;글자수가 10,000자를 넘어서는지 테스트해보기 위한 글입니다. 행복부동산 최신 매물입니다.&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; 오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?오도이촌, 세컨하우스를 꿈꾸고 있는 여러분, 오도이촌으로 어떤 지역을 꿈꾸고 계시나요?\n오도이촌을 위해 세컨하우스를 택할 지역을 고를 때 가장 중요한 기준으로는 ‘편리한 교통’, ‘수려한 자연환경’, ‘뛰어난 편의시설’ 등이 있는데요.\n이번 컨텐츠에서는 어떤 지역이 여러분의 세컨하우스 기준을 충족하는 지역일지 제시해 드리고자 합니다.\n경기도\n도심과 가까운 지역, 양평\n양평은 도심과 가깝고 교통이 좋아 오도이촌으로 특히 인기가 많은 지역입니다.\n1) 용이한 교통\n양평은 서울에서 차로 약 50분 거리에 위치해있는데요. 경의중앙선 용문역, 6번 국도 등 교통 인프라가 잘 갖추어져 있습니다. 인근에는 서울 송파~양평 고속도로 개통(2023년 예정)도 앞두고 있어 교통환경이 더욱 개선될 전망입니다.\n2) 관광지/자연환경\n양평은 용문 5일장, 용문사, 중원계곡, 용문 관광단지 등으로도 유명합니다. 볼거리와 먹을거리, 놀거리가 많고 레저활동을 하기 좋은 여건을 갖추고 있습니다. 또한 용문산과 북한강이 어우러진 입지로, 하늘과 숲과 물이 하나가 되는 자연환경을 누릴 수 있습니다.\n3) 문화시설/편의시설\n자연경관과 공기가 좋은 곳 뿐만 아니라 문화시설/편의시설이 있는 곳도 중요합니다. 시골은 특히나 대형마트가 부족한데 양평은 비교적 대형마트와 생활 편의시설이 많은 곳에 속합니다.\n세컨하우스를 찾는 사람들의 양평 대표 지역은 서종면, 옥천면, 용문면, 강하면이 대표적입니다. 양평 중에서도 문화공간이 가까이 있는 곳은 ‘서종면’ 쪽입니다.\n양평과 비슷한 지역으로는 경기도 광주, 가평 등이 있습니다. 매경이코노미가 부동산 전문가, 금융권 프라이빗 뱅커(PB) 30인을 대상으로 설문조사한 결과 세컨드하우스를 마련하기 좋은 곳 1위로 ‘경기도 양평’이 꼽혔다. 복수응답 기준으로 총 20표를 얻었습니다. 이어 2위는 ‘가평(12표)’, 3위는 ‘남양주(7표)’로 경기도 소재 시군이 1~3위를 휩쓸었다고 합니다.\n강원도\n비과세 혜택\n부동산 업계에 따르면 규제의 사각지대에 있고 교통여건의 개선으로 수도권과 접근성이 좋은 강원도의 장점이 외지인들의 세컨하우스 투자로 이어지면서, 매도자 우위 시장이 유지되고 있다고 합니다. 강원도 내 18개 시, 군, 구는 모두 비규제지역으로, LTV(주택담보대출비율)이 무주택자 기준 최대 70%까지 적용되어 타운하우스나 아파트를 마련하기가 상대적으로 유리합니다.\n강원도는 바다, 강, 산, 뷰, 관광지 등 휴가를 누리기에 최적인 지역인데 최근 고속도로와 KTX, 관광지 개발 사업 등의 영향으로 향후 시세차익을 기대하는 투자자들까지 몰려 세컨하우스의 가치가 높아지고 있다고 합니다.\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n철도호재\n삼척~동해~강릉 구간 ‘동해선’과 동해 신항~삼척해변 구간 ‘동해신항선’, 용문-흥천 간 철도, 원주-만종 간 철도 등 강원 지역 신규 사업으로 반영되었습니다.\n세컨하우스 매물이 많은 속초, 강릉\n국내 대표 관광지인 속초는 2018년 평창올림픽 개최를 계기로 2017년 서울~양양고속도로 전 구간이 개통하면서 서울 접근성이 우수한 관광지역으로 떠오른 지역입니다.\n1) 관광 유입\n특히 최근에는 국내에서 유일하게 해변에 위치한 대관람차 ‘속초아이’가 오픈해 관광명소로서의 입지를 굳건히 하고 있습니다.\n2) 교통 개선\n속초는 동해북부선, 동서고속화철도 등 교통호재도 이어지고 있는데요. 서울~순천~속초를 잇는 동서고속화철도의 경우 2027년 개통을 앞두고 있습니다. KTX 속초역 개통과 동시에 향후 서울에서 속초까지 약 1시간대에 이동이 가능해질 전망입니다. 더불어 강릉선 KTX 이용객까지 더할 수 있어, 동해안 관광 유입도 기대할 수 있습니다.\n해외\n세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요?세컨하우스로 꼭 국내로만 고집할 필요는 없는데요. 멀지 않은 중국, 일본, 동남아 지역은 주말여행으로 충분히 다녀올 수 있기 때문입니다. 외국에서는 필리핀 세부&amp;마닐라, 말레이시아 조호르바루 등이 꼽혔습니다.\n정말 다양한 지역이 있는데요. 이번 주말에는 자신에게 맞는 지역을 한 번 비교해 보며 찾아보는 것은 어떨까요? &lt;/div&gt; &lt;/body&gt;",
   "imageUrls" : [ "img-001", "img-002" ],
-  "tmpYn" : false
+  "tmpYn" : false,
+  "recommendedTag" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -754,6 +798,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천태그를 입력해주세요.( 없는 경우, 빈 문자열 리스트로 보내주세요. )</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -785,11 +834,11 @@ Content-Length: 100
 <h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/2 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/1392 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.Fkrh8NRwoCiwoem4E6M8hr5HojPltTPxRyZ67CXrykT1YULAHLtBUK7ewCZnSw5DdpRztL-GIN-wksim_RM7xQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
 Accept: application/json
-Content-Length: 657
+Content-Length: 683
 Host: localhost:8080
 
 {
@@ -807,7 +856,8 @@ Host: localhost:8080
   "title" : "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
   "code" : "&lt;body&gt; &lt;div&gt; &lt;h2&gt;부자부동산 최신 매물로&lt;/h2&gt; &lt;/div&gt; &lt;div&gt; &lt;i&gt;게스트하우스용 주택&lt;/i&gt;을 소개합니다. &lt;/div&gt; &lt;/body&gt;",
   "imageUrls" : [ "img-001", "img-002" ],
-  "tmpYn" : false
+  "tmpYn" : false,
+  "recommendedTag" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -903,6 +953,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">임시저장 여부를 입력해주세요. (임시저장 : true, 저장: false)</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천태그를 입력해주세요.( 없는 경우, 빈 문자열 리스트로 보내주세요. )</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -915,12 +970,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 62
+Content-Length: 65
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 2
+  "data" : 1392
 }</code></pre>
 </div>
 </div>
@@ -935,9 +990,9 @@ Content-Length: 62
 <h5 id="_request_4">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/1 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/houses/1391 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.Fkrh8NRwoCiwoem4E6M8hr5HojPltTPxRyZ67CXrykT1YULAHLtBUK7ewCZnSw5DdpRztL-GIN-wksim_RM7xQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -981,7 +1036,7 @@ Content-Length: 48
 <h5 id="_request_5">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses?rentalType=SALE&amp;city=%EC%84%9C%EC%9A%B8&amp;search= HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses?rentalType=SALE&amp;city=%EC%84%9C%EC%9A%B8&amp;search=&amp;recommendedTag= HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1010,6 +1065,10 @@ Host: localhost:8080</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">지역 필터링</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천 태그명</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>search</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">검색어</p></td>
 </tr>
@@ -1025,104 +1084,128 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2996
+Content-Length: 4238
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 38,
+      "houseId" : 1,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
-      "price" : 12000,
+      "price" : 150000,
       "monthlyPrice" : 0.0,
-      "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.439+00:00",
-      "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "nickName" : "짱구",
+      "createdAt" : "2023-08-10T11:38:22.000+00:00",
+      "isCompleted" : true,
+      "imageUrl" : "img-001",
+      "title" : "제목",
+      "recommendedTag" : [ "WANT_TO_FARM" ],
+      "recommendedTagName" : [ "농사 짓기를 원해요." ]
     }, {
-      "houseId" : 40,
+      "houseId" : 2,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
-      "price" : 12000,
+      "price" : 150000,
       "monthlyPrice" : 0.0,
-      "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.442+00:00",
+      "nickName" : "짱구",
+      "createdAt" : "2023-08-10T11:40:11.000+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "제목2",
+      "recommendedTag" : [ "WANT_TO_FARM", "WANT_TO_READY_HOUSE" ],
+      "recommendedTagName" : [ "농사 짓기를 원해요.", "어느 정도 준비된 집이 좋아요." ]
     }, {
-      "houseId" : 42,
+      "houseId" : 1439,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.445+00:00",
+      "createdAt" : "2023-08-12T05:23:34.954+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 44,
+      "houseId" : 1441,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.448+00:00",
+      "createdAt" : "2023-08-12T05:23:34.958+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 46,
+      "houseId" : 1443,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.451+00:00",
+      "createdAt" : "2023-08-12T05:23:34.961+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 48,
+      "houseId" : 1445,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.454+00:00",
+      "createdAt" : "2023-08-12T05:23:34.968+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 50,
+      "houseId" : 1447,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.457+00:00",
+      "createdAt" : "2023-08-12T05:23:34.970+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 52,
+      "houseId" : 1449,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.461+00:00",
+      "createdAt" : "2023-08-12T05:23:34.973+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     } ],
     "size" : 8,
-    "totalElements" : 11,
+    "totalElements" : 14,
     "last" : false,
     "totalPages" : 2,
-    "first" : true,
-    "number" : 0,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "first" : true,
+    "number" : 0,
     "numberOfElements" : 8,
     "empty" : false
   }
@@ -1192,6 +1275,21 @@ Content-Length: 2996
 <td class="tableblock halign-left valign-top"><p class="tableblock">썸네일 이미지 주소</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천 태그명 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].recommendedTagName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천 태그명 한글 리스트</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>last</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"></td>
@@ -1259,7 +1357,7 @@ Content-Length: 2996
 <h6 id="_request_6">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/60 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/1461 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: localhost:8080</code></pre>
@@ -1275,13 +1373,13 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 891
+Content-Length: 953
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 60,
+    "houseId" : 1461,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1298,9 +1396,11 @@ Content-Length: 891
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
     "userType" : "NONE",
-    "createdAt" : "2023-07-16T11:44:01.572+00:00",
+    "createdAt" : "2023-08-12T05:23:35.166+00:00",
     "isCompleted" : false,
-    "isScraped" : false
+    "isScraped" : false,
+    "recommendedTag" : [ ],
+    "recommendedTagName" : [ ]
   }
 }</code></pre>
 </div>
@@ -1432,6 +1532,16 @@ Content-Length: 891
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 스크랩 여부</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 추천 태그명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.recommendedTagName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 추천 태그 한글명</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1442,9 +1552,9 @@ Content-Length: 891
 <h6 id="_request_7">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/3 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/user-scrap/1393 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.Fkrh8NRwoCiwoem4E6M8hr5HojPltTPxRyZ67CXrykT1YULAHLtBUK7ewCZnSw5DdpRztL-GIN-wksim_RM7xQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1459,13 +1569,13 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 889
+Content-Length: 952
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "houseId" : 3,
+    "houseId" : 1393,
     "rentalType" : "SALE",
     "city" : "서울시 서대문구 남가좌동 거북골로 34",
     "zipcode" : "12345",
@@ -1482,9 +1592,11 @@ Content-Length: 889
     "imageUrls" : [ "img-001", "img-002" ],
     "nickName" : "테스트유저1",
     "userType" : "NONE",
-    "createdAt" : "2023-07-16T11:44:01.009+00:00",
+    "createdAt" : "2023-08-12T05:23:34.155+00:00",
     "isCompleted" : false,
-    "isScraped" : true
+    "isScraped" : true,
+    "recommendedTag" : [ ],
+    "recommendedTagName" : [ ]
   }
 }</code></pre>
 </div>
@@ -1616,6 +1728,16 @@ Content-Length: 889
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 스크랩 여부 ( 로그인 상태일 때, 상세 조회 시 유저 데이터로부터 스크랩 여부를 판단합니다. )</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 추천 태그명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.recommendedTagName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">빈집 게시글 추천 태그 한글명</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1629,9 +1751,9 @@ Content-Length: 889
 <h6 id="_request_8">Request</h6>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/26 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/report/1416 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjg5NTA5NjQxLCJhdXRoIjoiVVNFUiIsInR5cGUiOiJOT05FIn0.H48StFuDV7K57Qsng7U-OgoAe017C9AoZ22V1ulswYp2MtJhNvbH4KGiWDR5khqBarSKty-pXYIAcVeSfWsncA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0Ml9qaG91c2VfY29tIiwiZXhwIjoxNjkxODE5NjE0LCJhdXRoIjoiVVNFUiIsInR5cGUiOiJOT05FIn0.hXi05ueNIVsTSt4Za1aICJTguIaqmh0ijZJiaC16kOxM3iBTs4Ak3TdCwNg-Sf1-49tZKB8sKrndOI0unaibsw
 Accept: application/json
 Content-Length: 107
 Host: localhost:8080
@@ -1702,7 +1824,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/tmp-save?page=0&amp;size=8 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.2VA6ZIW9qnrLP-dXrB0oRm6Ot8l8AyjFmVmGh9PPHd2432i-vFbpFO127J6szlEa8JnXnuI3n0fAofyyjr88Xw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.VzgvxSfTeU1j1Whwx-1YJa1qcRCHJzLRta9CG9k2rhXOPfcRdMPRzlgUrTIqHdvDB2wOe8_tIb9np5G6haD8Hg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1717,92 +1839,116 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 3236
+Content-Length: 4468
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
     "content" : [ {
-      "houseId" : 27,
+      "houseId" : 1428,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.259+00:00",
+      "createdAt" : "2023-08-12T05:23:34.703+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 28,
+      "houseId" : 1429,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.260+00:00",
+      "createdAt" : "2023-08-12T05:23:34.704+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 29,
+      "houseId" : 1430,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.262+00:00",
+      "createdAt" : "2023-08-12T05:23:34.705+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 30,
+      "houseId" : 1431,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.263+00:00",
+      "createdAt" : "2023-08-12T05:23:34.707+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 31,
+      "houseId" : 1432,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.264+00:00",
+      "createdAt" : "2023-08-12T05:23:34.708+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 32,
+      "houseId" : 1433,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.265+00:00",
+      "createdAt" : "2023-08-12T05:23:34.709+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 33,
+      "houseId" : 1434,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.267+00:00",
+      "createdAt" : "2023-08-12T05:23:34.710+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     }, {
-      "houseId" : 34,
+      "houseId" : 1435,
       "rentalType" : "SALE",
       "city" : "서울시 서대문구 남가좌동 거북골로 34",
       "price" : 12000,
       "monthlyPrice" : 0.0,
       "nickName" : "테스트유저1",
-      "createdAt" : "2023-07-16T11:44:01.268+00:00",
+      "createdAt" : "2023-08-12T05:23:34.711+00:00",
       "isCompleted" : false,
-      "imageUrl" : "img-001"
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
     } ],
     "pageable" : {
       "sort" : {
@@ -1819,14 +1965,14 @@ Content-Length: 3236
     "last" : false,
     "totalElements" : 11,
     "totalPages" : 2,
-    "first" : true,
-    "size" : 8,
-    "number" : 0,
     "sort" : {
       "empty" : true,
       "unsorted" : true,
       "sorted" : false
     },
+    "size" : 8,
+    "first" : true,
+    "number" : 0,
     "numberOfElements" : 8,
     "empty" : false
   }
@@ -1894,6 +2040,21 @@ Content-Length: 3236
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].imageUrl</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">썸네일 이미지 주소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].title</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">게시글 제목</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].recommendedTag</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천 태그명 리스트</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content[].recommendedTagName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">추천 태그명 한글 리스트</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>pageable.sort.empty</code></p></td>
@@ -1994,6 +2155,430 @@ Content-Length: 3236
 </table>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_9_스크랩한_게시글_목록_조회하기">9. 스크랩한 게시글 목록 조회하기</h5>
+<div class="sect5">
+<h6 id="_request_10">Request</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/scrap?page=0 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_response_10">Response</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 3498
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공",
+  "data" : {
+    "content" : [ {
+      "houseId" : 1379,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-08-12T05:23:33.547+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1380,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-08-12T05:23:33.566+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1381,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-08-12T05:23:33.572+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1382,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-08-12T05:23:33.576+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1383,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-08-12T05:23:33.580+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1384,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "테스트유저1",
+      "createdAt" : "2023-08-12T05:23:33.585+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    } ],
+    "pageable" : {
+      "sort" : {
+        "empty" : true,
+        "unsorted" : true,
+        "sorted" : false
+      },
+      "offset" : 0,
+      "pageNumber" : 0,
+      "pageSize" : 10,
+      "paged" : true,
+      "unpaged" : false
+    },
+    "last" : true,
+    "totalElements" : 6,
+    "totalPages" : 1,
+    "sort" : {
+      "empty" : true,
+      "unsorted" : true,
+      "sorted" : false
+    },
+    "size" : 10,
+    "first" : true,
+    "number" : 0,
+    "numberOfElements" : 6,
+    "empty" : false
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_10_마이페이지_게시글_목록_조회하기_공인중개사">10. 마이페이지 게시글 목록 조회하기 (공인중개사)</h5>
+<div class="sect5">
+<h6 id="_request_11">Request</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/houses/agent?page=0&amp;search=&amp;isCompleted= HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ2VudF9qaG91c2VfY29tIiwiZXhwIjoxNjkxODE5NjE0LCJhdXRoIjoiVVNFUiIsInR5cGUiOiJBR0VOVCJ9.NKl0loHbOn9ByWcWQJ2zTTAdA3vguFuPo0ynrhsPszEqDEjjIivGEDchAeqRqGx-H38AoDVeya6fhxTNqXPfJQ
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_response_11">Response</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 5441
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공",
+  "data" : {
+    "content" : [ {
+      "houseId" : 1417,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.567+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1418,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.568+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1419,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.569+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1420,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.570+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1421,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.575+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1422,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.576+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1423,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.577+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1424,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.578+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1425,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.580+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    }, {
+      "houseId" : 1426,
+      "rentalType" : "SALE",
+      "city" : "서울시 서대문구 남가좌동 거북골로 34",
+      "price" : 12000,
+      "monthlyPrice" : 0.0,
+      "nickName" : "공인중개사1",
+      "createdAt" : "2023-08-12T05:23:34.581+00:00",
+      "isCompleted" : false,
+      "imageUrl" : "img-001",
+      "title" : "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
+      "recommendedTag" : [ ],
+      "recommendedTagName" : [ ]
+    } ],
+    "pageable" : {
+      "sort" : {
+        "empty" : true,
+        "unsorted" : true,
+        "sorted" : false
+      },
+      "offset" : 0,
+      "pageNumber" : 0,
+      "pageSize" : 10,
+      "paged" : true,
+      "unpaged" : false
+    },
+    "last" : false,
+    "totalElements" : 11,
+    "totalPages" : 2,
+    "sort" : {
+      "empty" : true,
+      "unsorted" : true,
+      "sorted" : false
+    },
+    "size" : 10,
+    "first" : true,
+    "number" : 0,
+    "numberOfElements" : 10,
+    "empty" : false
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_11_빈집_매물_상태_변경하기">11. 빈집 매물 상태 변경하기</h5>
+<div class="paragraph">
+<p>본인이 작성한 게시글에 한해서만 상태 변경이 가능합니다. 재등록을 서버 측에서 제한하지 않았기에 클라이언트 측에서 재변경이 안되도록 이벤트를 걸어주셔야 합니다.</p>
+</div>
+<div class="paragraph">
+<p>리뷰 내용은 필수값은 아니지만, 점수는 필수로 입력해야 하며 이는 양의 정수로 0~5까지 표현할 수 있습니다.</p>
+</div>
+<div class="sect5">
+<h6 id="_request_12">Request</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/houses/status/1390 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.h8znDRR6bvvbiOWWXdoUvYzNyymJZNwWlsCyKRb1_vDj87ct21X5O4Any2yTHMadvgetgcMSsAhsl3_dZhuAbw
+Accept: application/json
+Content-Length: 158
+Host: localhost:8080
+
+{
+  "score" : 5,
+  "review" : "It's Good!",
+  "nickName" : "테스트유저2",
+  "age" : "30대",
+  "contact" : "010-1111-1111",
+  "dealDate" : "2023-01-01"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect5">
+<h6 id="_request_fields_6">Request Fields</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>score</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">만족도 점수는 0 ~ 5까지 정수로 표현해야 합니다. )</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>review</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">리뷰 내용은 선택값 입니다..</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임은 선택값 입니다. 없을 경우 null 혹은 빈 문자열로 보내주세요.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>age</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">나이는 선택값 입니다. 10대, 20대, 30대와 같이 string 타입으로 보내주셔야 합니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>contact</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">구매자 연락처는 필수값 입니다.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dealDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">거래 날짜는 필수값 입니다.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect5">
+<h6 id="_response_12">Response</h6>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+Content-Type: application/json;charset=UTF-8
+Content-Length: 48
+
+{
+  "code" : "SUCCESS",
+  "message" : "성공"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -2001,7 +2586,7 @@ Content-Length: 3236
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-06-27 14:55:35 +0900
+Last updated 2023-08-12 14:19:15 +0900
 </div>
 </div>
 </body>
