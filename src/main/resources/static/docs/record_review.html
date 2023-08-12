@@ -460,13 +460,13 @@ mine (레코드 작성자가 리뷰를 달 때)</pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/record_review HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDUsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.SiZ6r9gKNPUxsHk8x8qz5aalPq7YjBkOw3Bo9tCGi3wpl7dk1bGh5kf0dqo824r7cC-5DhLWKpA4TctEbKIsXg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MjEsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.gVzPKQXDWq7VhmOAgErF437s3Jb3u0TgL1mJGZW7mrOMLfdomIPae4TeAD-v5-hPNABeDkSTcrTvT91LLs1UiA
 Accept: application/json
-Content-Length: 92
+Content-Length: 93
 Host: localhost:8080
 
 {
-  "record_id" : 808,
+  "record_id" : 7361,
   "content" : "좋은 글 감사합니다!",
   "status" : "approve"
 }</code></pre>
@@ -482,12 +482,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 65
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 811
+  "data" : 7364
 }</code></pre>
 </div>
 </div>
@@ -517,9 +517,9 @@ Content-Length: 76
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/record_review/841 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/record_review/7394 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDYsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.O8bxedKSe5z8b2ce6ubfEytqx3yS7n_PA7GUQFw-23-eUyzexXIMYal7d6q3fZhZ6lQUm65yTzwNdoMGCdDghw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MjIsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.qcNHHEepNZF66EWIYcDcvhOFR5SubhbngYh9MnS6qomBd4ASVMvqIIdd5J3TIxJMjp2mt7bZJX51kutzTuvozA
 Accept: application/json
 Content-Length: 57
 Host: localhost:8080
@@ -540,12 +540,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 65
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 841
+  "data" : 7394
 }</code></pre>
 </div>
 </div>
@@ -575,9 +575,9 @@ Content-Length: 76
 <h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/record_review/821 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/record_review/7374 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2ODk1MDk2NDYsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.O8bxedKSe5z8b2ce6ubfEytqx3yS7n_PA7GUQFw-23-eUyzexXIMYal7d6q3fZhZ6lQUm65yTzwNdoMGCdDghw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MjIsImF1dGgiOiJBRE1JTiIsInR5cGUiOiJTRVJWRVIifQ.qcNHHEepNZF66EWIYcDcvhOFR5SubhbngYh9MnS6qomBd4ASVMvqIIdd5J3TIxJMjp2mt7bZJX51kutzTuvozA
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -626,7 +626,7 @@ Content-Length: 76
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-06-27 14:55:35 +0900
+Last updated 2023-08-11 15:53:01 +0900
 </div>
 </div>
 </body>

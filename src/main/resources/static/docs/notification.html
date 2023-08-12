@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/notifications?read=false&amp;id= HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTA3NDU1NjYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.iCasBYTqKAHxgRprQaSWvtoRrX85banyRwV3pDgOIJBmro_CekN1xSU7yIHZID1Mw1epAEimxZj6vw45O0iNvA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTcsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.uEzQROhXuQC9tjUidtSNAXtKHtGNEOIbK1FH2ITfk2JrgbRHBbULo2OSd5MbltBnJD22KVvs0B2T3B51QSzn6Q
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -495,54 +495,54 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 2023
+Content-Length: 2034
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "nextId" : 552,
+    "nextId" : 6928,
     "notifications" : {
       "content" : [ {
         "nick_name" : "테스트유저1",
-        "board_id" : 75,
+        "board_id" : 432,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 560
+        "notification_id" : 6936
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 75,
+        "board_id" : 432,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 558
+        "notification_id" : 6934
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 75,
+        "board_id" : 432,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 556
+        "notification_id" : 6932
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 75,
+        "board_id" : 432,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 554
+        "notification_id" : 6930
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 75,
+        "board_id" : 432,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 552
+        "notification_id" : 6928
       } ],
       "pageable" : {
         "sort" : {
@@ -556,15 +556,15 @@ Content-Length: 2023
         "paged" : true,
         "unpaged" : false
       },
-      "first" : true,
-      "last" : false,
-      "size" : 5,
-      "number" : 0,
       "sort" : {
         "empty" : true,
         "unsorted" : true,
         "sorted" : false
       },
+      "size" : 5,
+      "first" : true,
+      "last" : false,
+      "number" : 0,
       "numberOfElements" : 5,
       "empty" : false
     }
@@ -731,8 +731,8 @@ Content-Length: 2023
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/notifications/512 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTA3NDU1NjYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.iCasBYTqKAHxgRprQaSWvtoRrX85banyRwV3pDgOIJBmro_CekN1xSU7yIHZID1Mw1epAEimxZj6vw45O0iNvA
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/notifications/6888 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTE4MTk2MTcsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.uEzQROhXuQC9tjUidtSNAXtKHtGNEOIbK1FH2ITfk2JrgbRHBbULo2OSd5MbltBnJD22KVvs0B2T3B51QSzn6Q
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -768,12 +768,12 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 64
+Content-Length: 65
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 512
+  "data" : 6888
 }</code></pre>
 </div>
 </div>
@@ -785,7 +785,7 @@ Content-Length: 64
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-07-31 04:00:05 +0900
+Last updated 2023-08-11 15:53:01 +0900
 </div>
 </div>
 </body>
