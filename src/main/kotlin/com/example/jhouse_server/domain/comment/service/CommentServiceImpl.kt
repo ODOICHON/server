@@ -14,6 +14,7 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.util.findByIdOrThrow
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -28,6 +29,7 @@ class CommentServiceImpl(
         return boardRepository.findByIdOrThrow(postId).comment.map { toDto(it) }
     }
 
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun createComment(req: CommentReqDto, user: User): Long {
         val board = boardRepository.findByIdOrThrow(req.boardId)
@@ -52,6 +54,7 @@ class CommentServiceImpl(
         } else throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
     }
 
+    @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["board"])
     @Transactional
     override fun deleteComment(commentId: Long, user: User) {
         val comment = commentRepository.findByIdOrThrow(commentId)
