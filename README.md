@@ -75,7 +75,8 @@
 - Jasypt
 
 ### E-R 다이어그램
-![다이어그램](https://github.com/ODOICHON/server/assets/61505572/102a958b-e3cb-46bf-887f-28dbfbfdf531)
+![주말내집 ERD-6](https://github.com/ODOICHON/server/assets/61505572/24511404-8fd0-49fe-9104-6245d7b24fec)
+
 
 ### REST DOCS 기반 API 명세서
 **주말의집 서비스**
