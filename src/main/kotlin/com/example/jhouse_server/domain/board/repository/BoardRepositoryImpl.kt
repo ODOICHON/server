@@ -67,6 +67,7 @@ class BoardRepositoryImpl(
                 .join(board.user, user).fetchJoin()
                 .leftJoin(board.comment, comment)
                 .where(board.useYn.eq(true), filterWithPrefixCategory(boardListDto.prefix) ,searchWithBoardCategory(boardListDto.category),searchWithKeyword(boardListDto.search))
+                .groupBy(board.id)
                 .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order))
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
