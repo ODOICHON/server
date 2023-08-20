@@ -73,6 +73,7 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("data.authority").description("권한"),
                                         fieldWithPath("data.age").description("연령대"),
                                         fieldWithPath("data.profile_image_url").description("프로필 이미지 URL"),
+                                        fieldWithPath("data.userType").description("사용자 타입 ( 일반 사용자 : NONE, 공인중개사 : AGENT, 관리자 : WEB/SERVER )"),
                                 )
                         )
                 )
