@@ -95,6 +95,36 @@ include::{snippets}/update-password-exception/http-response.adoc[]
 include::{snippets}/password-validation/http-response.adoc[]
 
 === 11. 유저 정보 조회
+
+주말내집에서는 총 3가지 타입으로 사용자를 분류합니다.
+
+Authority는 관리자와 관리자가 아닌 사용자를 구분하는 용도입니다.
+
+UserType은 일반 사용자, 공인중개사, 관리자(프론트/서버)를 구분하는 용도입니다.
+
+UserType은 테크 블로그에서 관리자 내부 구분자로 사용되다가 공인중개사의 추가로 모든 사용자 타입을 구분하는 용도로 사용되고 있습니다.
+
+|===
+|분류 |Authority |UserType
+
+|일반 사용자
+|USER
+|NONE
+
+|공인중개사
+|USER
+|AGENT
+
+|관리자
+|ADMIN
+|WEB
+
+|관리자2
+|ADMIN
+|SERVER
+|===
+
+
 ===== Request
 include::{snippets}/get-user/http-request.adoc[]
 ===== Response
