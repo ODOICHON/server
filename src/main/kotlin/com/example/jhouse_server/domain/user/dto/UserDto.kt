@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.user
 import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotNull
@@ -102,7 +103,8 @@ data class UserResDto(
         val authority: Authority,
         val age: Age,
         @JsonProperty("profile_image_url")
-        val profileImageUrl: String
+        val profileImageUrl: String,
+        val userType: UserType,
 )
 
 data class WithdrawalUserReqDto(
@@ -120,5 +122,5 @@ data class DefaultUser (
 )
 
 fun toDto(user: User) : UserResDto {
-    return UserResDto(user.id, user.email, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl)
+    return UserResDto(user.id, user.email, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl, user.userType)
 }
