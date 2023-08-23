@@ -48,10 +48,11 @@ data class HouseReqDto(
  * 빈집 매물 게시글 목록 조회 시, 요청 Param
  * */
 data class HouseListDto(
-    val rentalType: String, // 빈집 매물 유형
+    val rentalType: String?, // 빈집 매물 유형
     val city: String?, // 매물 위치
-    val recommendedTag: List<RecommendedTag>, // 추천 태그
-    val search: String? // 검색어 ( 제목과 닉네임 )
+    val recommendedTag: List<String>?, // 추천 태그
+    val search: String?, // 검색어 ( 제목과 닉네임 )
+    val dealState: String? //
 ): Serializable
 
 data class HouseAgentListDto(
@@ -84,7 +85,7 @@ class HouseResDto() {
         nickName: String,
         createdAt: Date,
         isCompleted: Boolean,
-        imageUrl: String,
+        imageUrl: String?,
         title: String,
         recommendedTag: List<RecommendedTag>,
         recommendedTagName: List<String>
@@ -159,9 +160,10 @@ fun getTagByNameFromHouseTags(houseTag: List<RecommendedTag>) : List<Recommended
 fun toListDto(house: House) : HouseResDto {
     val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
     val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
+    val imageUrl = if(house.imageUrls.isEmpty()) null else house.imageUrls[0]
     return HouseResDto(house.id, house.rentalType, house.address.city, house.price, house.monthlyPrice,
         house.user.nickName, Timestamp.valueOf(house.createdAt), house.dealState == DealState.COMPLETED,
-        house.imageUrls[0], house.title, recommendedTag, recommendedTagName )
+        imageUrl, house.title, recommendedTag, recommendedTagName )
 }
 
 /**
