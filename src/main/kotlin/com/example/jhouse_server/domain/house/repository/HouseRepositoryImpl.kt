@@ -10,12 +10,14 @@ import com.example.jhouse_server.domain.scrap.entity.QScrap.scrap
 import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
+import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
+import kotlin.streams.toList
 
 
 class HouseRepositoryImpl(
@@ -31,15 +33,17 @@ class HouseRepositoryImpl(
             .leftJoin(house.houseTag)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                house.rentalType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
+                searchWithRentalType(houseListDto.rentalType), // 매물 타입 필터링
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
                 house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
                 house.tmpYn.eq(false), // 임시저장 X
                 filterWithRecommendedTags(houseListDto.recommendedTag), // 게시글 추천 태그 필터링
+                filterWithDealState(houseListDto.dealState), // 판매 여부
             )
             .groupBy(house.id)
+            .orderBy(house.updatedAt.desc()) // 최신순
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
@@ -51,17 +55,26 @@ class HouseRepositoryImpl(
             .leftJoin(house.houseTag)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                house.rentalType.eq(RentalType.valueOf(houseListDto.rentalType)), // 매물 타입 필터링
+                searchWithRentalType(houseListDto.rentalType),
                 filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
                 house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
                 house.tmpYn.eq(false), // 임시저장 X
                 filterWithRecommendedTags(houseListDto.recommendedTag),
+                filterWithDealState(houseListDto.dealState), //
             )
             .fetchOne()!!
 
         return PageableExecutionUtils.getPage(result, pageable) { countQuery }
+    }
+
+    private fun filterWithDealState(dealState: String?): BooleanExpression? {
+        return if(dealState.isNullOrBlank()) null else house.dealState.eq(DealState.valueOf(dealState))
+    }
+
+    private fun searchWithRentalType(rentalType: String?): BooleanExpression? {
+        return if(rentalType.isNullOrBlank()) null else house.rentalType.eq(RentalType.valueOf(rentalType))
     }
 
     /**
@@ -189,11 +202,14 @@ class HouseRepositoryImpl(
      * [] -> isEmpty()
      * 그외 -> Enum name
      * */
-    private fun filterWithRecommendedTags(recommendedTag : List<RecommendedTag>): BooleanExpression? {
-        return if(recommendedTag.isEmpty()) null else house.houseTag.any().recommendedTag.`in`(
-            JPAExpressions.select(QHouseTag.houseTag.recommendedTag)
-                .from(QHouseTag.houseTag)
-                .where(QHouseTag.houseTag.recommendedTag.`in`(recommendedTag)))
+    private fun filterWithRecommendedTags(recommendedTag : List<String>?): BooleanExpression? {
+        return if(recommendedTag.isNullOrEmpty()) null else {
+            val recommendedTagList = recommendedTag.stream().map { tag -> RecommendedTag.values().firstOrNull{ it.value == tag} }.toList()
+            house.houseTag.any().recommendedTag.`in`(
+                JPAExpressions.select(QHouseTag.houseTag.recommendedTag)
+                    .from(QHouseTag.houseTag)
+                    .where(QHouseTag.houseTag.recommendedTag.`in`(recommendedTagList)))
+        }
     }
 
 }
