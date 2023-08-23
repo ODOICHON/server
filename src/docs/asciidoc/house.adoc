@@ -80,6 +80,13 @@ include::{snippets}/delete-house/http-response.adoc[]
 
 게시글 키워드 검색에 대상은 게시글의 제목과 작성자의 닉네임으로 제한합니다. ( 기능 명세서 참고 )
 
+*추가 ( 2023.08.23 )*
+
+요청 쿼리 Param에서 모든 값은 선택값입니다. 즉, `/api/v1/houses` 로 보내도 응답이 돌아갑니다.
+
+dealState는 판매 여부를 의미하며, 판매여부에 상관없이 조회하고 싶다면 null 혹은 blank로 보내면 됩니다. 서버 측에서 enum으로 관리되기에 하단 표에 명시한 고유 값으로 보내야 검색이 수행됩니다.
+
+
 ===== Request
 include::{snippets}/get-house-all/http-request.adoc[]
 ====== Request Fields
