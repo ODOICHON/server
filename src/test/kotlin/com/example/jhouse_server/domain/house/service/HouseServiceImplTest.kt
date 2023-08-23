@@ -2,6 +2,7 @@ package com.example.jhouse_server.domain.house.service
 
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.dto.ReportReqDto
+import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
 import com.example.jhouse_server.domain.house.entity.RecommendedTag
 import com.example.jhouse_server.domain.house.entity.RentalType
@@ -316,7 +317,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 경기, 추천태그 리스트, '' ]")
     fun getHouseAll() {
         // given
-        val houseListDto = HouseListDto(RentalType.SALE.name, "경기", listOf(), null)
+        val houseListDto = HouseListDto(RentalType.SALE.name, "경기", listOf(), null, DealState.ONGOING.name)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
@@ -329,7 +330,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 전라, '' ]")
     fun getHouseAll_another_city() {
         // given
-        val houseListDto = HouseListDto(RentalType.SALE.name, "전라", listOf(), null)
+        val houseListDto = HouseListDto(RentalType.SALE.name, "전라", listOf(), null, DealState.ONGOING.name)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
@@ -342,7 +343,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 전세, 수도권, '' ]")
     fun getHouseAll_another_rentalType() {
         // given
-        val houseListDto = HouseListDto(RentalType.JEONSE.name, "수도권", listOf(), null)
+        val houseListDto = HouseListDto(RentalType.JEONSE.name, "수도권", listOf(), null, DealState.ONGOING.name)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
@@ -355,7 +356,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 목록 조회 - 검색 필터링 [ 매매, 수도권, '행복부동산' ]")
     fun getHouseAll_with_keyword() {
         // given
-        val houseListDto = HouseListDto(RentalType.SALE.name, "수도권", listOf(), "행복부동산")
+        val houseListDto = HouseListDto(RentalType.SALE.name, "수도권", listOf(), "행복부동산", DealState.ONGOING.name)
         createHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when

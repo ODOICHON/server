@@ -240,7 +240,7 @@ internal class HouseControllerTest @Autowired constructor(
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders
-                .get("$uri?rentalType=SALE&city=서울&search=&recommendedTag=")
+                .get("$uri?rentalType=SALE&city=서울&search=&recommendedTag=&dealState=&page=0")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
@@ -258,6 +258,8 @@ internal class HouseControllerTest @Autowired constructor(
                         parameterWithName("city").description("지역 필터링"),
                         parameterWithName("recommendedTag").description("추천 태그명"),
                         parameterWithName("search").description("검색어"),
+                        parameterWithName("dealState").description("판매 여부 ( 진행중 : ONGOING | 완료 : COMPLETED )"),
+                        parameterWithName("page").description("0부터 시작"),
                     ),
                     responseFields(
                         beneathPath("data").withSubsectionId("data"),
