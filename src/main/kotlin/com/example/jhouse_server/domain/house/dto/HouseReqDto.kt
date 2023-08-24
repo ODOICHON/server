@@ -50,7 +50,7 @@ data class HouseReqDto(
 data class HouseListDto(
     val rentalType: String?, // 빈집 매물 유형
     val city: String?, // 매물 위치
-    val recommendedTag: List<String>?, // 추천 태그
+    val recommendedTag: List<RecommendedTag>?, // 추천 태그
     val search: String?, // 검색어 ( 제목과 닉네임 )
     val dealState: String? //
 ): Serializable

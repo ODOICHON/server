@@ -202,13 +202,12 @@ class HouseRepositoryImpl(
      * [] -> isEmpty()
      * 그외 -> Enum name
      * */
-    private fun filterWithRecommendedTags(recommendedTag : List<String>?): BooleanExpression? {
+    private fun filterWithRecommendedTags(recommendedTag : List<RecommendedTag>?): BooleanExpression? {
         return if(recommendedTag.isNullOrEmpty()) null else {
-            val recommendedTagList = recommendedTag.stream().map { tag -> RecommendedTag.values().firstOrNull{ it.value == tag} }.toList()
             house.houseTag.any().recommendedTag.`in`(
                 JPAExpressions.select(QHouseTag.houseTag.recommendedTag)
                     .from(QHouseTag.houseTag)
-                    .where(QHouseTag.houseTag.recommendedTag.`in`(recommendedTagList)))
+                    .where(QHouseTag.houseTag.recommendedTag.`in`(recommendedTag)))
         }
     }
 
