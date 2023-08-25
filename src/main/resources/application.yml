@@ -22,6 +22,7 @@ spring:
         default_batch_fetch_size: 100
         show_sql: true
         format_sql: true
+        dialect: com.example.jhouse_server.global.config.MySQL5DialectCustom
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   datasource:
