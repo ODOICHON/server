@@ -219,7 +219,7 @@ internal class BoardServiceImplTest @Autowired constructor(
         // when
         val res = boardService.getBoardAll(boardListDto, pageable)
         // then
-        assertThat(res.content.size).isEqualTo(7)
+        assertThat(res.content.size).isEqualTo(8)
     }
     @Test
     @DisplayName("게시글 상세 조회")
