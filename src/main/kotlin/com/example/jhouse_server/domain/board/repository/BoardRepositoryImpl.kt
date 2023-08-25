@@ -17,11 +17,14 @@ import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
 import com.querydsl.core.types.OrderSpecifier
 import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.core.types.dsl.NumberTemplate
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 import org.springframework.util.StringUtils.hasText
+import java.lang.Exception
 
 class BoardRepositoryImpl(
         private var jpaQueryFactory: JPAQueryFactory
@@ -163,9 +166,18 @@ class BoardRepositoryImpl(
     }
 
 
+    // 랜덤 데이터 100건 중, 제목의 특정 키워드 검색 성능 like : 111ms | full text : 12ms
     private fun searchWithKeyword(keyword: String?): BooleanExpression? {
-        return if(keyword == null) null else board.content.contains(keyword)
-                .or(board.title.contains(keyword))
+        if(keyword == null) return null
+        val titleBoolean = Expressions.numberTemplate(
+            Integer::class.java,
+            "function('match',{0},{1})", board.title, "+*$keyword*"
+        )
+        val contentBoolean = Expressions.numberTemplate(
+            Integer::class.java, "function('match',{0},{1})", board.content,
+            "+*$keyword*"
+        )
+        return titleBoolean.gt(0).or(contentBoolean.gt(0))
     }
 
     private fun searchWithOrder(order: String?): OrderSpecifier<*>?{
