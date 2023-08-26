@@ -49,10 +49,7 @@ class HouseRepositoryImpl(
             .fetch()
 
         val countQuery : Long = jpaQueryFactory
-            .select(house.count())
-            .from(house)
-            .innerJoin(house.user, user)
-            .leftJoin(house.houseTag)
+            .selectFrom(house)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 searchWithRentalType(houseListDto.rentalType),
@@ -64,7 +61,7 @@ class HouseRepositoryImpl(
                 filterWithRecommendedTags(houseListDto.recommendedTag),
                 filterWithDealState(houseListDto.dealState), //
             )
-            .fetchOne()!!
+            .fetch().size.toLong()
 
         return PageableExecutionUtils.getPage(result, pageable) { countQuery }
     }
@@ -95,16 +92,14 @@ class HouseRepositoryImpl(
             .fetch()
 
         val countQuery : Long = jpaQueryFactory
-            .select(house.count())
-            .from(house)
-            .innerJoin(house.user)
+            .selectFrom(house)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.tmpYn.eq(true), // 임시저장 X
                 house.user.eq(user)
             )
-            .fetchOne()!!
+            .fetch().size.toLong()
         return PageableExecutionUtils.getPage(result, pageable) { countQuery }
     }
 
