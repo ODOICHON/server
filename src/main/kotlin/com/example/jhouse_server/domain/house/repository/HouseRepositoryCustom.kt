@@ -1,5 +1,7 @@
 package com.example.jhouse_server.domain.house.repository
 
+import com.example.jhouse_server.admin.house.dto.AdminHouseDto
+import com.example.jhouse_server.admin.house.dto.AdminHouseSearch
 import com.example.jhouse_server.domain.house.dto.HouseAgentListDto
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.entity.House
@@ -15,4 +17,6 @@ interface HouseRepositoryCustom {
     fun getScrapHouseAll(user: User, pageable: Pageable): Page<House>
 
     fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<House>
+
+    fun getApplyHouseListWithPaging(adminHouseSearch: AdminHouseSearch, pageable: Pageable) : Page<AdminHouseDto>
 }
