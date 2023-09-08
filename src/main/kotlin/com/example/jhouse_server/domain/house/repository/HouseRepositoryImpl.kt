@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.house.repository
 
+import com.example.jhouse_server.admin.house.dto.*
 import com.example.jhouse_server.domain.house.dto.HouseAgentListDto
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.entity.*
@@ -161,6 +162,63 @@ class HouseRepositoryImpl(
                 house.user.eq(user)
             )
         return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong() }
+    }
+
+    override fun getApplyHouseListWithPaging(
+        adminHouseSearch: AdminHouseSearch,
+        pageable: Pageable
+    ): Page<AdminHouseDto> {
+        val result = jpaQueryFactory
+            .selectFrom(house)
+            .join(house.user, user)
+            .where(
+                searchFilter(adminHouseSearch),
+                house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false),
+                house.applied.eq(HouseReviewStatus.APPLY)
+            )
+            .orderBy(house.id.asc())
+            .limit(pageable.pageSize.toLong())
+            .offset(pageable.offset)
+            .groupBy(house)
+            .fetch()
+        val countQuery = jpaQueryFactory
+            .selectFrom(house)
+            .join(house.user, user)
+            .where(
+                searchFilter(adminHouseSearch),
+                house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false),
+                house.applied.eq(HouseReviewStatus.APPLY)
+            )
+            .groupBy(house)
+        return PageableExecutionUtils.getPage(getHouseDto(result), pageable) {countQuery.fetch().size.toLong()}
+    }
+
+    /**
+     * 승인요청된 빈집 거래 게시글 목록 조회
+     * => 데이터 가공 처리 로직
+     * */
+    private fun getHouseDto(result: List<House>): List<AdminHouseDto> {
+        val list = mutableListOf<AdminHouseDto>()
+        result.forEach{
+            val applied = it.applied == HouseReviewStatus.APPROVE
+            list.add(AdminHouseDto(it.id, it.user.nickName, it.title, applied))
+        }
+        return list
+    }
+
+    /**
+     * 관리자 페이지 - 빈집 거래 승인
+     * 게시글 제목, 내용, 작성자 검색
+     * */
+    private fun searchFilter(adminHouseSearch: AdminHouseSearch): BooleanExpression? {
+        return when(adminHouseSearch.filter) {
+            HouseSearchFilter.TITLE -> house.title.contains(adminHouseSearch.keyword)
+            HouseSearchFilter.CONTENT -> house.content.contains(adminHouseSearch.keyword)
+            HouseSearchFilter.WRITER -> user.nickName.contains(adminHouseSearch.keyword)
+            else -> null
+        }
     }
 
     /**
