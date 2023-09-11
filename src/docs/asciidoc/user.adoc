@@ -1,5 +1,27 @@
 == User API
 
+UserTerm 테이블에서 사용하는 enum 값입니다.
+아래 표를 참고해서 enum 변수명으로 요청 body에 배열 형태로 보내주시면 됩니다.
+
+아래 약관 테이블 중 1번과 2번을 모두 포함하지 않을 경우 ( 필수 약관 미동의 ), 서버 측에서 오류를 반환합니다.
+
+|===
+|Enum 변수명 |Description
+
+|SERVICE_USED_AGREE
+|서비스 이용 약관에 대한 동의
+
+|PERSONAL_INFO_NOTI
+|개인정보 수집 이용에 대한 안내
+
+|PERSONAL_INFO_USED_AGREE
+|개인정보 수집 및 이용 동의
+
+|MARKETING_ADVERTISEMENT_AGREE
+|마케팅 활용 및 광고성 정보 수신 동의
+
+|===
+
 === 1-1. 회원가입
 ===== Request
 include::{snippets}/sign-up/http-request.adoc[]

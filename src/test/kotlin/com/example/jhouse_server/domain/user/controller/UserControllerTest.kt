@@ -290,7 +290,8 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("nick_name").description("닉네임"),
                                         fieldWithPath("phone_num").description("전화번호"),
                                         fieldWithPath("age").description("연령대"),
-                                        fieldWithPath("join_paths").description("가입 경로")
+                                        fieldWithPath("join_paths").description("가입 경로"),
+                                        fieldWithPath("terms").description("약관 동의 내역 ( enum 변수명으로 보내야 합니다. )")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),

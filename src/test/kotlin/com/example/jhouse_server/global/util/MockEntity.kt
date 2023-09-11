@@ -21,10 +21,7 @@ import com.example.jhouse_server.domain.record_comment.dto.RecordCommentUpdateDt
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewReqDto
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewUpdateDto
 import com.example.jhouse_server.domain.user.*
-import com.example.jhouse_server.domain.user.entity.Age
-import com.example.jhouse_server.domain.user.entity.Authority
-import com.example.jhouse_server.domain.user.entity.User
-import com.example.jhouse_server.domain.user.entity.UserType
+import com.example.jhouse_server.domain.user.entity.*
 
 class MockEntity {
     companion object {
@@ -34,7 +31,8 @@ class MockEntity {
             nickName = "테스트유저1",
             phoneNum = "01011111111",
             age = "20대 미만",
-            joinPaths = mutableListOf("네이버 카페", "인스타그램")
+            joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+            terms = mutableListOf(Term.PERSONAL_INFO_NOTI.name, Term.SERVICE_USED_AGREE.name)
         )
         fun testUser1SignIn() = UserSignInReqDto (
             email = "zzangu_jhouse_com",
@@ -61,7 +59,8 @@ class MockEntity {
             nickName = "테스트유저1",
             phoneNum = "01011111111",
             age = "20대 미만",
-            joinPaths = mutableListOf("네이버 카페", "인스타그램")
+            joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+            terms = mutableListOf(Term.PERSONAL_INFO_NOTI.name, Term.SERVICE_USED_AGREE.name)
         )
 
         fun testUserSignUpDto2() = UserSignUpReqDto(
@@ -70,7 +69,8 @@ class MockEntity {
             nickName = "테스트유저2",
             phoneNum = "01022222222",
             age = "20대 미만",
-            joinPaths = mutableListOf("네이버 카페", "인스타그램")
+            joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+                    terms = mutableListOf(Term.PERSONAL_INFO_NOTI.name, Term.SERVICE_USED_AGREE.name)
         )
 
         fun testUserSignUpDto3() = UserSignUpReqDto(
@@ -79,7 +79,8 @@ class MockEntity {
             nickName = "테스트유저3",
             phoneNum = "01033333333",
             age = "20대 미만",
-            joinPaths = mutableListOf("네이버 카페", "인스타그램")
+            joinPaths = mutableListOf("네이버 카페", "인스타그램"),
+            terms = mutableListOf(Term.PERSONAL_INFO_NOTI.name, Term.SERVICE_USED_AGREE.name)
         )
 
         fun testAgentSignUpDto() = AgentSignUpReqDto(

@@ -73,6 +73,15 @@ class UserServiceImpl (
             joinPaths.add(JoinPath.getJoinPath(joinPath)!!)
         }
 
+        val terms: MutableList<Term> = mutableListOf()
+        for(term in userSignUpReqDto.terms) {
+            terms.add(Term.getTerm(term)!!)
+        }
+
+        if(!terms.containsAll(listOf(Term.SERVICE_USED_AGREE, Term.PERSONAL_INFO_NOTI))) {
+            throw ApplicationException(DISAGREE_TERM)
+        }
+
         val user = User(userSignUpReqDto.email, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
                         userSignUpReqDto.nickName, userSignUpReqDto.phoneNum, DefaultUser().profileImageUrl,
                         Authority.USER, age, UserType.NONE, null, null)
@@ -80,6 +89,10 @@ class UserServiceImpl (
 
         for(joinPath in joinPaths) {
             userServiceCommonMethod.saveUserJoinPath(joinPath, user)
+        }
+
+        for(term in terms) {
+            userServiceCommonMethod.saveUserTerm(term, user)
         }
     }
 
