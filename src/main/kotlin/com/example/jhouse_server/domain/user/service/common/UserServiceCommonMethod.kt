@@ -1,10 +1,9 @@
 package com.example.jhouse_server.domain.user.service.common
 
-import com.example.jhouse_server.domain.user.entity.JoinPath
-import com.example.jhouse_server.domain.user.entity.User
-import com.example.jhouse_server.domain.user.entity.UserJoinPath
+import com.example.jhouse_server.domain.user.entity.*
 import com.example.jhouse_server.domain.user.repository.UserJoinPathRepository
 import com.example.jhouse_server.domain.user.repository.UserRepository
+import com.example.jhouse_server.domain.user.repository.UserTermRepository
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import org.springframework.stereotype.Component
@@ -16,7 +15,8 @@ import java.util.regex.Pattern
 @Component
 class UserServiceCommonMethod(
     val userRepository: UserRepository,
-    val userJoinPathRepository: UserJoinPathRepository
+    val userJoinPathRepository: UserJoinPathRepository,
+    val userTermRepository: UserTermRepository
 ) {
 
     private val NICK_NAME_PATTERN = "^(?=.*[a-zA-Z0-9가-힣])[A-Za-z0-9가-힣]{1,20}\$"
@@ -72,5 +72,10 @@ class UserServiceCommonMethod(
         if (userRepository.existsByPhoneNum(phoneNum)) {
             throw ApplicationException(ErrorCode.EXIST_PHONE_NUM)
         }
+    }
+
+    fun saveUserTerm(term: Term, user: User) {
+        val userTerm = UserTerm(term, user)
+        userTermRepository.save(userTerm)
     }
 }

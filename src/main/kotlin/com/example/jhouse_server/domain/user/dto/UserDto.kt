@@ -19,7 +19,8 @@ data class UserSignUpReqDto(
         @field:Pattern(regexp = "^01(?:0|1|[6-9])[0-9]{7,8}", message = "전화번호 형식에 맞지 않습니다.")
         @JsonProperty("phone_num") val phoneNum: String,
         @NotNull val age: String,
-        @NotNull @JsonProperty("join_paths") val joinPaths: MutableList<String>
+        @NotNull @JsonProperty("join_paths") val joinPaths: MutableList<String>,
+        @NotNull @JsonProperty("terms") val terms: MutableList<String>
 )
 
 data class AgentSignUpReqDto(
