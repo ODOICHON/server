@@ -59,6 +59,9 @@ class User(
     val joinPaths: MutableList<UserJoinPath> = mutableListOf(),
 
     @OneToMany(mappedBy = "user")
+    val terms: MutableList<UserTerm> = mutableListOf(),
+
+    @OneToMany(mappedBy = "user")
     val comments: MutableList<Comment> = mutableListOf(),
 
     @OneToMany(mappedBy = "user")

@@ -31,6 +31,7 @@ enum class ErrorCode(
     SAME_PASSWORD(HttpStatus.BAD_REQUEST, "U0006", "비밀번호가 같습니다."),
     EXIST_EMAIL(HttpStatus.BAD_REQUEST, "U0007", "이미 가입된 아이디입니다."),
     WITHDRAWAL_WAIT(HttpStatus.BAD_REQUEST, "U0008", "이미 탈퇴신청 되었습니다."),
+    DISAGREE_TERM(HttpStatus.BAD_REQUEST, "U0009", "필수 약관에 미동의하셨습니다."),
 
     // Post
     ALREADY_LOVE(HttpStatus.BAD_REQUEST, "P0000", "이미 좋아요를 한 게시글입니다."),
