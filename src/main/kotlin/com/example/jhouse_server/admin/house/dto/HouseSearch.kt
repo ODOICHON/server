@@ -1,5 +1,7 @@
 package com.example.jhouse_server.admin.house.dto
 
+import java.time.LocalDate
+
 
 data class AdminHouseSearch(
     val filter: HouseSearchFilter?,
@@ -24,6 +26,17 @@ data class AdminHouseDto(
     val applied : Boolean
 )
 
+data class AdminDealDto(
+    val id : Long, // dealId
+    val nickName: String, // buyer
+    val title: String, // house
+    val score: Int,
+    val dealDate : LocalDate,
+    val contact : String,
+    val age: String,
+    val review : String?,
+    val houseId : Long
+)
 data class RejectForm(
     val houseId : Long?,
     val reason : String?

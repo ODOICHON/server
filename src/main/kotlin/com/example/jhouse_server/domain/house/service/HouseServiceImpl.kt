@@ -29,6 +29,8 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.sql.Date
+import java.time.LocalDate
+import kotlin.jvm.optionals.getOrElse
 
 @Service
 @Transactional(readOnly = true)
@@ -120,8 +122,8 @@ class HouseServiceImpl(
         val house = houseRepository.findByIdOrThrow(houseId)
         if(user !== house.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         house.updateDealStatus()
-        val buyerId = if (dealReqDto.nickName != null && dealReqDto.nickName != "") userRepository.findByNickName(dealReqDto.nickName).get().id else null
-        val deal = Deal(Date.valueOf(dealReqDto.dealDate), dealReqDto.score, dealReqDto.review, buyerId, house)
+        val buyer = if (!dealReqDto.nickName.isNullOrBlank()) userRepository.findByNickName(dealReqDto.nickName).get() else throw ApplicationException(INVALID_VALUE_EXCEPTION)
+        val deal = Deal(LocalDate.parse(dealReqDto.dealDate), dealReqDto.score, dealReqDto.review, buyer, house)
         dealRepository.save(deal)
     }
 

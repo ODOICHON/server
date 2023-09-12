@@ -71,4 +71,23 @@ class AdminHouseController(
         adminHouseService.updateReviewStatusReject(HouseReviewStatus.APPROVE, rejectForm, redirectAttributes)
         return "redirect:/admin/house/apply"
     }
+
+    @GetMapping("/review")
+    fun getHousesReview(
+        @ModelAttribute("searchForm") adminHouseSearch: AdminHouseSearch,
+        model: Model,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): String {
+
+        // 승인 요청된 게시글 목록 데이터
+        val result = adminHouseService.getSearchReviewHouseResult(adminHouseSearch, pageable)
+        model.addAttribute("dealList", result)
+
+        // 페이징 데이터
+        val pageCom = pageable.pageNumber / 5
+        model.addAttribute("pageCom", pageCom)
+        model.addAttribute("filterList", HouseSearchFilter.values())
+
+        return "house/houseReview"
+    }
 }

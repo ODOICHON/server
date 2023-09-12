@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+  <style>
+    .container {
+      max-width: 800px;
+    }
+
+    .dropdown-item:active {
+      background-color: #FFBE3C;
+    }
+    caption {
+      caption-side: top;
+      text-align: right;
+    }
+    a{
+      text-decoration: none;
+      color: #ffc107;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="fragments/nav :: nav"/>
+<br>
+<br>
+<div class="container">
+
+  <form class="input-group" th:object="${searchForm}">
+    <div class="input-group row">
+      <div class="col-1">
+      </div>
+      <div class="col-3">
+        <select class="form-select btn-outline-info" th:field="${searchForm.filter}">
+          <option selected th:value="${filterList[0]}"
+                  th:text="${filterList[2].value}">게시물 작성자
+          </option>
+        </select>
+      </div>
+      <div class="col-5">
+        <input type="text" class="form-control col-6" th:field="${searchForm.keyword}">
+      </div>
+      <div class="col-2" style="float: right;">
+        <button type="submit" class="btn btn-warning">검색</button>
+      </div>
+      <div class="col-1">
+      </div>
+    </div>
+  </form>
+
+  <br>
+
+    <table class="table" style="vertical-align: middle;">
+      <thead>
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">거래 만족도</th>
+        <th scope="col">거래 날짜(팔린 날짜)</th>
+        <th scope="col">구매자 전화번호</th>
+        <th scope="col">구매자 닉네임</th>
+        <th scope="col">구매자 연령</th>
+        <th scope="col">거래 후기</th>
+        <th scope="col">빈집 게시글 제목</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="deal : ${dealList.content}">
+        <td th:text="${deal.id}">
+          1
+        </td>
+        <td th:text="${deal.score}">
+          5
+        </td>
+        <td th:text="${deal.dealDate}">
+          2023-09-01
+        </td>
+        <td th:text="${deal.contact}">
+          010-0000-0000
+        </td>
+        <td th:text="${deal.nickName}">
+          관리자1
+        </td>
+        <td th:text="${deal.age}">
+          20대
+        </td>
+        <td th:text="${deal.review}">
+          거래 만족합니다.
+        </td>
+        <td>
+          <a th:href="@{/admin/house/{id}(id=${deal.houseId})}" th:text="${deal.title}">게시글 제목 보기</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  <nav aria-label="..." style="position:absolute; left: 50%; transform: translateX(-50%); bottom: 6%;">
+    <ul class="pagination pagination-sm">
+      <!--            이전 버튼-->
+      <li class="page-item" th:if="${pageCom gt 0}">
+        <a class="page-link"
+           th:href="@{/admin/house/review(filter=${param.filter}, keyword=${param.keyword}, page=((5 *${pageCom})-1))}">
+          이전</a>
+      </li>
+      <!--            데이터 존재 x 경우-->
+      <li class="page-item" th:if="${dealList.totalPages eq 0}">
+        <a class="page-link active" href="#">1</a>
+      </li>
+      <!--            마지막 페이지가 속해 있지 않은 경우-->
+      <li class="page-item" th:if="${dealList.totalPages gt 5*(pageCom + 1) and dealList.totalPages gt 0}"
+          th:each="num : ${#numbers.sequence(pageCom*5 + 1 , 5*(pageCom + 1))}">
+        <a class="page-link active" th:if="${num eq dealList.pageable.pageNumber+1}"
+           th:href="@{/admin/house/review(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+           th:text="${num}">num</a>
+        <a class="page-link" th:unless="${num eq dealList.pageable.pageNumber+1}"
+           th:href="@{/admin/house/review(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+           th:text="${num}">num</a>
+      </li>
+      <!--            마지막 페이지가 속해있는 경우-->
+      <li class="page-item" th:if="${dealList.totalPages le 5*(pageCom + 1) and dealList.totalPages gt 0}"
+          th:each="num : ${#numbers.sequence(pageCom*5 + 1, dealList.totalPages)}">
+        <a class="page-link active" th:if="${num eq dealList.pageable.pageNumber+1}"
+           th:href="@{/admin/house/review(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+           th:text="${num}">num</a>
+        <a class="page-link" th:unless="${num eq dealList.pageable.pageNumber+1}"
+           th:href="@{/admin/house/review(filter=${param.filter}, keyword=${param.keyword}, page=${num}-1)}"
+           th:text="${num}">num</a>
+      </li>
+      <!--            다음 버튼-->
+      <li class="page-item" th:if="${(dealList.totalPages / (5.0 *(pageCom+1))) gt 1}">
+        <a class="page-link"
+           th:href="@{/admin/house/review(filter=${param.filter}, keyword=${param.keyword}, page=(5 *(${pageCom}+1)))}">
+          다음</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous">
+</script>
+<script th:inline="javascript">
+
+</script>
+</body>
+</html>

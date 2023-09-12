@@ -386,9 +386,10 @@ internal class HouseServiceImplTest @Autowired constructor(
         val houseId = houseService.createHouse(houseReqDto(), writer)
         val req = MockEntity.updateStatus("")
         // when
-        houseService.updateStatus(writer, houseId, req)
         // then
-        assertThat(dealRepository.findByHouseId(houseId).get()).isNotNull
+        assertThrows(ApplicationException(ErrorCode.INVALID_VALUE_EXCEPTION)::class.java) {
+            houseService.updateStatus(writer, houseId, req)
+        }
     }
 
     private fun createHouseAll() {
