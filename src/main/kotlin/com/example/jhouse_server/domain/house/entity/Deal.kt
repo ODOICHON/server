@@ -2,20 +2,22 @@ package com.example.jhouse_server.domain.house.entity
 
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
+import java.time.LocalDate
 import java.util.Date
 import javax.persistence.*
 
 @Entity
 class Deal(
 
-    var dealDate: Date,
+    var dealDate: LocalDate,
 
     var score : Int,
 
     var review: String?,
 
     // TODO OneToOne 관계로 가져갈까 PK만 FK로 갖고 있을까
-    var buyerId: Long?,
+    @OneToOne
+    var buyer: User,
 
     @OneToOne
     var house: House,
