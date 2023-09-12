@@ -1,12 +1,11 @@
 package com.example.jhouse_server.admin.house.service
 
-import com.example.jhouse_server.admin.house.dto.AdminHouseApplyList
-import com.example.jhouse_server.admin.house.dto.AdminHouseDto
-import com.example.jhouse_server.admin.house.dto.AdminHouseSearch
-import com.example.jhouse_server.admin.house.dto.RejectForm
+import com.example.jhouse_server.admin.house.dto.*
 import com.example.jhouse_server.domain.house.dto.HouseResOneDto
 import com.example.jhouse_server.domain.house.dto.toDto
 import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
+import com.example.jhouse_server.domain.house.repository.DealRepository
+import com.example.jhouse_server.domain.house.repository.DealRepositoryCustom
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.data.domain.Page
@@ -18,7 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Service
 @Transactional(readOnly = true)
 class AdminHouseService(
-    val houseRepository: HouseRepository
+    val houseRepository: HouseRepository,
+    val dealRepository: DealRepository,
 ) {
     /**
      * 일반 사용자가 작성한 빈집 게시글은 무조건 APPLY 상태
@@ -61,5 +61,12 @@ class AdminHouseService(
         if(redirectAttributes.containsAttribute("already_approve")) return
 
         rejectForm.reason?.let { findHouse.rejectEntity(it) }
+    }
+
+    fun getSearchReviewHouseResult(
+        adminHouseSearch: AdminHouseSearch,
+        pageable: Pageable
+    ): Page<AdminDealDto> {
+        return dealRepository.getReviewHouseListWithPaging(adminHouseSearch, pageable)
     }
 }

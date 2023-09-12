@@ -96,7 +96,7 @@
       <!--            이전 버튼-->
       <li class="page-item" th:if="${pageCom gt 0}">
         <a class="page-link"
-           th:href="@{/admin/house(filter=${param.filter}, keyword=${param.keyword}, page=((5 *${pageCom})-1))}">
+           th:href="@{/admin/house/apply(filter=${param.filter}, keyword=${param.keyword}, page=((5 *${pageCom})-1))}">
           이전</a>
       </li>
       <!--            데이터 존재 x 경우-->
