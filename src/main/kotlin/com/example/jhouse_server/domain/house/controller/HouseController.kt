@@ -157,7 +157,6 @@ class HouseController(
     }
 
     /**
-<<<<<<< HEAD
      * 빈집 매물 상태 변경
      *
      * @author dldmsql
