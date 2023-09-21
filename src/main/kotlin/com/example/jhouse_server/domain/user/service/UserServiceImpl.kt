@@ -78,7 +78,7 @@ class UserServiceImpl (
             terms.add(Term.getTerm(term)!!)
         }
 
-        if(!terms.containsAll(listOf(Term.SERVICE_USED_AGREE, Term.PERSONAL_INFO_NOTI))) {
+        if(!terms.containsAll(listOf(Term.SERVICE_USED_AGREE))) {
             throw ApplicationException(DISAGREE_TERM)
         }
 
