@@ -8,6 +8,8 @@ import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
 import com.example.jhouse_server.domain.user.entity.agent.Estate
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.common.UserServiceCommonMethod
+import com.example.jhouse_server.global.exception.ApplicationException
+import com.example.jhouse_server.global.exception.ErrorCode
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -27,6 +29,15 @@ class AgentServiceImpl(
         for(joinPath in agentSignUpReqDto.joinPaths) {
             joinPaths.add(JoinPath.getJoinPath(joinPath)!!)
         }
+
+        val terms: MutableList<Term> = mutableListOf()
+        for(term in agentSignUpReqDto.terms) {
+            terms.add(Term.getTerm(term)!!)
+        }
+        if(!terms.containsAll(listOf(Term.SERVICE_USED_AGREE, Term.PERSONAL_INFO_NOTI))) {
+            throw ApplicationException(ErrorCode.DISAGREE_TERM)
+        }
+
         val address = agentSignUpReqDto.companyAddress.plus(" ").plus(agentSignUpReqDto.companyAddressDetail)
 
         val agent = Agent(agentSignUpReqDto.email, userServiceCommonMethod.encodePassword(agentSignUpReqDto.password),
@@ -38,6 +49,10 @@ class AgentServiceImpl(
 
         for(joinPath in joinPaths) {
             userServiceCommonMethod.saveUserJoinPath(joinPath, agent)
+        }
+
+        for(term in terms) {
+            userServiceCommonMethod.saveUserTerm(term, agent)
         }
     }
 

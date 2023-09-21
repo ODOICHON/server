@@ -49,6 +49,7 @@ internal class AgentControllerTest: ApiControllerConfig("/api/v1/agents") {
                         PayloadDocumentation.fieldWithPath("phone_num").description("전화번호"),
                         PayloadDocumentation.fieldWithPath("age").description("연령대"),
                         PayloadDocumentation.fieldWithPath("join_paths").description("가입 경로"),
+                        PayloadDocumentation.fieldWithPath("terms").description("약관 동의 내역 ( enum 변수명으로 보내야 합니다. )"),
                         PayloadDocumentation.fieldWithPath("agent_code").description("공인중개사 등록번호"),
                         PayloadDocumentation.fieldWithPath("business_code").description("사업자 등록번호"),
                         PayloadDocumentation.fieldWithPath("company_name").description("공인중개사 사무소 상호명"),
