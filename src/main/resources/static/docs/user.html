@@ -595,7 +595,7 @@ Content-Length: 83
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/agents/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 565
+Content-Length: 625
 Host: localhost:8080
 
 {
@@ -605,6 +605,7 @@ Host: localhost:8080
   "phone_num" : "01044444441",
   "age" : "20대 미만",
   "join_paths" : [ "네이버 카페", "인스타그램" ],
+  "terms" : [ "PERSONAL_INFO_NOTI", "SERVICE_USED_AGREE" ],
   "agent_code" : "123-456-789-01",
   "business_code" : "12345-6789",
   "company_name" : "주말내집",
@@ -664,6 +665,11 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>join_paths</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">가입 경로</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>terms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">약관 동의 내역 ( enum 변수명으로 보내야 합니다. )</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>agent_code</code></p></td>
@@ -764,7 +770,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTUwNDU2NDR9.s9rOu505eJ8fSUePi-OIswz0Ni_L9nA6-Lzkw35jS_kXZA6VsyN_heC8IsrXFoRYWPAZ1k_wjiZXssFnAlMzbA; Path=/; Domain=localhost; Max-Age=604800; Expires=Mon, 18 Sep 2023 14:00:44 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTU5MDI5ODZ9.yoV8XyXQGv_pZM3WyQU8zuYjvcL5Z_zbGbN9PY0StOb-HF6JEcccfQR_poVnT8Bj03rAbTr9ozlB-vZeNObAqg; Path=/; Domain=localhost; Max-Age=604800; Expires=Thu, 28 Sep 2023 12:09:46 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 299
 
@@ -772,7 +778,7 @@ Content-Length: 299
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.dWtZxJ6pGiqoDV2RVy9bGp3wBOTd3CIBXLgbxJOvIERyR0-DMf8-NVwUYgrv0YTOnKETuXNBhq0kdvfJvyedhQ"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg"
   }
 }</code></pre>
 </div>
@@ -853,10 +859,10 @@ Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 234
 Host: localhost:8080
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.JvhgUo6dQqkpnq93oqekBt3r_lsW6JWPO2jS5cKUvBk01TlkfcJ4Xm8brT71q-mODe6GTxnQkXW_Nn4RmENojw
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.JvhgUo6dQqkpnq93oqekBt3r_lsW6JWPO2jS5cKUvBk01TlkfcJ4Xm8brT71q-mODe6GTxnQkXW_Nn4RmENojw"
+  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg"
 }</code></pre>
 </div>
 </div>
@@ -869,7 +875,7 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleH
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTUwNDU2NDV9.rMYkNnErT0ZJcQ_evDQ0q3dBu63th9PYBXTB0TPi3xlOqc-zlMgq67fL7Bogl3wdU6Qm_7K3JxxamiWWQMWD0Q; Path=/; Domain=localhost; Max-Age=604800; Expires=Mon, 18 Sep 2023 14:00:45 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTU5MDI5ODZ9.yoV8XyXQGv_pZM3WyQU8zuYjvcL5Z_zbGbN9PY0StOb-HF6JEcccfQR_poVnT8Bj03rAbTr9ozlB-vZeNObAqg; Path=/; Domain=localhost; Max-Age=604800; Expires=Thu, 28 Sep 2023 12:09:46 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 299
 
@@ -877,7 +883,7 @@ Content-Length: 299
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.JvhgUo6dQqkpnq93oqekBt3r_lsW6JWPO2jS5cKUvBk01TlkfcJ4Xm8brT71q-mODe6GTxnQkXW_Nn4RmENojw"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg"
   }
 }</code></pre>
 </div>
@@ -891,7 +897,7 @@ Content-Length: 299
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.dWtZxJ6pGiqoDV2RVy9bGp3wBOTd3CIBXLgbxJOvIERyR0-DMf8-NVwUYgrv0YTOnKETuXNBhq0kdvfJvyedhQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -905,7 +911,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTUwNDU2NDR9.s9rOu505eJ8fSUePi-OIswz0Ni_L9nA6-Lzkw35jS_kXZA6VsyN_heC8IsrXFoRYWPAZ1k_wjiZXssFnAlMzbA; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTU5MDI5ODZ9.yoV8XyXQGv_pZM3WyQU8zuYjvcL5Z_zbGbN9PY0StOb-HF6JEcccfQR_poVnT8Bj03rAbTr9ozlB-vZeNObAqg; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
@@ -1113,7 +1119,7 @@ Host: localhost:8080
 
 {
   "phone_num" : "01011111111",
-  "code" : "1496"
+  "code" : "7924"
 }</code></pre>
 </div>
 </div>
@@ -1179,7 +1185,7 @@ Content-Length: 83
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/nick-name HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.JvhgUo6dQqkpnq93oqekBt3r_lsW6JWPO2jS5cKUvBk01TlkfcJ4Xm8brT71q-mODe6GTxnQkXW_Nn4RmENojw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
 Accept: application/json
 Content-Length: 30
 Host: localhost:8080
@@ -1250,7 +1256,7 @@ Content-Length: 80
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.Y4nRDi3aGOKzIXkS4Rh4V7cT0QaURDlDnYqrXvrcNPsRjySAxinlVWhfnW1P0dCF9kai-qcwDCJHiAxjBdGxsQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODcsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.sJx_fz-oDLlPrDnv0QMYAqSOoE-SbQprQHqS0e9W8nGmlc7-VbbgB55MRkKwx7tnnDxSoy5K1Sh3GpJ7a5fvww
 Accept: application/json
 Content-Length: 32
 Host: localhost:8080
@@ -1368,7 +1374,7 @@ Content-Length: 83
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.JvhgUo6dQqkpnq93oqekBt3r_lsW6JWPO2jS5cKUvBk01TlkfcJ4Xm8brT71q-mODe6GTxnQkXW_Nn4RmENojw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1389,7 +1395,7 @@ Content-Length: 367
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "id" : 35405,
+    "id" : 38926,
     "email" : "test_jhouse_com",
     "nick_name" : "테스트유저1",
     "phone_num" : "01011111111",
@@ -1411,7 +1417,7 @@ Content-Length: 367
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.dWtZxJ6pGiqoDV2RVy9bGp3wBOTd3CIBXLgbxJOvIERyR0-DMf8-NVwUYgrv0YTOnKETuXNBhq0kdvfJvyedhQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
 Accept: application/json
 Content-Length: 127
 Host: localhost:8080
@@ -1452,7 +1458,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/withdrawal HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTQ0NDI2NDQsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.dWtZxJ6pGiqoDV2RVy9bGp3wBOTd3CIBXLgbxJOvIERyR0-DMf8-NVwUYgrv0YTOnKETuXNBhq0kdvfJvyedhQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
 Accept: application/json
 Content-Length: 109
 Host: localhost:8080
@@ -1507,7 +1513,7 @@ Content-Length: 76
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-09-11 22:51:03 +0900
+Last updated 2023-09-21 20:48:23 +0900
 </div>
 </div>
 </body>
