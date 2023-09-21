@@ -34,6 +34,7 @@ data class AgentSignUpReqDto(
         @JsonProperty("phone_num") val phoneNum: String,
         @NotNull val age: String,
         @NotNull @JsonProperty("join_paths") val joinPaths: MutableList<String>,
+        @NotNull @JsonProperty("terms") val terms: MutableList<String>,
 
         @field:Pattern(regexp = "^[0-9,-]{14}\$", message = "공인중개사 등록번호 형식에 맞지 않습니다.")
         @JsonProperty("agent_code") val agentCode: String,
