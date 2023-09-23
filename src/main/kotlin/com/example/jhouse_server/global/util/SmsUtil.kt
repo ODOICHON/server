@@ -23,7 +23,7 @@ class SmsUtil (
         params["to"] = phoneNum
         params["from"] = from
         params["type"] = "SMS"
-        params["text"] = "[주말의집 인증번호] 본인확인 인증번호($code)를 입력해주세요."
+        params["text"] = "[주말내집 인증번호] 본인확인 인증번호($code)를 입력해주세요."
 
         try {
             val obj: JSONObject = message.send(params)

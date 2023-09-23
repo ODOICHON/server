@@ -1,6 +1,5 @@
 package com.example.jhouse_server.domain.scrap.controller
 
-import com.example.jhouse_server.domain.house.dto.HouseReqDto
 import com.example.jhouse_server.domain.house.service.HouseService
 import com.example.jhouse_server.domain.scrap.service.ScrapService
 import com.example.jhouse_server.domain.user.entity.User
@@ -8,7 +7,6 @@ import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.util.ApiControllerConfig
 import com.example.jhouse_server.global.util.MockEntity
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 
@@ -47,13 +45,13 @@ internal class ScrapControllerTest @Autowired constructor(
     fun `로그인_더미데이터_생성`() {
         // singUp
         userService.signUp(userSignUpReqDto)
-        user = userRepository.findByEmail(userSignUpReqDto.email).get()
+        user = userRepository.findByUserName(userSignUpReqDto.userName).get()
         // signIn
         val tokenDto = userService.signIn(userSignInReqDto)
         accessToken = tokenDto.accessToken
         // another user signUp
         userService.signUp(userSignUpReqDto2)
-        anotherUser = userRepository.findByEmail(userSignUpReqDto2.email).get()
+        anotherUser = userRepository.findByUserName(userSignUpReqDto2.userName).get()
         // another user signIn
         val tokenDto2 = userService.signIn(userSignInReqDto2)
         accessToken2 = tokenDto2.accessToken

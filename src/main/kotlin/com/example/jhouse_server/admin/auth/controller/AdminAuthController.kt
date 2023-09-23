@@ -47,13 +47,13 @@ class AdminAuthController (
                                                 bindingResult: BindingResult,
                                                 @RequestParam("redirectURI", defaultValue = "/admin/analysis/join-path") redirectURI : String,
                                                 request: HttpServletRequest) : String {
-                val findUser = userRepository.findByEmailAndAuthority(loginForm.email!!, Authority.ADMIN)
+                val findUser = userRepository.findByUserNameAndAuthority(loginForm.email!!, Authority.ADMIN)
                 if (findUser.isEmpty){
                         bindingResult.reject("emailNotFound", "존재하지 않는 아이디입니다")
                         return "login"
                 }
                 val user = findUser.get()
-                if (!user.password.equals(encodePassword(loginForm.password))) {
+                if (user.password != encodePassword(loginForm.password)) {
                         bindingResult.reject("passwordNotMatch", "비밀번호가 일치하지 않습니다")
                         return "login"
                 }

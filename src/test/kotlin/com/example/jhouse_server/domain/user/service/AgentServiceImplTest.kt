@@ -30,8 +30,8 @@ class AgentServiceImplTest @Autowired constructor(
         agentService.signUp(agentSignUpDto)
 
         //then
-        val agent = userRepository.findByEmail(agentSignUpDto.email).get() as Agent
-        assertThat(agent.email).isEqualTo(agentSignUpDto.email)
+        val agent = userRepository.findByUserName(agentSignUpDto.userName).get() as Agent
+        assertThat(agent.userName).isEqualTo(agentSignUpDto.userName)
         assertThat(agent.nickName).isEqualTo(agentSignUpDto.nickName)
         assertThat(agent.phoneNum).isEqualTo(agentSignUpDto.phoneNum)
         assertThat(agent.agentCode).isEqualTo(agentSignUpDto.agentCode)

@@ -25,13 +25,14 @@ enum class ErrorCode(
 
     // User
     EXIST_PHONE_NUM(HttpStatus.BAD_REQUEST, "U0000", "이미 가입된 전화번호입니다."),
-    DONT_EXIST_EMAIL(HttpStatus.BAD_REQUEST, "U0001", "존재하지 않는 이메일입니다."),
+    DONT_EXIST_USERNAME(HttpStatus.BAD_REQUEST, "U0001", "존재하지 않는 아이디입니다."),
     DONT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "U0002", "비밀번호가 일치하지 않습니다."),
     EXIST_NICK_NAME(HttpStatus.BAD_REQUEST, "U0005", "이미 존재하는 닉네임입니다."),
     SAME_PASSWORD(HttpStatus.BAD_REQUEST, "U0006", "비밀번호가 같습니다."),
-    EXIST_EMAIL(HttpStatus.BAD_REQUEST, "U0007", "이미 가입된 아이디입니다."),
+    EXIST_USERNAME(HttpStatus.BAD_REQUEST, "U0007", "이미 가입된 아이디입니다."),
     WITHDRAWAL_WAIT(HttpStatus.BAD_REQUEST, "U0008", "이미 탈퇴신청 되었습니다."),
     DISAGREE_TERM(HttpStatus.BAD_REQUEST, "U0009", "필수 약관에 미동의하셨습니다."),
+    EXIST_EMAIL(HttpStatus.BAD_REQUEST, "U0010", "이미 가입된 이메일입니다."),
 
     // Post
     ALREADY_LOVE(HttpStatus.BAD_REQUEST, "P0000", "이미 좋아요를 한 게시글입니다."),

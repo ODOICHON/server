@@ -65,6 +65,8 @@ dependencies {
     implementation ("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
     // CoolSms
     implementation("net.nurigo:javaSDK:2.2")
+    // Email
+    implementation ("org.springframework.boot:spring-boot-starter-mail:2.7.0")
     // Springboot Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")

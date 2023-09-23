@@ -3,7 +3,6 @@ package com.example.jhouse_server.domain.user.service
 import com.example.jhouse_server.domain.user.DefaultUser
 import com.example.jhouse_server.domain.user.UserSignInReqDto
 import com.example.jhouse_server.domain.user.entity.WithdrawalReason
-import com.example.jhouse_server.domain.user.entity.WithdrawalStatus
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.global.jwt.TokenProvider
@@ -30,9 +29,9 @@ class UserServiceImplTest @Autowired constructor(
 
     private val userSignUpDto = MockEntity.testUserSignUpDto()
 
-    fun userSignInDto(email: String, password: String): UserSignInReqDto {
+    fun userSignInDto(userName: String, password: String): UserSignInReqDto {
         return UserSignInReqDto(
-                email,
+                userName,
                 password
         )
     }
@@ -46,8 +45,8 @@ class UserServiceImplTest @Autowired constructor(
         userService.signUp(userSignUpDto)
 
         //then
-        val findUser = userRepository.findByEmail(userSignUpDto.email).get()
-        assertThat(findUser.email).isEqualTo(userSignUpDto.email)
+        val findUser = userRepository.findByUserName(userSignUpDto.userName).get()
+        assertThat(findUser.userName).isEqualTo(userSignUpDto.userName)
         assertThat(findUser.nickName).isEqualTo(userSignUpDto.nickName)
         assertThat(findUser.phoneNum).isEqualTo(userSignUpDto.phoneNum)
         assertThat(findUser.profileImageUrl).isEqualTo(DefaultUser().profileImageUrl)
@@ -58,7 +57,7 @@ class UserServiceImplTest @Autowired constructor(
     fun signInTest() {
         //given
         userService.signUp(userSignUpDto)
-        val userSignInDto = userSignInDto(userSignUpDto.email, userSignUpDto.password)
+        val userSignInDto = userSignInDto(userSignUpDto.userName, userSignUpDto.password)
 
         //when
         val tokenDto = userService.signIn(userSignInDto)
@@ -66,8 +65,8 @@ class UserServiceImplTest @Autowired constructor(
         val accessToken = tokenProvider.resolveToken(bearerToken).toString()
 
         //then
-        val findUser = userRepository.findByEmail(userSignInDto.email).get()
-        assertThat(findUser.email).isEqualTo(tokenProvider.getSubject(accessToken))
+        val findUser = userRepository.findByUserName(userSignInDto.userName).get()
+        assertThat(findUser.userName).isEqualTo(tokenProvider.getSubject(accessToken))
         assertThat(findUser.authority).isEqualTo(tokenProvider.getAuthority(accessToken))
     }
 
@@ -76,7 +75,7 @@ class UserServiceImplTest @Autowired constructor(
     fun updateNickName() {
         //given
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
 
         //when
         userService.updateNickName(user, UPDATE_NICK_NAME)
@@ -91,18 +90,18 @@ class UserServiceImplTest @Autowired constructor(
     fun updatePassword() {
         //given
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
 
         //when
         userService.updatePassword(user, UPDATE_PASSWORD)
 
         //then
-        val userSignInDto = userSignInDto(user.email, UPDATE_PASSWORD)
+        val userSignInDto = userSignInDto(user.userName, UPDATE_PASSWORD)
         val tokenDto = userService.signIn(userSignInDto)
         val bearerToken = tokenDto.accessToken
         val accessToken = tokenProvider.resolveToken(bearerToken).toString()
-        val email = tokenProvider.getSubject(accessToken)
-        val findUser = userRepository.findByEmail(email).orElseThrow()
+        val userName = tokenProvider.getSubject(accessToken)
+        val findUser = userRepository.findByUserName(userName).orElseThrow()
 
         assertThat(user).isEqualTo(findUser)
     }
@@ -112,7 +111,7 @@ class UserServiceImplTest @Autowired constructor(
     fun update() {
         //given
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         val password = user.password
         val userUpdateReqDto = MockEntity.userUpdateReqDto("")
 
@@ -130,7 +129,7 @@ class UserServiceImplTest @Autowired constructor(
     fun withdrawalTest() {
         // given
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto(null)
 
         // when

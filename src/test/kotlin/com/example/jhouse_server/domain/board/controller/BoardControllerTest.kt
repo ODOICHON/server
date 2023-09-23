@@ -14,22 +14,18 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.params.shadow.com.univocity.parsers.common.fields.FieldSelector
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.MediaType
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.FieldDescriptor
 import org.springframework.restdocs.payload.PayloadDocumentation.*
-import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParameters
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
-import java.lang.reflect.Field
 
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -45,7 +41,7 @@ internal class BoardControllerTest @Autowired constructor(
     private var board: Long = 0L
 
     fun `로그인`() {
-        if (!userRepository.existsByEmail(userSignUpReqDto.email)) {
+        if (!userRepository.existsByUserName(userSignUpReqDto.userName)) {
             userService.signUp(userSignUpReqDto)
         }
         tokenDto = userService.signIn(userSignInReqDto)
@@ -54,7 +50,7 @@ internal class BoardControllerTest @Autowired constructor(
     @BeforeEach
     fun `게시글 더미 데이터 생성`() {
         로그인()
-        val user = userRepository.findByEmail(userSignInReqDto.email)
+        val user = userRepository.findByUserName(userSignInReqDto.userName)
         board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
         val findBoard = boardRepository.findByIdOrThrow(board)
         findBoard.addComment(MockEntity.comment(findBoard, user.get()))
@@ -389,7 +385,7 @@ internal class BoardControllerTest @Autowired constructor(
     fun getUserBoardAll() {
         //given
         로그인()
-        val user = userRepository.findByEmail(userSignInReqDto.email)
+        val user = userRepository.findByUserName(userSignInReqDto.userName)
         board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
         val findBoard = boardRepository.findByIdOrThrow(board)
         boardRepository.save(findBoard)
@@ -424,7 +420,7 @@ internal class BoardControllerTest @Autowired constructor(
     fun getUserCommentAll() {
         //given
         로그인()
-        val user = userRepository.findByEmail(userSignInReqDto.email)
+        val user = userRepository.findByUserName(userSignInReqDto.userName)
         board = boardService.createBoard(MockEntity.boardReqDto(), user.get())
         val findBoard = boardRepository.findByIdOrThrow(board)
         findBoard.addComment(MockEntity.comment(findBoard, user.get()))
@@ -461,7 +457,7 @@ internal class BoardControllerTest @Autowired constructor(
     fun getUserLoveAll() {
         //given
         로그인()
-        val user = userRepository.findByEmail(userSignInReqDto.email)
+        val user = userRepository.findByUserName(userSignInReqDto.userName)
         var findBoard = boardRepository.findByIdOrThrow(board)
         findBoard.addLove(Love(user.get(), findBoard))
         boardRepository.save(findBoard)

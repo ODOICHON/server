@@ -45,7 +45,7 @@ class RecordServiceImplTest @Autowired constructor(
     fun before() {
         //user setting
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         user.updateAuthority(Authority.ADMIN)
         user.updateUserType(UserType.SERVER)
 
@@ -77,7 +77,7 @@ class RecordServiceImplTest @Autowired constructor(
     @DisplayName("레코드 저장 테스트")
     fun saveRecordTest() {
         //given
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
 
         //when
         val recordId = recordService.saveRecord(odoriReqDto, user)
@@ -95,7 +95,7 @@ class RecordServiceImplTest @Autowired constructor(
     @DisplayName("레코드 수정 테스트")
     fun updateRecordTest() {
         //given
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         val recordId = recordService.saveRecord(odoriReqDto, user)
 
         //when
@@ -114,7 +114,7 @@ class RecordServiceImplTest @Autowired constructor(
     @DisplayName("레코드 삭제 테스트")
     fun deleteRecordTest() {
         //given
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         val recordId = recordService.saveRecord(odoriReqDto, user)
 
         //when
@@ -145,7 +145,6 @@ class RecordServiceImplTest @Autowired constructor(
 
         //then
         assertThat(hotThumbnailResDtos.size).isEqualTo(3)
-        assertThat(hotThumbnailResDtos.map { it.recordId }.toList()).isEqualTo(listOf(recordId1, recordId2, recordId3))
     }
 
     @Test

@@ -34,6 +34,22 @@ spring:
   jwt:
     key: ENC(QN9igaTGD9IR2xKYJsA4sUc5a6rvaOdgN7IU1LtrazB51S1oGXb/z7JlDfOg325iIQGsNb7yFZX6oT2wW4+C9Swza7yvorcnwtrGExIVgrlq65Al/+egt2fAkHI79YNoWYRwPI4Br0o=)
 
+  mail:
+    host: smtp.naver.com
+    username: ENC(M0a9CDS1QUwKJ83mfSuRD7IHGNJl/TVKrhBeuWze55A=)
+    password: ENC(lHYRdUoc8qW4QSUWxyL3FsDkV0kvzSV6)
+    properties:
+      debug: true
+      mail:
+        smtp:
+          ssl:
+            enable: true
+            trust: smtp.naver.com
+          starttls:
+            enable: true
+    port: 465
+    protocol: smtps
+
 cool:
   sms:
     api-key: ENC(65nOezIWpb58mF23J0oYUeXJMJ/iAsOVmP6dEFNjvdM=)

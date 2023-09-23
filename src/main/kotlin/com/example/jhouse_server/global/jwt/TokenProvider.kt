@@ -37,7 +37,7 @@ class TokenProvider {
         val now = Date()
 
         val accessToken = BEARER_PREFIX + Jwts.builder()
-                .setSubject(user.email)
+                .setSubject(user.userName)
                 .setExpiration(Date(now.time + ACCESS_TOKEN_EXPIRE_TIME))
                 .claim(AUTHORITIES_KEY, user.authority)
                 .claim(USER_TYPE_KEY, user.userType)
