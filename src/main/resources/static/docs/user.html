@@ -489,11 +489,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 276
+Content-Length: 279
 Host: localhost:8080
 
 {
-  "email" : "test_jhouse_com",
+  "userName" : "test_jhouse_com",
   "password" : "abcdefG123!",
   "nick_name" : "테스트유저1",
   "phone_num" : "01011111111",
@@ -595,11 +595,11 @@ Content-Length: 83
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/agents/sign-up HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 625
+Content-Length: 628
 Host: localhost:8080
 
 {
-  "email" : "agent_jhouse_com",
+  "userName" : "agent_jhouse_com",
   "password" : "abcdefG123!",
   "nick_name" : "공인중개사1",
   "phone_num" : "01044444441",
@@ -637,9 +637,9 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>userName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자 로그인 아이디</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
@@ -752,11 +752,11 @@ Content-Length: 48
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/sign-in HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 63
+Content-Length: 66
 Host: localhost:8080
 
 {
-  "email" : "test_jhouse_com",
+  "userName" : "test_jhouse_com",
   "password" : "abcdefG123!"
 }</code></pre>
 </div>
@@ -770,7 +770,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTU5MDI5ODZ9.yoV8XyXQGv_pZM3WyQU8zuYjvcL5Z_zbGbN9PY0StOb-HF6JEcccfQR_poVnT8Bj03rAbTr9ozlB-vZeNObAqg; Path=/; Domain=localhost; Max-Age=604800; Expires=Thu, 28 Sep 2023 12:09:46 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTYwNzk5ODl9.v0HbnSWynL6xDaq40pGF-3FE5BsHoZcalu5a1hy5Xa2gkbnj-G4zkfriuMNVwRAgsvr6GkW5g5KIo_EJtzzfgw; Path=/; Domain=localhost; Max-Age=604800; Expires=Sat, 30 Sep 2023 13:19:49 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 299
 
@@ -778,7 +778,7 @@ Content-Length: 299
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5ODksImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.vAQz_fVleAU3xokrZv291yYtrKIFH1KtRWpb3ieIfqWa62TV2D_mzJ7QNw1_CCJqrJrdY9J2HcvSQrSCZHEfXg"
   }
 }</code></pre>
 </div>
@@ -797,7 +797,7 @@ Content-Length: 79
 
 {
   "code" : "U0001",
-  "message" : "존재하지 않는 이메일입니다."
+  "message" : "존재하지 않는 아이디입니다."
 }</code></pre>
 </div>
 </div>
@@ -859,10 +859,10 @@ Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 234
 Host: localhost:8080
-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
+Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.pRXWwCMWEO4eERJFufFu-DQBgUSBgBA6URx6U81_1y_0eOyjCCFDwCG4id8i0FlVg8-N5bEKKVtgsPPOK6zQxQ
 
 {
-  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg"
+  "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.pRXWwCMWEO4eERJFufFu-DQBgUSBgBA6URx6U81_1y_0eOyjCCFDwCG4id8i0FlVg8-N5bEKKVtgsPPOK6zQxQ"
 }</code></pre>
 </div>
 </div>
@@ -875,7 +875,7 @@ Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleH
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTU5MDI5ODZ9.yoV8XyXQGv_pZM3WyQU8zuYjvcL5Z_zbGbN9PY0StOb-HF6JEcccfQR_poVnT8Bj03rAbTr9ozlB-vZeNObAqg; Path=/; Domain=localhost; Max-Age=604800; Expires=Thu, 28 Sep 2023 12:09:46 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTYwNzk5OTB9.Utded7I0uJEfmKYaEuE8wQtIYc_rcsblsQUraJkn-LGoEdITisOe3jlNxes9nylpK-_nLWAvYzqpKkEWSNDU7A; Path=/; Domain=localhost; Max-Age=604800; Expires=Sat, 30 Sep 2023 13:19:50 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 299
 
@@ -883,7 +883,7 @@ Content-Length: 299
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg"
+    "access_token" : "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.pRXWwCMWEO4eERJFufFu-DQBgUSBgBA6URx6U81_1y_0eOyjCCFDwCG4id8i0FlVg8-N5bEKKVtgsPPOK6zQxQ"
   }
 }</code></pre>
 </div>
@@ -897,7 +897,7 @@ Content-Length: 299
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5ODksImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.vAQz_fVleAU3xokrZv291yYtrKIFH1KtRWpb3ieIfqWa62TV2D_mzJ7QNw1_CCJqrJrdY9J2HcvSQrSCZHEfXg
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -911,7 +911,7 @@ Host: localhost:8080</code></pre>
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTU5MDI5ODZ9.yoV8XyXQGv_pZM3WyQU8zuYjvcL5Z_zbGbN9PY0StOb-HF6JEcccfQR_poVnT8Bj03rAbTr9ozlB-vZeNObAqg; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
+Set-Cookie: RefreshToken=eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2OTYwNzk5ODl9.v0HbnSWynL6xDaq40pGF-3FE5BsHoZcalu5a1hy5Xa2gkbnj-G4zkfriuMNVwRAgsvr6GkW5g5KIo_EJtzzfgw; Path=/; Domain=localhost; Max-Age=0; Expires=Thu, 1 Jan 1970 00:00:00 GMT; Secure; HttpOnly; SameSite=None
 Content-Type: application/json;charset=UTF-8
 Content-Length: 48
 
@@ -1119,7 +1119,7 @@ Host: localhost:8080
 
 {
   "phone_num" : "01011111111",
-  "code" : "7924"
+  "code" : "7475"
 }</code></pre>
 </div>
 </div>
@@ -1185,7 +1185,7 @@ Content-Length: 83
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/nick-name HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.pRXWwCMWEO4eERJFufFu-DQBgUSBgBA6URx6U81_1y_0eOyjCCFDwCG4id8i0FlVg8-N5bEKKVtgsPPOK6zQxQ
 Accept: application/json
 Content-Length: 30
 Host: localhost:8080
@@ -1256,7 +1256,7 @@ Content-Length: 80
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users/update/password HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODcsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.sJx_fz-oDLlPrDnv0QMYAqSOoE-SbQprQHqS0e9W8nGmlc7-VbbgB55MRkKwx7tnnDxSoy5K1Sh3GpJ7a5fvww
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.6Hn2qJVlbqIe_SBBYzxez5pxFdMYNUBS99vDLAiTJWKk0AdFBik-kphupJx844aciPZX-6-Vtu0Z5I6JB1t7GA
 Accept: application/json
 Content-Length: 32
 Host: localhost:8080
@@ -1374,7 +1374,7 @@ Content-Length: 83
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.pRXWwCMWEO4eERJFufFu-DQBgUSBgBA6URx6U81_1y_0eOyjCCFDwCG4id8i0FlVg8-N5bEKKVtgsPPOK6zQxQ
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -1389,14 +1389,14 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json;charset=UTF-8
-Content-Length: 367
+Content-Length: 370
 
 {
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "id" : 38926,
-    "email" : "test_jhouse_com",
+    "id" : 44298,
+    "userName" : "test_jhouse_com",
     "nick_name" : "테스트유저1",
     "phone_num" : "01011111111",
     "authority" : "USER",
@@ -1417,7 +1417,7 @@ Content-Length: 367
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/users HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5OTAsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.pRXWwCMWEO4eERJFufFu-DQBgUSBgBA6URx6U81_1y_0eOyjCCFDwCG4id8i0FlVg8-N5bEKKVtgsPPOK6zQxQ
 Accept: application/json
 Content-Length: 127
 Host: localhost:8080
@@ -1458,7 +1458,7 @@ Content-Length: 48
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/users/withdrawal HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTUyOTk5ODYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.ZcAL8g4KpL0RaEN2ryLqrEpb4bJmYmIKFfmAQCfd6tmZExC568WMWSUt-NloeDLnRBDfhQd06YbZYNebHDj_gg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU0NzY5ODksImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.vAQz_fVleAU3xokrZv291yYtrKIFH1KtRWpb3ieIfqWa62TV2D_mzJ7QNw1_CCJqrJrdY9J2HcvSQrSCZHEfXg
 Accept: application/json
 Content-Length: 109
 Host: localhost:8080
