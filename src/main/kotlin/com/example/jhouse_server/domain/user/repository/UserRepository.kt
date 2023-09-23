@@ -32,4 +32,6 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
     fun findAllByUserType(@Param("userId") userId: Long, @Param("userType") userType: UserType): List<User>
     fun findByNickName(nickName: String): Optional<User>
 
+    fun findByEmail(email: String) : Optional<User>
+
 }

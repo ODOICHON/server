@@ -20,7 +20,9 @@ data class UserSignUpReqDto(
         @JsonProperty("phone_num") val phoneNum: String,
         @NotNull val age: String,
         @NotNull @JsonProperty("join_paths") val joinPaths: MutableList<String>,
-        @NotNull @JsonProperty("terms") val terms: MutableList<String>
+        @NotNull @JsonProperty("terms") val terms: MutableList<String>,
+        @field:Email(message = "이메일 형식에 맞지 않습니다.") @NotNull
+        val email : String,
 )
 
 data class AgentSignUpReqDto(
@@ -77,6 +79,18 @@ data class CheckSmsReqDto(
         val code: String
 )
 
+data class CheckEmailReqDto(
+        @field:Email(message = "이메일 형식에 맞지 않습니다.") @NotNull
+        val email: String,
+        @field:Pattern(regexp = "^[0-9]{4}", message = "인증번호 형식에 맞지 않습니다.")
+        val code: String
+)
+
+data class EmailReqDto(
+        @field:Email(message = "이메일 형식에 맞지 않습니다.") @NotNull
+        val email: String
+)
+
 data class UserNameReqDto(
         @field:Pattern(regexp = "^(?=.*[A-Za-z])[A-Za-z_0-9]{4,20}\$", message = "아이디 형식에 맞지 않습니다.")
         val userName: String
@@ -107,6 +121,7 @@ data class UserResDto(
         @JsonProperty("profile_image_url")
         val profileImageUrl: String,
         val userType: UserType,
+        val email : String
 )
 
 data class WithdrawalUserReqDto(
@@ -124,5 +139,5 @@ data class DefaultUser (
 )
 
 fun toDto(user: User) : UserResDto {
-    return UserResDto(user.id, user.userName, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl, user.userType)
+    return UserResDto(user.id, user.userName, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl, user.userType, user.email)
 }

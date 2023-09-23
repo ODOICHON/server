@@ -45,6 +45,21 @@ class UserController(
         return ApplicationResponse.ok(userService.checkNickName(nickNameReqDto.nickName))
     }
 
+    @PostMapping("/send/email")
+    fun sendEmail(
+        @Validated @RequestBody emailReqDto: EmailReqDto
+    ) : ApplicationResponse<Nothing> {
+        userService.sendEmailCode(emailReqDto.email)
+        return ApplicationResponse.ok()
+    }
+
+    @PostMapping("/check/email")
+    fun checkEMail(
+        @Validated @RequestBody checkEmailReqDto: CheckEmailReqDto
+    ) : ApplicationResponse<Boolean> {
+        return ApplicationResponse.ok(userService.checkEmailCode(checkEmailReqDto))
+    }
+
     @PostMapping("/send/sms")
     fun sendSms(
             @Validated @RequestBody phoneNumReqDto: PhoneNumReqDto

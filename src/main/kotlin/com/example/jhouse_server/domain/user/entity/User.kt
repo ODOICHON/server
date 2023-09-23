@@ -19,6 +19,10 @@ import javax.persistence.*
 @DiscriminatorValue("U")
 class User(
     @Convert(converter = CryptoConverter::class)
+    @Column(nullable = true)
+    var email: String,
+
+    @Convert(converter = CryptoConverter::class)
     var userName: String,
 
     @Convert(converter = CryptoConverter::class)
@@ -119,6 +123,7 @@ class User(
         this.userName = ""
         this.password = ""
         this.phoneNum = ""
+        this.email = ""
     }
 
     fun updateWithdrawalStatus(withdrawalStatus: WithdrawalStatus) {

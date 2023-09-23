@@ -10,6 +10,7 @@ import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode.*
 import com.example.jhouse_server.global.jwt.TokenDto
 import com.example.jhouse_server.global.jwt.TokenProvider
+import com.example.jhouse_server.global.util.EmailUtil
 import com.example.jhouse_server.global.util.RedisUtil
 import com.example.jhouse_server.global.util.SmsUtil
 import com.example.jhouse_server.global.util.findByIdOrThrow
@@ -26,9 +27,10 @@ class UserServiceImpl (
         val tokenProvider: TokenProvider,
         val redisUtil: RedisUtil,
         val smsUtil: SmsUtil,
-        val userServiceCommonMethod: UserServiceCommonMethod
+        val userServiceCommonMethod: UserServiceCommonMethod,
+        val emailUtil: EmailUtil,
 ): UserService {
-    private val SMS_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
+    private val CONFIRM_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
     override fun findUserById(userId: Long): UserResDto {
         val findUser = userRepository.findByIdOrThrow(userId)
@@ -50,17 +52,11 @@ class UserServiceImpl (
         }
         val code = createCode()
         smsUtil.sendMessage(phoneNum, code)
-        redisUtil.setValuesExpired(phoneNum, code, SMS_CODE_EXPIRE_TIME)
+        redisUtil.setValuesExpired(phoneNum, code, CONFIRM_CODE_EXPIRE_TIME)
     }
 
     override fun checkSmsCode(checkSmsReqDto: CheckSmsReqDto): Boolean {
-        val savedCode: String = redisUtil.getValues(checkSmsReqDto.phoneNum).toString()
-
-        if (savedCode == checkSmsReqDto.code) {
-            redisUtil.deleteValues(checkSmsReqDto.phoneNum)
-            return true
-        }
-        return false
+        return checkCode(checkSmsReqDto.phoneNum, checkSmsReqDto.code)
     }
 
     @Transactional
@@ -82,7 +78,7 @@ class UserServiceImpl (
             throw ApplicationException(DISAGREE_TERM)
         }
 
-        val user = User(userSignUpReqDto.userName, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
+        val user = User(userSignUpReqDto.email, userSignUpReqDto.userName, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
                         userSignUpReqDto.nickName, userSignUpReqDto.phoneNum, DefaultUser().profileImageUrl,
                         Authority.USER, age, UserType.NONE, null, null)
         userRepository.save(user)
@@ -174,9 +170,30 @@ class UserServiceImpl (
         user.updateWithdrawalStatus(WAIT)
     }
 
+    override fun sendEmailCode(email: String) {
+        if(userRepository.findByEmail(email).isPresent) throw ApplicationException(EXIST_EMAIL)
+        val code = createCode()
+        emailUtil.sendMessage(email, code)
+        redisUtil.setValuesExpired(email, code, CONFIRM_CODE_EXPIRE_TIME)
+    }
+
+    override fun checkEmailCode(checkEmailReqDto: CheckEmailReqDto): Boolean {
+        return checkCode(checkEmailReqDto.email, checkEmailReqDto.code)
+    }
+
     private fun createCode(): String {
         val random: Random = Random()
 
         return String.format("%04d", random.nextInt(10000))
+    }
+
+    private fun checkCode(key: String, code: String) : Boolean {
+        val savedCode : String = redisUtil.getValues(key).toString()
+
+        if(savedCode == code) {
+            redisUtil.deleteValues(key)
+            return true
+        }
+        return false
     }
 }
