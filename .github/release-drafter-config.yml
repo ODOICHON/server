@@ -4,6 +4,7 @@ categories:
   - title: '🚀 Features'
     labels:
       - 'feature'
+      - 'feat'
   - title: '🐛 Bug Fixes'
     labels:
       - 'fix'
@@ -15,7 +16,7 @@ exclude-labels:
   - "helped wanted"
   - "test"
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+change-title-escapes: '\<*_&'
 version-resolver:
   major:
     labels:
@@ -28,6 +29,7 @@ version-resolver:
       - 'patch'
   default: patch
 template: |
-  ## Changes
-
+  ## 🚀 이번 버전에서는 어떤 게 바뀌었을까요?
+  ---
   $CHANGES
+no-changes-template: '앗! 변경사항이 없어요. 😖'
