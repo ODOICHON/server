@@ -25,6 +25,7 @@ import com.example.jhouse_server.domain.user.entity.*
 class MockEntity {
     companion object {
         fun testUser1() = UserSignUpReqDto(
+            email = "zzangu@jhouse.com",
             userName = "zzangu_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저1",
@@ -38,6 +39,7 @@ class MockEntity {
             password = "abcdefG123!",
         )
         fun testAdmin() = User(
+            email = "zzangu@jhouse.com",
             userName = "IronSu_test_com",
             password = "passworD123!",
             nickName = "철수",
@@ -53,6 +55,7 @@ class MockEntity {
 
 
         fun testUserSignUpDto() = UserSignUpReqDto(
+            email = "zzangu@jhouse.com",
             userName = "test_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저1",
@@ -63,6 +66,7 @@ class MockEntity {
         )
 
         fun testUserSignUpDto2() = UserSignUpReqDto(
+            email = "zzangu@jhouse.com",
             userName = "test2_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저2",
@@ -73,6 +77,7 @@ class MockEntity {
         )
 
         fun testUserSignUpDto3() = UserSignUpReqDto(
+            email = "zzangu@jhouse.com",
             userName = "test3_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저3",
@@ -598,6 +603,10 @@ class MockEntity {
             age = "30대",
             contact = "010-1111-1111",
             dealDate = "2023-01-01"
+        )
+
+        fun testEmailDto() = EmailReqDto(
+            email = "zzangu@jhouse.com"
         )
     }
 }

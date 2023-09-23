@@ -36,6 +36,7 @@ internal class UserControllerTest @Autowired constructor(
     private val phoneNumReqDto = MockEntity.testPhoneNumDto()
     private val nickNameReqDto = MockEntity.testNickNameDto()
     private val passwordReqDto = MockEntity.testPasswordDto()
+    private val emailReqDto = MockEntity.testEmailDto()
 
     @Test
     @DisplayName("유저 정보 조회")
@@ -72,6 +73,7 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("data.age").description("연령대"),
                                         fieldWithPath("data.profile_image_url").description("프로필 이미지 URL"),
                                         fieldWithPath("data.userType").description("사용자 타입 ( 일반 사용자 : NONE, 공인중개사 : AGENT, 관리자 : WEB/SERVER )"),
+                                        fieldWithPath("data.email").description("사용자 이메일 계정"),
                                 )
                         )
                 )
@@ -145,6 +147,81 @@ internal class UserControllerTest @Autowired constructor(
                                 )
                         )
                 )
+    }
+    @Test
+    @DisplayName("인증이메일 전송 테스트")
+    fun sendEmail() {
+        //given
+        val content: String = objectMapper.writeValueAsString(emailReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri/send/email")
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "send-email",
+                    requestFields(
+                        fieldWithPath("email").description("사용자 이메일 계정")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("인증이메일 검증 테스트")
+    fun checkEmail() {
+        //given
+        val email = emailReqDto.email
+        userService.sendEmailCode(email)
+        val code = redisUtil.getValues(email).toString()
+        val checkEmailReqDto = CheckEmailReqDto(email, code)
+
+        val content: String = objectMapper.writeValueAsString(checkEmailReqDto)
+
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri/check/email")
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "check-email",
+                    requestFields(
+                        fieldWithPath("email").description("사용자 이메일 계정"),
+                        fieldWithPath("code").description("인증 코드")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("data").description("검증 결과")
+                    )
+                )
+            )
     }
 
     @Test
@@ -283,6 +360,7 @@ internal class UserControllerTest @Autowired constructor(
                         document(
                                 "sign-up",
                                 requestFields(
+                                        fieldWithPath("email").description("사용자 이메일"),
                                         fieldWithPath("userName").description("사용자 로그인 아이디"),
                                         fieldWithPath("password").description("비밀번호"),
                                         fieldWithPath("nick_name").description("닉네임"),
