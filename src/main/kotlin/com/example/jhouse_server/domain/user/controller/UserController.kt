@@ -32,7 +32,7 @@ class UserController(
     }
 
     @PostMapping("/check/user-name")
-    fun emailCheck(
+    fun userNameCheck(
             @Validated @RequestBody userNameReqDto: UserNameReqDto
     ): ApplicationResponse<Boolean> {
         return ApplicationResponse.ok(userService.checkUserName(userNameReqDto.userName))
