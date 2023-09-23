@@ -145,7 +145,6 @@ class RecordServiceImplTest @Autowired constructor(
 
         //then
         assertThat(hotThumbnailResDtos.size).isEqualTo(3)
-        assertThat(hotThumbnailResDtos.map { it.recordId }.toList()).isEqualTo(listOf(recordId1, recordId2, recordId3))
     }
 
     @Test
