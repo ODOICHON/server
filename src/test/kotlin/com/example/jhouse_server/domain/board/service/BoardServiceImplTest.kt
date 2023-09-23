@@ -47,8 +47,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("자유 게시글 작성")
     fun create_default_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val findUser = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val findUser = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val req = MockEntity.boardDefaultReqDto()
         // when
         val saved = boardService.createBoard(req, findUser)
@@ -60,8 +60,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("홍보 게시글 작성")
     fun create_advertisement_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val findUser = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val findUser = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val req = MockEntity.boardAdsReqDto()
         // when
         val saved = boardService.createBoard(req, findUser)
@@ -73,8 +73,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("소개 게시글 작성")
     fun create_intro_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val findUser = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val findUser = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val req = MockEntity.boardIntroReqDto()
         // when
         val saved = boardService.createBoard(req, findUser)
@@ -86,8 +86,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 수정_말머리 변경")
     fun update_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val saved = boardService.createBoard(MockEntity.boardReqDto(), writer)
         val req = MockEntity.boardUpdateReqDto()
         // when
@@ -100,9 +100,9 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 수정_권한없음")
     fun update_board_unauthorized() {
         // given
-        로그인(testSignUpReqDto.email, testSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val unWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        로그인(testSignUpReqDto.userName, testSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val unWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         val saved = boardService.createBoard(MockEntity.boardReqDto(), writer)
         val req = MockEntity.boardUpdateReqDto()
         // when - then
@@ -114,8 +114,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 삭제")
     fun delete_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val saved = boardService.createBoard(MockEntity.boardReqDto(), writer)
         // when
         boardService.deleteBoard(saved, writer)
@@ -127,9 +127,9 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 삭제_권한 오류")
     fun delete_board_unauthorized() {
         // given
-        로그인(testSignUpReqDto.email, testSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val unWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        로그인(testSignUpReqDto.userName, testSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val unWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         val saved = boardService.createBoard(MockEntity.boardReqDto(), writer)
         // when-then
         assertThrows(ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)::class.java) { boardService.deleteBoard(saved, unWriter) }
@@ -160,8 +160,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @Test
     @DisplayName("메인페이지 게시글 조회")
     fun get_board_preview_all() {
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         for (i in 0 until 5) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
@@ -175,8 +175,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     fun get_board_all() {
         // given
         val pageable = PageRequest.of(0, 8)
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         for (i in 0 until 8) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
@@ -192,8 +192,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     fun get_board_all_one_line_content() {
         // given
         val pageable = PageRequest.of(0, 8)
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         for (i in 0 until 8) {
             boardService.createBoard(MockEntity.boardReqDto(), writer)
         }
@@ -208,8 +208,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     fun get_board_all_delete() {
         // given
         val pageable = PageRequest.of(0, 8)
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         var lastId = 0L
         for (i in 0 until 8) {
             lastId = boardService.createBoard(MockEntity.boardReqDto(), writer)
@@ -225,8 +225,8 @@ internal class BoardServiceImplTest @Autowired constructor(
     @DisplayName("게시글 상세 조회")
     fun get_board_detail() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val saved = boardService.createBoard(MockEntity.boardReqDto(), writer)
         // when
         val res = boardService.getBoardOne(saved)

@@ -43,7 +43,7 @@ internal class AgentControllerTest: ApiControllerConfig("/api/v1/agents") {
                 MockMvcRestDocumentation.document(
                     "agent-sign-up",
                     PayloadDocumentation.requestFields(
-                        PayloadDocumentation.fieldWithPath("email").description("이메일"),
+                        PayloadDocumentation.fieldWithPath("userName").description("사용자 로그인 아이디"),
                         PayloadDocumentation.fieldWithPath("password").description("비밀번호"),
                         PayloadDocumentation.fieldWithPath("nick_name").description("닉네임"),
                         PayloadDocumentation.fieldWithPath("phone_num").description("전화번호"),

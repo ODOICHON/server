@@ -34,8 +34,8 @@ class NotificationServiceImplTest @Autowired constructor(
         //user setting
         userService.signUp(userSignUpDto)
         userService.signUp(userSignUpDto2)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
-        val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
+        val user2 = userRepository.findByUserName(userSignUpDto2.userName).get()
 
         //board setting
         val boardId = boardService.createBoard(boardReqDto, user)
@@ -51,7 +51,7 @@ class NotificationServiceImplTest @Autowired constructor(
     @DisplayName("알림 조회 테스트")
     fun getNotifications() {
         //given
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         val pageRequest = PageRequest.of(0, 5)
         val req = NotificationReqDto(null, null)
 
@@ -67,7 +67,7 @@ class NotificationServiceImplTest @Autowired constructor(
     @DisplayName("알림 읽음 처리 테스트")
     fun updateNotification() {
         //given
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         val notification = user.notifications[0]
 
         //when

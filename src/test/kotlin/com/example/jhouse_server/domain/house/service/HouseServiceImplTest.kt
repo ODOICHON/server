@@ -1,10 +1,8 @@
 package com.example.jhouse_server.domain.house.service
 
 import com.example.jhouse_server.domain.house.dto.HouseListDto
-import com.example.jhouse_server.domain.house.dto.ReportReqDto
 import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
-import com.example.jhouse_server.domain.house.entity.RecommendedTag
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.house.repository.DealRepository
 import com.example.jhouse_server.domain.house.repository.HouseRepository
@@ -56,11 +54,11 @@ internal class HouseServiceImplTest @Autowired constructor(
         userService.signUp(userSignUpReqDto)
         // another user ( for agent )
         userService.signUp(testSignUpReqDto)
-        val agent = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val agent = userRepository.findByUserName(testSignUpReqDto.userName).get()
         agent.updateUserType(UserType.AGENT)
         // admin user
         userService.signUp(adminSignUpReqDto)
-        val admin = userRepository.findByEmail(adminSignUpReqDto.email).get()
+        val admin = userRepository.findByUserName(adminSignUpReqDto.userName).get()
         admin.updateAuthority(Authority.ADMIN)
     }
     fun `로그인`(email: String, password: String) {
@@ -70,7 +68,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 생성 - 일반 유저")
     fun createHouse_user() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
 
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
@@ -86,7 +84,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 생성 - 공인중개사 유저")
     fun createHouse_agent() {
         // given
-        val writer = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(testSignUpReqDto.userName).get()
 
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
@@ -101,7 +99,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 생성 - 관리자 유저")
     fun createHouse_admin() {
         // given
-        val writer = userRepository.findByEmail(adminSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
 
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
@@ -116,7 +114,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 임시저장 - 일반 유저")
     fun createHouse_tmp_default() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
 
         // when
         val houseId = houseService.createHouse(houseTmpReqDto(), writer)
@@ -131,7 +129,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("임시저장된 빈집 게시글 수정 - 일반 유저")
     fun updateHouse_tmp_default() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
 
         // when
         val houseId = houseService.createHouse(houseTmpReqDto(), writer)
@@ -147,7 +145,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("임시저장된 빈집 게시글 수정 - 공인중개사 유저")
     fun updateHouse_tmp_agent() {
         // given
-        val writer = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(testSignUpReqDto.userName).get()
 
         // when
         val houseId = houseService.createHouse(houseTmpReqDto(), writer)
@@ -163,8 +161,8 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("일반 유저의 임시저장된 빈집 게시글 수정 권한 없음 - 타 유저")
     fun updateHouse_tmp_default_unauthorized() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val anotherWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val anotherWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         // when
         val houseId = houseService.createHouse(houseTmpReqDto(), writer)
 
@@ -177,8 +175,8 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 수정 권한 없음 - 타 유저")
     fun updateHouse_default_unauthorized() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val anotherWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val anotherWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
 
@@ -191,7 +189,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 삭제 - 작성자 본인")
     fun deleteHouse_default() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
         houseService.deleteHouse(houseId, writer)
@@ -204,8 +202,8 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 삭제 - 관리자")
     fun deleteHouse_admin() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val admin = userRepository.findByEmail(adminSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val admin = userRepository.findByUserName(adminSignUpReqDto.userName).get()
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
         houseService.deleteHouse(houseId, admin)
@@ -218,8 +216,8 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 삭제 권한 없음 - 타 유저")
     fun deleteHouse_default_unauthorized() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val anotherWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val anotherWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         // when
         val houseId = houseService.createHouse(houseReqDto(), writer)
 
@@ -232,8 +230,8 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 신고 - 타 유저")
     fun reportHouse_another_user() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val anotherWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val anotherWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         // when
         houseService.reportHouse(houseId, reportReqDto(), anotherWriter)
@@ -247,7 +245,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 신고 - 작성자 본인")
     fun reportHouse_mine() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         // when - then
         assertThrows(ApplicationException(ErrorCode.DONT_REPORT_HOUSE_MINE)::class.java) {
@@ -259,7 +257,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 상세 조회")
     fun getHouse_unSignIn() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         // when - then
         val house = houseService.getHouseOne(houseId)
@@ -271,7 +269,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 상세 조회 - 로그인")
     fun getHouse_signIn_unScrapped() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         // when - then
         val house = houseService.getHouseOneWithUser(houseId, writer)
@@ -283,8 +281,8 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 게시글 상세 조회 - 로그인")
     fun getHouse_signIn_scrapped() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val anotherUser = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val anotherUser = userRepository.findByUserName(testSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         scrapService.scrapHouse(houseId, anotherUser)
         // when
@@ -297,7 +295,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("임시저장된 빈집 게시글 목록 조회 - 작성자 본인")
     fun getTmpSaveHouseAll_signIn() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         createTmpHouseAll()
         val pageable = PageRequest.of(0, 8)
         // when
@@ -307,7 +305,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     }
 
     private fun createTmpHouseAll() {
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         for(i in 0 until 12) {
             houseService.createHouse(houseTmpReqDto(), writer)
         }
@@ -369,7 +367,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 거래 상태 변경")
     fun update_status() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         val req = MockEntity.updateStatus("테스트유저2")
         // when
@@ -382,7 +380,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     @DisplayName("빈집 거래 상태 변경 - 닉네임 공백이거나 null일 경우")
     fun update_status_nickName_isBlank() {
         // given
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
         val req = MockEntity.updateStatus("")
         // when
@@ -393,7 +391,7 @@ internal class HouseServiceImplTest @Autowired constructor(
     }
 
     private fun createHouseAll() {
-        val writer = userRepository.findByEmail(adminSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
         for(i in 0 until 12) {
             houseService.createHouse(houseReqDto(), writer)
         }

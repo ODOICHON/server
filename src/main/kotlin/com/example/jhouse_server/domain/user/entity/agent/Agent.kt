@@ -6,7 +6,7 @@ import javax.persistence.*
 @Entity
 @DiscriminatorValue("A")
 class Agent(
-    email: String, password: String, nickName: String, phoneNum: String,
+    userName: String, password: String, nickName: String, phoneNum: String,
     profileImageUrl: String, authority: Authority, age: Age, userType: UserType,
 
     @Convert(converter = CryptoConverter::class)
@@ -36,7 +36,7 @@ class Agent(
 
     @Enumerated(EnumType.STRING)
     var status: AgentStatus
-): User(email, password, nickName, phoneNum, profileImageUrl, authority, age, userType,
+): User(email = companyEmail, userName, password, nickName, phoneNum, profileImageUrl, authority, age, userType,
         withdrawalStatus = null, withdrawal = null) {
 
     fun updateStatus(status: AgentStatus) {

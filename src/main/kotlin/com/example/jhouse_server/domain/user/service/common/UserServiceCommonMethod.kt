@@ -38,9 +38,9 @@ class UserServiceCommonMethod(
         userJoinPathRepository.save(userJoinPath)
     }
 
-    fun validateDuplicate(email: String, nickName: String, phoneNum: String) {
-        if(userRepository.existsByEmail(email)) {
-            throw ApplicationException(ErrorCode.EXIST_EMAIL)
+    fun validateDuplicate(userName: String, nickName: String, phoneNum: String) {
+        if(userRepository.existsByUserName(userName)) {
+            throw ApplicationException(ErrorCode.EXIST_USERNAME)
         }
         if(userRepository.existsByNickName(nickName)) {
             throw ApplicationException(ErrorCode.EXIST_NICK_NAME)

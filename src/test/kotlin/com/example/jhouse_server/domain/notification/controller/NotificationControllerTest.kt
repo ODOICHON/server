@@ -43,8 +43,8 @@ class NotificationControllerTest @Autowired constructor(
         //user setting
         userService.signUp(userSignUpDto)
         userService.signUp(userSignUpDto2)
-        user = userRepository.findByEmail(userSignUpDto.email).get()
-        val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
+        user = userRepository.findByUserName(userSignUpDto.userName).get()
+        val user2 = userRepository.findByUserName(userSignUpDto2.userName).get()
         val tokenDto = userService.signIn(userSignInDto)
         accessToken = tokenDto.accessToken
 

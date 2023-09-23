@@ -3,7 +3,6 @@ package com.example.jhouse_server.domain.admin.user
 import com.example.jhouse_server.admin.user.dto.AdminJoinAgentList
 import com.example.jhouse_server.admin.user.dto.AdminWithdrawalList
 import com.example.jhouse_server.admin.user.service.AdminUserService
-import com.example.jhouse_server.domain.user.entity.WithdrawalStatus
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
@@ -53,7 +52,7 @@ class AdminUserServiceTest @Autowired constructor(
     fun withdrawalAgent() {
         // given
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmailAndSuspension(userSignUpDto.email, false).get()
+        val user = userRepository.findByUserNameAndSuspension(userSignUpDto.userName, false).get()
         val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto(null)
         userService.withdrawal(user, withdrawalUserReqDto)
 
@@ -68,9 +67,9 @@ class AdminUserServiceTest @Autowired constructor(
     @DisplayName("공인중개사 가입승인")
     fun joinAgentTest() {
         // given
-        val agent1 = userRepository.findByEmailAndSuspension(agentSignUpDto1.email, false).get() as Agent
-        val agent2 = userRepository.findByEmailAndSuspension(agentSignUpDto2.email, false).get() as Agent
-        val agent3 = userRepository.findByEmailAndSuspension(agentSignUpDto3.email, false).get() as Agent
+        val agent1 = userRepository.findByUserNameAndSuspension(agentSignUpDto1.userName, false).get() as Agent
+        val agent2 = userRepository.findByUserNameAndSuspension(agentSignUpDto2.userName, false).get() as Agent
+        val agent3 = userRepository.findByUserNameAndSuspension(agentSignUpDto3.userName, false).get() as Agent
 
         // when
         adminUserService.agentJoin(getAdminJoinAgentList(listOf(agent1.id, agent2.id, agent3.id)))

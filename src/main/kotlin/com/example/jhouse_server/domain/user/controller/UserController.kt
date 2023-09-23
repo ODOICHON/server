@@ -31,11 +31,11 @@ class UserController(
         return ApplicationResponse.ok(userService.findUserById(user.id))
     }
 
-    @PostMapping("/check/email")
-    fun emailCheck(
-            @Validated @RequestBody emailReqDto: EmailReqDto
+    @PostMapping("/check/user-name")
+    fun userNameCheck(
+            @Validated @RequestBody userNameReqDto: UserNameReqDto
     ): ApplicationResponse<Boolean> {
-        return ApplicationResponse.ok(userService.checkEmail(emailReqDto.email))
+        return ApplicationResponse.ok(userService.checkUserName(userNameReqDto.userName))
     }
 
     @PostMapping("/check/nick-name")
@@ -43,6 +43,21 @@ class UserController(
             @Validated @RequestBody nickNameReqDto: NickNameReqDto
     ): ApplicationResponse<Boolean> {
         return ApplicationResponse.ok(userService.checkNickName(nickNameReqDto.nickName))
+    }
+
+    @PostMapping("/send/email")
+    fun sendEmail(
+        @Validated @RequestBody emailReqDto: EmailReqDto
+    ) : ApplicationResponse<Nothing> {
+        userService.sendEmailCode(emailReqDto.email)
+        return ApplicationResponse.ok()
+    }
+
+    @PostMapping("/check/email")
+    fun checkEMail(
+        @Validated @RequestBody checkEmailReqDto: CheckEmailReqDto
+    ) : ApplicationResponse<Boolean> {
+        return ApplicationResponse.ok(userService.checkEmailCode(checkEmailReqDto))
     }
 
     @PostMapping("/send/sms")

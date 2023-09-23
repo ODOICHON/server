@@ -49,8 +49,8 @@ class RecordReviewControllerTest @Autowired constructor(
         userService.signUp(userSignUpDto1)
         userService.signUp(userSignUpDto2)
 
-        user = userRepository.findByEmail(userSignUpDto1.email).get()
-        val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
+        user = userRepository.findByUserName(userSignUpDto1.userName).get()
+        val user2 = userRepository.findByUserName(userSignUpDto2.userName).get()
         user!!.updateAuthority(Authority.ADMIN)
         user!!.updateUserType(UserType.SERVER)
         user2.updateAuthority(Authority.ADMIN)

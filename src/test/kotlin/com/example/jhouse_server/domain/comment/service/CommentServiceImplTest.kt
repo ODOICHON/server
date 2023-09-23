@@ -1,10 +1,8 @@
 package com.example.jhouse_server.domain.comment.service
 
-import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
 import com.example.jhouse_server.domain.user.UserSignInReqDto
-import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.exception.ApplicationException
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.Mock
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.transaction.annotation.Transactional
@@ -43,7 +40,7 @@ internal class CommentServiceImplTest @Autowired constructor(
         userService.signIn(UserSignInReqDto(email, password))
     }
     fun `게시글_작성`() : Long {
-        val writer = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(testSignUpReqDto.userName).get()
         return boardService.createBoard(MockEntity.boardReqDto(), writer)
     }
 
@@ -51,8 +48,8 @@ internal class CommentServiceImplTest @Autowired constructor(
     @DisplayName("댓글 작성")
     fun create_comment() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val findUser = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val findUser = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val req = MockEntity.commentReqDto(게시글_작성())
         // when
         val saved = commentService.createComment(req, findUser)
@@ -65,8 +62,8 @@ internal class CommentServiceImplTest @Autowired constructor(
     @DisplayName("댓글 수정")
     fun update_comment() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val findUser = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val findUser = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val already = MockEntity.commentReqDto(게시글_작성())
         val saved = commentService.createComment(already, findUser)
         val req = MockEntity.updateCommentReqDto(게시글_작성())
@@ -81,8 +78,8 @@ internal class CommentServiceImplTest @Autowired constructor(
     @DisplayName("댓글 삭제")
     fun delete_comment() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val findUser = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val findUser = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val already = MockEntity.commentReqDto(게시글_작성())
         val saved = commentService.createComment(already, findUser)
         // when - then
@@ -93,9 +90,9 @@ internal class CommentServiceImplTest @Autowired constructor(
     @Test
     @DisplayName("댓글 삭제 - 권한 없음")
     fun delete_comment_unauthorized() {
-        로그인(testSignUpReqDto.email, testSignUpReqDto.password)
-        val writer = userRepository.findByEmail(userSignUpReqDto.email).get()
-        val unWriter = userRepository.findByEmail(testSignUpReqDto.email).get()
+        로그인(testSignUpReqDto.userName, testSignUpReqDto.password)
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val unWriter = userRepository.findByUserName(testSignUpReqDto.userName).get()
         val already = MockEntity.commentReqDto(게시글_작성())
         val saved = commentService.createComment(already, writer)
         // when-then
