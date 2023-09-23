@@ -36,8 +36,8 @@ class UserServiceImpl (
         return toDto(findUser)
     }
 
-    override fun checkEmail(email: String): Boolean {
-        return !userRepository.existsByEmail(email)
+    override fun checkUserName(userName: String): Boolean {
+        return !userRepository.existsByUserName(userName)
     }
 
     override fun checkNickName(nickName: String): Boolean {
@@ -65,7 +65,7 @@ class UserServiceImpl (
 
     @Transactional
     override fun signUp(userSignUpReqDto: UserSignUpReqDto) {
-        userServiceCommonMethod.validateDuplicate(userSignUpReqDto.email, userSignUpReqDto.nickName, userSignUpReqDto.phoneNum)
+        userServiceCommonMethod.validateDuplicate(userSignUpReqDto.userName, userSignUpReqDto.nickName, userSignUpReqDto.phoneNum)
 
         val age: Age = Age.getAge(userSignUpReqDto.age)!!
         val joinPaths: MutableList<JoinPath> = mutableListOf()
@@ -82,7 +82,7 @@ class UserServiceImpl (
             throw ApplicationException(DISAGREE_TERM)
         }
 
-        val user = User(userSignUpReqDto.email, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
+        val user = User(userSignUpReqDto.userName, userServiceCommonMethod.encodePassword(userSignUpReqDto.password),
                         userSignUpReqDto.nickName, userSignUpReqDto.phoneNum, DefaultUser().profileImageUrl,
                         Authority.USER, age, UserType.NONE, null, null)
         userRepository.save(user)
@@ -97,8 +97,8 @@ class UserServiceImpl (
     }
 
     override fun signIn(userSignInReqDto: UserSignInReqDto): TokenDto {
-        val user = userRepository.findByEmailAndSuspension(userSignInReqDto.email, false)
-                .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
+        val user = userRepository.findByUserNameAndSuspension(userSignInReqDto.userName, false)
+                .orElseThrow{ ApplicationException(DONT_EXIST_USERNAME) }
         if (user.password != userServiceCommonMethod.encodePassword(userSignInReqDto.password)) {
             throw ApplicationException(DONT_MATCH_PASSWORD)
         }
@@ -109,9 +109,9 @@ class UserServiceImpl (
     override fun reissue(bearerToken: String, refreshToken: String): TokenDto {tokenProvider.validateToken(refreshToken, false)
 
         val accessToken = tokenProvider.resolveToken(bearerToken).toString()
-        val email = tokenProvider.getSubject(accessToken)
-        val user = userRepository.findByEmailAndSuspension(email, false)
-                .orElseThrow{ ApplicationException(DONT_EXIST_EMAIL) }
+        val userName = tokenProvider.getSubject(accessToken)
+        val user = userRepository.findByUserNameAndSuspension(userName, false)
+                .orElseThrow{ ApplicationException(DONT_EXIST_USERNAME) }
         return tokenProvider.createTokenResponse(user)
     }
 

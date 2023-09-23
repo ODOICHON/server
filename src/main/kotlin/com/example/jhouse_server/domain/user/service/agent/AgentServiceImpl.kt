@@ -22,7 +22,7 @@ class AgentServiceImpl(
 
     @Transactional
     override fun signUp(agentSignUpReqDto: AgentSignUpReqDto) {
-        userServiceCommonMethod.validateDuplicate(agentSignUpReqDto.email, agentSignUpReqDto.nickName, agentSignUpReqDto.companyPhoneNum)
+        userServiceCommonMethod.validateDuplicate(agentSignUpReqDto.userName, agentSignUpReqDto.nickName, agentSignUpReqDto.companyPhoneNum)
 
         val age: Age = Age.getAge(agentSignUpReqDto.age)!!
         val joinPaths: MutableList<JoinPath> = mutableListOf()
@@ -40,7 +40,7 @@ class AgentServiceImpl(
 
         val address = agentSignUpReqDto.companyAddress.plus(" ").plus(agentSignUpReqDto.companyAddressDetail)
 
-        val agent = Agent(agentSignUpReqDto.email, userServiceCommonMethod.encodePassword(agentSignUpReqDto.password),
+        val agent = Agent(agentSignUpReqDto.userName, userServiceCommonMethod.encodePassword(agentSignUpReqDto.password),
             agentSignUpReqDto.nickName, agentSignUpReqDto.phoneNum, DefaultUser().profileImageUrl, Authority.USER, age, UserType.AGENT,
             agentSignUpReqDto.agentCode, agentSignUpReqDto.businessCode, agentSignUpReqDto.companyName,
             agentSignUpReqDto.agentName, agentSignUpReqDto.companyPhoneNum, agentSignUpReqDto.assistantName,

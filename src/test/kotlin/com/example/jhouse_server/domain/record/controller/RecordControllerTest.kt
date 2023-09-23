@@ -60,8 +60,8 @@ class RecordControllerTest @Autowired constructor(
         userService.signUp(userSignUpDto1)
         userService.signUp(userSignUpDto2)
 
-        user = userRepository.findByEmail(userSignUpDto1.email).get()
-        val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
+        user = userRepository.findByUserName(userSignUpDto1.userName).get()
+        val user2 = userRepository.findByUserName(userSignUpDto2.userName).get()
         user!!.updateAuthority(Authority.ADMIN)
         user!!.updateUserType(UserType.SERVER)
         user2.updateAuthority(Authority.ADMIN)
@@ -378,7 +378,7 @@ class RecordControllerTest @Autowired constructor(
     fun getRecordWithReview() {
         //given
         val recordId = recordIds[0]
-        val user2 = userRepository.findByEmail(userSignUpDto2.email).get()
+        val user2 = userRepository.findByUserName(userSignUpDto2.userName).get()
 
         var recordReviewReqDto = MockEntity.recordReviewReqDtoAll(recordId, "이 부분 수정해주세요.", "reject")
         recordReviewService.saveRecordReview(recordReviewReqDto, user!!)

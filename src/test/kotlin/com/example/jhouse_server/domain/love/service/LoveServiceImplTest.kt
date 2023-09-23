@@ -2,7 +2,6 @@ package com.example.jhouse_server.domain.love.service
 
 import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.BoardService
-import com.example.jhouse_server.domain.love.entity.Love
 import com.example.jhouse_server.domain.love.repository.LoveRepository
 import com.example.jhouse_server.domain.user.UserSignInReqDto
 import com.example.jhouse_server.domain.user.repository.UserRepository
@@ -10,7 +9,6 @@ import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.util.MockEntity
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -41,7 +39,7 @@ internal class LoveServiceImplTest @Autowired constructor(
         userService.signIn(UserSignInReqDto(email, password))
     }
     fun `게시글_작성`() : Long {
-        val writer = userRepository.findByEmail(testSignUpReqDto.email).get()
+        val writer = userRepository.findByUserName(testSignUpReqDto.userName).get()
         return boardService.createBoard(MockEntity.boardReqDto(), writer)
     }
 
@@ -49,9 +47,9 @@ internal class LoveServiceImplTest @Autowired constructor(
     @DisplayName("게시글 좋아요")
     fun love_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
         val board = 게시글_작성()
-        val user = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val user = userRepository.findByUserName(userSignUpReqDto.userName).get()
         // when
         loveService.loveBoard(board, user)
         // then
@@ -64,9 +62,9 @@ internal class LoveServiceImplTest @Autowired constructor(
     @DisplayName("게시글 좋아요 취소")
     fun hate_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
         val board = 게시글_작성()
-        val user = userRepository.findByEmail(userSignUpReqDto.email).get()
+        val user = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val loved = loveService.loveBoard(board, user)
         // when
         loveService.hateBoard(board, user)
@@ -78,8 +76,8 @@ internal class LoveServiceImplTest @Autowired constructor(
     @DisplayName("게시글 좋아요 여부 확인")
     fun is_loved_board() {
         // given
-        로그인(userSignUpReqDto.email, userSignUpReqDto.password)
-        val user = userRepository.findByEmail(userSignUpReqDto.email).get()
+        로그인(userSignUpReqDto.userName, userSignUpReqDto.password)
+        val user = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val board = 게시글_작성()
         loveService.loveBoard(board, user)
         // when

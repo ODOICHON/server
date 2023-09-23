@@ -43,7 +43,7 @@ internal class CommentControllerTest @Autowired constructor(
     private var comment: Long = 0L
 
     fun `로그인`() {
-        if (!userRepository.existsByEmail(userSignUpReqDto.email)) {
+        if (!userRepository.existsByUserName(userSignUpReqDto.userName)) {
             userService.signUp(userSignUpReqDto)
         }
         tokenDto = userService.signIn(userSignInReqDto)
@@ -53,7 +53,7 @@ internal class CommentControllerTest @Autowired constructor(
     @Transactional
     fun `게시글 더미 데이터 생성`() {
         로그인()
-        val user = userRepository.findByEmail(userSignInReqDto.email).get()
+        val user = userRepository.findByUserName(userSignInReqDto.userName).get()
         board = boardService.createBoard(MockEntity.boardReqDto(), user)
         val findBoard = boardRepository.findByIdOrThrow(board)
         comment = commentService.createComment(MockEntity.commentReqDto(board), user)

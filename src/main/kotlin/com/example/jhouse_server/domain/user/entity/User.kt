@@ -9,8 +9,6 @@ import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
 import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
-import com.example.jhouse_server.domain.user.DefaultUser
-import com.example.jhouse_server.domain.user.UserUpdateReqDto
 import com.example.jhouse_server.domain.user.WithdrawalUser
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.global.entity.BaseEntity
@@ -21,7 +19,7 @@ import javax.persistence.*
 @DiscriminatorValue("U")
 class User(
     @Convert(converter = CryptoConverter::class)
-    var email: String,
+    var userName: String,
 
     @Convert(converter = CryptoConverter::class)
     var password: String,
@@ -118,7 +116,7 @@ class User(
     fun withdrawalUser() {
         this.withdrawalStatus = APPROVE
         this.nickName = WithdrawalUser().nickname
-        this.email = ""
+        this.userName = ""
         this.password = ""
         this.phoneNum = ""
     }

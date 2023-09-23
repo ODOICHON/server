@@ -10,7 +10,6 @@ import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.dto.DealReqDto
 import com.example.jhouse_server.domain.house.dto.HouseReqDto
 import com.example.jhouse_server.domain.house.dto.ReportReqDto
-import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.record.dto.RecordPageCondition
 import com.example.jhouse_server.domain.record.dto.RecordReqDto
@@ -26,7 +25,7 @@ import com.example.jhouse_server.domain.user.entity.*
 class MockEntity {
     companion object {
         fun testUser1() = UserSignUpReqDto(
-            email = "zzangu_jhouse_com",
+            userName = "zzangu_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저1",
             phoneNum = "01011111111",
@@ -35,11 +34,11 @@ class MockEntity {
             terms = mutableListOf(Term.PERSONAL_INFO_NOTI.name, Term.SERVICE_USED_AGREE.name)
         )
         fun testUser1SignIn() = UserSignInReqDto (
-            email = "zzangu_jhouse_com",
+            userName = "zzangu_jhouse_com",
             password = "abcdefG123!",
         )
         fun testAdmin() = User(
-            email = "IronSu_test_com",
+            userName = "IronSu_test_com",
             password = "passworD123!",
             nickName = "철수",
             phoneNum = "01098765432",
@@ -54,7 +53,7 @@ class MockEntity {
 
 
         fun testUserSignUpDto() = UserSignUpReqDto(
-            email = "test_jhouse_com",
+            userName = "test_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저1",
             phoneNum = "01011111111",
@@ -64,7 +63,7 @@ class MockEntity {
         )
 
         fun testUserSignUpDto2() = UserSignUpReqDto(
-            email = "test2_jhouse_com",
+            userName = "test2_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저2",
             phoneNum = "01022222222",
@@ -74,7 +73,7 @@ class MockEntity {
         )
 
         fun testUserSignUpDto3() = UserSignUpReqDto(
-            email = "test3_jhouse_com",
+            userName = "test3_jhouse_com",
             password = "abcdefG123!",
             nickName = "테스트유저3",
             phoneNum = "01033333333",
@@ -84,7 +83,7 @@ class MockEntity {
         )
 
         fun testAgentSignUpDto() = AgentSignUpReqDto(
-            email = "agent_jhouse_com",
+            userName = "agent_jhouse_com",
             password = "abcdefG123!",
             nickName = "공인중개사1",
             phoneNum = "01044444441",
@@ -104,7 +103,7 @@ class MockEntity {
         )
 
         fun testAgentSignUpDto2() = AgentSignUpReqDto(
-                email = "agent_jhouse_com1",
+                userName = "agent_jhouse_com1",
                 password = "abcdefG123!",
                 nickName = "공인중개사2",
                 phoneNum = "01044444442",
@@ -124,7 +123,7 @@ class MockEntity {
         )
 
         fun testAgentSignUpDto3() = AgentSignUpReqDto(
-                email = "agent_jhouse_com3",
+                userName = "agent_jhouse_com3",
                 password = "abcdefG123!",
                 nickName = "공인중개사3",
                 phoneNum = "01044444443",
@@ -144,27 +143,27 @@ class MockEntity {
         )
 
         fun testUserSignInDto() = UserSignInReqDto(
-            email = "test_jhouse_com",
+            userName = "test_jhouse_com",
             password = "abcdefG123!"
         )
 
         fun testUserSignInDto2() = UserSignInReqDto(
-            email = "test2_jhouse_com",
+            userName = "test2_jhouse_com",
             password = "abcdefG123!"
         )
 
         fun testUserSignInDtoEx1() = UserSignInReqDto(
-            email = "test_jhouse_com1",
+            userName = "test_jhouse_com1",
             password = "abcdefG123!"
         )
 
         fun testUserSignInDtoEx2() = UserSignInReqDto(
-            email = "test_jhouse_com",
+            userName = "test_jhouse_com",
             password = "abcdefg123!"
         )
 
-        fun testEmailDto() = EmailReqDto(
-            email = "test_jhouse_com"
+        fun testUserNameDto() = UserNameReqDto(
+            userName = "test_jhouse_com"
         )
 
         fun testNickNameDto() = NickNameReqDto(

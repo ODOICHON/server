@@ -31,11 +31,11 @@ class UserController(
         return ApplicationResponse.ok(userService.findUserById(user.id))
     }
 
-    @PostMapping("/check/email")
+    @PostMapping("/check/user-name")
     fun emailCheck(
-            @Validated @RequestBody emailReqDto: EmailReqDto
+            @Validated @RequestBody userNameReqDto: UserNameReqDto
     ): ApplicationResponse<Boolean> {
-        return ApplicationResponse.ok(userService.checkEmail(emailReqDto.email))
+        return ApplicationResponse.ok(userService.checkUserName(userNameReqDto.userName))
     }
 
     @PostMapping("/check/nick-name")

@@ -7,7 +7,7 @@ import com.example.jhouse_server.global.jwt.TokenDto
 interface UserService {
     fun findUserById(userId : Long) : UserResDto
 
-    fun checkEmail(email: String): Boolean
+    fun checkUserName(userName: String): Boolean
 
     fun checkNickName(nickName: String): Boolean
 

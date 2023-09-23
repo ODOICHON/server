@@ -4,7 +4,6 @@ import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus
-import com.example.jhouse_server.domain.user.entity.agent.AgentStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -17,17 +16,17 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
 
     fun countByWithdrawalStatusAndUserType(status: WithdrawalStatus, userType: UserType): Long
 
-    fun existsByEmail(email: String): Boolean
+    fun existsByUserName(userName: String): Boolean
 
     fun existsByNickName(nickName: String): Boolean
 
     fun existsByPhoneNum(phoneNum: String): Boolean
 
-    fun findByEmail(email: String): Optional<User>
+    fun findByUserName(userName: String): Optional<User>
 
-    fun findByEmailAndSuspension(email: String, suspension: Boolean): Optional<User>
+    fun findByUserNameAndSuspension(userName: String, suspension: Boolean): Optional<User>
 
-    fun findByEmailAndAuthority(email: String, authority: Authority) : Optional<User>
+    fun findByUserNameAndAuthority(userName: String, authority: Authority) : Optional<User>
 
     @Query("select u from User u where u.userType = :userType and u.id <> :userId")
     fun findAllByUserType(@Param("userId") userId: Long, @Param("userType") userType: UserType): List<User>

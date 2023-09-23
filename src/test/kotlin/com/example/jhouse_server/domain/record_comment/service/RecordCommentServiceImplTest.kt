@@ -37,7 +37,7 @@ class RecordCommentServiceImplTest @Autowired constructor(
     fun before() {
         //user setting
         userService.signUp(userSignUpDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         user.updateAuthority(Authority.ADMIN)
         user.updateUserType(UserType.SERVER)
         userId = user.id

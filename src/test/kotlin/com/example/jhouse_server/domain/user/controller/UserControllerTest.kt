@@ -10,11 +10,9 @@ import com.example.jhouse_server.global.util.RedisUtil
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.MediaType.APPLICATION_JSON
-import org.springframework.restdocs.RestDocumentationExtension
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.payload.PayloadDocumentation.*
@@ -34,7 +32,7 @@ internal class UserControllerTest @Autowired constructor(
 
     private val userSignUpDto = MockEntity.testUserSignUpDto()
     private val userSignInDto = MockEntity.testUserSignInDto()
-    private val emailReqDto = MockEntity.testEmailDto()
+    private val userNameReqDto = MockEntity.testUserNameDto()
     private val phoneNumReqDto = MockEntity.testPhoneNumDto()
     private val nickNameReqDto = MockEntity.testNickNameDto()
     private val passwordReqDto = MockEntity.testPasswordDto()
@@ -67,7 +65,7 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("code").description("결과 코드"),
                                         fieldWithPath("message").description("응답 메세지"),
                                         fieldWithPath("data.id").description("유저 DB 아이디"),
-                                        fieldWithPath("data.email").description("아이디"),
+                                        fieldWithPath("data.userName").description("아이디"),
                                         fieldWithPath("data.nick_name").description("닉네임"),
                                         fieldWithPath("data.phone_num").description("전화번호"),
                                         fieldWithPath("data.authority").description("권한"),
@@ -80,15 +78,15 @@ internal class UserControllerTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("이메일 중복 검사")
-    fun emailCheck() {
+    @DisplayName("사용자 로그인 아이디 중복 검사")
+    fun userNameCheck() {
         //given
-        val content: String = objectMapper.writeValueAsString(emailReqDto)
+        val content: String = objectMapper.writeValueAsString(userNameReqDto)
 
         //when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .post("$uri/check/email")
+                        .post("$uri/check/user-name")
                         .content(content)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
@@ -101,9 +99,9 @@ internal class UserControllerTest @Autowired constructor(
                 .andDo(print())
                 .andDo(
                         document(
-                                "email-check",
+                                "userName-check",
                                 requestFields(
-                                        fieldWithPath("email").description("이메일")
+                                        fieldWithPath("userName").description("사용자 로그인 아이디")
                                 ),
                                 responseFields(
                                         fieldWithPath("code").description("결과 코드"),
@@ -285,7 +283,7 @@ internal class UserControllerTest @Autowired constructor(
                         document(
                                 "sign-up",
                                 requestFields(
-                                        fieldWithPath("email").description("이메일"),
+                                        fieldWithPath("userName").description("사용자 로그인 아이디"),
                                         fieldWithPath("password").description("비밀번호"),
                                         fieldWithPath("nick_name").description("닉네임"),
                                         fieldWithPath("phone_num").description("전화번호"),
@@ -326,7 +324,7 @@ internal class UserControllerTest @Autowired constructor(
                         document(
                                 "sign-in",
                                 requestFields(
-                                        fieldWithPath("email").description("이메일"),
+                                        fieldWithPath("userName").description("사용자 로그인 아이디"),
                                         fieldWithPath("password").description("비밀번호")
                                 ),
                                 responseFields(
@@ -373,7 +371,7 @@ internal class UserControllerTest @Autowired constructor(
                 document(
                     "sign-in-exception-1",
                     requestFields(
-                        fieldWithPath("email").description("이메일"),
+                        fieldWithPath("userName").description("사용자 로그인 아이디"),
                         fieldWithPath("password").description("비밀번호")
                     ),
                     responseFields(
@@ -389,7 +387,7 @@ internal class UserControllerTest @Autowired constructor(
                 document(
                     "sign-in-exception-2",
                     requestFields(
-                        fieldWithPath("email").description("이메일"),
+                        fieldWithPath("userName").description("사용자 로그인 아이디"),
                         fieldWithPath("password").description("비밀번호")
                     ),
                     responseFields(
@@ -716,7 +714,7 @@ internal class UserControllerTest @Autowired constructor(
         val accessToken = tokenDto.accessToken
         val withdrawalUserReqDto = MockEntity.withdrawalUserReqDto("content!")
         val content: String = objectMapper.writeValueAsString(withdrawalUserReqDto)
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         userService.withdrawal(user, withdrawalUserReqDto)
 
         //when
@@ -755,23 +753,23 @@ internal class UserControllerTest @Autowired constructor(
         val tokenDto = userService.signIn(userSignInDto)
         val accessToken = tokenDto.accessToken
 
-        val emailRE = EmailReqDto("123")
+        val userNameRE = UserNameReqDto("123")
         val passwordRE = PasswordReqDto("a123")
         val phoneNumRE = PhoneNumReqDto("010111")
         val nickNameRE = NickNameReqDto("!@#$%^")
         val codeRE = CheckSmsReqDto("01011111111", "123")
 
-        val emailContent: String = objectMapper.writeValueAsString(emailRE)
+        val userNameContent: String = objectMapper.writeValueAsString(userNameRE)
         val passwordContent: String = objectMapper.writeValueAsString(passwordRE)
         val phoneNumContent: String = objectMapper.writeValueAsString(phoneNumRE)
         val nickNameContent: String = objectMapper.writeValueAsString(nickNameRE)
         val codeContent: String = objectMapper.writeValueAsString(codeRE)
 
         //when
-        val emailResultActions = mockMvc.perform(
+        val userNameResultActions = mockMvc.perform(
             RestDocumentationRequestBuilders
-                .post("$uri/check/email")
-                .content(emailContent)
+                .post("$uri/check/user-name")
+                .content(userNameContent)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .characterEncoding("UTF-8")
@@ -811,14 +809,14 @@ internal class UserControllerTest @Autowired constructor(
         )
 
         //then
-        emailResultActions
+        userNameResultActions
             .andExpect(status().isBadRequest)
             .andDo(print())
             .andDo(
                 document(
-                    "email-validation",
+                    "userName-validation",
                     requestFields(
-                        fieldWithPath("email").description("이메일")
+                        fieldWithPath("userName").description("사용자 로그인 아이디")
                     ),
                     responseFields(
                         fieldWithPath("code").description("결과 코드"),

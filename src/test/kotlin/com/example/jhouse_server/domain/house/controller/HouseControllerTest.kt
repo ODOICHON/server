@@ -19,7 +19,6 @@ import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignIn
 import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignUpDto2
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 
@@ -57,7 +56,7 @@ internal class HouseControllerTest @Autowired constructor(
     private var anotherUser: User? = null
     private var houseIds : MutableList<Long> = mutableListOf()
     private val agentSignUpReqDto = MockEntity.testAgentSignUpDto()
-    private val agentSignInReqDto = UserSignInReqDto(agentSignUpReqDto.email, agentSignUpReqDto.password)
+    private val agentSignInReqDto = UserSignInReqDto(agentSignUpReqDto.userName, agentSignUpReqDto.password)
     private var agent: Agent? = null
     private var agentAccessToken: String? = null
 
@@ -65,19 +64,19 @@ internal class HouseControllerTest @Autowired constructor(
     fun `로그인_더미데이터_생성`() {
         // singUp
         userService.signUp(userSignUpReqDto)
-        user = userRepository.findByEmail(userSignUpReqDto.email).get()
+        user = userRepository.findByUserName(userSignUpReqDto.userName).get()
         // signIn
         val tokenDto = userService.signIn(userSignInReqDto)
         accessToken = tokenDto.accessToken
         // another user signUp
         userService.signUp(userSignUpReqDto2)
-        anotherUser = userRepository.findByEmail(userSignUpReqDto2.email).get()
+        anotherUser = userRepository.findByUserName(userSignUpReqDto2.userName).get()
         // another user signIn
         val tokenDto2 = userService.signIn(userSignInReqDto2)
         accessToken2 = tokenDto2.accessToken
         // agent signUp
         agentService.signUp(agentSignUpReqDto)
-        agent = userRepository.findByEmail(agentSignInReqDto.email).get() as Agent
+        agent = userRepository.findByUserName(agentSignInReqDto.userName).get() as Agent
         agentService.approveStatus(agent!!)
         // agent signIn
         val tokenDto3 = userService.signIn(agentSignInReqDto)

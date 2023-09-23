@@ -41,7 +41,7 @@ class RecordCategoryControllerTest @Autowired constructor(
     fun before() {
         userService.signUp(userSignUpDto)
 
-        val user = userRepository.findByEmail(userSignUpDto.email).get()
+        val user = userRepository.findByUserName(userSignUpDto.userName).get()
         user.updateAuthority(Authority.ADMIN)
         user.updateUserType(UserType.SERVER)
 
