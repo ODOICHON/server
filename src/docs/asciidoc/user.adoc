@@ -175,3 +175,21 @@ include::{snippets}/withdrawal/http-request.adoc[]
 include::{snippets}/withdrawal/http-response.adoc[]
 ===== Response - Fail
 include::{snippets}/withdrawal-exception/http-response.adoc[]
+
+=== 14. 이메일 인증번호 전송
+===== Request
+include::{snippets}/send-email/http-request.adoc[]
+===== Response
+include::{snippets}/send-email/http-response.adoc[]
+
+이메일 전송 실패 시, 500 에러코드로 반환됩니다.
+
+=== 15. 이메일 인증번호 검증
+===== Request
+include::{snippets}/check-email/http-request.adoc[]
+===== Response
+include::{snippets}/check-email/http-response.adoc[]
+
+이메일 인증코드는 전화번호 인증과 동일하게 **3분의 유효시간**을 설정해두었습니다. 해당 코드는 레디스에서 관리합니다.
+성
+인증 실패 시, 반환되는 데이터는 *false* 입니다.
