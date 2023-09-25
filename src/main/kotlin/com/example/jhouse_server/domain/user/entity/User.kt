@@ -19,7 +19,7 @@ import javax.persistence.*
 @DiscriminatorValue("U")
 class User(
 
-    @Column(name = "email제", nullable = true)
+    @Column(name = "email", nullable = true)
     var email: String,
 
     @Column(name = "user_name")
