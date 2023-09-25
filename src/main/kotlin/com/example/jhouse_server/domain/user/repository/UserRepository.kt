@@ -16,15 +16,15 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
 
     fun countByWithdrawalStatusAndUserType(status: WithdrawalStatus, userType: UserType): Long
 
-    fun existsByUserName(userName: String): Boolean
+    fun existsByUserName(userName: String) : Boolean
 
     fun existsByNickName(nickName: String): Boolean
 
     fun existsByPhoneNum(phoneNum: String): Boolean
 
-    fun findByUserName(userName: String): Optional<User>
+    fun findByUserName(userName: String) : Optional<User>
 
-    fun findByUserNameAndSuspension(userName: String, suspension: Boolean): Optional<User>
+    fun findByUserNameAndSuspension(userName : String, suspension: Boolean) : Optional<User>
 
     fun findByUserNameAndAuthority(userName: String, authority: Authority) : Optional<User>
 
