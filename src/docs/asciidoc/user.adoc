@@ -38,7 +38,6 @@ include::{snippets}/sign-up/http-request.adoc[]
 ===== Response - Success
 include::{snippets}/sign-up/http-response.adoc[]
 ===== Response - Fail
-include::{snippets}/email-validation/http-response.adoc[]
 include::{snippets}/password-validation/http-response.adoc[]
 include::{snippets}/nickname-validation/http-response.adoc[]
 include::{snippets}/phonenum-validation/http-response.adoc[]
@@ -59,7 +58,6 @@ include::{snippets}/sign-in/http-response.adoc[]
 ===== Response - Fail
 include::{snippets}/sign-in-exception-1/http-response.adoc[]
 include::{snippets}/sign-in-exception-2/http-response.adoc[]
-include::{snippets}/email-validation/http-response.adoc[]
 include::{snippets}/password-validation/http-response.adoc[]
 
 === 3. 토큰 재발급
@@ -76,11 +74,9 @@ include::{snippets}/logout/http-response.adoc[]
 
 === 5. 이메일 중복 검사
 ===== Request
-include::{snippets}/email-check/http-request.adoc[]
+include::{snippets}/check-email/http-request.adoc[]
 ===== Response - Success
-include::{snippets}/email-check/http-response.adoc[]
-===== Response - Fail
-include::{snippets}/email-validation/http-response.adoc[]
+include::{snippets}/check-email/http-response.adoc[]
 
 === 6. 닉네임 중복 검사
 ===== Request

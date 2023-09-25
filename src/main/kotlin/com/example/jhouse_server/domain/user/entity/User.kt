@@ -18,11 +18,11 @@ import javax.persistence.*
 @Entity
 @DiscriminatorValue("U")
 class User(
-    @Convert(converter = CryptoConverter::class)
-    @Column(nullable = true)
+
+    @Column(name = "email", nullable = true)
     var email: String,
 
-    @Convert(converter = CryptoConverter::class)
+    @Column(name = "user_name")
     var userName: String,
 
     @Convert(converter = CryptoConverter::class)

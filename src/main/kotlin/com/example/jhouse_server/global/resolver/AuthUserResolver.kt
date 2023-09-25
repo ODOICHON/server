@@ -38,8 +38,8 @@ class AuthUserResolver (
 
         tokenProvider.validateToken(jwt, true)
 
-        val email: String = tokenProvider.getSubject(jwt)
-        val user = userRepository.findByUserNameAndSuspension(email, false).orElseThrow()
+        val userName: String = tokenProvider.getSubject(jwt)
+        val user = userRepository.findByUserNameAndSuspension(userName, false).orElseThrow()
 
         if(tokenProvider.getType(jwt) == UserType.AGENT) {
             val agent = user as Agent
