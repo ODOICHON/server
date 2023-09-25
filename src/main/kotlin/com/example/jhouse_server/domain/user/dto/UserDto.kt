@@ -121,7 +121,7 @@ data class UserResDto(
         @JsonProperty("profile_image_url")
         val profileImageUrl: String,
         val userType: UserType,
-        val email : String
+        val email : String?
 )
 
 data class WithdrawalUserReqDto(
