@@ -43,6 +43,11 @@ include::{snippets}/nickname-validation/http-response.adoc[]
 include::{snippets}/phonenum-validation/http-response.adoc[]
 
 === 1-2. 공인중개사 회원가입
+
+공인중개사 등록번호는 **__숫자로 구성된 14개의 문자열__**만 유효합니다.
+
+사업자등록번호는 **__숫자로 구성된 10개의 문자열__**만 유효합니다.
+
 ===== Request
 include::{snippets}/agent-sign-up/http-request.adoc[]
 ===== Request Field
@@ -189,3 +194,12 @@ include::{snippets}/check-email/http-response.adoc[]
 이메일 인증코드는 전화번호 인증과 동일하게 **3분의 유효시간**을 설정해두었습니다. 해당 코드는 레디스에서 관리합니다.
 성
 인증 실패 시, 반환되는 데이터는 *false* 입니다.
+
+=== 16. 아이디 중복 검사
+
+아이디는 로그인 시, 사용되는 값입니다.
+
+===== Request
+include::{snippets}/userName-check/http-request.adoc[]
+===== Response
+include::{snippets}/userName-check/http-response.adoc[]
