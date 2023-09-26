@@ -38,9 +38,9 @@ data class AgentSignUpReqDto(
         @NotNull @JsonProperty("join_paths") val joinPaths: MutableList<String>,
         @NotNull @JsonProperty("terms") val terms: MutableList<String>,
 
-        @field:Pattern(regexp = "^[0-9,-]{14}\$", message = "공인중개사 등록번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^\\d{14}\$", message = "공인중개사 등록번호 형식에 맞지 않습니다.")
         @JsonProperty("agent_code") val agentCode: String,
-        @field:Pattern(regexp = "^[0-9,-]{10}\$", message = "사업자 등록번호 형식에 맞지 않습니다.")
+        @field:Pattern(regexp = "^\\d{10}\$", message = "사업자 등록번호 형식에 맞지 않습니다.")
         @JsonProperty("business_code") val businessCode: String,
         @NotNull @JsonProperty("company_name") val companyName: String,
         @NotNull @JsonProperty("agent_name") val agentName: String,
