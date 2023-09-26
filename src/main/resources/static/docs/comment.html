@@ -449,7 +449,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h5 id="_request">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/comments/3009 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/comments/3086 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -470,10 +470,10 @@ Content-Length: 218
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : [ {
-    "commentId" : 55285,
+    "commentId" : 57059,
     "nickName" : "테스트유저1",
     "content" : "댓글이란다.",
-    "createdAt" : "2023-09-26T10:49:09.016+00:00"
+    "createdAt" : "2023-09-26T13:56:41.023+00:00"
   } ]
 }</code></pre>
 </div>
@@ -488,13 +488,13 @@ Content-Length: 218
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/v1/comments HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3MjcxNDksImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.jYuBvFQsg-la2haxToDt5tQQy5rOA-Mf3DxqH4-eW6onfyHVzCyBFvkN6qC8ujRJjHQY5Il49RrfNA1f-EFWqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3Mzg0MDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.H25bm0_7JIoNZYJvPVozm80_qRPDgDygWZkKLyYvC6FiDgT5H8x7ZBDc_bE1KCLb9l-GuEiXkRoCsUBXBs2swA
 Accept: application/json
 Content-Length: 65
 Host: localhost:8080
 
 {
-  "boardId" : 3011,
+  "boardId" : 3088,
   "content" : "짱구야, 공부 하자."
 }</code></pre>
 </div>
@@ -514,7 +514,7 @@ Content-Length: 66
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 55300
+  "data" : 57074
 }</code></pre>
 </div>
 </div>
@@ -526,15 +526,15 @@ Content-Length: 66
 <h5 id="_request_3">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/comments/55291 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/comments/57065 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3MjcxNDksImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.jYuBvFQsg-la2haxToDt5tQQy5rOA-Mf3DxqH4-eW6onfyHVzCyBFvkN6qC8ujRJjHQY5Il49RrfNA1f-EFWqA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3Mzg0MDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.H25bm0_7JIoNZYJvPVozm80_qRPDgDygWZkKLyYvC6FiDgT5H8x7ZBDc_bE1KCLb9l-GuEiXkRoCsUBXBs2swA
 Accept: application/json
 Content-Length: 65
 Host: localhost:8080
 
 {
-  "boardId" : 3010,
+  "boardId" : 3087,
   "content" : "짱구야, 공부 하자."
 }</code></pre>
 </div>
@@ -554,7 +554,7 @@ Content-Length: 66
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 55291
+  "data" : 57065
 }</code></pre>
 </div>
 </div>
@@ -566,8 +566,8 @@ Content-Length: 66
 <h5 id="_request_4">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/comments/55306 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3MjcxNDksImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.jYuBvFQsg-la2haxToDt5tQQy5rOA-Mf3DxqH4-eW6onfyHVzCyBFvkN6qC8ujRJjHQY5Il49RrfNA1f-EFWqA
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/v1/comments/57080 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3Mzg0MDEsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.H25bm0_7JIoNZYJvPVozm80_qRPDgDygWZkKLyYvC6FiDgT5H8x7ZBDc_bE1KCLb9l-GuEiXkRoCsUBXBs2swA
 Host: localhost:8080</code></pre>
 </div>
 </div>
