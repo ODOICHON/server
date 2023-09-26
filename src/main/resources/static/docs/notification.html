@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/notifications?read=false&amp;id= HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3MjcxNTUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.hWDu50c0-8jSLmnM4u8k-FJQUzFdmfixC4g50G7v5ZZvUbf7mn58lLXOmGpv2rnbvwPU-hoaVxmpGxCWwiR6Mw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3Mzg0MDcsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.W4z3RVoa7wfB0yzjNWtZ2Dy_fHIxFOPItSb_y3mnm-vZxp4dq-B0LRAJmEqnOzkGEad0dRRarZnqdAuNyj9wOg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -501,70 +501,70 @@ Content-Length: 2045
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "nextId" : 55983,
+    "nextId" : 57757,
     "notifications" : {
       "content" : [ {
         "nick_name" : "테스트유저1",
-        "board_id" : 3028,
+        "board_id" : 3105,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 55991
+        "notification_id" : 57765
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 3028,
+        "board_id" : 3105,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 55989
+        "notification_id" : 57763
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 3028,
+        "board_id" : 3105,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 55987
+        "notification_id" : 57761
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 3028,
+        "board_id" : 3105,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 55985
+        "notification_id" : 57759
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 3028,
+        "board_id" : 3105,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 55983
+        "notification_id" : 57757
       } ],
       "pageable" : {
         "sort" : {
           "empty" : true,
-          "unsorted" : true,
-          "sorted" : false
+          "sorted" : false,
+          "unsorted" : true
         },
         "offset" : 0,
         "pageSize" : 5,
         "pageNumber" : 0,
-        "unpaged" : false,
-        "paged" : true
+        "paged" : true,
+        "unpaged" : false
       },
       "number" : 0,
+      "sort" : {
+        "empty" : true,
+        "sorted" : false,
+        "unsorted" : true
+      },
       "first" : true,
       "last" : false,
       "size" : 5,
-      "sort" : {
-        "empty" : true,
-        "unsorted" : true,
-        "sorted" : false
-      },
       "numberOfElements" : 5,
       "empty" : false
     }
@@ -731,8 +731,8 @@ Content-Length: 2045
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/notifications/55939 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3MjcxNTUsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.hWDu50c0-8jSLmnM4u8k-FJQUzFdmfixC4g50G7v5ZZvUbf7mn58lLXOmGpv2rnbvwPU-hoaVxmpGxCWwiR6Mw
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/notifications/57713 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTU3Mzg0MDYsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.zO8w0fiLUj1EOecU3C-IVtlHfcepDZG-1L5LyvvvHbld2n06gtjRYOF3POYUdb8L7QW36yDV2Odbsl61kxOZMA
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -773,7 +773,7 @@ Content-Length: 66
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 55939
+  "data" : 57713
 }</code></pre>
 </div>
 </div>
