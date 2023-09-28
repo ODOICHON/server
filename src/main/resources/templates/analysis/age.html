@@ -32,12 +32,16 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['20대 미만', '20대', '30대', '40대', '50대', '60대 이상'],
+      labels: [[${label}]],
       datasets: [{
         label: '연령대 비율',
-        data: [[${ageResults}]],
+        data: [[${rate}]],
         borderWidth: 1,
         backgroundColor: '#FFBE3C'
+      },{
+        label: '실제 경우의 수',
+        data: [[${count}]],
+        backgroundColor: 'rgba(255, 99, 132, 0.6)', // 그래프 색상
       }]
     },
     options: {

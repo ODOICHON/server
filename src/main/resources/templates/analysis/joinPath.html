@@ -18,20 +18,29 @@
 <br>
 <br>
 <div class="container">
+  <h3>가입경로 비율 표</h3>
   <table class="table">
-    <thead>
+    <thead style="background: #FFBE3C;">
     <tr>
       <th scope="col">가입경로</th>
       <th scope="col">비율</th>
+      <th scope="col">인원 수</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="result : ${joinPathResults}">
       <td th:text="${result.joinPath}">joinPath</td>
       <td th:text="|${result.rate} %|">rate</td>
+      <td th:text="|${result.count} 명|">count</td>
     </tr>
     </tbody>
   </table>
+
+  <hr/>
+  <p>*<b>주의사항</b>* <br/> 위의 데이터는 일반/공인 중개사 사용자들의 가입 경로에 대한 데이터를 표 형식으로 나타낸 것입니다. <br/>
+    가입경로를 기준으로 그룹핑된 데이터입니다.<br/>
+    한 명의 사용자가 여러 개의 가입경로로 접근한 경우, 각각에 대해 카운트가 된다는 점에 유의해주시기 바랍니다.</p>
+
 </div>
 
 
