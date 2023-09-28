@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.user.repository
 
+import com.example.jhouse_server.admin.anaylsis.dto.AnalysisAgeResponse
 import com.example.jhouse_server.admin.anaylsis.dto.AnalysisJoinPathResponse
 import com.example.jhouse_server.admin.user.dto.AdminAgentSearch
 import com.example.jhouse_server.admin.user.dto.AdminUserWithdrawalSearch
@@ -27,7 +28,7 @@ class UserRepositoryImpl(
         var jpaQueryFactory: JPAQueryFactory
 ) : UserRepositoryCustom {
 
-    override fun getAnalysisAgeResult() : List<Double> {
+    override fun getAnalysisAgeResult() : List<AnalysisAgeResponse> {
         val queryResult = jpaQueryFactory
                 .select(QAdminUserAnalysisAgeResult(user.age, user.age.count()))
                 .from(user)
@@ -61,25 +62,11 @@ class UserRepositoryImpl(
         return getOrderJoinPathRateResult(queryResult, total)
     }
 
-    private fun getOrderAgeRateResult(queryResult : List<AdminUserAnalysisAgeResult>, total : Long) : List<Double> {
-
-        val rateList = queryResult.map { r -> getRate(total, r.count) }
-        val ageList = queryResult.map { r -> r.age }
-
-        val result = mutableListOf<Double>()
-        for (i in Age.values()){
-            if (i in ageList){
-                for (j in queryResult.indices){
-                    if (queryResult[j].age == i){
-                        result.add(rateList[j])
-                    }
-                }
-            } else {
-                result.add(0.00)
-            }
-        }
-
-        return result
+    private fun getOrderAgeRateResult(queryResult : List<AdminUserAnalysisAgeResult>, total : Long) : List<AnalysisAgeResponse> {
+        return queryResult
+            .stream()
+            .map { r -> AnalysisAgeResponse(r.age.value, getRate(total, r.count), r.count.toInt()) }
+            .collect(Collectors.toList())
     }
 
     override fun getWaitingAgentResult(adminAgentSearch: AdminAgentSearch, pageable: Pageable): Page<Agent> {
@@ -149,7 +136,7 @@ class UserRepositoryImpl(
     private fun getOrderJoinPathRateResult(queryResult : List<AdminUserAnalysisJoinPathResult>, total : Long) : List<AnalysisJoinPathResponse> {
         return queryResult
                 .stream()
-                .map { r -> AnalysisJoinPathResponse(r.joinPath.value, getRate(total, r.count)) }
+                .map { r -> AnalysisJoinPathResponse(r.joinPath.value, getRate(total, r.count), r.count.toInt()) }
                 .collect(Collectors.toList())
     }
 
