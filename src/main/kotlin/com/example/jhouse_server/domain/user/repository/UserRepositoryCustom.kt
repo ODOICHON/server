@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.user.repository
 
+import com.example.jhouse_server.admin.anaylsis.dto.AnalysisAgeResponse
 import com.example.jhouse_server.admin.anaylsis.dto.AnalysisJoinPathResponse
 import com.example.jhouse_server.admin.user.dto.AdminAgentSearch
 import com.example.jhouse_server.admin.user.dto.AdminUserWithdrawalSearch
@@ -11,7 +12,7 @@ import org.springframework.data.domain.Pageable
 
 
 interface UserRepositoryCustom {
-    fun getAnalysisAgeResult() : List<Double>
+    fun getAnalysisAgeResult() : List<AnalysisAgeResponse>
 
     fun getAnalysisJoinPathResults() : List<AnalysisJoinPathResponse>
 
