@@ -15,7 +15,9 @@ import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
+import com.example.jhouse_server.global.exception.ReqValidationException
 import com.example.jhouse_server.global.util.MockEntity
+import com.example.jhouse_server.global.util.MockEntity.Companion.houseInvalidReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseTmpReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseUpdateReqDto
@@ -108,6 +110,18 @@ internal class HouseServiceImplTest @Autowired constructor(
         // then
         assertThat(house.user.authority).isEqualTo(Authority.ADMIN)
         assertThat(house.applied).isEqualTo(HouseReviewStatus.APPROVE)
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(houseInvalidReqDto(), writer)
+        }
     }
 
     @Test

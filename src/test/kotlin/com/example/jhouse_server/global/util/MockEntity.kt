@@ -376,7 +376,7 @@ class MockEntity {
             code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002", "img-002", "img-002", "img-002"),
             tmpYn = false,
-            listOf()
+            recommendedTag = mutableListOf("WANT_TO_INTERIOR_FOR_THE_FIRST_TIME")
             )
         fun houseUpdateReqDto() = HouseReqDto(
             rentalType = RentalType.JEONSE,
@@ -418,6 +418,25 @@ class MockEntity {
             code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002"),
             tmpYn = true,
+            listOf()
+        )
+
+        fun houseInvalidReqDto() = HouseReqDto(
+            rentalType = null,
+            city = null,
+            zipCode = null,
+            size = null,
+            purpose = null,
+            floorNum = 0,
+            contact = null,
+            createdDate = null,
+            price = 0,
+            monthlyPrice = 0.0,
+            agentName = null,
+            title = null,
+            code = null,
+            imageUrls = mutableListOf("img-001"),
+            tmpYn = false,
             listOf()
         )
 
