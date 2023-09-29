@@ -9,8 +9,10 @@ import com.example.jhouse_server.domain.house.entity.QDeal
 import com.example.jhouse_server.domain.house.entity.QDeal.deal
 import com.example.jhouse_server.domain.house.entity.QHouse
 import com.example.jhouse_server.domain.house.entity.QHouse.house
+import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
+import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
@@ -33,6 +35,8 @@ class DealRepositoryImpl(
             .leftJoin(QDeal.deal.buyer, user)
             .where(
                 searchFilter(adminHouseSearch),
+                ageFilter(adminHouseSearch.age),
+                scoreFilter(adminHouseSearch.score),
             )
             .orderBy(deal.id.asc())
             .limit(pageable.pageSize.toLong())
@@ -45,10 +49,20 @@ class DealRepositoryImpl(
             .leftJoin(QDeal.deal.buyer, user)
             .where(
                 searchFilter(adminHouseSearch),
+                ageFilter(adminHouseSearch.age),
+                scoreFilter(adminHouseSearch.score),
             )
             .orderBy(deal.id.asc())
             .groupBy(deal)
         return PageableExecutionUtils.getPage(getDealDto(result), pageable) {countQuery.fetch().size.toLong()}
+    }
+
+    private fun scoreFilter(score: Int?): BooleanExpression? {
+        return if(score != null) deal.score.eq(score) else null
+    }
+
+    private fun ageFilter(age: String?): BooleanExpression? {
+        return if(!age.isNullOrEmpty()) deal.buyer.age.eq(Age.valueOf(age)) else null
     }
 
     private fun getDealDto(result: List<Deal>): MutableList<AdminDealDto> {
