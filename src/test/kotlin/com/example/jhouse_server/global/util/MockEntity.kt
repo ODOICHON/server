@@ -440,6 +440,25 @@ class MockEntity {
             listOf()
         )
 
+        fun houseTmpNullReqDto() = HouseReqDto(
+            rentalType = null,
+            city = null,
+            zipCode = null,
+            size = null,
+            purpose = null,
+            floorNum = 0,
+            contact = null,
+            createdDate = null,
+            price = 0,
+            monthlyPrice = 0.0,
+            agentName = null,
+            title = null,
+            code = null,
+            imageUrls = mutableListOf("img-001"),
+            tmpYn = true,
+            listOf()
+        )
+
         fun houseTooLongReqDto() = HouseReqDto(
             rentalType = RentalType.SALE,
             city = "서울시 서대문구 남가좌동 거북골로 34",

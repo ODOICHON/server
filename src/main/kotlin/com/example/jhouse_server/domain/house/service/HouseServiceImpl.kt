@@ -95,9 +95,11 @@ class HouseServiceImpl(
         if(req.size.isNullOrEmpty()) req.size = ""
         if(req.purpose.isNullOrEmpty()) req.purpose = ""
         if(req.contact.isNullOrEmpty()) req.contact = ""
-        if(req.price == null) req.price = 0
+        if(req.createdDate.isNullOrEmpty()) req.createdDate = ""
         if(req.code.isNullOrEmpty()) req.code = ""
         if(req.imageUrls.isNullOrEmpty()) req.imageUrls = mutableListOf("")
+        if(req.title.isNullOrEmpty()) req.title = ""
+        if(req.agentName.isNullOrEmpty()) req.agentName = ""
         return req
     }
 
@@ -208,6 +210,7 @@ class HouseServiceImpl(
         if(req.size.isNullOrEmpty()) throw ReqValidationException("건물 크기는 필수값입니다.")
         if(req.purpose.isNullOrEmpty()) throw ReqValidationException("목적/용도는 필수값입니다.")
         if(req.contact.isNullOrEmpty()) throw ReqValidationException("연락 가능한 휴대폰번호는 필수값입니다.")
+        if(req.createdDate.isNullOrEmpty()) throw ReqValidationException("준공연도는 필수값입니다.")
         if(req.code.isNullOrEmpty()) throw ReqValidationException("게시글 내용은 필수값입니다.")
         else if(getContent(req.code!!).length > 10000) throw ApplicationException(LENGTH_OUT_OF_CONTENTS)
         if(req.imageUrls.isNullOrEmpty() || req.imageUrls!!.size < 5) throw ReqValidationException("첨부 이미지는 5장 이상이어야 합니다.")
