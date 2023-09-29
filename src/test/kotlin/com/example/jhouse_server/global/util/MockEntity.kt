@@ -374,9 +374,9 @@ class MockEntity {
             agentName = "행복부동산",
             title = "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
-            imageUrls = mutableListOf("img-001", "img-002"),
+            imageUrls = mutableListOf("img-001", "img-002", "img-002", "img-002", "img-002"),
             tmpYn = false,
-            listOf()
+            recommendedTag = mutableListOf("WANT_TO_INTERIOR_FOR_THE_FIRST_TIME")
             )
         fun houseUpdateReqDto() = HouseReqDto(
             rentalType = RentalType.JEONSE,
@@ -392,7 +392,7 @@ class MockEntity {
             agentName = "부자부동산",
             title = "부자부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>부자부동산 최신 매물로</h2> </div> <div> <i>게스트하우스용 주택</i>을 소개합니다. </div> </body>",
-            imageUrls = mutableListOf("img-001", "img-002"),
+            imageUrls = mutableListOf("img-001", "img-002", "img-002", "img-002", "img-002"),
             tmpYn = false,
             listOf()
         )
@@ -417,6 +417,44 @@ class MockEntity {
             title = "행복부동산에서 제공하는 서울시 빈집 매물입니다.",
             code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>",
             imageUrls = mutableListOf("img-001", "img-002"),
+            tmpYn = true,
+            listOf()
+        )
+
+        fun houseInvalidReqDto() = HouseReqDto(
+            rentalType = null,
+            city = null,
+            zipCode = null,
+            size = null,
+            purpose = null,
+            floorNum = 0,
+            contact = null,
+            createdDate = null,
+            price = 0,
+            monthlyPrice = 0.0,
+            agentName = null,
+            title = null,
+            code = null,
+            imageUrls = mutableListOf("img-001"),
+            tmpYn = false,
+            listOf()
+        )
+
+        fun houseTmpNullReqDto() = HouseReqDto(
+            rentalType = null,
+            city = null,
+            zipCode = null,
+            size = null,
+            purpose = null,
+            floorNum = 0,
+            contact = null,
+            createdDate = null,
+            price = 0,
+            monthlyPrice = 0.0,
+            agentName = null,
+            title = null,
+            code = null,
+            imageUrls = mutableListOf("img-001"),
             tmpYn = true,
             listOf()
         )

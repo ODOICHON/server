@@ -5,7 +5,9 @@ import java.time.LocalDate
 
 data class AdminHouseSearch(
     val filter: HouseSearchFilter?,
-    val keyword: String?
+    val keyword: String?,
+    val score: Int?,
+    val age: String?,
 )
 
 enum class HouseSearchFilter (val value: String) {

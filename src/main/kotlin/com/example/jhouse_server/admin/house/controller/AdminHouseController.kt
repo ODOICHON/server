@@ -6,6 +6,7 @@ import com.example.jhouse_server.admin.house.dto.HouseSearchFilter
 import com.example.jhouse_server.admin.house.dto.RejectForm
 import com.example.jhouse_server.admin.house.service.AdminHouseService
 import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
+import com.example.jhouse_server.global.aop.log.logger
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
+import kotlin.math.log
 
 @Controller
 @RequestMapping("/admin/house")
@@ -68,7 +70,7 @@ class AdminHouseController(
         @ModelAttribute("rejectForm") rejectForm: RejectForm,
         redirectAttributes: RedirectAttributes
     ) : String {
-        adminHouseService.updateReviewStatusReject(HouseReviewStatus.APPROVE, rejectForm, redirectAttributes)
+        adminHouseService.updateReviewStatusReject(HouseReviewStatus.REJECT, rejectForm, redirectAttributes)
         return "redirect:/admin/house/apply"
     }
 
@@ -78,7 +80,6 @@ class AdminHouseController(
         model: Model,
         @PageableDefault(size=10, page=0) pageable: Pageable
     ): String {
-
         // 승인 요청된 게시글 목록 데이터
         val result = adminHouseService.getSearchReviewHouseResult(adminHouseSearch, pageable)
         model.addAttribute("dealList", result)

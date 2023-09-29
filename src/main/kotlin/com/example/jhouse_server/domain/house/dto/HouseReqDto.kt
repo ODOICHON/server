@@ -18,30 +18,22 @@ import kotlin.streams.toList
  * 빈집 매물 게시글 작성/수정 DTO
  * */
 data class HouseReqDto(
-    @field:NotNull(message = "매매 타입은 필수값입니다.")
-    val rentalType: RentalType? = null,
-    @field:NotNull(message = "주소는 필수값입니다. ( 예: 서울/인천 ~ )")
-    val city: String?,
-    @field:NotNull(message = "우편번호는 필수값입니다.")
-    val zipCode: String?,
-    @field:NotNull(message = "집 크기는 필수값입니다. ( m^2 단위로 산정해서 작성할 것 )")
-    val size: String?,
-    @field:NotNull(message = "매물 목적/용도는 필수값입니다.")
-    val purpose: String?,
+    var rentalType: RentalType? = null,
+    var city: String?,
+    var zipCode: String?,
+    var size: String?,
+    var purpose: String?,
     var floorNum: Int,
-    @field:NotNull(message = "연락처는 필수값입니다.")
     var contact: String?,
-    var createdDate: String,
-    @field:NotNull(message = "매물 가격은 필수값입니다.")
-    var price: Int?,
+    var createdDate: String?,
+    var price: Int,
     var monthlyPrice: Double,
-    val agentName : String, // 공인중개사인 경우
-    val title: String, // 게시글 제목
-    @CodeValid // 유효성검사
-    val code: String, // 게시글 내용
-    val imageUrls: List<String>, // 이미지 주소
+    var agentName : String?, // 공인중개사인 경우
+    var title: String?, // 게시글 제목
+    var code: String?, // 게시글 내용
+    var imageUrls: List<String>?, // 이미지 주소
     val tmpYn : Boolean, // 임시저장 false -> save , true -> tmpSave
-    val recommendedTag: List<String> // 추천 태그
+    var recommendedTag: List<String>? // 추천 태그
 )
 
 /**

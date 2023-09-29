@@ -15,8 +15,11 @@ import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
+import com.example.jhouse_server.global.exception.ReqValidationException
 import com.example.jhouse_server.global.util.MockEntity
+import com.example.jhouse_server.global.util.MockEntity.Companion.houseInvalidReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseReqDto
+import com.example.jhouse_server.global.util.MockEntity.Companion.houseTmpNullReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseTmpReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.houseUpdateReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.reportReqDto
@@ -111,6 +114,148 @@ internal class HouseServiceImplTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_rentalType() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(houseInvalidReqDto(), writer)
+        }
+    }
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_city() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_zipCode() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_size() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        req.zipCode = "12345"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_purpose() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        req.zipCode = "12345"
+        req.size = "1234556"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_contact() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        req.zipCode = "12345"
+        req.size = "1234566778"
+        req.purpose = "펜션"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_createdDate() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        req.zipCode = "12345"
+        req.size = "1234566778"
+        req.purpose = "펜션"
+        req.contact = "01012345678"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_code() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        req.zipCode = "12345"
+        req.size = "1234566778"
+        req.purpose = "펜션"
+        req.contact = "01012345678"
+        req.createdDate = "2000"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+
+    @Test
+    @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
+    fun createHouse_invalid_imageUrl() {
+        // given
+        val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
+        val req = houseInvalidReqDto()
+        req.rentalType = RentalType.SALE
+        req.city = "서울시 서대문구"
+        req.zipCode = "12345"
+        req.size = "1234566778"
+        req.purpose = "펜션"
+        req.contact = "01012345678"
+        req.createdDate = "2000"
+        req.code = "<body> <div> <h2>행복부동산 최신 매물로</h2> </div> <div> <i>주거용 주택</i>을 소개합니다. </div> </body>"
+        // when
+        assertThrows(ReqValidationException("유효성 검사 실패")::class.java) {
+            houseService.createHouse(req, writer)
+        }
+    }
+    @Test
     @DisplayName("빈집 게시글 임시저장 - 일반 유저")
     fun createHouse_tmp_default() {
         // given
@@ -124,6 +269,22 @@ internal class HouseServiceImplTest @Autowired constructor(
         assertThat(house.tmpYn).isTrue
         assertThat(house.applied).isNull()
     }
+
+    @Test
+    @DisplayName("빈집 게시글 임시저장 - 일반 유저")
+    fun createHouse_tmp_null_default() {
+        // given
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+
+        // when
+        val houseId = houseService.createHouse(houseTmpNullReqDto(), writer)
+        val house = houseRepository.findByIdOrThrow(houseId)
+
+        // then
+        assertThat(house.tmpYn).isTrue
+        assertThat(house.applied).isNull()
+    }
+
 
     @Test
     @DisplayName("임시저장된 빈집 게시글 수정 - 일반 유저")
