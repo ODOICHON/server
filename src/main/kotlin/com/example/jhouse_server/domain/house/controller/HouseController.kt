@@ -30,7 +30,7 @@ class HouseController(
     @Auth
     @PostMapping
     fun createHouse(
-        @RequestBody @Validated req: HouseReqDto,
+        @RequestBody req: HouseReqDto,
         @AuthUser user: User
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(houseService.createHouse(req, user))
@@ -50,7 +50,7 @@ class HouseController(
     @PutMapping("/{houseId}")
     fun updateHouse(
         @PathVariable houseId: Long,
-        @RequestBody @Validated req: HouseReqDto,
+        @RequestBody req: HouseReqDto,
         @AuthUser user: User
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(houseService.updateHouse(houseId, req, user))
