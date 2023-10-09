@@ -18,12 +18,7 @@ import com.example.jhouse_server.global.util.MockEntity.Companion.reportReqDto
 import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignInDto2
 import com.example.jhouse_server.global.util.MockEntity.Companion.testUserSignUpDto2
 import com.example.jhouse_server.global.util.findByIdOrThrow
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
+import org.junit.jupiter.api.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -602,6 +597,7 @@ internal class HouseControllerTest @Autowired constructor(
     fun update_status() {
         // given
         val houseId = houseService.createHouse(houseReqDto(), user!!)
+        val house = houseRepository.findByIdOrThrow(houseId).approveEntity()
         val req: String = objectMapper.writeValueAsString(MockEntity.updateStatus("테스트유저2"))
 
         // when

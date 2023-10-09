@@ -25,10 +25,9 @@ import com.example.jhouse_server.global.util.MockEntity.Companion.houseUpdateReq
 import com.example.jhouse_server.global.util.MockEntity.Companion.reportReqDto
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -530,6 +529,7 @@ internal class HouseServiceImplTest @Autowired constructor(
         // given
         val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
+        val house = houseRepository.findByIdOrThrow(houseId).approveEntity()
         val req = MockEntity.updateStatus("테스트유저2")
         // when
         houseService.updateStatus(writer, houseId, req)
