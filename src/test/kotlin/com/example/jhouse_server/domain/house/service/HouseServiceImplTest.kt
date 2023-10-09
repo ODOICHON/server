@@ -550,6 +550,18 @@ internal class HouseServiceImplTest @Autowired constructor(
             houseService.updateStatus(writer, houseId, req)
         }
     }
+    @Test
+    @DisplayName("자신이 작성한 빈집 게시글 목록 조회")
+    fun get_my_house_all() {
+        // given
+        val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
+        val houseId = houseService.createHouse(houseReqDto(), writer)
+        val pageable = PageRequest.of(0, 8)
+        // when
+        val result = houseService.getMyHouseAll(writer, null, pageable)
+        // then
+        assertThat(result.content[0].dealState).isEqualTo(DealState.APPLYING.name)
+    }
 
     private fun createHouseAll() {
         val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()

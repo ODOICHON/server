@@ -118,20 +118,20 @@ include::{snippets}/get-house-all/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-house-all/response-fields-data.adoc[]
 
-===== 5. 빈집 게시글 단일 조회 - 비로그인 상태
+==== 5. 빈집 게시글 단일 조회 - 비로그인 상태
 
 해당 API는 비로그인 상태일 때, 빈집 게시글 상세 조회 API 입니다.
 
-====== Request
+===== Request
 include::{snippets}/get-house-one/http-request.adoc[]
 ====== Response
 include::{snippets}/get-house-one/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-house-one/response-fields.adoc[]
 
-===== 6. 빈집 게시글 단일 조회 - 로그인 상태
+==== 6. 빈집 게시글 단일 조회 - 로그인 상태
 
-====== Request
+===== Request
 include::{snippets}/get-house-one-with-user/http-request.adoc[]
 
 ====== Response
@@ -139,11 +139,11 @@ include::{snippets}/get-house-one-with-user/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-house-one-with-user/response-fields.adoc[]
 
-===== 7.빈집 게시글 신고하기
+==== 7.빈집 게시글 신고하기
 
 해당 API는 허위 매물 혹은 잘못된 정보 제공에 대한 게시글 신고 기능을 제공합니다. 단, 본인의 게시글은 신고할 수 없습니다.
 
-====== Request
+===== Request
 include::{snippets}/report-house/http-request.adoc[]
 
 ====== Request Fields
@@ -152,11 +152,11 @@ include::{snippets}/report-house/request-fields.adoc[]
 ====== Response
 include::{snippets}/report-house/http-response.adoc[]
 
-===== 8. 임시저장된 게시글 목록 조회하기
+==== 8. 임시저장된 게시글 목록 조회하기
 
 본인이 작성한 게시글 중 임시저장 상태의 게시글 데이터만 목록으로 반환합니다. 따라서 토큰이 필요합니다!
 
-====== Request
+===== Request
 include::{snippets}/get-tmp-save-house-all/http-request.adoc[]
 ====== Response
 include::{snippets}/get-tmp-save-house-all/http-response.adoc[]
@@ -164,31 +164,52 @@ include::{snippets}/get-tmp-save-house-all/http-response.adoc[]
 ====== Response Fields
 include::{snippets}/get-tmp-save-house-all/response-fields-data.adoc[]
 
-===== 9. 스크랩한 게시글 목록 조회하기
+==== 9. 스크랩한 게시글 목록 조회하기
 
-====== Request
+===== Request
 include::{snippets}/get-scrap-house-all/http-request.adoc[]
 ====== Response
 include::{snippets}/get-scrap-house-all/http-response.adoc[]
 
-===== 10. 마이페이지 게시글 목록 조회하기 (공인중개사)
+==== 10. 마이페이지 게시글 목록 조회하기 (공인중개사)
 
-====== Request
+===== Request
 include::{snippets}/get-agent-house-all/http-request.adoc[]
 ====== Response
 include::{snippets}/get-agent-house-all/http-response.adoc[]
 
-===== 11. 빈집 매물 상태 변경하기
+==== 11. 빈집 매물 상태 변경하기
 
 본인이 작성한 게시글에 한해서만 상태 변경이 가능합니다. 재등록을 서버 측에서 제한하지 않았기에 클라이언트 측에서 재변경이 안되도록 이벤트를 걸어주셔야 합니다.
 
 리뷰 내용은 필수값은 아니지만, 점수는 필수로 입력해야 하며 이는 양의 정수로 1~5까지 표현할 수 있습니다.
 
-====== Request
+===== Request
 include::{snippets}/update-house-deal-status/http-request.adoc[]
 
-====== Request Fields
+===== Request Fields
 include::{snippets}/update-house-deal-status/request-fields.adoc[]
 
-====== Response
+===== Response
 include::{snippets}/update-house-deal-status/http-response.adoc[]
+
+==== 12. 자신이 작성한 빈집 게시글 목록 조회하기
+
+일반 유저 게시글 생성 시, dealState(판매상태)는 APPLYING(승인중)으로 기본 설정됩니다.
+
+일반 유저의 게시글이 관리자로부터 승인 처리가 되면, 빈집 중개 서비스 페이지에서 노출되며 dealState(판매상태)는 ONGOING(판매중)으로 변경됩니다.
+
+일반 유저가 직접 판매완료로 상태변경하면, dealState(판매상태)는 COMPLETED(판매완료)로 변경됩니다.
+
+해당 플로우를 참고해주시기 바랍니다.
+
+===== Request
+include::{snippets}/get-my-house-all/http-request.adoc[]
+
+===== Request Fields
+include::{snippets}/get-my-house-all/request-parameters.adoc[]
+
+===== Response
+include::{snippets}/get-my-house-all/http-response.adoc[]
+===== Response Fields
+include::{snippets}/get-my-house-all/response-fields-data.adoc[]
