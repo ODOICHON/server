@@ -508,13 +508,22 @@ internal class HouseControllerTest @Autowired constructor(
     fun getAgentHouseAll() {
         // given
         for(i in 0..10) {
-            houseService.createHouse(houseReqDto(), agent!!)
+            val houseId = houseService.createHouse(houseReqDto(), agent!!)
+            houseRepository.findByIdOrThrow(houseId).approveEntity()
+            houseIds.add(houseId)
+            val houseId2 = houseService.createHouse(houseUpdateReqDto(), agent!!)
+            var house2 = houseRepository.findByIdOrThrow(houseId2)
+            house2.approveEntity()
+            house2.updateDealStatus()
+            houseIds.add(houseId2)
         }
         // when
         val resultActions = mockMvc.perform(
             RestDocumentationRequestBuilders
                 .get("$uri/agent?page=0&search=&isCompleted=")
                 .header(HttpHeaders.AUTHORIZATION, agentAccessToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
         )
 
@@ -532,7 +541,7 @@ internal class HouseControllerTest @Autowired constructor(
                     ),
                     responseFields(
                         beneathPath("data").withSubsectionId("data"),
-                        *pageResponseFieldSnippet()
+                        *customMyPageResponseFieldSnippet()
                     )
                 )
             )
@@ -678,6 +687,71 @@ internal class HouseControllerTest @Autowired constructor(
             fieldWithPath("content[].title").description("게시글 제목"),
             fieldWithPath("content[].recommendedTag").description("추천 태그명 리스트"),
             fieldWithPath("content[].recommendedTagName").description("추천 태그명 한글 리스트"),
+            fieldWithPath("last").description(""),
+            fieldWithPath("totalPages").description(""),
+            fieldWithPath("totalElements").description(""),
+            fieldWithPath("size").description(""),
+            fieldWithPath("number").description(""),
+            fieldWithPath("sort.empty").description(""),
+            fieldWithPath("sort.unsorted").description(""),
+            fieldWithPath("sort.sorted").description(""),
+            fieldWithPath("first").description(""),
+            fieldWithPath("numberOfElements").description(""),
+            fieldWithPath("empty").description(""),
+        )
+    }
+
+    @Test
+    @DisplayName("자신이 작성한 빈집 게시글 목록 조회")
+    fun getMyHouseAll() {
+        // given
+        // dummy for house ( with approve )
+        for(i in 0..10) {
+            val houseId = houseService.createHouse(houseReqDto(), user!!)
+            houseRepository.findByIdOrThrow(houseId).approveEntity()
+            houseIds.add(houseId)
+            val houseId2 = houseService.createHouse(houseUpdateReqDto(), user!!)
+            var house2 = houseRepository.findByIdOrThrow(houseId2)
+            house2.approveEntity()
+            house2.updateDealStatus()
+            houseIds.add(houseId2)
+        }
+        // when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .get("$uri/my?keyword=")
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        // then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+            .andDo(
+                document(
+                    "get-my-house-all",
+                    requestParameters(
+                        parameterWithName("keyword").description("매물명 키워드 검색"),
+                    ),
+                    responseFields(
+                        beneathPath("data").withSubsectionId("data"),
+                        *customMyPageResponseFieldSnippet()
+                    )
+                )
+            )
+    }
+    private fun customMyPageResponseFieldSnippet(): Array<FieldDescriptor> {
+        return arrayOf(
+            fieldWithPath("content[].houseId").description("빈집 게시글 ID"),
+            fieldWithPath("content[].rentalType").description("매매 타입"),
+            fieldWithPath("content[].city").description("매물 위치"),
+            fieldWithPath("content[].imageUrl").description("썸네일 이미지 주소"),
+            fieldWithPath("content[].title").description("게시글 제목"),
+            fieldWithPath("content[].dealState").description("매물 거래 상태"),
+            fieldWithPath("content[].dealStateName").description("매물 거래 상태명"),
             fieldWithPath("last").description(""),
             fieldWithPath("totalPages").description(""),
             fieldWithPath("totalElements").description(""),
