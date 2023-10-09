@@ -36,8 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-### REST DOCS ###
-**/src/main/resources/static/docs/index.html
+### Application property ###
 src/main/resources/application-secret.yml
 src/test/resources/application-test.yml
 src/main/resources/logback-spring.xml
