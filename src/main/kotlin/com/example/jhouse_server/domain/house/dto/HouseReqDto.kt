@@ -52,6 +52,21 @@ data class HouseAgentListDto(
     val isCompleted: Boolean? //거래 기능 개발 후 판매상태 조건 추가
 )
 
+data class MyHouseResDto(
+    val houseId: Long,
+    val rentalType: RentalType,
+    val city: String,
+    val title: String,
+    val imageUrl: String,
+    val dealState: String,
+    val dealStateName: String,
+)
+
+fun toMyHouseDto(house: House) : MyHouseResDto {
+
+    return MyHouseResDto(house.id, house.rentalType, house.address.city, house.title, house.imageUrls[0], house.dealState.name, house.dealState.value)
+}
+
 /**
  * 빈집 매물 게시글 리스트 조회 시, 응답 DTO
  * */

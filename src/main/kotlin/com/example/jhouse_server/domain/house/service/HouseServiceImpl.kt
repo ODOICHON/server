@@ -25,15 +25,12 @@ import com.example.jhouse_server.global.exception.ErrorCode.*
 import com.example.jhouse_server.global.exception.ReqValidationException
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.validation.BindingResult
-import org.springframework.web.bind.MethodArgumentNotValidException
-import java.sql.Date
 import java.time.LocalDate
-import kotlin.jvm.optionals.getOrElse
 
 @Service
 @Transactional(readOnly = true)
@@ -103,7 +100,7 @@ class HouseServiceImpl(
         return req
     }
 
-    //    @Cacheable(cacheNames = ["getCache"], cacheManager = "ehCacheCacheManager", key = "#houseListDto.toString()+#pageable.pageNumber.toString()")
+        @Cacheable(cacheNames = ["getCache"], cacheManager = "ehCacheCacheManager", key = "#houseListDto.toString()+#pageable.pageNumber.toString()")
     override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable): Page<HouseResDto> {
         val houseAll = houseRepository.getHouseAll(houseListDto, pageable).map { toListDto(it) }
         return CustomPageImpl(houseAll.content, houseAll.number, houseAll.size, houseAll.totalElements)
@@ -191,10 +188,21 @@ class HouseServiceImpl(
         user: User,
         houseAgentListDto: HouseAgentListDto,
         pageable: Pageable
-    ): Page<HouseResDto> {
-        return houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
-            .map { toListDto(it) }
+    ): Page<MyHouseResDto> {
+        val housePage = houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
+            .map { toMyHouseDto(it) }
+        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
     }
+
+    override fun getMyHouseAll(
+        user: User,
+        keyword: String?,
+        pageable: Pageable
+    ): Page<MyHouseResDto> {
+        val housePage = houseRepository.getMyHouseAll(user, keyword, pageable).map { toMyHouseDto(it) }
+        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
+    }
+
     private fun createHouseTag(recommendedTag : List<String> , house: House) : List<HouseTag> {
         val recommendedTags = recommendedTag.map { RecommendedTag.getTagByName(it) }.toList()
         val houseTags: MutableList<HouseTag> = mutableListOf()

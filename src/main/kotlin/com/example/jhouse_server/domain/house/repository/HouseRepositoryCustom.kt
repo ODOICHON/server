@@ -19,4 +19,6 @@ interface HouseRepositoryCustom {
     fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<House>
 
     fun getApplyHouseListWithPaging(adminHouseSearch: AdminHouseSearch, pageable: Pageable) : Page<AdminHouseDto>
+
+    fun getMyHouseAll(user: User, keyword: String?, pageable: Pageable) : Page<House>
 }

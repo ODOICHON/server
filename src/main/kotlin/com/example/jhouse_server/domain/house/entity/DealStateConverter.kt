@@ -14,7 +14,8 @@ class DealStateConverter : AttributeConverter<DealState, String> {
     }
 }
 
-enum class DealState {
-    ONGOING,
-    COMPLETED,
+enum class DealState(val value : String) {
+    APPLYING("승인중"),
+    ONGOING("판매중"),
+    COMPLETED("판매완료"),
 }

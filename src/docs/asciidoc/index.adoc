@@ -7,7 +7,7 @@ ifndef::snippets[]
 :java: {sources-root}/main/java
 :java-test: {sources-root}/test/java
 endif::[]
-= 주말의집 API 명세서
+= 주말내집 API 명세서
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -16,11 +16,20 @@ endif::[]
 :sectlinks:
 
 제작 <5do2chonri@gmail.com> +
-제작일 2023-03-23 +
+최초작성일자 2023-03-23 +
 
-*해당 문서의 저작권은 주말의 집을 제작하는 오도리 팀에게 있으며, 무단 배포/변형을 금지합니다.*
+*해당 문서의 저작권은 주말내집을 제작하는 오도리 팀에게 있으며, 무단 배포/변형을 금지합니다.*
 
 include::user.adoc[]
+include::jwt.adoc[]
 include::board.adoc[]
 include::comment.adoc[]
 include::love.adoc[]
+include::house.adoc[]
+include::scrap.adoc[]
+include::error.adoc[]
+include::notification.adoc[]
+include::record.adoc[]
+include::record_category.adoc[]
+include::record_comment.adoc[]
+include::record_review.adoc[]
