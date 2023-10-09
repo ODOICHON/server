@@ -216,7 +216,7 @@ class HouseRepositoryImpl(
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
-                scrap.subscriber.eq(user),
+                house.user.eq(user), // 본인인지
                 searchTitleWithKeyword(keyword), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
             )

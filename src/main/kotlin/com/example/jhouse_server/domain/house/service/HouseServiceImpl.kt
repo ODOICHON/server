@@ -198,8 +198,8 @@ class HouseServiceImpl(
         keyword: String?,
         pageable: Pageable
     ): Page<MyHouseResDto> {
-        val housePage = houseRepository.getMyHouseAll(user, keyword, pageable)
-        return housePage.map { toMyHouseDto(it) }
+        val housePage = houseRepository.getMyHouseAll(user, keyword, pageable).map { toMyHouseDto(it) }
+        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
     }
 
     private fun createHouseTag(recommendedTag : List<String> , house: House) : List<HouseTag> {
