@@ -209,4 +209,14 @@ class HouseController(
     ): ApplicationResponse<Page<HouseResDto>> {
         return ApplicationResponse.ok(houseService.getAgentHouseAll(user, houseAgentListDto, pageable))
     }
+
+    @Auth
+    @GetMapping("/my")
+    fun getMyHouseAll(
+        @AuthUser user : User,
+        @PageableDefault(size=10, page=0) pageable: Pageable,
+        @RequestParam keyword : String
+    ): ApplicationResponse<Page<MyHouseResDto>> {
+        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, pageable))
+    }
 }

@@ -60,7 +60,7 @@ class House(
     @Column(nullable = true)
     var rejectReason: String? = null, // 관리자가 게시글을 반려한 이유
 
-    var dealState: DealState = DealState.ONGOING, // 판매상태 ( 기본값 : 진행중 )
+    var dealState: DealState = DealState.APPLYING, // 판매상태 ( 기본값 : 승인중 )
 
     @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL], orphanRemoval = true)
     var scrap: MutableList<Scrap> = mutableListOf(),
@@ -74,6 +74,9 @@ class House(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L
 ) : BaseEntity() {
+
+    @OneToOne
+    lateinit var deal:Deal
 
     fun updateEntity(
          rentalType: RentalType,
@@ -119,6 +122,7 @@ class House(
 
     fun approveEntity() {
         this.applied = HouseReviewStatus.APPROVE
+        this.dealState = DealState.ONGOING
     }
 
     fun rejectEntity(rejectReason: String) {
