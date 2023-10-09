@@ -206,7 +206,7 @@ class HouseController(
         @ModelAttribute houseAgentListDto: HouseAgentListDto,
         @AuthUser user: User,
         @PageableDefault(size=10, page=0) pageable: Pageable
-    ): ApplicationResponse<Page<HouseResDto>> {
+    ): ApplicationResponse<Page<MyHouseResDto>> {
         return ApplicationResponse.ok(houseService.getAgentHouseAll(user, houseAgentListDto, pageable))
     }
 

@@ -139,28 +139,26 @@ class HouseRepositoryImpl(
     override fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<House> {
         val result = jpaQueryFactory
             .selectFrom(house)
-            .join(house.user, QUser.user).fetchJoin()
-            .join(house, QDeal.deal.house).fetchJoin()
+            .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
-                house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
-                house.tmpYn.eq(false), // 임시저장 X
-                house.user.eq(user)
+                house.user.eq(user), // 본인인지
+                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
+                house.tmpYn.eq(false), // 임시저장
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
         val countQuery = jpaQueryFactory
             .selectFrom(house)
+            .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
                 house.reported.eq(false), // 신고 X
-                house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
-                house.tmpYn.eq(false), // 임시저장 X
-                house.user.eq(user)
+                house.user.eq(user), // 본인인지
+                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
+                house.tmpYn.eq(false), // 임시저장
             )
         return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong() }
     }

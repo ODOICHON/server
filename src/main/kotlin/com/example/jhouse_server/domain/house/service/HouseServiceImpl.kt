@@ -188,9 +188,10 @@ class HouseServiceImpl(
         user: User,
         houseAgentListDto: HouseAgentListDto,
         pageable: Pageable
-    ): Page<HouseResDto> {
-        return houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
-            .map { toListDto(it) }
+    ): Page<MyHouseResDto> {
+        val housePage = houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
+            .map { toMyHouseDto(it) }
+        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
     }
 
     override fun getMyHouseAll(
