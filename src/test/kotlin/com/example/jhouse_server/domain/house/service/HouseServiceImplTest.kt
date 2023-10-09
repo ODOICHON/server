@@ -25,10 +25,9 @@ import com.example.jhouse_server.global.util.MockEntity.Companion.houseUpdateReq
 import com.example.jhouse_server.global.util.MockEntity.Companion.reportReqDto
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -39,13 +38,13 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 @SpringBootTest
 internal class HouseServiceImplTest @Autowired constructor(
-    val houseService: HouseService,
-    val houseRepository: HouseRepository,
-    val userService: UserService,
-    val userRepository: UserRepository,
-    val scrapService: ScrapService,
-    val scrapRepository: ScrapRepository,
-    val dealRepository: DealRepository,
+        val houseService: HouseService,
+        val houseRepository: HouseRepository,
+        val userService: UserService,
+        val userRepository: UserRepository,
+        val scrapService: ScrapService,
+        val scrapRepository: ScrapRepository,
+        val dealRepository: DealRepository,
 ) {
     private val userSignUpReqDto = MockEntity.testUserSignUpDto2()
     private val testSignUpReqDto = MockEntity.testUserSignUpDto()
@@ -64,9 +63,11 @@ internal class HouseServiceImplTest @Autowired constructor(
         val admin = userRepository.findByUserName(adminSignUpReqDto.userName).get()
         admin.updateAuthority(Authority.ADMIN)
     }
+
     fun `로그인`(email: String, password: String) {
         userService.signIn(UserSignInReqDto(email, password))
     }
+
     @Test
     @DisplayName("빈집 게시글 생성 - 일반 유저")
     fun createHouse_user() {
@@ -124,6 +125,7 @@ internal class HouseServiceImplTest @Autowired constructor(
             houseService.createHouse(houseInvalidReqDto(), writer)
         }
     }
+
     @Test
     @DisplayName("빈집 게시글 생성 - 유효성 검사 실패")
     fun createHouse_invalid_city() {
@@ -255,6 +257,7 @@ internal class HouseServiceImplTest @Autowired constructor(
             houseService.createHouse(req, writer)
         }
     }
+
     @Test
     @DisplayName("빈집 게시글 임시저장 - 일반 유저")
     fun createHouse_tmp_default() {
@@ -327,9 +330,9 @@ internal class HouseServiceImplTest @Autowired constructor(
         // when
         val houseId = houseService.createHouse(houseTmpReqDto(), writer)
 
-       assertThrows(ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)::class.java) {
-           houseService.updateHouse(houseId, houseUpdateReqDto(), anotherWriter)
-       }
+        assertThrows(ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)::class.java) {
+            houseService.updateHouse(houseId, houseUpdateReqDto(), anotherWriter)
+        }
     }
 
     @Test
@@ -467,7 +470,7 @@ internal class HouseServiceImplTest @Autowired constructor(
 
     private fun createTmpHouseAll() {
         val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
-        for(i in 0 until 12) {
+        for (i in 0 until 12) {
             houseService.createHouse(houseTmpReqDto(), writer)
         }
     }
@@ -530,6 +533,7 @@ internal class HouseServiceImplTest @Autowired constructor(
         // given
         val writer = userRepository.findByUserName(userSignUpReqDto.userName).get()
         val houseId = houseService.createHouse(houseReqDto(), writer)
+        val house = houseRepository.findByIdOrThrow(houseId).approveEntity()
         val req = MockEntity.updateStatus("테스트유저2")
         // when
         houseService.updateStatus(writer, houseId, req)
@@ -550,6 +554,7 @@ internal class HouseServiceImplTest @Autowired constructor(
             houseService.updateStatus(writer, houseId, req)
         }
     }
+
     @Test
     @DisplayName("자신이 작성한 빈집 게시글 목록 조회")
     fun get_my_house_all() {
@@ -565,7 +570,7 @@ internal class HouseServiceImplTest @Autowired constructor(
 
     private fun createHouseAll() {
         val writer = userRepository.findByUserName(adminSignUpReqDto.userName).get()
-        for(i in 0 until 12) {
+        for (i in 0 until 12) {
             houseService.createHouse(houseReqDto(), writer)
         }
     }

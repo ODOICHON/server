@@ -45,4 +45,5 @@ enum class ErrorCode(
     DONT_REPORT_HOUSE_MINE(HttpStatus.UNAUTHORIZED, "H0001", "게시글 작성자 본인이 자신의 게시글을 신고할 수 없습니다."),
     ALREADY_SCRAP(HttpStatus.BAD_REQUEST, "H0002", "이미 스크랩한 게시글입니다."),
     DUPLICATE_REPORT(HttpStatus.BAD_REQUEST, "H0003", "이미 신고처리된 게시글입니다."),
+    DONT_CHANGE_DEAL_STATUS(HttpStatus.BAD_REQUEST, "H0004", "판매상태를 변경할 수 없는 데이터입니다."),
 }
