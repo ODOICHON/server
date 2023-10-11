@@ -60,8 +60,8 @@ class HouseServiceImpl(
             // (2) null 데이터 blank로 변경
             val tmpReq = changeNullToBlank(req)
             // (3) 임시저장 데이터 생성
-            val address = Address(req.city!!, req.zipCode!!)
-            val content = getContent(req.code!!)
+            val address = Address(tmpReq.city!!, tmpReq.zipCode!!)
+            val content = getContent(tmpReq.code!!)
             val tmp = House(tmpReq.rentalType!!, address, tmpReq.size!!, tmpReq.purpose!!, tmpReq.floorNum!!,
                     tmpReq.contact!!, tmpReq.createdDate!!, tmpReq.price!!, tmpReq.monthlyPrice!!,
                     tmpReq.agentName!!, tmpReq.title!!, content, tmpReq.code!!, tmpReq.imageUrls!!, user)
