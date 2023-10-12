@@ -1,0 +1,71 @@
+
+spring:
+  application:
+    name: jhouse-dev
+
+
+  config:
+    activate:
+      on-profile: "dev"
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+#        show_sql: true
+#        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  datasource:
+    url: ENC(reLiSYw8bj9dC732X/R0XRVWUQpC5oA6gtuIcaEOcDafwECc2FU3j/ASSgBhZRn3E5ofn53Z4MqrPpvHTCbe4+BPtFoCdKz/NeBCA1m3oIbdziyYUMTpz3PslJetYQrs2Y5+lFdObHJ40Fs/ZJ8BmavUjnPdfbFqBWPkJ/JsamI=)
+    username: ENC(xvhrw7GfC3KXyEKIbbXRLA==)
+    password: ENC(vJiB+8VMlNd15HOYQaBDZKNBBO5rHvrY)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: localhost
+    port: 6379
+
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
+  jwt:
+    key: ENC(QN9igaTGD9IR2xKYJsA4sUc5a6rvaOdgN7IU1LtrazB51S1oGXb/z7JlDfOg325iIQGsNb7yFZX6oT2wW4+C9Swza7yvorcnwtrGExIVgrlq65Al/+egt2fAkHI79YNoWYRwPI4Br0o=)
+
+  mail:
+    host: smtp.naver.com
+    username: ENC(M0a9CDS1QUwKJ83mfSuRD7IHGNJl/TVKrhBeuWze55A=)
+    password: ENC(lHYRdUoc8qW4QSUWxyL3FsDkV0kvzSV6)
+    properties:
+      debug: true
+      mail:
+        smtp:
+          ssl:
+            enable: true
+            trust: smtp.naver.com
+          starttls:
+            enable: true
+    port: 465
+    protocol: smtps
+
+cool:
+  sms:
+    api-key: ENC(65nOezIWpb58mF23J0oYUeXJMJ/iAsOVmP6dEFNjvdM=)
+    api-secret: ENC(l1mqdDlmADtW1E3hb0+jkf/5CWNQg6r8yA5tRdO8ihQXZ9KIs9ReP5Mx1J2lG3T7)
+    from: ENC(KdUMxAXBQVgK1ZjWJvvZpP1ZXZOaAVJ4)
+
+aes:
+  secret:
+    key: ENC(+D1OqctErx4y5y6alEDE+KonIVum/jYCZ7hnMoeJinlljjvGVte0lXjx6h/qI6+H)
+    alg: ENC(4EeK8heADvYLa0YJKYym/WkRLZjoea20neyqxvzPLiw=)
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+  port: 8089
+#logging:
+#  config: classpath:logback-spring.xml
