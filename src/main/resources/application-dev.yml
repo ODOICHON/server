@@ -66,6 +66,5 @@ server:
   servlet:
     session:
       tracking-modes: cookie
-  port: 8089
 #logging:
 #  config: classpath:logback-spring.xml
