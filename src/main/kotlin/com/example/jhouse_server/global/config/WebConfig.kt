@@ -28,7 +28,8 @@ class WebConfig (
                 .allowedOrigins(
                     "http://localhost:8080",
                     "http://localhost:3000",
-                    "https://duaily.net"
+                    "https://duaily.net",
+                        "https://dev.duaily.net"
                 )
                 .allowedMethods(
                     HttpMethod.GET.name,
