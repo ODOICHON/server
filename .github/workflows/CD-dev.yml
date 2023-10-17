@@ -1,0 +1,76 @@
+name: CD
+
+on:
+  push: #해당 브랜치에 push(merge) 했을 때
+    branches:
+      - qa
+
+permissions: write-all #테스트 결과 작성을 위해 쓰기권한 추가
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      #jdk 세팅
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      #gradle 캐싱
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      
+
+      #배포를 위한 secret yml 설정
+      - name: Make application-secret.yml
+        run: |
+          cd ./src/main/resources
+          touch ./application-secret.yml
+          echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
+        shell: bash
+
+      #로그 xml 파일 설정
+      - name: Make logback-spring.xml
+        run: |
+          cd ./src/main/resources
+          touch ./logback-spring.xml
+          echo "${{ secrets.LOGBACK_SPRING }}" > ./logback-spring.xml
+        shell: bash
+
+
+
+      #test를 포함한 프로젝트 빌드
+      - name: Build With Gradle
+        run: ./gradlew bootJar
+
+      # Docker 빌드 & 푸쉬
+      - name: docker build and push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}
+
+      # Deploy (DEV-Server)
+      - name: Deploy (DEV)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            docker stop jhouse-dev
+            docker rm jhouse-dev
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}
+            sudo docker run -d --name jhouse-dev -v /var/log/app:/var/log/app -v /etc/localtime:/etc/localtime:ro -e TZ=Asia/Seoul -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}:latest
+            docker rmi -f $(docker images -f "dangling=true" -q)
