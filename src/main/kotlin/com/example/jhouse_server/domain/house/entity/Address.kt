@@ -9,11 +9,11 @@ class Address(
         var city: String, // 시도
 
         @Column
-        var zipcode: String, // 우편번호
+        var zipCode: String, // 우편번호
 ) {
     fun updateEntity(city: String, zipCode: String) : Address {
         this.city = city
-        this.zipcode = zipCode
+        this.zipCode = zipCode
         return this
     }
 }

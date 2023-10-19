@@ -69,8 +69,8 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            docker stop jhouse-dev
-            docker rm jhouse-dev
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}
-            sudo docker run -d --name jhouse-dev -v /var/log/app:/var/log/app -v /etc/localtime:/etc/localtime:ro -e TZ=Asia/Seoul -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}:latest
+            docker stop server
+            docker rm server
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}:latest
+            sudo docker-compose up -d
             docker rmi -f $(docker images -f "dangling=true" -q)

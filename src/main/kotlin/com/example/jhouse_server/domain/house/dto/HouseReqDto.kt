@@ -1,17 +1,16 @@
 package com.example.jhouse_server.domain.house.dto
 
-import com.example.jhouse_server.domain.house.entity.*
+import com.example.jhouse_server.domain.house.entity.DealState
+import com.example.jhouse_server.domain.house.entity.House
+import com.example.jhouse_server.domain.house.entity.RecommendedTag
+import com.example.jhouse_server.domain.house.entity.RentalType
 import com.example.jhouse_server.domain.user.entity.UserType
-import com.example.jhouse_server.global.aop.CodeValid
-import com.querydsl.core.annotations.QueryProjection
 import org.hibernate.validator.constraints.Length
 import java.io.Serializable
 import java.sql.Timestamp
-import java.time.LocalDateTime
 import java.util.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
 import kotlin.streams.toList
 
 /**
@@ -116,28 +115,28 @@ class HouseResDto() {
  * 빈집 매물 게시글 단일 조회 시, 응답 DTO
  * */
 data class HouseResOneDto(
-    val houseId: Long,
-    val rentalType: RentalType,
-    val city: String,
-    val zipcode: String,
-    val size: String,
-    val purpose: String,
-    val floorNum: Int,
-    val contact: String,
-    val createdDate: String, // 준공연도
-    val price: Int,
-    val monthlyPrice: Double,
-    val agentName: String, // 공인중개사명
-    val title: String,
-    val code: String,
-    val imageUrls: List<String>,
-    val nickName: String, // 게시글 작성자
-    val userType: UserType, // 게시글 작성자의 타입 ( 일반회원, 공인중개사 )
-    val createdAt: Date,
-    val isCompleted: Boolean, // 거래 완료 여부
-    val isScraped : Boolean, // 게시글 스크랩 여부
-    val recommendedTag: List<RecommendedTag>, // 게시글 추천 태그
-    val recommendedTagName: List<String>, // 게시글 추천 태그명
+        val houseId: Long,
+        val rentalType: RentalType,
+        val city: String,
+        val zipCode: String,
+        val size: String,
+        val purpose: String,
+        val floorNum: Int,
+        val contact: String,
+        val createdDate: String, // 준공연도
+        val price: Int,
+        val monthlyPrice: Double,
+        val agentName: String, // 공인중개사명
+        val title: String,
+        val code: String,
+        val imageUrls: List<String>,
+        val nickName: String, // 게시글 작성자
+        val userType: UserType, // 게시글 작성자의 타입 ( 일반회원, 공인중개사 )
+        val createdAt: Date,
+        val isCompleted: Boolean, // 거래 완료 여부
+        val isScraped : Boolean, // 게시글 스크랩 여부
+        val recommendedTag: List<RecommendedTag>, // 게시글 추천 태그
+        val recommendedTagName: List<String>, // 게시글 추천 태그명
 )
 
 /**
@@ -154,7 +153,7 @@ fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
     val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
     val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
     return HouseResOneDto(house.id, house.rentalType, house.address.city,
-        house.address.zipcode, house.size, house.purpose, house.floorNum, house.contact,
+        house.address.zipCode, house.size, house.purpose, house.floorNum, house.contact,
         house.createdDate, house.price, house.monthlyPrice,
         house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
         house.user.userType, Timestamp.valueOf(house.createdAt),  house.dealState == DealState.COMPLETED, isScraped, recommendedTag, recommendedTagName)
