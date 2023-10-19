@@ -77,10 +77,13 @@
 - Jasypt
 
 ### E-R 다이어그램
-![주말내집 ERD-6](https://github.com/ODOICHON/server/assets/61505572/24511404-8fd0-49fe-9104-6245d7b24fec)
+![주말내집 ERD-7](https://github.com/ODOICHON/server/assets/61505572/bba582cd-bf66-4c36-8158-f6ff9521ff83)
 
 
 ### REST DOCS 기반 API 명세서
+**전체 문서**
+- [Index](https://odoichon.github.io/server/src/main/resources/static/docs/index.html)
+
 **주말내집 서비스**
 - [사용자 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/user.html)
 - [게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/board.html)
