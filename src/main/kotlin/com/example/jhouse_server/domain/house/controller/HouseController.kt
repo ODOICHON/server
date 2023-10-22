@@ -9,7 +9,6 @@ import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -215,8 +214,9 @@ class HouseController(
     fun getMyHouseAll(
         @AuthUser user : User,
         @PageableDefault(size=10, page=0) pageable: Pageable,
-        @RequestParam keyword : String
+        @RequestParam keyword : String,
+        @RequestParam filter : String,
     ): ApplicationResponse<Page<MyHouseResDto>> {
-        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, pageable))
+        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, filter, pageable))
     }
 }

@@ -14,7 +14,9 @@ import javax.validation.constraints.Pattern
 import kotlin.streams.toList
 
 /**
+ * ================================================================================================
  * 빈집 매물 게시글 작성/수정 DTO
+ * ================================================================================================
  * */
 data class HouseReqDto(
     var rentalType: RentalType? = null,
@@ -36,7 +38,9 @@ data class HouseReqDto(
 )
 
 /**
+ * ================================================================================================
  * 빈집 매물 게시글 목록 조회 시, 요청 Param
+ * ================================================================================================
  * */
 data class HouseListDto(
     val rentalType: String?, // 빈집 매물 유형
@@ -46,11 +50,20 @@ data class HouseListDto(
     val dealState: String? //
 ): Serializable
 
+/**
+ * ================================================================================================
+ * 마이페이지) 빈집 매물 게시글 목록 조회 DTO -- 공인중개사
+ * ================================================================================================
+ * */
 data class HouseAgentListDto(
     val search: String?,
     val isCompleted: Boolean? //거래 기능 개발 후 판매상태 조건 추가
 )
-
+/**
+ * ================================================================================================
+ * 마이페이지) 빈집 매물 게시글 목록 조회 DTO -- 일반 사용자
+ * ================================================================================================
+ * */
 data class MyHouseResDto(
     val houseId: Long,
     val rentalType: RentalType,
@@ -61,13 +74,10 @@ data class MyHouseResDto(
     val dealStateName: String,
 )
 
-fun toMyHouseDto(house: House) : MyHouseResDto {
-
-    return MyHouseResDto(house.id, house.rentalType, house.address.city, house.title, house.imageUrls[0], house.dealState.name, house.dealState.value)
-}
-
 /**
+ * ================================================================================================
  * 빈집 매물 게시글 리스트 조회 시, 응답 DTO
+ * ================================================================================================
  * */
 class HouseResDto() {
     var houseId: Long = 0 // 게시글 아이디
@@ -112,7 +122,9 @@ class HouseResDto() {
  }
 
 /**
+ * ================================================================================================
  * 빈집 매물 게시글 단일 조회 시, 응답 DTO
+ * ================================================================================================
  * */
 data class HouseResOneDto(
         val houseId: Long,
@@ -140,7 +152,9 @@ data class HouseResOneDto(
 )
 
 /**
+ * ================================================================================================
  * 빈집 매물 게시글 신고 요청 DTO
+ * ================================================================================================
  * */
 data class ReportReqDto(
     @field:NotNull(message = "신고사유는 필수값입니다.")
@@ -149,31 +163,10 @@ data class ReportReqDto(
     val reportReason: String // 신고사유
 )
 
-fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
-    val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
-    val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
-    return HouseResOneDto(house.id, house.rentalType, house.address.city,
-        house.address.zipCode, house.size, house.purpose, house.floorNum, house.contact,
-        house.createdDate, house.price, house.monthlyPrice,
-        house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
-        house.user.userType, Timestamp.valueOf(house.createdAt),  house.dealState == DealState.COMPLETED, isScraped, recommendedTag, recommendedTagName)
-}
-
-fun getTagByNameFromHouseTags(houseTag: List<RecommendedTag>) : List<RecommendedTag> {
-    return houseTag.stream().map { RecommendedTag.getTagByName(it.name) }.toList()
-}
-
-fun toListDto(house: House) : HouseResDto {
-    val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
-    val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
-    val imageUrl = if(house.imageUrls.isEmpty()) null else house.imageUrls[0]
-    return HouseResDto(house.id, house.rentalType, house.address.city, house.price, house.monthlyPrice,
-        house.user.nickName, Timestamp.valueOf(house.createdAt), house.dealState == DealState.COMPLETED,
-        imageUrl, house.title, recommendedTag, recommendedTagName )
-}
-
 /**
+ * ================================================================================================
  * 빈집 매물 게시글 거래 상태 변경 요청 DTO
+ * ================================================================================================
  * */
 data class DealReqDto(
     @field:NotNull(message = "만족도 점수는 필수값입니다.")
@@ -187,3 +180,33 @@ data class DealReqDto(
     val dealDate : String,
 )
 
+/**
+ * ================================================================================================
+ * PRIVATE FUNCTION
+ * ================================================================================================
+ * */
+
+fun getTagByNameFromHouseTags(houseTag: List<RecommendedTag>) : List<RecommendedTag> {
+    return houseTag.stream().map { RecommendedTag.getTagByName(it.name) }.toList()
+}
+
+fun toListDto(house: House) : HouseResDto {
+    val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
+    val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
+    val imageUrl = if(house.imageUrls.isEmpty()) null else house.imageUrls[0]
+    return HouseResDto(house.id, house.rentalType, house.address.city, house.price, house.monthlyPrice,
+        house.user.nickName, Timestamp.valueOf(house.createdAt), house.dealState == DealState.COMPLETED,
+        imageUrl, house.title, recommendedTag, recommendedTagName )
+}
+fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
+    val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
+    val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
+    return HouseResOneDto(house.id, house.rentalType, house.address.city,
+        house.address.zipCode, house.size, house.purpose, house.floorNum, house.contact,
+        house.createdDate, house.price, house.monthlyPrice,
+        house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,
+        house.user.userType, Timestamp.valueOf(house.createdAt),  house.dealState == DealState.COMPLETED, isScraped, recommendedTag, recommendedTagName)
+}
+fun toMyHouseDto(house: House) : MyHouseResDto {
+    return MyHouseResDto(house.id, house.rentalType, house.address.city, house.title, house.imageUrls[0], house.dealState.name, house.dealState.value)
+}

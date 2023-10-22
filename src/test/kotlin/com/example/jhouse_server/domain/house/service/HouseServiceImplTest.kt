@@ -563,7 +563,7 @@ internal class HouseServiceImplTest @Autowired constructor(
         val houseId = houseService.createHouse(houseReqDto(), writer)
         val pageable = PageRequest.of(0, 8)
         // when
-        val result = houseService.getMyHouseAll(writer, null, pageable)
+        val result = houseService.getMyHouseAll(writer, null, null, pageable)
         // then
         assertThat(result.content[0].dealState).isEqualTo(DealState.APPLYING.name)
     }
