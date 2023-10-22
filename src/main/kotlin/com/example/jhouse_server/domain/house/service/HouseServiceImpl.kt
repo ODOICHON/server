@@ -299,9 +299,7 @@ class HouseServiceImpl(
             houseAgentListDto: HouseAgentListDto,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        val housePage = houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
-                .map { toMyHouseDto(it) }
-        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
+        return houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
     }
 
     /**
@@ -317,10 +315,10 @@ class HouseServiceImpl(
     override fun getMyHouseAll(
             user: User,
             keyword: String?,
+            filter: String?,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        val housePage = houseRepository.getMyHouseAll(user, keyword, pageable).map { toMyHouseDto(it) }
-        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
+        return houseRepository.getMyHouseAll(user, keyword, filter, pageable)
     }
 
     /**

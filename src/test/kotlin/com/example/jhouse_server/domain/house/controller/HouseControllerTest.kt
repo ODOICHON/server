@@ -718,7 +718,7 @@ internal class HouseControllerTest @Autowired constructor(
         // when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .get("$uri/my?keyword=")
+                        .get("$uri/my?keyword=&filter=")
                         .header(HttpHeaders.AUTHORIZATION, accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -734,6 +734,7 @@ internal class HouseControllerTest @Autowired constructor(
                                 "get-my-house-all",
                                 requestParameters(
                                         parameterWithName("keyword").description("매물명 키워드 검색"),
+                                    parameterWithName("filter").description("null로 보낼 경우, 전체 조회이며 enum value로 보낼 경우, 필터링된 데이터를 반환합니다. 승인중(APPLYING)/판매중(ONGOING)/판매완료(COMPLETED)"),
                                 ),
                                 responseFields(
                                         beneathPath("data").withSubsectionId("data"),
@@ -752,6 +753,10 @@ internal class HouseControllerTest @Autowired constructor(
                 fieldWithPath("content[].title").description("게시글 제목"),
                 fieldWithPath("content[].dealState").description("매물 거래 상태"),
                 fieldWithPath("content[].dealStateName").description("매물 거래 상태명"),
+            fieldWithPath("cntAll").description("전체 개수 (totalElements와 동일한 값)"),
+            fieldWithPath("cntApply").description("승인중 게시물 개수"),
+            fieldWithPath("cntOngoing").description("판매중 게시물 개수"),
+            fieldWithPath("cntCompleted").description("판매완료 게시물 개수"),
                 fieldWithPath("last").description(""),
                 fieldWithPath("totalPages").description(""),
                 fieldWithPath("totalElements").description(""),
