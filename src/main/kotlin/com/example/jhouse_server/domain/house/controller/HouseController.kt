@@ -215,8 +215,7 @@ class HouseController(
         @AuthUser user : User,
         @PageableDefault(size=10, page=0) pageable: Pageable,
         @RequestParam keyword : String,
-        @RequestParam filter : String,
     ): ApplicationResponse<Page<MyHouseResDto>> {
-        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, filter, pageable))
+        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, pageable))
     }
 }

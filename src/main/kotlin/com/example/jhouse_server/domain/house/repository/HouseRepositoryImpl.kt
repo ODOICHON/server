@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.house.repository
 import com.example.jhouse_server.admin.house.dto.AdminHouseDto
 import com.example.jhouse_server.admin.house.dto.AdminHouseSearch
 import com.example.jhouse_server.admin.house.dto.HouseSearchFilter
+import com.example.jhouse_server.domain.board.repository.dto.CountQueryDto
 import com.example.jhouse_server.domain.board.repository.dto.CustomMyPageImpl
 import com.example.jhouse_server.domain.house.dto.HouseAgentListDto
 import com.example.jhouse_server.domain.house.dto.HouseListDto
@@ -194,7 +195,8 @@ class HouseRepositoryImpl(
             ).fetch().size.toLong()
         val resultDtoList = result.map { toMyHouseDto(it) }
         val housePage =  PageableExecutionUtils.getPage(resultDtoList, pageable) { cntAllQuery }
-        return CustomMyPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements, cntAllQuery, cntApplyQuery, cntOngoingQuery, cntCompletedQuery)
+        val countQueryDto = CountQueryDto(cntAllQuery, cntApplyQuery, cntOngoingQuery, cntCompletedQuery)
+        return CustomMyPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements, countQueryDto)
     }
 
     /**
@@ -239,7 +241,7 @@ class HouseRepositoryImpl(
      * 거래 상태에 따른 집계 쿼리 추가
      * ============================================================================================
      */
-    override fun getMyHouseAll(user: User, keyword: String?, filter: String?, pageable: Pageable): Page<MyHouseResDto> {
+    override fun getMyHouseAll(user: User, keyword: String?, pageable: Pageable): Page<MyHouseResDto> {
         val result = jpaQueryFactory
             .selectFrom(house)
             .leftJoin(house.deal, QDeal.deal)
@@ -248,7 +250,6 @@ class HouseRepositoryImpl(
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
                 searchTitleWithKeyword(keyword), // 키워드 검색어
-                filterWithDealState(filter),
                 house.tmpYn.eq(false), // 임시저장
             )
             .limit(pageable.pageSize.toLong())
@@ -262,7 +263,6 @@ class HouseRepositoryImpl(
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
                 searchTitleWithKeyword(keyword), // 키워드 검색어
-                filterWithDealState(filter),
                 house.tmpYn.eq(false), // 임시저장
             ).fetch().size.toLong()
         val cntApplyQuery = jpaQueryFactory
@@ -273,7 +273,6 @@ class HouseRepositoryImpl(
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
                 searchTitleWithKeyword(keyword), // 키워드 검색어
-                filterWithDealState(filter),
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.APPLYING)
             ).fetch().size.toLong()
@@ -285,7 +284,6 @@ class HouseRepositoryImpl(
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
                 searchTitleWithKeyword(keyword), // 키워드 검색어
-                filterWithDealState(filter),
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.ONGOING)
             ).fetch().size.toLong()
@@ -297,13 +295,13 @@ class HouseRepositoryImpl(
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
                 searchTitleWithKeyword(keyword), // 키워드 검색어
-                filterWithDealState(filter),
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.COMPLETED)
             ).fetch().size.toLong()
         val resultDtoList = result.map { toMyHouseDto(it) }
         val housePage =  PageableExecutionUtils.getPage(resultDtoList, pageable) { cntAllQuery }
-        return CustomMyPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements, cntAllQuery, cntApplyQuery, cntOngoingQuery, cntCompletedQuery)
+        val countQueryDto = CountQueryDto(cntAllQuery, cntApplyQuery, cntOngoingQuery, cntCompletedQuery)
+        return CustomMyPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements, countQueryDto)
     }
     /**
      * ============================================================================================

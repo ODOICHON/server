@@ -24,10 +24,7 @@ class CustomPageImpl<T> : PageImpl<T> {
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class CustomMyPageImpl<T> : PageImpl<T> {
-    var cntAll: Long
-    var cntApply : Long
-    var cntOngoing : Long
-    var cntCompleted : Long
+    var count : CountQueryDto
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     constructor(
@@ -35,18 +32,19 @@ class CustomMyPageImpl<T> : PageImpl<T> {
         @JsonProperty("page") page: Int,
         @JsonProperty("size") size : Int,
         @JsonProperty("totalElements") total: Long,
-        @JsonProperty("cntAll") cntAll : Long,
-        @JsonProperty("cntApply") cntApply: Long,
-        @JsonProperty("cntOngoing") cntOngoing : Long,
-        @JsonProperty("cntCompleted") cntCompleted : Long
+        @JsonProperty("count") count : CountQueryDto,
     ) : super(content, PageRequest.of(page, size), total) {
-        this.cntAll = cntAll
-        this.cntApply = cntApply
-        this.cntOngoing = cntOngoing
-        this.cntCompleted = cntCompleted
+        this.count = count
     }
     @JsonIgnore
     override fun getPageable(): Pageable {
         return super<PageImpl>.getPageable()
     }
 }
+
+data class CountQueryDto(
+    var cntAll: Long,
+    var cntApply : Long,
+    var cntOngoing : Long,
+    var cntCompleted : Long
+)
