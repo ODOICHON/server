@@ -315,10 +315,9 @@ class HouseServiceImpl(
     override fun getMyHouseAll(
             user: User,
             keyword: String?,
-            filter: String?,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        return houseRepository.getMyHouseAll(user, keyword, filter, pageable)
+        return houseRepository.getMyHouseAll(user, keyword, pageable)
     }
 
     /**
