@@ -43,8 +43,8 @@ class CustomMyPageImpl<T> : PageImpl<T> {
 }
 
 data class CountQueryDto(
-    var cntAll: Long,
-    var cntApply : Long,
-    var cntOngoing : Long,
-    var cntCompleted : Long
+    @JsonProperty("all") var cntAll: Long,
+    @JsonProperty("applying") var cntApply : Long,
+    @JsonProperty("ongoing") var cntOngoing : Long,
+    @JsonProperty("completed") var cntCompleted : Long
 )
