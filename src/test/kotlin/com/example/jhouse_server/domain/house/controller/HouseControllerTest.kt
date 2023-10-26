@@ -477,7 +477,7 @@ internal class HouseControllerTest @Autowired constructor(
         // when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .get("$uri/scrap?page=0")
+                        .get("$uri/scrap?page=0&filter=")
                         .header(HttpHeaders.AUTHORIZATION, accessToken)
                         .characterEncoding("UTF-8")
         )
@@ -491,6 +491,7 @@ internal class HouseControllerTest @Autowired constructor(
                                 "get-scrap-house-all",
                                 requestParameters(
                                         parameterWithName("page").description("페이지 번호"),
+                                        parameterWithName("filter").description("판매여부 필터링 ( 전체 조회 시, 빈 값으로 보내시면 됩니다. 거래중은 ONGOING 문자열로 보내주세요. )")
                                 ),
                                 responseFields(
                                         beneathPath("data").withSubsectionId("data"),

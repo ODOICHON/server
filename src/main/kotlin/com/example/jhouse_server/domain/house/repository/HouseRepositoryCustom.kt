@@ -15,7 +15,7 @@ interface HouseRepositoryCustom {
 
     fun getTmpSaveHouseAll(user: User, pageable: Pageable) : Page<House>
 
-    fun getScrapHouseAll(user: User, pageable: Pageable): Page<House>
+    fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<House>
 
     fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<MyHouseResDto>
 
