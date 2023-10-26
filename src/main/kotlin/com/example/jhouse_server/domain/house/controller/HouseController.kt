@@ -185,9 +185,10 @@ class HouseController(
     @GetMapping("/scrap")
     fun getScrapHouseAll(
         @AuthUser user: User,
-        @PageableDefault(size=10, page=0) pageable: Pageable
+        @PageableDefault(size=10, page=0) pageable: Pageable,
+        @RequestParam filter: String?
     ): ApplicationResponse<Page<HouseResDto>> {
-        return ApplicationResponse.ok(houseService.getScrapHouseAll(user, pageable))
+        return ApplicationResponse.ok(houseService.getScrapHouseAll(user, filter, pageable))
     }
 
     /**
