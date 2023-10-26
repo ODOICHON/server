@@ -105,7 +105,7 @@ class HouseRepositoryImpl(
      * 자신이 스크랩한 게시글 목록 조회
      * ============================================================================================
      */
-    override fun getScrapHouseAll(user: User, pageable: Pageable): Page<House> {
+    override fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<House> {
         val result = jpaQueryFactory
             .selectFrom(house)
             .join(house.user, QUser.user).fetchJoin()
@@ -113,7 +113,8 @@ class HouseRepositoryImpl(
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
-                scrap.subscriber.eq(user)
+                scrap.subscriber.eq(user),
+                filterWithDealState(filter) // 판매중 필터링
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -123,7 +124,8 @@ class HouseRepositoryImpl(
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
-                scrap.subscriber.eq(user)
+                scrap.subscriber.eq(user),
+                filterWithDealState(filter)
             )
         return PageableExecutionUtils.getPage(result, pageable) { countQuery.fetch().size.toLong() }
     }
@@ -157,7 +159,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
             ).fetch().size.toLong()
         val cntApplyQuery = jpaQueryFactory
@@ -167,7 +168,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.APPLYING)
             ).fetch().size.toLong()
@@ -178,7 +178,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.ONGOING)
             ).fetch().size.toLong()
@@ -189,7 +188,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.COMPLETED)
             ).fetch().size.toLong()
@@ -249,7 +247,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchTitleWithKeyword(keyword), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
             )
             .limit(pageable.pageSize.toLong())
@@ -262,7 +259,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchTitleWithKeyword(keyword), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
             ).fetch().size.toLong()
         val cntApplyQuery = jpaQueryFactory
@@ -272,7 +268,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchTitleWithKeyword(keyword), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.APPLYING)
             ).fetch().size.toLong()
@@ -283,7 +278,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchTitleWithKeyword(keyword), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.ONGOING)
             ).fetch().size.toLong()
@@ -294,7 +288,6 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchTitleWithKeyword(keyword), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.COMPLETED)
             ).fetch().size.toLong()

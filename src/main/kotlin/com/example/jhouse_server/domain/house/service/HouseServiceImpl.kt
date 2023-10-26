@@ -280,8 +280,8 @@ class HouseServiceImpl(
      *  @return Page<HouseResDto>
      * =============================================================================================
      * */
-    override fun getScrapHouseAll(user: User, pageable: Pageable): Page<HouseResDto> {
-        return houseRepository.getScrapHouseAll(user, pageable).map { toListDto(it) }
+    override fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<HouseResDto> {
+        return houseRepository.getScrapHouseAll(user, filter, pageable).map { toListDto(it) }
     }
 
     /**
