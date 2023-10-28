@@ -7,7 +7,8 @@ enum class PrefixCategory(val value: String) {
     DEFAULT("자유"),
     INTRO("소개"),
     ADVERTISEMENT("홍보"),
-    ALL("공통");
+    ALL("공통")
+    ;
 
 }
 
