@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AdminBoardController(
     /**
      * =============================================================================================
-     *  DI for Repository
+     *  DI for Service
      * =============================================================================================
      * */
         val adminBoardService: AdminBoardService

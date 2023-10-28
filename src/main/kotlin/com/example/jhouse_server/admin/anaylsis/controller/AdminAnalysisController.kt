@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class AdminAnalysisController (
     /**
      * =============================================================================================
-     *  DI for Repository
+     *  DI for Service
      * =============================================================================================
      * */
     val analysisService: AnalysisService

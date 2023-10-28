@@ -18,7 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 class AdminHouseController(
     /**
      * =============================================================================================
-     *  DI for Repository
+     *  DI for Service
      * =============================================================================================
      * */
     val adminHouseService: AdminHouseService

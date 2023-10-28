@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest
 class AdminAuthController(
     /**
      * =============================================================================================
-     *  DI for Repository
+     *  DI for Service
      * =============================================================================================
      * */
     val userRepository: UserRepository,
