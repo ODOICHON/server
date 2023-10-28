@@ -3,7 +3,11 @@ package com.example.jhouse_server.domain.board.entity
 import com.example.jhouse_server.domain.board.PrefixCategory
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
-
+/**
+ * =============================================================================================
+ *  ENUM CLASS
+ * =============================================================================================
+ * */
 enum class BoardCategory(val value: String, val superCategory: PrefixCategory) {
     INTERIOR("인테리어", PrefixCategory.ADVERTISEMENT),
     ESTATE("토지", PrefixCategory.ADVERTISEMENT),
@@ -19,7 +23,11 @@ enum class BoardCategory(val value: String, val superCategory: PrefixCategory) {
     EMPTY("태그 없음", PrefixCategory.ALL),
     ;
 }
-
+/**
+ * =============================================================================================
+ *  ENUM CONVERTER
+ * =============================================================================================
+ * */
 @Converter(autoApply = true)
 class BoardCategoryConverter : AttributeConverter<BoardCategory, String> {
     override fun convertToDatabaseColumn(attribute: BoardCategory?): String? {

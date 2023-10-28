@@ -2,7 +2,11 @@ package com.example.jhouse_server.domain.board
 
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
-
+/**
+ * =============================================================================================
+ *  ENUM CLASS
+ * =============================================================================================
+ * */
 enum class PrefixCategory(val value: String) {
     DEFAULT("자유"),
     INTRO("소개"),
@@ -11,7 +15,11 @@ enum class PrefixCategory(val value: String) {
     ;
 
 }
-
+/**
+ * =============================================================================================
+ *  ENUM CONVERTER
+ * =============================================================================================
+ * */
 @Converter(autoApply = true)
 class PrefixCategoryConverter : AttributeConverter<PrefixCategory, String> {
     override fun convertToDatabaseColumn(attribute: PrefixCategory?): String? {
