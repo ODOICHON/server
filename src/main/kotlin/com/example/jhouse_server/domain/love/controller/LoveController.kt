@@ -10,9 +10,21 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/loves")
 class LoveController(
+    /**
+     * =============================================================================================
+     * DI for Service
+     * =============================================================================================
+     */
     val loveService: LoveService
 ) {
-
+    /**
+     * =============================================================================================
+     * 게시글 좋아요
+     *
+     * @param boardId
+     * @param user
+     * =============================================================================================
+     */
     @Auth
     @PutMapping("/{boardId}")
     fun loveBoard(
@@ -21,7 +33,14 @@ class LoveController(
     ) : ApplicationResponse<Long> {
         return ApplicationResponse.ok(loveService.loveBoard(boardId, user))
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 좋아요 해제
+     *
+     * @param boardId
+     * @param user
+     * =============================================================================================
+     */
     @Auth
     @DeleteMapping("/{boardId}")
     fun hateBoard(
@@ -31,6 +50,15 @@ class LoveController(
         loveService.hateBoard(boardId, user)
         return ApplicationResponse.ok()
     }
+
+    /**
+     * =============================================================================================
+     * 게시글 좋아요 여부 확인
+     *
+     * @param boardId
+     * @param user
+     * =============================================================================================
+     */
     @Auth
     @GetMapping("/{boardId}")
     fun isLovedBoard(
