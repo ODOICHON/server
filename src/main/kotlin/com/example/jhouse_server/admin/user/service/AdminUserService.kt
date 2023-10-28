@@ -12,15 +12,28 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class AdminUserService(
+    /**
+     * =============================================================================================
+     *  DI for Repository
+     * =============================================================================================
+     * */
         var userRepository: UserRepository,
         var agentRepository: AgentRepository
 ) {
-
+    /**
+     * =============================================================================================
+     *  공인중개사 가입 승인
+     * =============================================================================================
+     * */
     fun agentJoin(adminJoinAgentList: AdminJoinAgentList) {
         val agentReq = adminJoinAgentList.joinAgentIds?.let { agentRepository.findByIds(it) }
         agentReq?.forEach { a -> a.updateStatus(AgentStatus.APPROVE) }
     }
-
+    /**
+     * =============================================================================================
+     *  사용자 회원 탈퇴
+     * =============================================================================================
+     * */
     fun withdrawalUser(adminWithdrawalList: AdminWithdrawalList) {
         val findUsers = adminWithdrawalList.withdrawalIds?.let { userRepository.findByIds(it) }
         findUsers?.forEach { u -> u.withdrawalUser() }

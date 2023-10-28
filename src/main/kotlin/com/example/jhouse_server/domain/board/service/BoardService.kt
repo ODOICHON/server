@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable
 interface BoardService {
     fun createBoard(req: BoardReqDto, user: User): Long
     fun updateBoard(boardId: Long, req: BoardUpdateReqDto, user: User): Long
-//    fun getBoardAll(category: String, pageable: Pageable): Page<BoardResDto>
     fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto>
     fun getBoardPreviewAll(boardPreviewListDto: BoardPreviewListDto): List<BoardResDto>
     fun getBoardOne(boardId: Long): BoardResOneDto

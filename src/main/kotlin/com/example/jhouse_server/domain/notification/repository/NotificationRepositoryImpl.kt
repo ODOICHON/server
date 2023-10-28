@@ -14,9 +14,18 @@ import org.springframework.data.domain.Slice
 import org.springframework.data.domain.SliceImpl
 
 class NotificationRepositoryImpl(
+    /**
+     * =============================================================================================
+     * DI for Repository
+     * =============================================================================================
+     */
     private val jpaQueryFactory: JPAQueryFactory
 ): NotificationRepositoryCustom {
-
+    /**
+     * =============================================================================================
+     * 알림 조회
+     * =============================================================================================
+     */
     override fun findNotifications(user: User, pageable: Pageable, req: NotificationReqDto): Slice<NotificationResDto> {
         val content = jpaQueryFactory
             .selectFrom(notification)
@@ -32,12 +41,19 @@ class NotificationRepositoryImpl(
 
         return createSliceNotification(content, pageable)
     }
+    /**
+     * =============================================================================================
+     * PRIVATE FUNCTION
+     * =============================================================================================
+     */
 
     /**
+     * =============================================================================================
      * 읽은 알림인지 아닌지 확인하는 함수
      * null : 전부
      * true : 읽음
      * false : 읽지않음
+     * =============================================================================================
      */
     private fun eqRead(read: Boolean?): BooleanExpression? {
         return if(read == null) null
@@ -46,7 +62,9 @@ class NotificationRepositoryImpl(
     }
 
     /**
+     * =============================================================================================
      * 마지막 확인한 id 보다 작은 id를 가져오는 함수
+     * =============================================================================================
      */
     private fun ltId(id: Long?): BooleanExpression? {
         return if(id == null) null
@@ -54,7 +72,9 @@ class NotificationRepositoryImpl(
     }
 
     /**
+     * =============================================================================================
      * list를 slice로 변형하는 함수
+     * =============================================================================================
      */
     private fun createSliceNotification(content: MutableList<Notification>, pageable: Pageable): Slice<NotificationResDto> {
         var hasNext: Boolean = false

@@ -4,19 +4,20 @@ import com.example.jhouse_server.domain.board.dto.BoardResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
-import com.fasterxml.jackson.annotation.JsonCreator
-import com.fasterxml.jackson.annotation.JsonProperty
 import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotNull
 import kotlin.streams.toList
-
+/**
+ * =============================================================================================
+ *  REQUEST DTO
+ * =============================================================================================
+ * */
 data class BoardReqDto(
     @field:NotNull(message = "게시글 제목은 필수값입니다.")
     val title: String? = null,
     @field:NotNull(message = "code는 필수값입니다.")
     val code: String? = null,
-//    @field:NotNull(message = "말머리는 필수값입니다.")
     val category: BoardCategory?,
     val imageUrls: List<String>,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
@@ -29,7 +30,6 @@ data class BoardUpdateReqDto(
     val title: String? = null,
     @field:NotNull(message = "code는 필수값입니다.")
     val code: String? = null,
-//    @field:NotNull(message = "말머리는 필수값입니다.")
     val category: String?,
     val imageUrls: List<String>,
     @field:NotNull(message = "게시글 타입은 필수값입니다.")
@@ -37,6 +37,24 @@ data class BoardUpdateReqDto(
     val fixed: Boolean? = null,
 )
 
+data class BoardListDto(
+    val prefix: String,
+    val category: String?,
+    val search: String?,
+    val order: String?
+)
+
+data class BoardPreviewListDto(
+    val prefix: String,
+    val category: String?,
+    val limit: Long
+)
+
+/**
+ * =============================================================================================
+ *  RESPONSE DTO
+ * =============================================================================================
+ * */
 data class BoardResOneDto(
     val boardId : Long,
     val title : String,
@@ -50,20 +68,11 @@ data class BoardResOneDto(
     val commentCount : Int,
     val comments : List<CommentResDto>
 )
-
-data class BoardListDto(
-        val prefix: String,
-        val category: String?,
-        val search: String?,
-        val order: String?
-)
-
-data class BoardPreviewListDto(
-        val prefix: String,
-        val category: String?,
-        val limit: Long
-)
-
+/**
+ * =============================================================================================
+ *  PUBLIC FUNCTION -- DTO <> Entity
+ * =============================================================================================
+ * */
 fun toListDto(board : Board) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
     if (board.imageUrls.isEmpty()) {
@@ -82,7 +91,11 @@ fun sliceContentWithRegex(content : String) : String {
         content
     }
 }
-
+/**
+ * =============================================================================================
+ *  ENUM CLASS
+ * =============================================================================================
+ * */
 data class CodeResDto(
     val code: String,
     val name : String

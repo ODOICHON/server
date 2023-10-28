@@ -13,10 +13,19 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 @Service
 class LoveServiceImpl(
+    /**
+     * =============================================================================================
+     * DI for Repository
+     * =============================================================================================
+     */
     val boardRepository: BoardRepository,
     val loveRepository: LoveRepository
 ) : LoveService {
-
+    /**
+     * =============================================================================================
+     * 게시글 좋아요
+     * =============================================================================================
+     */
     @Transactional
     override fun loveBoard(postId: Long, user: User): Long {
         val board = boardRepository.findByIdOrThrow(postId)
@@ -29,7 +38,11 @@ class LoveServiceImpl(
         loveRepository.save(love)
         return board.addLove(love).id
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 좋아요 해제
+     * =============================================================================================
+     */
     @Transactional
     override fun hateBoard(postId: Long, user: User) {
         val board = boardRepository.findByIdOrThrow(postId)
@@ -37,7 +50,11 @@ class LoveServiceImpl(
         board.deleteLove(love)
         loveRepository.deleteById(love.id)
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 좋아요 여부 확인
+     * =============================================================================================
+     */
     override fun isLovedBoard(boardId: Long, user: User): Boolean {
         val board = boardRepository.findByIdOrThrow(boardId)
         return loveRepository.existsByBoardAndUser(board, user)

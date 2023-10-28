@@ -24,6 +24,11 @@ class Comment(
     @Id @GeneratedValue
     val id : Long = 0L,
 ): BaseEntity() {
+    /**
+     * =============================================================================================
+     *  댓글 수정
+     * =============================================================================================
+     * */
     fun updateEntity(content : String) : Comment {
         this.content = content
         return this

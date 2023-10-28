@@ -3,12 +3,20 @@ package com.example.jhouse_server.domain.notification.dto
 import com.example.jhouse_server.domain.notification.entity.Notification
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.domain.Slice
-
+/**
+ * =============================================================================================
+ * REQUEST DTO
+ * =============================================================================================
+ */
 data class NotificationReqDto(
     val read: Boolean?,
     val id: Long?
 )
-
+/**
+ * =============================================================================================
+ * RESPONSE DTO
+ * =============================================================================================
+ */
 data class NotificationResDto(
     @JsonProperty("nick_name")
     val nickName: String,
@@ -28,6 +36,11 @@ data class SliceNotificationResDto(
     val nextId: Long?,
     val notifications: Slice<NotificationResDto>
 )
+/**
+ * =============================================================================================
+ * PUBLIC FUNCTION -- DTO <> ENTITY
+ * =============================================================================================
+ */
 
 fun toResDto(notification: Notification): NotificationResDto {
     return NotificationResDto(notification.user.nickName, notification.board.id, notification.board.title,

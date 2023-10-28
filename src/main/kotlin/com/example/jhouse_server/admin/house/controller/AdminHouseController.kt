@@ -6,24 +6,35 @@ import com.example.jhouse_server.admin.house.dto.HouseSearchFilter
 import com.example.jhouse_server.admin.house.dto.RejectForm
 import com.example.jhouse_server.admin.house.service.AdminHouseService
 import com.example.jhouse_server.domain.house.entity.HouseReviewStatus
-import com.example.jhouse_server.global.aop.log.logger
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import kotlin.math.log
 
 @Controller
 @RequestMapping("/admin/house")
 class AdminHouseController(
+    /**
+     * =============================================================================================
+     *  DI for Service
+     * =============================================================================================
+     * */
     val adminHouseService: AdminHouseService
 ) {
+    /**
+     * =============================================================================================
+     * 빈집 게시글 승인 페이지
+     *
+     * @author dldmsql
+     * @param adminHouseSearch
+     * @param adminHouseApplyList
+     * @param model
+     * @param pageable
+     * @return house/houses
+     * =============================================================================================
+     * */
     @GetMapping("/apply")
     fun getHouses(
         @ModelAttribute("searchForm") adminHouseSearch: AdminHouseSearch,
@@ -43,7 +54,17 @@ class AdminHouseController(
 
         return "house/houses"
     }
-
+    /**
+     * =============================================================================================
+     * 빈집 게시글 상세 조회
+     *
+     * @author dldmsql
+     * @param houseId
+     * @param rejectForm
+     * @param model
+     * @return house/houseDetail
+     * =============================================================================================
+     * */
     @GetMapping("/{houseId}")
     fun getHouseDetail(
         @PathVariable("houseId") houseId: Long,
@@ -55,7 +76,16 @@ class AdminHouseController(
         model.addAttribute("houseDto", result)
         return "house/houseDetail"
     }
-
+    /**
+     * =============================================================================================
+     * 빈집 게시글 승인 처리
+     *
+     * @author dldmsql
+     * @param applyList
+     * @param redirectAttributes
+     * @return redirect:/admin/house/apply
+     * =============================================================================================
+     * */
     @PostMapping("/apply/approve")
     fun updateReviewStatusApprove(
         @ModelAttribute("applyList") applyList: AdminHouseApplyList,
@@ -64,7 +94,16 @@ class AdminHouseController(
         adminHouseService.updateReviewStatusApprove(HouseReviewStatus.APPROVE, applyList, redirectAttributes)
         return "redirect:/admin/house/apply"
     }
-
+    /**
+     * =============================================================================================
+     * 빈집 게시글 반려 처리
+     *
+     * @author dldmsql
+     * @param rejectForm
+     * @param redirectAttributes
+     * @return redirect:/admin/house/apply
+     * =============================================================================================
+     * */
     @PostMapping("/apply/reject")
     fun updateReviewStatusReject(
         @ModelAttribute("rejectForm") rejectForm: RejectForm,
@@ -73,7 +112,17 @@ class AdminHouseController(
         adminHouseService.updateReviewStatusReject(HouseReviewStatus.REJECT, rejectForm, redirectAttributes)
         return "redirect:/admin/house/apply"
     }
-
+    /**
+     * =============================================================================================
+     * 빈집 거래 후기 관리
+     *
+     * @author dldmsql
+     * @param adminHouseSearch
+     * @param model
+     * @param pageable
+     * @return house/houseReview
+     * =============================================================================================
+     * */
     @GetMapping("/review")
     fun getHousesReview(
         @ModelAttribute("searchForm") adminHouseSearch: AdminHouseSearch,

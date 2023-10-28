@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/v1/notifications?read=false&amp;id= HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTgzMTk3ODMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.0wgyGB3IhpqFn9XqrDeIb7_DdLmCtx-5cjGZJ-4DBOi-b-8anzvwBnPuQ19nz0aImcfuCbi-9aimYTZFnc8gBQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTg0NjcxMzgsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.PcBrPD0krxpVfwVvexGCItczgNT3J7pgM4HGEpH4pXZlJOem4IdUOW-p5vt6qtIBo50Tfaw0EGqBfjX6uD3vAg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -501,48 +501,48 @@ Content-Length: 2045
   "code" : "SUCCESS",
   "message" : "성공",
   "data" : {
-    "nextId" : 93243,
+    "nextId" : 95197,
     "notifications" : {
       "content" : [ {
         "nick_name" : "테스트유저1",
-        "board_id" : 4438,
+        "board_id" : 4515,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 93251
+        "notification_id" : 95205
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 4438,
+        "board_id" : 4515,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 93249
+        "notification_id" : 95203
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 4438,
+        "board_id" : 4515,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 93247
+        "notification_id" : 95201
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 4438,
+        "board_id" : 4515,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 93245
+        "notification_id" : 95199
       }, {
         "nick_name" : "테스트유저1",
-        "board_id" : 4438,
+        "board_id" : 4515,
         "board_title" : "짱구는 못말려",
         "status" : false,
         "comment" : "짱구야, 공부 하자.",
         "comment_user" : "테스트유저2",
-        "notification_id" : 93243
+        "notification_id" : 95197
       } ],
       "pageable" : {
         "sort" : {
@@ -551,18 +551,18 @@ Content-Length: 2045
           "sorted" : false
         },
         "offset" : 0,
-        "pageNumber" : 0,
         "pageSize" : 5,
+        "pageNumber" : 0,
         "unpaged" : false,
         "paged" : true
       },
-      "size" : 5,
-      "number" : 0,
       "sort" : {
         "empty" : true,
         "unsorted" : true,
         "sorted" : false
       },
+      "number" : 0,
+      "size" : 5,
       "first" : true,
       "last" : false,
       "numberOfElements" : 5,
@@ -731,8 +731,8 @@ Content-Length: 2045
 <h5 id="_request_2">Request</h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/notifications/93199 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTgzMTk3ODMsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.0wgyGB3IhpqFn9XqrDeIb7_DdLmCtx-5cjGZJ-4DBOi-b-8anzvwBnPuQ19nz0aImcfuCbi-9aimYTZFnc8gBQ
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/v1/notifications/95153 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0X2pob3VzZV9jb20iLCJleHAiOjE2OTg0NjcxMzgsImF1dGgiOiJVU0VSIiwidHlwZSI6Ik5PTkUifQ.PcBrPD0krxpVfwVvexGCItczgNT3J7pgM4HGEpH4pXZlJOem4IdUOW-p5vt6qtIBo50Tfaw0EGqBfjX6uD3vAg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -773,7 +773,7 @@ Content-Length: 66
 {
   "code" : "SUCCESS",
   "message" : "성공",
-  "data" : 93199
+  "data" : 95153
 }</code></pre>
 </div>
 </div>

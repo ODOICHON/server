@@ -11,24 +11,29 @@ import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
 @RestController
 @RequestMapping("/api/v1/record")
 class RecordController(
+    /**
+     * =============================================================================================
+     * DI for Service
+     * =============================================================================================
+     */
     private val recordService: RecordService,
     private val rateLimitService: RateLimitService
 ) {
 
+    /**
+     * =============================================================================================
+     * 블로그 게시글 작성
+     *
+     * @param recordReqDto
+     * @param user
+     * =============================================================================================
+     */
     @Auth(ADMIN)
     @PostMapping
     fun saveRecord(
@@ -37,7 +42,15 @@ class RecordController(
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(recordService.saveRecord(recordReqDto, user))
     }
-
+    /**
+     * =============================================================================================
+     * 블로그 게시글 수정
+     *
+     * @param recordId
+     * @param recordUpdateDto
+     * @param user
+     * =============================================================================================
+     */
     @Auth(ADMIN)
     @PutMapping("/{record_id}")
     fun updateRecord(
@@ -47,7 +60,14 @@ class RecordController(
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(recordService.updateRecord(recordUpdateDto, user, recordId))
     }
-
+    /**
+     * =============================================================================================
+     * 블로그 게시글 삭제
+     *
+     * @param recordId
+     * @param user
+     * =============================================================================================
+     */
     @Auth(ADMIN)
     @DeleteMapping("/{record_id}")
     fun deleteRecord(
@@ -57,12 +77,25 @@ class RecordController(
         recordService.deleteRecord(user, recordId)
         return ApplicationResponse.ok()
     }
-
+    /**
+     * =============================================================================================
+     * 금주의 핫 게시글 조회
+     * =============================================================================================
+     */
     @GetMapping("/hot")
     fun getHotRecords(): ApplicationResponse<RecordHotResDto> {
         return ApplicationResponse.ok(recordService.getHotRecords())
     }
-
+    /**
+     * =============================================================================================
+     * 블로그 목록 조회
+     *
+     * @param pageable
+     * @param part
+     * @param type
+     * @param category
+     * =============================================================================================
+     */
     @GetMapping("/{part}/{type}")
     fun getRecords(
         @PathVariable("part") part: String,
@@ -72,7 +105,15 @@ class RecordController(
     ): ApplicationResponse<RecordPageResDto> {
         return ApplicationResponse.ok(recordService.getRecords(RecordPageCondition(part, type, category), pageable))
     }
-
+    /**
+     * =============================================================================================
+     * 블로그 게시글 상세 조회
+     *
+     * @param recordId
+     * @param request
+     * @param pageable
+     * =============================================================================================
+     */
     @GetMapping("/{record_id}")
     fun getRecord(
         @PathVariable("record_id") recordId: Long,
@@ -81,7 +122,13 @@ class RecordController(
     ): ApplicationResponse<RecordResDto> {
         return ApplicationResponse.ok(recordService.getRecord(recordId, rateLimitService.getClientIp(request), pageable))
     }
-
+    /**
+     * =============================================================================================
+     * 블로그 게시글 리뷰 조회
+     *
+     * @param recordId
+     * =============================================================================================
+     */
     @Auth(ADMIN)
     @GetMapping("/review/{record_id}")
     fun getRecordWithReview(
@@ -89,7 +136,15 @@ class RecordController(
     ): ApplicationResponse<RecordWithReviewResDto> {
         return ApplicationResponse.ok(recordService.getRecordWithReview(recordId))
     }
-
+    /**
+     * =============================================================================================
+     * 리뷰 대기 게시글 조회
+     *
+     * @param status
+     * @param user
+     * @param pageable
+     * =============================================================================================
+     */
     @Auth(ADMIN)
     @GetMapping("/reviewee")
     fun getRevieweeRecords(
@@ -99,7 +154,15 @@ class RecordController(
     ): ApplicationResponse<RecordPageResDto> {
         return ApplicationResponse.ok(recordService.getRevieweeRecords(RecordReviewCondition(status), user, pageable))
     }
-
+    /**
+     * =============================================================================================
+     * 내가 리뷰한 게시글 조회
+     *
+     * @param status
+     * @param user
+     * @param pageable
+     * =============================================================================================
+     */
     @Auth(ADMIN)
     @GetMapping("/reviewer")
     fun getReviewerRecords(

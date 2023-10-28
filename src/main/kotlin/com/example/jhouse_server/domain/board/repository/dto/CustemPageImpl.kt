@@ -8,6 +8,11 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 
+/**
+ * =============================================================================================
+ *  커스텀 페이징 클래스
+ * =============================================================================================
+ * */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class CustomPageImpl<T> : PageImpl<T> {
 
@@ -21,7 +26,11 @@ class CustomPageImpl<T> : PageImpl<T> {
         return super<PageImpl>.getPageable()
     }
 }
-
+/**
+ * =============================================================================================
+ *  커스텀 페이징 클래스            -- 마이페이지
+ * =============================================================================================
+ * */
 @JsonIgnoreProperties(ignoreUnknown = true)
 class CustomMyPageImpl<T> : PageImpl<T> {
     var count : CountQueryDto
