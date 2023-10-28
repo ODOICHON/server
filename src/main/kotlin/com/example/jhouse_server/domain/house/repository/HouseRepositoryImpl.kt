@@ -24,10 +24,17 @@ import org.springframework.data.support.PageableExecutionUtils
 
 
 class HouseRepositoryImpl(
+    /**
+     * =============================================================================================
+     *  DI for Repository
+     * =============================================================================================
+     * */
     private var jpaQueryFactory: JPAQueryFactory
 ): HouseRepositoryCustom {
     /**
-     * TODO N+1 문제 해결을 위한 DTO transform()으로 튜닝
+     * =============================================================================================
+     *  빈집 게시글 전체 조회
+     * =============================================================================================
      * */
     override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable): Page<House> {
         val result = jpaQueryFactory
@@ -146,7 +153,7 @@ class HouseRepositoryImpl(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchWithKeywordAgent(houseAgentListDto.search), // 키워드 검색어
+                searchTitleWithKeyword(houseAgentListDto.search), // 키워드 검색어
                 house.tmpYn.eq(false), // 임시저장
             )
             .limit(pageable.pageSize.toLong())
@@ -338,16 +345,6 @@ class HouseRepositoryImpl(
 
     /**
      * ============================================================================================
-     * 게시글 제목 필터링
-     * ============================================================================================
-     */
-    private fun searchWithKeywordAgent(keyword: String?): BooleanExpression? {
-        return if (keyword == null) null
-        else house.title.contains(keyword)
-    }
-
-    /**
-     * ============================================================================================
      * 검색어 필터링 함수
      * 게시글 제목과 게시글 작성자 닉네임
      * ============================================================================================
@@ -386,10 +383,19 @@ class HouseRepositoryImpl(
                     .where(QHouseTag.houseTag.recommendedTag.`in`(recommendedTag)))
         }
     }
+    /**
+     * ============================================================================================
+     * 빈집 매물 거래 상태 필터링
+     * ============================================================================================
+     * */
     private fun filterWithDealState(dealState: String?): BooleanExpression? {
         return if(dealState.isNullOrBlank()) null else house.dealState.eq(DealState.valueOf(dealState))
     }
-
+    /**
+     * ============================================================================================
+     * 빈집 매물 필터링
+     * ============================================================================================
+     * */
     private fun searchWithRentalType(rentalType: String?): BooleanExpression? {
         return if(rentalType.isNullOrBlank()) null else house.rentalType.eq(RentalType.valueOf(rentalType))
     }
