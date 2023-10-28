@@ -55,9 +55,24 @@ class AdminBoardController(
 
         return "board/fix"
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 상세 조회
+     *
+     * @author YoonTaeminnnn
+     * @param type
+     * @param id
+     * @param model
+     * @param redirectAttributes
+     * @return board/boardDetail
+     * =============================================================================================
+     * */
     @GetMapping("/{type}/{board_id}")
-    fun getBoardDetail(@PathVariable("type") type : String, @PathVariable("board_id") id : Long, model: Model, redirectAttributes: RedirectAttributes): String {
+    fun getBoardDetail(
+        @PathVariable("type") type : String,
+        @PathVariable("board_id") id : Long,
+        model: Model,
+        redirectAttributes: RedirectAttributes): String {
         val code = if (type == "fix"){
             adminBoardService.getBoardDetail(id, redirectAttributes) ?: return "redirect:/admin/board/fix"
         } else {
@@ -66,7 +81,18 @@ class AdminBoardController(
         model.addAttribute("code", code)
         return "board/boardDetail"
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 영구 삭제
+     *
+     * @author YoonTaeminnnn
+     * @param adminBoardSearch
+     * @param adminBoardDeleteList
+     * @param model
+     * @param pageable
+     * @return board/delete 게시글 관리-삭제 페이지
+     * =============================================================================================
+     * */
     @GetMapping("/delete")
     fun deleteBoardList(@ModelAttribute("searchForm") adminBoardSearch: AdminBoardSearch
                         , @ModelAttribute("deleteList") adminBoardDeleteList: AdminBoardDeleteList
@@ -84,24 +110,52 @@ class AdminBoardController(
 
         return "board/delete"
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 영구 삭제
+     *
+     * @author YoonTaeminnnn
+     * @param adminBoardDeleteList
+     * @return redirect:/admin/board/delete
+     * =============================================================================================
+     * */
     @PostMapping("/delete")
     fun deleteBoards(@ModelAttribute("deleteList") adminBoardDeleteList: AdminBoardDeleteList): String{
         adminBoardService.deleteBoards(adminBoardDeleteList)
         return "redirect:/admin/board/delete"
     }
-
+    /**
+     * =============================================================================================
+     * 홍보 게시글 고정
+     *
+     * @author YoonTaeminnnn
+     * @param adminBoardFixList
+     * @param redirectAttributes
+     * @return redirect:/admin/board/fix
+     * =============================================================================================
+     * */
     @PostMapping("/fix")
-    fun fixBoards(@ModelAttribute("fixList") adminBoardFixList: AdminBoardFixList, redirectAttributes: RedirectAttributes): String {
+    fun fixBoards(
+        @ModelAttribute("fixList") adminBoardFixList: AdminBoardFixList,
+        redirectAttributes: RedirectAttributes): String {
         adminBoardService.fixBoards(adminBoardFixList, redirectAttributes)
         return "redirect:/admin/board/fix"
     }
-
+    /**
+     * =============================================================================================
+     * 홍보 게시글 고정 해제
+     *
+     * @author YoonTaeminnnn
+     * @param adminBoardFixList
+     * @param redirectAttributes
+     * @return redirect:/admin/board/fix
+     * =============================================================================================
+     * */
     @PostMapping("/unfix")
-    fun unfixBoards(@ModelAttribute("fixList") adminBoardFixList: AdminBoardFixList, redirectAttributes: RedirectAttributes): String {
+    fun unfixBoards(
+        @ModelAttribute("fixList") adminBoardFixList: AdminBoardFixList,
+        redirectAttributes: RedirectAttributes): String {
         adminBoardService.unfixBoards(adminBoardFixList,redirectAttributes)
         return "redirect:/admin/board/fix"
     }
-
-
 }
