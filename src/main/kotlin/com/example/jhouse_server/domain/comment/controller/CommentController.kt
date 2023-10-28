@@ -13,16 +13,32 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/v1/comments")
 class CommentController(
+    /**
+     * =============================================================================================
+     *  DI for Service
+     * =============================================================================================
+     * */
     val commentService: CommentService,
 ) {
-
+    /**
+     * =============================================================================================
+     *  게시글에 대한 댓글 전체 조회
+     *  @param boardId
+     * =============================================================================================
+     * */
     @GetMapping("/{boardId}")
     fun getCommentAll(
         @PathVariable boardId: Long,
     ): ApplicationResponse<List<CommentResDto>> {
         return ApplicationResponse.ok(commentService.getCommentAll(boardId))
     }
-
+    /**
+     * =============================================================================================
+     *  댓글 작성
+     *  @param req
+     *  @param user
+     * =============================================================================================
+     * */
     @Auth
     @PostMapping
     fun createComment(
@@ -31,7 +47,14 @@ class CommentController(
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(commentService.createComment(req, user))
     }
-
+    /**
+     * =============================================================================================
+     *  댓글 수정
+     *  @param commentId
+     *  @param req
+     *  @param user
+     * =============================================================================================
+     * */
     @Auth
     @PutMapping("/{commentId}")
     fun updateComment(
@@ -41,7 +64,13 @@ class CommentController(
     ): ApplicationResponse<Long> {
         return ApplicationResponse.ok(commentService.updateComment(commentId, req, user))
     }
-
+    /**
+     * =============================================================================================
+     *  댓글 삭제
+     *  @param commentId
+     *  @param user
+     * =============================================================================================
+     * */
     @Auth
     @DeleteMapping("/{commentId}")
     fun deleteComment(
