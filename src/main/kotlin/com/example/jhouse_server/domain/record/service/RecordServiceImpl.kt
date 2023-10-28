@@ -41,6 +41,11 @@ import java.util.stream.Stream
 @Service
 @Transactional(readOnly = true)
 class RecordServiceImpl(
+    /**
+     * =============================================================================================
+     * DI for Repsoitory
+     * =============================================================================================
+     */
     private val userRepository: UserRepository,
     private val recordReviewRepository: RecordReviewRepository,
     private val recordReviewApplyRepository: RecordReviewApplyRepository,
@@ -51,9 +56,18 @@ class RecordServiceImpl(
     private val technologyRepository: TechnologyRepository,
     private val redisUtil: RedisUtil
 ): RecordService {
-
+    /**
+     * =============================================================================================
+     * STATIC CONSTANTS
+     * =============================================================================================
+     */
     private val HITS_EXPIRE: Long = 60 * 60 * 24
 
+    /**
+     * =============================================================================================
+     * 게시글 저장
+     * =============================================================================================
+     */
     @Transactional
     override fun saveRecord(recordReqDto: RecordReqDto, user: User): Long {
         val record = Record(recordReqDto.title, recordReqDto.content, Part.getPart(recordReqDto.part)!!, user)
@@ -63,7 +77,11 @@ class RecordServiceImpl(
 
         return id
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 수정
+     * =============================================================================================
+     */
     @Transactional
     @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["record"])
     override fun updateRecord(recordUpdateDto: RecordUpdateDto, user: User, recordId: Long): Long {
@@ -72,7 +90,11 @@ class RecordServiceImpl(
         record.updateRecord(recordUpdateDto)
         return record.id
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 삭제
+     * =============================================================================================
+     */
     @Transactional
     @CacheEvict(allEntries = true, cacheManager = "cacheManager", value = ["record"])
     override fun deleteRecord(user: User, recordId: Long) {
@@ -80,7 +102,11 @@ class RecordServiceImpl(
         validateUser(record, user)
         recordRepository.delete(record)
     }
-
+    /**
+     * =============================================================================================
+     * 금주의 핫 게시글 조회 -- REDIS 캐시 적용
+     * =============================================================================================
+     */
     @Cacheable(key = "'hot'", cacheManager = "cacheManager", value = ["record"])
     override fun getHotRecords(): RecordHotResDto {
         val weekAgo = LocalDateTime.now().minusWeeks(1)
@@ -93,7 +119,11 @@ class RecordServiceImpl(
         }
         return RecordHotResDto(hotRecords)
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 목록 조회
+     * =============================================================================================
+     */
     override fun getRecords(condition: RecordPageCondition, pageable: Pageable): RecordPageResDto {
         return when (RecordType.getType(condition.type)) {
             RecordType.ALL -> {
@@ -114,7 +144,11 @@ class RecordServiceImpl(
             }
         }
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 상세 조회 -- 조회수 증가
+     * =============================================================================================
+     */
     @Transactional
     override fun getRecord(recordId: Long, ip: String, pageable: Pageable): RecordResDto {
         val record = recordRepository.findByIdOrThrow(recordId)
@@ -140,7 +174,11 @@ class RecordServiceImpl(
             else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
-
+    /**
+     * =============================================================================================
+     * 리뷰 조회
+     * =============================================================================================
+     */
     override fun getRecordWithReview(recordId: Long): RecordWithReviewResDto {
         val record = recordRepository.findByIdWithUser(recordId)
             .orElseThrow { ApplicationException(NOT_FOUND_EXCEPTION) }
@@ -153,20 +191,31 @@ class RecordServiceImpl(
         return RecordWithReviewResDto(record.id, record.title!!, record.content!!, record.hits,
             record.part!!.value, record.user!!.nickName, record.createdAt, recordReviewDtoList, recordReviewApplyDtoList)
     }
-
+    /**
+     * =============================================================================================
+     * 리뷰해야 하는 게시글 조회
+     * =============================================================================================
+     */
     override fun getRevieweeRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): RecordPageResDto {
         val records = recordRepository.findRevieweeRecords(condition, user, pageable)
         return RecordPageResDto(records)
     }
-
+    /**
+     * =============================================================================================
+     * 리뷰한 게시글 조회
+     * =============================================================================================
+     */
     override fun getReviewerRecords(condition: RecordReviewCondition, user: User, pageable: Pageable): RecordPageResDto {
         val records = recordRepository.findReviewerRecords(condition, user, pageable)
         return RecordPageResDto(records)
     }
 
     /**
+     * =============================================================================================
+     * 리뷰 상태 변경
      * 하나의 리뷰가 들어온 이상 WAIT 상태에서 APPROVE, REJECT 상태로 바뀌어야 한다.
      * 자신을 제외한 모든 신청자의 상태가 APPROVE 이면 APPROVE 상태로 변경
+     * =============================================================================================
      */
     override fun updateRecordStatus(record: Record) {
         val recordReviewApplies = record.applies
@@ -178,7 +227,17 @@ class RecordServiceImpl(
             record.updateRecordStatus(RecordStatus.WAIT)
         }
     }
+    /**
+     * =============================================================================================
+     * PRIVATE FUNCTION
+     * =============================================================================================
+     */
 
+    /**
+     * =============================================================================================
+     * 조회 수 증가
+     * =============================================================================================
+     */
     private fun updateHits(ip: String, record: Record) {
         val key = ip + "_" + record.id.toString()
         if (redisUtil.getValues(key) == null) {
@@ -186,7 +245,11 @@ class RecordServiceImpl(
             record.updateHits()
         }
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 분류 타입 매칭
+     * =============================================================================================
+     */
     private fun matchType(record: Record, category: String, type: String): Record {
         return when (RecordType.getType(type)) {
             RecordType.ODORI -> Odori(OdoriCategory.getCategoryByEnum(category)!!, record)
@@ -195,13 +258,21 @@ class RecordServiceImpl(
             else -> throw ApplicationException(NOT_FOUND_EXCEPTION)
         }
     }
-
+    /**
+     * =============================================================================================
+     * 유저 권한 조회
+     * =============================================================================================
+     */
     private fun validateUser(record: Record, user: User) {
         if(user != record.user) {
             throw ApplicationException(UNAUTHORIZED_EXCEPTION)
         }
     }
-
+    /**
+     * =============================================================================================
+     * 리뷰 신청
+     * =============================================================================================
+     */
     private fun applyForReview(record: Record, user: User) {
         recordReviewApplyRepository.save(RecordReviewApply(RecordReviewApplyStatus.MINE, record, user))
         val reviewers = userRepository.findAllByUserType(user.id, user.userType)

@@ -2,7 +2,11 @@ package com.example.jhouse_server.domain.record.entity
 
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-
+/**
+ * =============================================================================================
+ * ENUM CLASS
+ * =============================================================================================
+ */
 enum class RecordStatus(val value: String) {
     APPROVE("approve"),
     WAIT("wait"),
