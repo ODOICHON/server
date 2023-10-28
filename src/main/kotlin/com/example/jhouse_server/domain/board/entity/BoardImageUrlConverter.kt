@@ -2,7 +2,11 @@ package com.example.jhouse_server.domain.board.entity
 
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter
-
+/**
+ * =============================================================================================
+ *  STRING CONVERTER
+ * =============================================================================================
+ * */
 @Converter
 class BoardImageUrlConverter : AttributeConverter<List<String>, String?> {
     private val splitStr = ","

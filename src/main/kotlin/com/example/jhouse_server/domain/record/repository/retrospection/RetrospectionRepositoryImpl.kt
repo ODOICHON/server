@@ -12,10 +12,19 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 class RetrospectionRepositoryImpl(
+    /**
+     * =============================================================================================
+     * DI for Repository
+     * =============================================================================================
+     */
     private val jpaQueryFactory: JPAQueryFactory,
     private val recordCommonMethod: RecordCommonMethod
 ): RetrospectionRepositoryCustom {
-
+    /**
+     * =============================================================================================
+     * 회고 게시글 조회
+     * =============================================================================================
+     */
     override fun findRetrospections(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
             .select(QRecordThumbnailResDto(retrospection.id, retrospection.title, retrospection.content.substring(0, 50), user.nickName, retrospection.createdAt, retrospection.part.stringValue().toLowerCase()))

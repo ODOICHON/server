@@ -4,7 +4,11 @@ import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.sliceContentWithRegex
 import java.sql.Timestamp
 import java.util.*
-
+/**
+ * =============================================================================================
+ *  RESPONSE DTO
+ * =============================================================================================
+ * */
 class BoardResDto() {
     var boardId: Long = 0
     lateinit var title: String
@@ -71,6 +75,11 @@ class BoardMyPageResDto() {
     }
 }
 
+/**
+ * =============================================================================================
+ *  PUBLIC FUNCTION -- DTO <> Entity
+ * =============================================================================================
+ * */
 fun toMyPageListDto(board : Board) : BoardMyPageResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
     if (board.imageUrls.isEmpty()) {

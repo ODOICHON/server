@@ -5,7 +5,11 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.querydsl.core.annotations.QueryProjection
 import java.time.LocalDateTime
 
-
+/**
+ * =============================================================================================
+ * RESPONSE DTO
+ * =============================================================================================
+ */
 data class ReportDto (
     val id: Long,
     val nickname: String,
@@ -14,12 +18,15 @@ data class ReportDto (
     val reportCount: Long,
     val suspension: Boolean
 )
-
+/**
+ * =============================================================================================
+ * QUERY RESULT VO
+ * =============================================================================================
+ */
 data class ReportQueryDto @QueryProjection constructor(
     val user: User,
     val reportCount: Long
 )
-
 data class ReportDetailQueryDto @QueryProjection constructor(
     val date: LocalDateTime,
     val id: Long,

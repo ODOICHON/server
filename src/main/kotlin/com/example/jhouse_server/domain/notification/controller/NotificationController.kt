@@ -9,19 +9,27 @@ import com.example.jhouse_server.global.annotation.AuthUser
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.data.web.PageableDefault
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/v1/notifications")
 class NotificationController(
+    /**
+     * =============================================================================================
+     * DI for Service
+     * =============================================================================================
+     */
     val notificationService: NotificationService
 ) {
-
+    /**
+     * =============================================================================================
+     * 알림 조회
+     *
+     * @param user
+     * @param pageable
+     * @param req
+     * =============================================================================================
+     */
     @Auth
     @GetMapping
     fun getNotifications(
@@ -32,6 +40,14 @@ class NotificationController(
         return ApplicationResponse.ok(notificationService.getNotifications(user, pageable, req))
     }
 
+    /**
+     * =============================================================================================
+     * 알림 수신
+     *
+     * @param id
+     * @param user
+     * =============================================================================================
+     */
     @Auth
     @PutMapping("/{id}")
     fun updateNotification(

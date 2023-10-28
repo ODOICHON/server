@@ -14,16 +14,29 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class NotificationServiceImpl(
+    /**
+     * =============================================================================================
+     * DI for Repository
+     * =============================================================================================
+     */
     val notificationRepository: NotificationRepository
 ): NotificationService {
-
+    /**
+     * =============================================================================================
+     * 알림 조회
+     * =============================================================================================
+     */
     override fun getNotifications(user: User, pageable: Pageable, req: NotificationReqDto): SliceNotificationResDto {
         val notifications = notificationRepository.findNotifications(user, pageable, req)
         var nextId: Long? = null
         if(notifications.content.isNotEmpty()) nextId = notifications.content[notifications.content.size - 1].id
         return SliceNotificationResDto(nextId, notifications)
     }
-
+    /**
+     * =============================================================================================
+     * 알림 수신
+     * =============================================================================================
+     */
     @Transactional
     override fun updateNotification(id: Long, user: User): Long {
         val notification = notificationRepository.findByIdOrThrow(id)
