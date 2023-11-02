@@ -15,7 +15,7 @@ import javax.persistence.*
 
 @Entity
 @Table(
-    name = "board"
+    name = "board", indexes = [Index(name = "idx__prefixCategory__category", columnList = "category, prefixCategory, useYn")]
 )
 class Board(
     var title: String,
