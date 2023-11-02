@@ -43,7 +43,7 @@ class UserRepositoryImpl(
         val total = jpaQueryFactory
                 .selectFrom(user)
                 .where(user.authority.eq(Authority.USER))
-            .fetch().size.toLong()
+                .fetch().size.toLong()
 
         return getOrderAgeRateResult(queryResult, total)
     }
@@ -66,7 +66,7 @@ class UserRepositoryImpl(
                 .selectFrom(userJoinPath)
                 .join(userJoinPath.user, user)
                 .where(user.authority.eq(Authority.USER))
-            .fetch().size.toLong()
+                .fetch().size.toLong()
 
         return getOrderJoinPathRateResult(queryResult, total)
     }

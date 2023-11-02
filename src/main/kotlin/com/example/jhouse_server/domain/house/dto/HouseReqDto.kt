@@ -11,7 +11,6 @@ import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
-import kotlin.streams.toList
 
 /**
  * ================================================================================================
@@ -79,7 +78,7 @@ data class MyHouseResDto(
  * 빈집 매물 게시글 리스트 조회 시, 응답 DTO
  * ================================================================================================
  * */
-class HouseResDto() {
+class HouseResDto() : Serializable {
     var houseId: Long = 0 // 게시글 아이디
     lateinit var rentalType: RentalType // 매물 유형
     lateinit  var city: String // 매물 위치

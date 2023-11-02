@@ -60,6 +60,8 @@ class HouseRepositoryImpl(
 
         val countQuery : Long = jpaQueryFactory
             .selectFrom(house)
+            .innerJoin(house.user)
+            .leftJoin(house.houseTag)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 searchWithRentalType(houseListDto.rentalType),
@@ -97,6 +99,7 @@ class HouseRepositoryImpl(
 
         val countQuery : Long = jpaQueryFactory
             .selectFrom(house)
+            .innerJoin(house.user)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
@@ -115,7 +118,7 @@ class HouseRepositoryImpl(
     override fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<House> {
         val result = jpaQueryFactory
             .selectFrom(house)
-            .join(house.user, QUser.user).fetchJoin()
+            .join(house.user, QUser.user)
             .join(house.scrap, scrap)
             .where(
                 house.useYn.eq(true), // 삭제 X
@@ -128,6 +131,8 @@ class HouseRepositoryImpl(
             .fetch()
         val countQuery = jpaQueryFactory
             .selectFrom(house)
+            .join(house.user, QUser.user)
+            .join(house.scrap, scrap)
             .where(
                 house.useYn.eq(true), // 삭제 X
                 house.reported.eq(false), // 신고 X
