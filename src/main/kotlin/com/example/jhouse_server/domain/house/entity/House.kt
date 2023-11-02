@@ -1,11 +1,14 @@
 package com.example.jhouse_server.domain.house.entity
 
-import com.example.jhouse_server.domain.board.entity.*
+import com.example.jhouse_server.domain.board.entity.BoardImageUrlConverter
 import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import javax.persistence.*
-
+@Table(name = "house",
+    indexes = [Index(name = "idx__rental_type", columnList = "rentalType, useYn, tmpYn, reported, applied"),
+        Index(name = "idx__title", columnList = "title, useYn, tmpYn, reported, applied")
+    ])
 @Entity
 class House(
     @Convert(converter = RentalTypeConverter::class)

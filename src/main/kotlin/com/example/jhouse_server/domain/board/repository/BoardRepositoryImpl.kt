@@ -98,8 +98,8 @@ class BoardRepositoryImpl(
     override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
         val result = jpaQueryFactory
                 .selectFrom(board)
-                .join(board.boardCode, boardCode).fetchJoin()
-                .join(board.user, user).fetchJoin()
+                .join(board.boardCode, boardCode)
+                .join(board.user, user)
                 .leftJoin(board.comment, comment)
                 .where(
                     board.useYn.eq(true),
@@ -114,6 +114,9 @@ class BoardRepositoryImpl(
                 .fetch()
         val countQuery = jpaQueryFactory
                 .selectFrom(board)
+                .join(board.boardCode, boardCode)
+                .join(board.user, user)
+                .leftJoin(board.comment, comment)
                 .where(
                     board.useYn.eq(true),
                     filterWithPrefixCategory(boardListDto.prefix),
@@ -190,6 +193,7 @@ class BoardRepositoryImpl(
             .fetch()
         val countQuery = jpaQueryFactory
             .selectFrom(board).distinct()
+            .join(board.comment, comment)
             .where(
                 board.useYn.eq(true),
                 comment.user.eq(user)
@@ -217,6 +221,7 @@ class BoardRepositoryImpl(
             .fetch()
         val countQuery = jpaQueryFactory
             .selectFrom(board).distinct()
+            .join(board.love, love)
             .where(
                 board.useYn.eq(true),
                 love.user.eq(user)

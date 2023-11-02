@@ -7,7 +7,6 @@ import com.example.jhouse_server.domain.comment.dto.CommentResDto
 import java.sql.Timestamp
 import java.util.*
 import javax.validation.constraints.NotNull
-import kotlin.streams.toList
 /**
  * =============================================================================================
  *  REQUEST DTO
@@ -84,6 +83,12 @@ fun toListDto(board : Board) : BoardResDto {
 fun toDto(board: Board) : BoardResOneDto {
     return BoardResOneDto(board.id, board.title, board.boardCode.code, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls, board.love.size, board.category.name, board.prefixCategory.name, board.comment.size, board.comment.stream().map { com.example.jhouse_server.domain.comment.dto.toDto(it) }.toList())
 }
+
+/**
+ * =============================================================================================
+ *  UTIL FUNCTION
+ * =============================================================================================
+ * */
 fun sliceContentWithRegex(content : String) : String {
     return if (content.length >= 200) {
         content.take(200)
