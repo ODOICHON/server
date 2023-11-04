@@ -15,6 +15,7 @@ class Comment(
     @JoinColumn(name = "board_id")
     var board : Board,
 
+    @Column(length = 400)
     var content : String,
 
     @ManyToOne(fetch = FetchType.LAZY)

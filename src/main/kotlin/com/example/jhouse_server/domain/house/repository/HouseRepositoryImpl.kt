@@ -34,6 +34,8 @@ class HouseRepositoryImpl(
     /**
      * =============================================================================================
      *  빈집 게시글 전체 조회
+     *  --rentalType, useYn, tmpYn, reported, applied
+     *  --title, useYn, tmpYn, reported, applied
      * =============================================================================================
      * */
     override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable): Page<House> {
@@ -42,13 +44,13 @@ class HouseRepositoryImpl(
             .innerJoin(house.user)
             .leftJoin(house.houseTag)
             .where(
-                house.useYn.eq(true), // 삭제 X
-                searchWithRentalType(houseListDto.rentalType), // 매물 타입 필터링
-                filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
+                searchWithRentalType(houseListDto.rentalType), // 매물 타입 필터링
+                house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장 X
                 house.reported.eq(false), // 신고 X
                 house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
-                house.tmpYn.eq(false), // 임시저장 X
+                filterWithCity(houseListDto.city), // 매물 위치 필터링
                 filterWithRecommendedTags(houseListDto.recommendedTag), // 게시글 추천 태그 필터링
                 filterWithDealState(houseListDto.dealState), // 판매 여부
             )
@@ -63,15 +65,15 @@ class HouseRepositoryImpl(
             .innerJoin(house.user)
             .leftJoin(house.houseTag)
             .where(
-                house.useYn.eq(true), // 삭제 X
-                searchWithRentalType(houseListDto.rentalType),
-                filterWithCity(houseListDto.city), // 매물 위치 필터링
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
+                searchWithRentalType(houseListDto.rentalType), // 매물 타입 필터링
+                house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장 X
                 house.reported.eq(false), // 신고 X
                 house.applied.eq(HouseReviewStatus.APPROVE), // 게시글 미신청 ( 관리자 승인 혹은 공인중개사 게시글 )
-                house.tmpYn.eq(false), // 임시저장 X
-                filterWithRecommendedTags(houseListDto.recommendedTag),
-                filterWithDealState(houseListDto.dealState), //
+                filterWithCity(houseListDto.city), // 매물 위치 필터링
+                filterWithRecommendedTags(houseListDto.recommendedTag), // 게시글 추천 태그 필터링
+                filterWithDealState(houseListDto.dealState), // 판매 여부
             )
             .fetch().size.toLong()
 
@@ -89,9 +91,9 @@ class HouseRepositoryImpl(
             .innerJoin(house.user)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                house.reported.eq(false), // 신고 X
                 house.tmpYn.eq(true), // 임시저장 X
-                house.user.eq(user)
+                house.reported.eq(false), // 신고 X
+                house.user.eq(user),
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -102,9 +104,9 @@ class HouseRepositoryImpl(
             .innerJoin(house.user)
             .where(
                 house.useYn.eq(true), // 삭제 X
-                house.reported.eq(false), // 신고 X
                 house.tmpYn.eq(true), // 임시저장 X
-                house.user.eq(user)
+                house.reported.eq(false), // 신고 X
+                house.user.eq(user),
             )
             .fetch().size.toLong()
         return PageableExecutionUtils.getPage(result, pageable) { countQuery }
@@ -155,11 +157,11 @@ class HouseRepositoryImpl(
             .selectFrom(house)
             .leftJoin(house.deal, QDeal.deal)
             .where(
+                searchTitleWithKeyword(houseAgentListDto.search), // 키워드 검색어
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                searchTitleWithKeyword(houseAgentListDto.search), // 키워드 검색어
-                house.tmpYn.eq(false), // 임시저장
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -169,18 +171,18 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
             ).fetch().size.toLong()
         val cntApplyQuery = jpaQueryFactory
             .selectFrom(house)
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.APPLYING)
             ).fetch().size.toLong()
         val cntOngoingQuery = jpaQueryFactory
@@ -188,9 +190,9 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.ONGOING)
             ).fetch().size.toLong()
         val cntCompletedQuery = jpaQueryFactory
@@ -198,9 +200,9 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.COMPLETED)
             ).fetch().size.toLong()
         val resultDtoList = result.map { toMyHouseDto(it) }
@@ -257,9 +259,9 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -269,18 +271,18 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
             ).fetch().size.toLong()
         val cntApplyQuery = jpaQueryFactory
             .selectFrom(house)
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.APPLYING)
             ).fetch().size.toLong()
         val cntOngoingQuery = jpaQueryFactory
@@ -288,9 +290,9 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.ONGOING)
             ).fetch().size.toLong()
         val cntCompletedQuery = jpaQueryFactory
@@ -298,9 +300,9 @@ class HouseRepositoryImpl(
             .leftJoin(house.deal, QDeal.deal)
             .where(
                 house.useYn.eq(true), // 삭제 X
+                house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
-                house.tmpYn.eq(false), // 임시저장
                 house.dealState.eq(DealState.COMPLETED)
             ).fetch().size.toLong()
         val resultDtoList = result.map { toMyHouseDto(it) }
