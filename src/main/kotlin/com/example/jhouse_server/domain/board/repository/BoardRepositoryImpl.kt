@@ -92,7 +92,7 @@ class BoardRepositoryImpl(
 
     /**
      * =============================================================================================
-     *  게시글 목록 조회
+     *  게시글 목록 조회 --인덱스 순서 주의! category>preifx>useYn
      * =============================================================================================
      * */
     override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
@@ -102,9 +102,9 @@ class BoardRepositoryImpl(
                 .join(board.user, user)
                 .leftJoin(board.comment, comment)
                 .where(
-                    board.useYn.eq(true),
-                    filterWithPrefixCategory(boardListDto.prefix),
                     searchWithBoardCategory(boardListDto.category),
+                    filterWithPrefixCategory(boardListDto.prefix),
+                    board.useYn.eq(true),
                     searchWithKeyword(boardListDto.search)
                 )
                 .groupBy(board.id)
@@ -118,9 +118,9 @@ class BoardRepositoryImpl(
                 .join(board.user, user)
                 .leftJoin(board.comment, comment)
                 .where(
-                    board.useYn.eq(true),
-                    filterWithPrefixCategory(boardListDto.prefix),
                     searchWithBoardCategory(boardListDto.category),
+                    filterWithPrefixCategory(boardListDto.prefix),
+                    board.useYn.eq(true),
                     searchWithKeyword(boardListDto.search)
                 )
 
@@ -138,9 +138,9 @@ class BoardRepositoryImpl(
                 .join(board.boardCode, boardCode).fetchJoin()
                 .join(board.user, user).fetchJoin()
                 .where(
-                    board.useYn.eq(true),
+                    searchWithBoardCategory(boardPreviewListDto.category),
                     searchPreviewWithPrefixCategory(boardPreviewListDto.prefix),
-                    searchWithBoardCategory(boardPreviewListDto.category)
+                    board.useYn.eq(true),
                 )
                 .orderBy(board.fixed.desc(), board.love.size().desc())
                 .limit(boardPreviewListDto.limit)
@@ -157,8 +157,8 @@ class BoardRepositoryImpl(
         val result = jpaQueryFactory
             .selectFrom(board)
             .where(
+                board.user.eq(user),
                 board.useYn.eq(true),
-                board.user.eq(user)
             )
             .orderBy(board.fixed.desc())
             .limit(pageable.pageSize.toLong())
@@ -167,8 +167,8 @@ class BoardRepositoryImpl(
         val countQuery = jpaQueryFactory
             .selectFrom(board)
             .where(
+                board.user.eq(user),
                 board.useYn.eq(true),
-                board.user.eq(user)
             )
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
@@ -184,8 +184,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.comment, comment).fetchJoin()
             .where(
+                comment.user.eq(user),
                 board.useYn.eq(true),
-                comment.user.eq(user)
             )
             .orderBy(board.fixed.desc())
             .limit(pageable.pageSize.toLong())
@@ -195,8 +195,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.comment, comment)
             .where(
+                comment.user.eq(user),
                 board.useYn.eq(true),
-                comment.user.eq(user)
             )
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
@@ -212,8 +212,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.love, love).fetchJoin()
             .where(
+                love.user.eq(user),
                 board.useYn.eq(true),
-                love.user.eq(user)
             )
             .orderBy(board.fixed.desc())
             .limit(pageable.pageSize.toLong())
@@ -223,8 +223,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.love, love)
             .where(
+                love.user.eq(user),
                 board.useYn.eq(true),
-                love.user.eq(user)
             )
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }

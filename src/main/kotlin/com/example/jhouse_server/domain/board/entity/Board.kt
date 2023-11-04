@@ -9,7 +9,6 @@ import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.entity.BaseEntity
 import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
-import org.springframework.data.annotation.LastModifiedDate
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -18,32 +17,47 @@ import javax.persistence.*
     name = "board", indexes = [Index(name = "idx__prefixCategory__category", columnList = "category, prefixCategory, useYn")]
 )
 class Board(
+    @Column(length = 50)
     var title: String,
+
     @Column(length = Int.MAX_VALUE)
     var content : String,
+
     @Convert(converter = BoardCategoryConverter::class)
+    @Column(length = 20)
     var category : BoardCategory,
+
     @Column(length = Int.MAX_VALUE)
     @Convert(converter = BoardImageUrlConverter::class) // 이미지 url ","로 슬라이싱
     var imageUrls : List<String>,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     var user : User,
+
     @Convert(converter = PrefixCategoryConverter::class)
+    @Column(length = 20)
     var prefixCategory : PrefixCategory,
+
     var fixed : Boolean = false,
+
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL]) @JoinColumn(name = "board_code_id")
     var boardCode: BoardCode,
-    @LastModifiedDate
+
     @Column(updatable = true)
     var fixedAt : LocalDateTime? = null,
+
     var useYn : Boolean = true,
+
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
     var love : MutableList<Love> = mutableListOf(),
+
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
     var comment : MutableList<Comment> = mutableListOf(),
+
     @OneToMany(mappedBy = "board", cascade = [CascadeType.ALL], orphanRemoval = true)
     var notification : MutableList<Notification> = mutableListOf(),
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long = 0L
 ) : BaseEntity() {

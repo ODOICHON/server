@@ -12,6 +12,7 @@ class Deal(
 
     var score : Int,
 
+    @Column(length = 500)
     var review: String?,
 
     @OneToOne

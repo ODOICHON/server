@@ -12,20 +12,25 @@ import javax.persistence.*
 @Entity
 class House(
     @Convert(converter = RentalTypeConverter::class)
+    @Column(length = 40)
     var rentalType: RentalType, // 매물유형
 
     @Embedded
     var address: Address, // 주소
 
+    @Column(length = 10)
     var size: String, // 집 크기( m2 )
 
+    @Column(length = 100)
     var purpose: String, // 용도 ( 예: 주택 )
 
     @Column(nullable = true)
     var floorNum : Int, // 층수 ( 다가구인 경우에만 )
 
+    @Column(length = 13)
     var contact : String, // 바로 연락 가능한 연락처
 
+    @Column(length = 5)
     var createdDate : String, // 준공연도,
 
     var price: Int, // 매물가격
@@ -33,8 +38,10 @@ class House(
     @Column(nullable = true)
     var monthlyPrice : Double, // 월세의 경우,
 
+    @Column(length = 20)
     var agentName: String, // 공인중개사명
 
+    @Column(length = 50)
     var title: String, // 게시글 제목
 
     @Column(length = Int.MAX_VALUE)
@@ -58,11 +65,13 @@ class House(
     var reported : Boolean = false, // 신고여부 ( 신고: true, 미신고 : false )
 
     @Convert(converter = HouseReviewStatusConverter::class)
-    var applied : HouseReviewStatus? = null, // 신청여부 ( 신청 : true, 미신청 : false )
+    @Column(length = 10)
+    var applied : HouseReviewStatus? = null, // 신청여부
 
-    @Column(nullable = true)
+    @Column(nullable = true, length = 200)
     var rejectReason: String? = null, // 관리자가 게시글을 반려한 이유
 
+    @Column(length = 10)
     var dealState: DealState = DealState.APPLYING, // 판매상태 ( 기본값 : 승인중 )
 
     @OneToMany(mappedBy = "house", cascade = [CascadeType.ALL], orphanRemoval = true)

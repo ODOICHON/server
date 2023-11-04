@@ -22,15 +22,16 @@ import javax.persistence.*
 @DiscriminatorValue("U")
 class User(
 
-    @Column(name = "email", nullable = true)
+    @Column(name = "email", nullable = true, length = 100)
     var email: String,
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", length = 20)
     var userName: String,
 
     @Convert(converter = CryptoConverter::class)
     var password: String,
 
+    @Column(length = 20)
     var nickName: String,
 
     @Convert(converter = CryptoConverter::class)
