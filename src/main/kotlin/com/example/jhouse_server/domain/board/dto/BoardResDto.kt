@@ -2,13 +2,29 @@ package com.example.jhouse_server.domain.board.dto
 
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.sliceContentWithRegex
+import com.querydsl.core.annotations.QueryProjection
 import java.sql.Timestamp
+import java.time.LocalDateTime
 import java.util.*
 /**
  * =============================================================================================
  *  RESPONSE DTO
  * =============================================================================================
  * */
+data class BoardResultDto  @QueryProjection constructor(
+    val boardId : Long,
+    val title: String,
+    val code: String,
+    val content: String,
+    val nickName: String,
+    val createdAt: LocalDateTime,
+    val imageUrls: List<String>,
+    val commentCount: Int,
+    val category: String,
+    val prefixCategory: String,
+    val fixed: Boolean,
+)
+
 class BoardResDto() {
     var boardId: Long = 0
     lateinit var title: String

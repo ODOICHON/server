@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.board
 
 import com.example.jhouse_server.domain.board.dto.BoardResDto
+import com.example.jhouse_server.domain.board.dto.BoardResultDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.comment.dto.CommentResDto
@@ -72,12 +73,12 @@ data class BoardResOneDto(
  *  PUBLIC FUNCTION -- DTO <> Entity
  * =============================================================================================
  * */
-fun toListDto(board : Board) : BoardResDto {
+fun toListDto(board : BoardResultDto) : BoardResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
     if (board.imageUrls.isEmpty()) {
-        return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), null, board.comment.size, board.category.name, board.prefixCategory.name, board.fixed)
+        return BoardResDto(board.boardId, board.title, board.code, oneLineContent, board.nickName, Timestamp.valueOf(board.createdAt), null, board.commentCount, board.category, board.prefixCategory, board.fixed)
     }
-    return BoardResDto(board.id, board.title, board.boardCode.code, oneLineContent, board.user.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.comment.size, board.category.name, board.prefixCategory.name, board.fixed)
+    return BoardResDto(board.boardId, board.title, board.code, oneLineContent, board.nickName, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.commentCount, board.category, board.prefixCategory, board.fixed)
 }
 
 fun toDto(board: Board) : BoardResOneDto {
