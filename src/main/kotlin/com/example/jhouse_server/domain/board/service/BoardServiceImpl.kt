@@ -99,7 +99,7 @@ class BoardServiceImpl(
      * */
     @Cacheable(key="#boardListDto.toString()+#pageable.pageNumber.toString()", cacheManager = "cacheManager", value = ["board"])
     override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
-        val boardAll = boardRepository.getBoardAll(boardListDto, pageable)
+        val boardAll = boardRepository.getBoardAll(boardListDto, pageable).map { toListDto(it) }
         return CustomPageImpl(boardAll.content, boardAll.number, boardAll.size, boardAll.totalElements)
     }
     /**

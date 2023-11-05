@@ -10,6 +10,7 @@ import javax.persistence.*
 class BoardCode(
     @Column(length = Int.MAX_VALUE)
     var code: String,
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long = 0L
 ) : BaseEntity() {

@@ -5,10 +5,10 @@ import javax.persistence.Embeddable
 
 @Embeddable
 class Address(
-        @Column
+        @Column(length = 100)
         var city: String, // 시도
 
-        @Column
+        @Column(length = 6)
         var zipCode: String, // 우편번호
 ) {
     fun updateEntity(city: String, zipCode: String) : Address {

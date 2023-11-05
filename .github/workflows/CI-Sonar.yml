@@ -20,35 +20,42 @@ jobs:
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
+
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
           java-version: 17
           distribution: 'zulu'
+
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
-#      - name: Gradle Caching
-#        uses: actions/cache@v3
-#        with:
-#          path: |
-#            ~/.gradle/caches
-#            ~/.gradle/wrapper
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradle-
+
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - name : Update gradlew access authorized
         run: chmod +x gradlew
-      - name : Clean gradle
-        run : ./gradlew clean
-      - name : Stop gradle
-        run : ./gradlew --stop
+
+#      - name : Clean gradle
+#        run : ./gradlew clean
+#
+#      - name : Stop gradle
+#        run : ./gradlew --stop
 
       #test를 위한 mysql설정
       - name: Start MySQL
@@ -73,8 +80,9 @@ jobs:
           touch ./application-test.yml
           echo "${{ secrets.PROPERTIES_TEST }}" > ./application-test.yml
         shell: bash
+
       - name: Build and analyze
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew build sonarqube --info

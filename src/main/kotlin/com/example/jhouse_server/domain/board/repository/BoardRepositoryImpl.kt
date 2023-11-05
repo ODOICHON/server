@@ -5,15 +5,11 @@ import com.example.jhouse_server.admin.board.dto.BoardSearchFilter
 import com.example.jhouse_server.domain.board.BoardListDto
 import com.example.jhouse_server.domain.board.BoardPreviewListDto
 import com.example.jhouse_server.domain.board.PrefixCategory
-import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
-import com.example.jhouse_server.domain.board.dto.BoardResDto
-import com.example.jhouse_server.domain.board.dto.PreviewPrefixType
-import com.example.jhouse_server.domain.board.dto.toMyPageListDto
+import com.example.jhouse_server.domain.board.dto.*
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.QBoard.board
 import com.example.jhouse_server.domain.board.entity.QBoardCode.boardCode
-import com.example.jhouse_server.domain.board.toListDto
 import com.example.jhouse_server.domain.comment.entity.QComment.comment
 import com.example.jhouse_server.domain.love.entity.QLove.love
 import com.example.jhouse_server.domain.user.entity.QUser.user
@@ -92,19 +88,33 @@ class BoardRepositoryImpl(
 
     /**
      * =============================================================================================
-     *  게시글 목록 조회
+     *  게시글 목록 조회 --인덱스 순서 주의! category>preifx>useYn
      * =============================================================================================
      * */
-    override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
+    override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResultDto> {
         val result = jpaQueryFactory
-                .selectFrom(board)
+                .select(
+                    QBoardResultDto(
+                        board.id.`as`("boardId"),
+                        board.title,
+                        boardCode.code,
+                        board.content,
+                        user.nickName,
+                        board.createdAt,
+                        board.imageUrls,
+                        board.comment.size().castToNum(Int::class.java).`as`("commentCount"),
+                        board.category.stringValue(),
+                        board.prefixCategory.stringValue(),
+                        board.fixed
+                    )
+                )
+                .from(board)
                 .join(board.boardCode, boardCode)
                 .join(board.user, user)
-                .leftJoin(board.comment, comment)
                 .where(
-                    board.useYn.eq(true),
-                    filterWithPrefixCategory(boardListDto.prefix),
                     searchWithBoardCategory(boardListDto.category),
+                    filterWithPrefixCategory(boardListDto.prefix),
+                    board.useYn.eq(true),
                     searchWithKeyword(boardListDto.search)
                 )
                 .groupBy(board.id)
@@ -113,18 +123,18 @@ class BoardRepositoryImpl(
                 .offset(pageable.offset)
                 .fetch()
         val countQuery = jpaQueryFactory
-                .selectFrom(board)
+                .select(board.count())
+                .from(board)
                 .join(board.boardCode, boardCode)
                 .join(board.user, user)
-                .leftJoin(board.comment, comment)
                 .where(
-                    board.useYn.eq(true),
-                    filterWithPrefixCategory(boardListDto.prefix),
                     searchWithBoardCategory(boardListDto.category),
+                    filterWithPrefixCategory(boardListDto.prefix),
+                    board.useYn.eq(true),
                     searchWithKeyword(boardListDto.search)
                 )
 
-        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toListDto(it) }
+        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
     }
 
     /**
@@ -132,15 +142,30 @@ class BoardRepositoryImpl(
      *  게시글 미리보기 목록 조회 -- 메인페이지
      * =============================================================================================
      * */
-    override fun getBoardPreviewAll(boardPreviewListDto: BoardPreviewListDto): List<Board> {
+    override fun getBoardPreviewAll(boardPreviewListDto: BoardPreviewListDto): List<BoardResultDto> {
         return jpaQueryFactory
-                .selectFrom(board)
-                .join(board.boardCode, boardCode).fetchJoin()
-                .join(board.user, user).fetchJoin()
+                .select(
+                    QBoardResultDto(
+                        board.id.`as`("boardId"),
+                        board.title,
+                        boardCode.code,
+                        board.content,
+                        user.nickName,
+                        board.createdAt,
+                        board.imageUrls,
+                        board.comment.size().castToNum(Int::class.java).`as`("commentCount"),
+                        board.category.stringValue(),
+                        board.prefixCategory.stringValue(),
+                        board.fixed
+                    )
+                )
+                .from(board)
+                .join(board.boardCode, boardCode)
+                .join(board.user, user)
                 .where(
-                    board.useYn.eq(true),
+                    searchWithBoardCategory(boardPreviewListDto.category),
                     searchPreviewWithPrefixCategory(boardPreviewListDto.prefix),
-                    searchWithBoardCategory(boardPreviewListDto.category)
+                    board.useYn.eq(true),
                 )
                 .orderBy(board.fixed.desc(), board.love.size().desc())
                 .limit(boardPreviewListDto.limit)
@@ -157,8 +182,8 @@ class BoardRepositoryImpl(
         val result = jpaQueryFactory
             .selectFrom(board)
             .where(
+                board.user.eq(user),
                 board.useYn.eq(true),
-                board.user.eq(user)
             )
             .orderBy(board.fixed.desc())
             .limit(pageable.pageSize.toLong())
@@ -167,8 +192,8 @@ class BoardRepositoryImpl(
         val countQuery = jpaQueryFactory
             .selectFrom(board)
             .where(
+                board.user.eq(user),
                 board.useYn.eq(true),
-                board.user.eq(user)
             )
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
@@ -184,8 +209,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.comment, comment).fetchJoin()
             .where(
+                comment.user.eq(user),
                 board.useYn.eq(true),
-                comment.user.eq(user)
             )
             .orderBy(board.fixed.desc())
             .limit(pageable.pageSize.toLong())
@@ -195,8 +220,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.comment, comment)
             .where(
+                comment.user.eq(user),
                 board.useYn.eq(true),
-                comment.user.eq(user)
             )
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
@@ -212,8 +237,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.love, love).fetchJoin()
             .where(
+                love.user.eq(user),
                 board.useYn.eq(true),
-                love.user.eq(user)
             )
             .orderBy(board.fixed.desc())
             .limit(pageable.pageSize.toLong())
@@ -223,8 +248,8 @@ class BoardRepositoryImpl(
             .selectFrom(board).distinct()
             .join(board.love, love)
             .where(
+                love.user.eq(user),
                 board.useYn.eq(true),
-                love.user.eq(user)
             )
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
