@@ -719,7 +719,7 @@ internal class HouseControllerTest @Autowired constructor(
         // when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .get("$uri/my?keyword=")
+                        .get("$uri/my")
                         .header(HttpHeaders.AUTHORIZATION, accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -733,9 +733,9 @@ internal class HouseControllerTest @Autowired constructor(
                 .andDo(
                         document(
                                 "get-my-house-all",
-                                requestParameters(
-                                        parameterWithName("keyword").description("매물명 키워드 검색"),
-                                ),
+//                                requestParameters(
+//                                        parameterWithName("keyword").description("매물명 키워드 검색"),
+//                                ),
                                 responseFields(
                                         beneathPath("data").withSubsectionId("data"),
                                         *customMyPageResponseFieldSnippet()

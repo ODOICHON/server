@@ -16,6 +16,7 @@ import com.example.jhouse_server.domain.user.entity.QUser
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.User
 import com.querydsl.core.types.dsl.BooleanExpression
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
@@ -262,6 +263,8 @@ class HouseRepositoryImpl(
                 house.tmpYn.eq(false), // 임시저장
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
+                searchWithKeyword(keyword), // 닉네임 & 제목
+                searchWithKeywordFullText(keyword),
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
@@ -358,6 +361,21 @@ class HouseRepositoryImpl(
      * */
     private fun searchWithKeyword(keyword: String?): BooleanExpression? {
         return if(keyword == null) null else house.user.nickName.contains(keyword).or(house.title.contains(keyword))
+    }
+    /**
+     * ============================================================================================
+     * 검색어 필터링 함수
+     * 게시글 내용 -- FULL TEXT SEARCH
+     * ============================================================================================
+     * */
+    private fun searchWithKeywordFullText(keyword: String?) : BooleanExpression? {
+        if(keyword == null) return null
+        val contentBoolean = Expressions.numberTemplate(
+            Integer::class.java, "function('match',{0},{1})", house.content,
+            "+$keyword*"
+        )
+
+        return contentBoolean.gt(0)
     }
 
     /**
