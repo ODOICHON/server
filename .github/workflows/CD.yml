@@ -34,7 +34,9 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      
+
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x gradlew
 
       #배포를 위한 secret yml 설정
       - name: Make application-secret.yml
