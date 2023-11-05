@@ -12,37 +12,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      #jdk 세팅
+      # 1) 워크플로우 실행 전 기본적으로 체크아웃 필요
+      - uses: actions/checkout@v3
+
+      # 2) JDK 17 버전 설치
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'
+          distribution: 'zulu'
 
-      #gradle 캐싱
-#      - name: Gradle Caching
-#        uses: actions/cache@v3
-#        with:
-#          path: |
-#            ~/.gradle/caches
-#            ~/.gradle/wrapper
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradle-
-#      - name : Clean gradle
-#        run : ./gradlew clean
-      
+      # 3) Gradle Caching
+      - name: Gradle Cashing
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-      #배포를 위한 secret yml 설정
+      # 4) Gradle 권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # 5) Set for application-secret.yml
       - name: Make application-secret.yml
         run: |
-          mkdir ./src/main/resources
           cd ./src/main/resources
           touch ./application-secret.yml
           echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
         shell: bash
 
-      #로그 xml 파일 설정
+      # 6) 로그 xml 파일 설정
       - name: Make logback-spring.xml
         run: |
           cd ./src/main/resources
@@ -50,20 +53,18 @@ jobs:
           echo "${{ secrets.LOGBACK_SPRING }}" > ./logback-spring.xml
         shell: bash
 
-
-
-      #test를 포함한 프로젝트 빌드
+      # 7) jar 파일 생성
       - name: Build With Gradle
         run: ./gradlew bootJar
 
-      # Docker 빌드 & 푸쉬
+      # 8) Docker 빌드 & 푸쉬
       - name: docker build and push
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}} .
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY}}
 
-      # Deploy (DEV-Server)
+      # 9) Deploy (DEV-Server)
       - name: Deploy (DEV)
         uses: appleboy/ssh-action@master
         with:
