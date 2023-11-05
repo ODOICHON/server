@@ -36,7 +36,6 @@ jobs:
       #배포를 위한 secret yml 설정
       - name: Make application-secret.yml
         run: |
-          mkdir ./src/main/resources
           cd ./src/main/resources
           touch ./application-secret.yml
           echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
