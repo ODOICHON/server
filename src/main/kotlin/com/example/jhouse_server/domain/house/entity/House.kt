@@ -101,8 +101,8 @@ class House(
          monthlyPrice: Double,
          agentName : String,
          title: String,
-         code: String,
          content : String,
+         code: String,
          imageUrls: List<String>
     ) : House {
         this.rentalType = rentalType
@@ -115,8 +115,8 @@ class House(
         this.monthlyPrice = monthlyPrice
         this.agentName = agentName
         this.title = title
-        this.code = code
         this.content = content
+        this.code = code
         this.imageUrls = imageUrls
         return this
     }
