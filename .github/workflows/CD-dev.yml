@@ -29,8 +29,8 @@ jobs:
 #          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 #          restore-keys: |
 #            ${{ runner.os }}-gradle-
-      - name : Clean gradle
-        run : ./gradlew clean
+#      - name : Clean gradle
+#        run : ./gradlew clean
       
 
       #배포를 위한 secret yml 설정
