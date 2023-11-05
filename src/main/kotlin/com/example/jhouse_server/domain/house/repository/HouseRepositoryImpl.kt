@@ -360,7 +360,7 @@ class HouseRepositoryImpl(
      * ============================================================================================
      * */
     private fun searchWithKeyword(keyword: String?): BooleanExpression? {
-        return if(keyword == null) null else house.user.nickName.contains(keyword).or(house.title.contains(keyword))
+        return if(keyword == null) null else house.user.nickName.contains(keyword).or(house.title.contains(keyword)).or(searchWithKeywordFullText(keyword))
     }
     /**
      * ============================================================================================
@@ -369,7 +369,6 @@ class HouseRepositoryImpl(
      * ============================================================================================
      * */
     private fun searchWithKeywordFullText(keyword: String?) : BooleanExpression? {
-        if(keyword == null) return null
         val contentBoolean = Expressions.numberTemplate(
             Integer::class.java, "function('match',{0},{1})", house.content,
             "+$keyword*"
