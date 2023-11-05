@@ -264,7 +264,6 @@ class HouseRepositoryImpl(
                 house.reported.eq(false), // 신고 X
                 house.user.eq(user), // 본인인지
                 searchWithKeyword(keyword), // 닉네임 & 제목
-                searchWithKeywordFullText(keyword),
             )
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
