@@ -304,11 +304,11 @@ class BoardRepositoryImpl(
         if(keyword == null) return null
         val titleBoolean = Expressions.numberTemplate(
             Integer::class.java,
-            "function('match',{0},{1})", board.title, "+*$keyword*"
+            "function('match',{0},{1})", board.title, "+$keyword*"
         )
         val contentBoolean = Expressions.numberTemplate(
             Integer::class.java, "function('match',{0},{1})", board.content,
-            "+*$keyword*"
+            "+$keyword*"
         )
         return titleBoolean.gt(0).or(contentBoolean.gt(0))
     }
