@@ -19,16 +19,16 @@ jobs:
           java-version: 17
           distribution: 'zulu'
 
-#      #gradle 캐싱
-#      - name: Gradle Caching
-#        uses: actions/cache@v3
-#        with:
-#          path: |
-#            ~/.gradle/caches
-#            ~/.gradle/wrapper
-#          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-#          restore-keys: |
-#            ${{ runner.os }}-gradle-
+      #gradle 캐싱
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 #      - name : Clean gradle
 #        run : ./gradlew clean
       
@@ -36,6 +36,7 @@ jobs:
       #배포를 위한 secret yml 설정
       - name: Make application-secret.yml
         run: |
+          mkdir ./src/main/resources
           cd ./src/main/resources
           touch ./application-secret.yml
           echo "${{ secrets.PROPERTIES_SECRET }}" > ./application-secret.yml
