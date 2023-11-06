@@ -6,6 +6,7 @@ import javax.persistence.*
 @Entity
 class HouseTag(
     @Enumerated(EnumType.STRING)
+    @Column(length = 50)
     var recommendedTag: RecommendedTag,
 
     @ManyToOne(fetch = FetchType.LAZY)

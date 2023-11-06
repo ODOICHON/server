@@ -5,7 +5,9 @@ import javax.persistence.*
 
 @Entity
 class UserTerm(
-    @Enumerated(EnumType.STRING) var term: Term,
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50)
+    var term: Term,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

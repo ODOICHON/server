@@ -10,10 +10,15 @@ import javax.persistence.*
 class BoardCode(
     @Column(length = Int.MAX_VALUE)
     var code: String,
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id : Long = 0L
 ) : BaseEntity() {
-
+    /**
+     * =============================================================================================
+     *  게시글 내용 수정
+     * =============================================================================================
+     * */
     fun updateEntity(
         code: String
     ) : BoardCode {

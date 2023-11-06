@@ -5,7 +5,9 @@ import javax.persistence.*
 
 @Entity
 class UserJoinPath(
-        @Enumerated(EnumType.STRING) var joinPath: JoinPath,
+        @Enumerated(EnumType.STRING)
+        @Column(length = 50)
+        var joinPath: JoinPath,
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "user_id")

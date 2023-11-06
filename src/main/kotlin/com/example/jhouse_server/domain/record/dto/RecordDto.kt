@@ -9,7 +9,11 @@ import com.querydsl.core.annotations.QueryProjection
 import org.springframework.data.domain.Page
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
-
+/**
+ * =============================================================================================
+ * REQUEST DTO
+ * =============================================================================================
+ */
 data class RecordReqDto(
     @field:NotBlank(message = "제목은 1자 이상 입력해주세요.")
     val title: String,
@@ -30,6 +34,21 @@ data class RecordUpdateDto(
     val content: String
 )
 
+data class RecordPageCondition(
+    val part: String,
+    val type: String,
+    val category: String
+)
+
+data class RecordReviewCondition(
+    val status: String?
+)
+
+/**
+ * =============================================================================================
+ * RESPONSE DTO
+ * =============================================================================================
+ */
 data class RecordResDto(
     @JsonProperty("record_id")
     val recordId: Long,
@@ -63,16 +82,20 @@ data class RecordWithReviewResDto(
     val reviewers: List<RecordReviewApplyResDto>
 )
 
-data class RecordPageCondition(
-    val part: String,
-    val type: String,
-    val category: String
+data class RecordPageResDto(
+    val records: Page<RecordThumbnailResDto>
 )
 
-data class RecordReviewCondition(
-    val status: String?
+data class RecordHotResDto(
+    @JsonProperty("records")
+    val records: List<RecordHotThumbnailResDto>
 )
 
+/**
+ * =============================================================================================
+ * QUERY RESULT VO
+ * =============================================================================================
+ */
 data class RecordThumbnailResDto @QueryProjection constructor(
     @JsonProperty("record_id")
     val recordId: Long,
@@ -86,18 +109,9 @@ data class RecordThumbnailResDto @QueryProjection constructor(
     val part: String
 )
 
-data class RecordPageResDto(
-    val records: Page<RecordThumbnailResDto>
-)
-
 data class RecordHotThumbnailResDto @QueryProjection constructor(
     @JsonProperty("record_id")
     val recordId: Long,
     @JsonProperty("title")
     val title: String
-)
-
-data class RecordHotResDto(
-    @JsonProperty("records")
-    val records: List<RecordHotThumbnailResDto>
 )

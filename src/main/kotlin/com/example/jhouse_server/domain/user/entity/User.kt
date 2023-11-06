@@ -1,7 +1,6 @@
 package com.example.jhouse_server.domain.user.entity
 
 import com.example.jhouse_server.domain.board.entity.Board
-import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.notification.entity.Notification
@@ -9,25 +8,30 @@ import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
 import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
+import com.example.jhouse_server.domain.scrap.entity.Scrap
 import com.example.jhouse_server.domain.user.WithdrawalUser
-import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
+import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.APPROVE
 import com.example.jhouse_server.global.entity.BaseEntity
 import org.springframework.util.StringUtils
 import javax.persistence.*
-
+@Table(name = "user",
+    indexes = [Index(name = "idx__email", columnList = "email"),
+            Index(name = "idx__nick_name", columnList = "nickName")
+    ])
 @Entity
 @DiscriminatorValue("U")
 class User(
 
-    @Column(name = "email", nullable = true)
+    @Column(name = "email", nullable = true, length = 100)
     var email: String,
 
-    @Column(name = "user_name")
+    @Column(name = "user_name", length = 20)
     var userName: String,
 
     @Convert(converter = CryptoConverter::class)
     var password: String,
 
+    @Column(length = 20)
     var nickName: String,
 
     @Convert(converter = CryptoConverter::class)

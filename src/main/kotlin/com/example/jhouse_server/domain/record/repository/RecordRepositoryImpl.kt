@@ -17,10 +17,19 @@ import org.springframework.util.StringUtils
 import java.time.LocalDateTime
 
 class RecordRepositoryImpl(
+    /**
+     * =============================================================================================
+     * DI for Repository
+     * =============================================================================================
+     */
     private val jpaQueryFactory: JPAQueryFactory,
     private val recordCommonMethod: RecordCommonMethod
 ): RecordRepositoryCustom {
-
+    /**
+     * =============================================================================================
+     * 금주의 핫 게시글 조회
+     * =============================================================================================
+     */
     override fun findHotRecords(weekAgo: LocalDateTime): List<RecordHotThumbnailResDto> {
         return jpaQueryFactory
             .select(QRecordHotThumbnailResDto(record.id, record.title))
@@ -40,7 +49,11 @@ class RecordRepositoryImpl(
             .limit(limit)
             .fetch()
     }
-
+    /**
+     * =============================================================================================
+     * 게시글 조회 -- 기술파트
+     * =============================================================================================
+     */
     override fun findRecords(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
             .select(QRecordThumbnailResDto(record.id, record.title, record.content.substring(0, 50), user.nickName, record.createdAt, record.part.stringValue().toLowerCase()))

@@ -18,11 +18,19 @@ import org.springframework.stereotype.Component
 
 @Component
 class RecordCommonMethod {
-
+    /**
+     * =============================================================================================
+     * 페이징 응답 변환
+     * =============================================================================================
+     */
     fun <T> createPage(content: List<T>, pageable: Pageable, countQuery: JPAQuery<T>): Page<T> {
         return PageableExecutionUtils.getPage(content, pageable) { countQuery.fetch().size.toLong() }
     }
-
+    /**
+     * =============================================================================================
+     * 카테고리별 검색 필터링
+     * =============================================================================================
+     */
     fun recordPartEq(part: String): BooleanExpression? {
         return when (Part.getPart(part)) {
             Part.ALL -> null

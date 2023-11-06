@@ -14,10 +14,19 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 
 class ReportRepositoryImpl(
+    /**
+     * =============================================================================================
+     *  DI for Repository
+     * =============================================================================================
+     * */
     val jpaQueryFactory: JPAQueryFactory
 ): ReportRepositoryCustom{
 
-
+    /**
+     * =============================================================================================
+     *  게시글 신고 목록 조회
+     * =============================================================================================
+     * */
     override fun getReports(reportSearch: ReportSearch, pageable: Pageable): Page<ReportDto> {
         val result = jpaQueryFactory
             .select(
@@ -29,7 +38,10 @@ class ReportRepositoryImpl(
             .from(report)
             .join(report.house, house)
             .join(house.user, user)
-            .where(searchReportFilter(reportSearch), house.useYn.eq(true))
+            .where(
+                searchReportFilter(reportSearch),
+                house.useYn.eq(true)
+            )
             .offset(pageable.offset)
             .limit(pageable.pageSize.toLong())
             .groupBy(user)
@@ -46,12 +58,19 @@ class ReportRepositoryImpl(
             .from(report)
             .join(report.house, house)
             .join(house.user, user)
-            .where(searchReportFilter(reportSearch), house.useYn.eq(true))
+            .where(
+                searchReportFilter(reportSearch),
+                house.useYn.eq(true)
+            )
             .groupBy(user, report)
 
         return PageableExecutionUtils.getPage(getReportDto(result), pageable) {countQuery.fetch().size.toLong()}
     }
-
+    /**
+     * =============================================================================================
+     *  신고 유저 정보 상세 조회
+     * =============================================================================================
+     * */
     override fun getReportDetail(id: Long): List<ReportDetailQueryDto> {
 
         val agent = QUser("agent")
@@ -63,18 +82,36 @@ class ReportRepositoryImpl(
             .join(report.house, house)
             .join(report.reporter, reporter)
             .join(house.user, agent)
-            .where(agent.id.eq(id), house.useYn.eq(true), house.reported.eq(true))
+            .where(
+                agent.id.eq(id),
+                house.useYn.eq(true),
+                house.reported.eq(true)
+            )
             .orderBy(report.createdAt.desc())
             .fetch()
     }
+    /**
+     * =============================================================================================
+     *  PRIVATE FUNCTION
+     * =============================================================================================
+     * */
 
+    /**
+     * =============================================================================================
+     *  사용자 닉네임 검색
+     * =============================================================================================
+     * */
     private fun searchReportFilter(reportSearch: ReportSearch): BooleanExpression?{
         return when(reportSearch.filter){
             null -> null
             else -> user.nickName.contains(reportSearch.keyword)
         }
     }
-
+    /**
+     * =============================================================================================
+     *  신고 유저 정보 응답 DTO 변환
+     * =============================================================================================
+     * */
     private fun getReportDto(result: List<ReportQueryDto>): List<ReportDto> {
         val reportDtos = mutableListOf<ReportDto>()
         result.forEach {

@@ -263,8 +263,10 @@ class HouseServiceImpl(
         // (3) 판매완료 상태 변경 가능 여부 확인 및 상태 변경
         if (house.applied == HouseReviewStatus.APPLY || !house.useYn || house.reported) throw ApplicationException(DONT_CHANGE_DEAL_STATUS)
         house.updateDealStatus()
-        // (4) 거래자 정보 생성
-        val buyer = if (!dealReqDto.nickName.isNullOrBlank()) userRepository.findByNickName(dealReqDto.nickName).get() else throw ApplicationException(INVALID_VALUE_EXCEPTION)
+        // (4) 거래자 정보 생성 => 404 not_found 적용하기
+        val buyer = if (!dealReqDto.nickName.isNullOrBlank()) userRepository.findByNickName(dealReqDto.nickName)
+                .orElseThrow{ ApplicationException(DONT_EXIST_USERNAME) }
+        else throw ApplicationException(INVALID_VALUE_EXCEPTION)
         // (5) 거래 정보 생성
         val deal = Deal(LocalDate.parse(dealReqDto.dealDate), dealReqDto.score, dealReqDto.review, buyer, house)
         // (6) 저장
@@ -280,8 +282,8 @@ class HouseServiceImpl(
      *  @return Page<HouseResDto>
      * =============================================================================================
      * */
-    override fun getScrapHouseAll(user: User, pageable: Pageable): Page<HouseResDto> {
-        return houseRepository.getScrapHouseAll(user, pageable).map { toListDto(it) }
+    override fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<HouseResDto> {
+        return houseRepository.getScrapHouseAll(user, filter, pageable).map { toListDto(it) }
     }
 
     /**
@@ -299,9 +301,7 @@ class HouseServiceImpl(
             houseAgentListDto: HouseAgentListDto,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        val housePage = houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
-                .map { toMyHouseDto(it) }
-        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
+        return houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
     }
 
     /**
@@ -319,8 +319,7 @@ class HouseServiceImpl(
             keyword: String?,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        val housePage = houseRepository.getMyHouseAll(user, keyword, pageable).map { toMyHouseDto(it) }
-        return CustomPageImpl(housePage.content, housePage.number, housePage.size, housePage.totalElements)
+        return houseRepository.getMyHouseAll(user, keyword, pageable)
     }
 
     /**

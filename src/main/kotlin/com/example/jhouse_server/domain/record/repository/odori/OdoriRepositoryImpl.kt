@@ -12,10 +12,19 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 
 class OdoriRepositoryImpl(
+    /**
+     * =============================================================================================
+     * DI for Repository
+     * =============================================================================================
+     */
     private val jpaQueryFactory: JPAQueryFactory,
     private val recordCommonMethod: RecordCommonMethod
 ): OdoriRepositoryCustom {
-
+    /**
+     * =============================================================================================
+     * 오도리 게시글 조회
+     * =============================================================================================
+     */
     override fun findOdoris(condition: RecordPageCondition, pageable: Pageable): Page<RecordThumbnailResDto> {
         val content = jpaQueryFactory
             .select(QRecordThumbnailResDto(odori.id, odori.title, odori.content.substring(0, 50), user.nickName, odori.createdAt, odori.part.stringValue().toLowerCase()))

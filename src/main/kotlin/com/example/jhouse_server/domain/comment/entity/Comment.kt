@@ -15,6 +15,7 @@ class Comment(
     @JoinColumn(name = "board_id")
     var board : Board,
 
+    @Column(length = 400)
     var content : String,
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,6 +25,11 @@ class Comment(
     @Id @GeneratedValue
     val id : Long = 0L,
 ): BaseEntity() {
+    /**
+     * =============================================================================================
+     *  댓글 수정
+     * =============================================================================================
+     * */
     fun updateEntity(content : String) : Comment {
         this.content = content
         return this
