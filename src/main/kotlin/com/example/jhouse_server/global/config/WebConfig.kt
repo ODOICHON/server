@@ -29,7 +29,9 @@ class WebConfig (
                     "http://localhost:8080",
                     "http://localhost:3000",
                     "https://duaily.net",
-                        "https://dev.duaily.net"
+                    "https://dev.duaily.net",
+                    "https://dev.jmhouse.org",
+                    "https://jmhouse.org"
                 )
                 .allowedMethods(
                     HttpMethod.GET.name,
