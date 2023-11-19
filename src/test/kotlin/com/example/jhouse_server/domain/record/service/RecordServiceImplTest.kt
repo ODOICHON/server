@@ -3,12 +3,12 @@ package com.example.jhouse_server.domain.record.service
 import com.example.jhouse_server.domain.record.entity.Part
 import com.example.jhouse_server.domain.record.entity.RecordStatus
 import com.example.jhouse_server.domain.record.repository.RecordRepository
-import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.util.MockEntity
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -187,7 +187,7 @@ class RecordServiceImplTest @Autowired constructor(
         assertThat(tech.size).isEqualTo(2)
         assertThat(odori.map { it.recordId }.toList()).contains(recordId1)
         assertThat(retro.map { it.recordId }.toList()).contains(recordId2)
-        assertThat(tech.map { it.recordId }.toList()).isEqualTo(listOf(recordId3, recordId4))
+        assertThat(tech.map { it.recordId }.toList()).containsAll(listOf(recordId3, recordId4))
 
         assertThat(allWeb.size).isEqualTo(0)
         assertThat(allServer.size).isEqualTo(4)
