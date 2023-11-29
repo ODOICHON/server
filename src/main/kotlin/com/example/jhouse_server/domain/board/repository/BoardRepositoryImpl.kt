@@ -123,7 +123,7 @@ class BoardRepositoryImpl(
                 .offset(pageable.offset)
                 .fetch()
         val countQuery = jpaQueryFactory
-                .select(board.count())
+                .select(board)
                 .from(board)
                 .join(board.boardCode, boardCode)
                 .join(board.user, user)
