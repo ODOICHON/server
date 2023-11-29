@@ -185,7 +185,7 @@ class BoardRepositoryImpl(
                 board.user.eq(user),
                 board.useYn.eq(true),
             )
-            .orderBy(board.fixed.desc())
+            .orderBy(board.createdAt.desc())
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
