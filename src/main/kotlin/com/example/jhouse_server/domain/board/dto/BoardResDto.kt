@@ -64,6 +64,14 @@ class BoardResDto() {
     }
 }
 
+data class CommentMyPageResDto @QueryProjection constructor(
+    var commentId: Long,
+    var boardId: Long ,
+    var title : String,
+    var commentContent: String
+)
+
+
 class BoardMyPageResDto() {
     var boardId: Long = 0
     lateinit var title: String
