@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.board.service
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
+import com.example.jhouse_server.domain.board.dto.CommentMyPageResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.BoardCode
@@ -163,7 +164,7 @@ class BoardServiceImpl(
      *  @param pageable
      * =============================================================================================
      * */
-    override fun getUserCommentAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+    override fun getUserCommentAll(user: User, pageable: Pageable): Page<CommentMyPageResDto> {
         val boards = boardRepository.getUserCommentAll(user, pageable)
         return CustomPageImpl(boards.content, boards.number, boards.size, boards.totalElements)
     }
