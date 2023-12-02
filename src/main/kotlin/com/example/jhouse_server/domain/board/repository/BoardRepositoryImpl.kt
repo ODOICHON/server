@@ -118,7 +118,7 @@ class BoardRepositoryImpl(
                     searchWithKeyword(boardListDto.search)
                 )
                 .groupBy(board.id)
-                .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order))
+                .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order), board.createdAt.desc())
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
                 .fetch()
