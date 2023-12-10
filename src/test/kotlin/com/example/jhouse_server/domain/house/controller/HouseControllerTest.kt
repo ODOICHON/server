@@ -110,6 +110,7 @@ internal class HouseControllerTest @Autowired constructor(
                                 requestFields(
                                         fieldWithPath("rentalType").description("매매 타입 ( SALE(매매), JEONSE(전세), MONTHLYRENT(월세) )은 필수값입니다. "),
                                         fieldWithPath("city").description("주소는 '시도'로 시작하되, 줄이지 않은 표현으로 작성해야 합니다. 예: 서울시 서대문구 거북골로 34"),
+                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("zipCode").description("우편번호 ( string 형식입니다. )"),
                                         fieldWithPath("size").description("집 크기는 m^2 단위로 산정해서 작성해야 합니다. string 형식입니다."),
                                         fieldWithPath("purpose").description("매물 목적/용도 예: 거주 ( 방3, 화장실 2 )"),
@@ -164,6 +165,7 @@ internal class HouseControllerTest @Autowired constructor(
                                 requestFields(
                                         fieldWithPath("rentalType").description("매매 타입 ( SALE(매매), JEONSE(전세), MONTHLYRENT(월세) )은 필수값입니다. "),
                                         fieldWithPath("city").description("주소는 '시도'로 시작하되, 줄이지 않은 표현으로 작성해야 합니다. 예: 서울시 서대문구 거북골로 34"),
+                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("zipCode").description("우편번호 ( string 형식입니다. )"),
                                         fieldWithPath("size").description("집 크기는 m^2 단위로 산정해서 작성해야 합니다. string 형식입니다."),
                                         fieldWithPath("purpose").description("매물 목적/용도 예: 거주 ( 방3, 화장실 2 )"),
@@ -302,6 +304,7 @@ internal class HouseControllerTest @Autowired constructor(
                                         fieldWithPath("data.houseId").description("빈집 게시글 아이디"),
                                         fieldWithPath("data.rentalType").description("매물 타입"),
                                         fieldWithPath("data.city").description("매물 위치"),
+                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("data.zipCode").description("우편 주소"),
                                         fieldWithPath("data.size").description("매물 크기 ( 견적 )"),
                                         fieldWithPath("data.purpose").description("매물 목적/용도"),
@@ -365,6 +368,7 @@ internal class HouseControllerTest @Autowired constructor(
                                         fieldWithPath("data.houseId").description("빈집 게시글 아이디"),
                                         fieldWithPath("data.rentalType").description("매물 타입"),
                                         fieldWithPath("data.city").description("매물 위치"),
+                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("data.zipCode").description("우편 주소"),
                                         fieldWithPath("data.size").description("매물 크기 ( 견적 )"),
                                         fieldWithPath("data.purpose").description("매물 목적/용도"),
@@ -572,6 +576,7 @@ internal class HouseControllerTest @Autowired constructor(
                                 requestFields(
                                         fieldWithPath("rentalType").description("매매 타입 ( SALE(매매), JEONSE(전세), MONTHLYRENT(월세) )은 필수값입니다. "),
                                         fieldWithPath("city").description("주소는 '시도'로 시작하되, 줄이지 않은 표현으로 작성해야 합니다. 예: 서울시 서대문구 거북골로 34"),
+                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("zipCode").description("우편번호 ( string 형식입니다. )"),
                                         fieldWithPath("size").description("집 크기는 m^2 단위로 산정해서 작성해야 합니다. string 형식입니다."),
                                         fieldWithPath("purpose").description("매물 목적/용도 예: 거주 ( 방3, 화장실 2 )"),

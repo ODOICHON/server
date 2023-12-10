@@ -20,6 +20,7 @@ import javax.validation.constraints.Pattern
 data class HouseReqDto(
     var rentalType: RentalType? = null,
     var city: String?,
+    var detail: String?,
     var zipCode: String?,
     var size: String?,
     var purpose: String?,
