@@ -203,7 +203,7 @@ class HouseServiceImpl(
         // (3) 여러 번 신고 방지
         else if (reportRepository.existsByReporterAndHouse(user, house)) throw ApplicationException(DUPLICATE_REPORT)
         // (4) 신고 정보 생성
-        val report = Report(house, user, ReportType.valueOf(reportReqDto.reportType), reportReqDto.reportReason)
+        val report = Report(house, house.user, user, ReportType.valueOf(reportReqDto.reportType), reportReqDto.reportReason)
         // (5) 신고 처리
         house.reportEntity()
         // (6) 신고 정보 저장
@@ -317,9 +317,10 @@ class HouseServiceImpl(
     override fun getMyHouseAll(
             user: User,
             keyword: String?,
+            dealState: DealState?,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        return houseRepository.getMyHouseAll(user, keyword, pageable)
+        return houseRepository.getMyHouseAll(user, keyword, dealState, pageable)
     }
 
     /**

@@ -5,7 +5,7 @@ import com.example.jhouse_server.domain.board.BoardPreviewListDto
 import com.example.jhouse_server.domain.board.PrefixCategory
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.repository.BoardRepository
-import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.dto.UserSignInReqDto
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.exception.ApplicationException

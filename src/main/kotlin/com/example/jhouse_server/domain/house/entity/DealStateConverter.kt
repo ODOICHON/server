@@ -26,4 +26,12 @@ enum class DealState(val value : String) {
     APPLYING("승인중"),
     ONGOING("판매중"),
     COMPLETED("판매완료"),
-}
+    REJECTED("반려")
+    ;
+
+    companion object {
+        fun from(dealState: DealState): String {
+            return dealState.value
+            }
+        }
+    }

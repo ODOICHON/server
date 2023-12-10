@@ -8,7 +8,7 @@ import com.example.jhouse_server.domain.house.repository.DealRepository
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.scrap.repository.ScrapRepository
 import com.example.jhouse_server.domain.scrap.service.ScrapService
-import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.dto.UserSignInReqDto
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.repository.UserRepository
@@ -563,7 +563,7 @@ internal class HouseServiceImplTest @Autowired constructor(
         val houseId = houseService.createHouse(houseReqDto(), writer)
         val pageable = PageRequest.of(0, 8)
         // when
-        val result = houseService.getMyHouseAll(writer, null, pageable)
+        val result = houseService.getMyHouseAll(writer, null, DealState.APPLYING, pageable)
         // then
         assertThat(result.content[0].dealState).isEqualTo(DealState.APPLYING.name)
     }

@@ -518,6 +518,7 @@ internal class BoardControllerTest @Autowired constructor(
             fieldWithPath("content[].imageUrl").description("이미지 주소 리스트"),
             fieldWithPath("content[].category").description("말머리"),
             fieldWithPath("content[].prefixCategory").description("커뮤니티 대분류"),
+            fieldWithPath("content[].commentCnt").description("댓글 수"),
             fieldWithPath("last").description(""),
             fieldWithPath("totalPages").description(""),
             fieldWithPath("totalElements").description(""),

@@ -3,7 +3,7 @@ package com.example.jhouse_server.domain.house.controller
 import com.example.jhouse_server.domain.house.repository.HouseRepository
 import com.example.jhouse_server.domain.house.service.HouseService
 import com.example.jhouse_server.domain.scrap.service.ScrapService
-import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.dto.UserSignInReqDto
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.example.jhouse_server.domain.user.repository.UserRepository
@@ -304,7 +304,7 @@ internal class HouseControllerTest @Autowired constructor(
                                         fieldWithPath("data.houseId").description("빈집 게시글 아이디"),
                                         fieldWithPath("data.rentalType").description("매물 타입"),
                                         fieldWithPath("data.city").description("매물 위치"),
-                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
+                                    fieldWithPath("data.detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("data.zipCode").description("우편 주소"),
                                         fieldWithPath("data.size").description("매물 크기 ( 견적 )"),
                                         fieldWithPath("data.purpose").description("매물 목적/용도"),
@@ -368,7 +368,7 @@ internal class HouseControllerTest @Autowired constructor(
                                         fieldWithPath("data.houseId").description("빈집 게시글 아이디"),
                                         fieldWithPath("data.rentalType").description("매물 타입"),
                                         fieldWithPath("data.city").description("매물 위치"),
-                                    fieldWithPath("detail").description("상세 주소 예: 1동 1호"),
+                                    fieldWithPath("data.detail").description("상세 주소 예: 1동 1호"),
                                         fieldWithPath("data.zipCode").description("우편 주소"),
                                         fieldWithPath("data.size").description("매물 크기 ( 견적 )"),
                                         fieldWithPath("data.purpose").description("매물 목적/용도"),
@@ -724,7 +724,7 @@ internal class HouseControllerTest @Autowired constructor(
         // when
         val resultActions = mockMvc.perform(
                 RestDocumentationRequestBuilders
-                        .get("$uri/my")
+                        .get("$uri/my?keyword=&dealState=")
                         .header(HttpHeaders.AUTHORIZATION, accessToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -738,9 +738,10 @@ internal class HouseControllerTest @Autowired constructor(
                 .andDo(
                         document(
                                 "get-my-house-all",
-//                                requestParameters(
-//                                        parameterWithName("keyword").description("매물명 키워드 검색"),
-//                                ),
+                                requestParameters(
+                                        parameterWithName("keyword").description("매물명 키워드 검색"),
+                                        parameterWithName("dealState").description("거래상태 필터링 ( 승인중 : APPLYING | 진행중 : ONGOING | 완료 : COMPLETED | 반려 : REJECTED)"),
+                                ),
                                 responseFields(
                                         beneathPath("data").withSubsectionId("data"),
                                         *customMyPageResponseFieldSnippet()

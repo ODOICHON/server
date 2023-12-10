@@ -19,7 +19,7 @@ import com.example.jhouse_server.domain.record_comment.dto.RecordCommentReqDto
 import com.example.jhouse_server.domain.record_comment.dto.RecordCommentUpdateDto
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewReqDto
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewUpdateDto
-import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.*
 
 class MockEntity {

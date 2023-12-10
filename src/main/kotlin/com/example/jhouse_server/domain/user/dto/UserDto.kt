@@ -1,4 +1,4 @@
-package com.example.jhouse_server.domain.user
+package com.example.jhouse_server.domain.user.dto
 
 import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
@@ -121,7 +121,8 @@ data class UserResDto(
         @JsonProperty("profile_image_url")
         val profileImageUrl: String,
         val userType: UserType,
-        val email : String?
+        val email : String?,
+        val suspenseReason : String?
 )
 
 data class WithdrawalUserReqDto(
@@ -139,5 +140,6 @@ data class DefaultUser (
 )
 
 fun toDto(user: User) : UserResDto {
-    return UserResDto(user.id, user.userName, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl, user.userType, user.email)
+        val suspenseReason = if(user.reports.isEmpty()) null else user.reports.last().reportType.value
+    return UserResDto(user.id, user.userName, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl, user.userType, user.email, suspenseReason)
 }
