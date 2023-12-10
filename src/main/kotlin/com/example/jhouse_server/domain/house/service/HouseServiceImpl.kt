@@ -60,7 +60,7 @@ class HouseServiceImpl(
             // (2) null 데이터 blank로 변경
             val tmpReq = changeNullToBlank(req)
             // (3) 임시저장 데이터 생성
-            val address = Address(tmpReq.city!!, tmpReq.zipCode!!)
+            val address = Address(tmpReq.city!!, tmpReq.detail!!, tmpReq.zipCode!!)
             val content = getContent(tmpReq.code!!)
             val tmp = House(tmpReq.rentalType!!, address, tmpReq.size!!, tmpReq.purpose!!, tmpReq.floorNum!!,
                     tmpReq.contact!!, tmpReq.createdDate!!, tmpReq.price!!, tmpReq.monthlyPrice!!,
@@ -76,7 +76,7 @@ class HouseServiceImpl(
             // (1) 유효성 검사
             if (validationReqDto(req)) {
                 // (2) 게시글 생성
-                val address = Address(req.city!!, req.zipCode!!)
+                val address = Address(req.city!!, req.detail!!, req.zipCode!!)
                 val content = getContent(req.code!!)
                 val house = House(req.rentalType!!, address, req.size!!, req.purpose!!, req.floorNum!!,
                         req.contact!!, req.createdDate!!, req.price!!, req.monthlyPrice!!,
@@ -127,7 +127,7 @@ class HouseServiceImpl(
         val house = houseRepository.findByIdOrThrow(houseId)
         // (2) 권한 체크 ( 작성자 본인이 아닌 경우 )
         if (user != house.user) throw ApplicationException(UNAUTHORIZED_EXCEPTION)
-        house.address.updateEntity(req.city!!, req.zipCode!!)
+        house.address.updateEntity(req.city!!, req.detail!!, req.zipCode!!)
         // (3) 연관 테이블 ( 주소 ) 수정
         val content = getContent(req.code!!)
         // (4) 임시저장 -> 등록 && 유효성 검사
@@ -203,7 +203,7 @@ class HouseServiceImpl(
         // (3) 여러 번 신고 방지
         else if (reportRepository.existsByReporterAndHouse(user, house)) throw ApplicationException(DUPLICATE_REPORT)
         // (4) 신고 정보 생성
-        val report = Report(house, user, ReportType.valueOf(reportReqDto.reportType), reportReqDto.reportReason)
+        val report = Report(house, house.user, user, ReportType.valueOf(reportReqDto.reportType), reportReqDto.reportReason)
         // (5) 신고 처리
         house.reportEntity()
         // (6) 신고 정보 저장
@@ -317,9 +317,10 @@ class HouseServiceImpl(
     override fun getMyHouseAll(
             user: User,
             keyword: String?,
+            dealState: DealState?,
             pageable: Pageable
     ): Page<MyHouseResDto> {
-        return houseRepository.getMyHouseAll(user, keyword, pageable)
+        return houseRepository.getMyHouseAll(user, keyword, dealState, pageable)
     }
 
     /**
@@ -350,6 +351,7 @@ class HouseServiceImpl(
     private fun validationReqDto(req: HouseReqDto): Boolean {
         if (req.rentalType == null) throw ReqValidationException("매매 타입은 필수값입니다. ")
         if (req.city.isNullOrBlank()) throw ReqValidationException("주소는 필수값입니다.")
+        if (req.detail.isNullOrEmpty()) throw ReqValidationException("상세주소는 필수값입니다.")
         if (req.zipCode.isNullOrEmpty()) throw ReqValidationException("우편변호는 필수값입니다.")
         if (req.size.isNullOrEmpty()) throw ReqValidationException("건물 크기는 필수값입니다.")
         if (req.purpose.isNullOrEmpty()) throw ReqValidationException("목적/용도는 필수값입니다.")
@@ -369,6 +371,7 @@ class HouseServiceImpl(
     private fun changeNullToBlank(req: HouseReqDto): HouseReqDto {
         if (req.rentalType == null) req.rentalType = RentalType.SALE
         if (req.city.isNullOrBlank()) req.city = ""
+        if(req.detail.isNullOrEmpty()) req.detail = ""
         if (req.zipCode.isNullOrEmpty()) req.zipCode = ""
         if (req.size.isNullOrEmpty()) req.size = ""
         if (req.purpose.isNullOrEmpty()) req.purpose = ""

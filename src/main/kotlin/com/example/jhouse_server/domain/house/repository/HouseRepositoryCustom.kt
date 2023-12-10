@@ -5,6 +5,7 @@ import com.example.jhouse_server.admin.house.dto.AdminHouseSearch
 import com.example.jhouse_server.domain.house.dto.HouseAgentListDto
 import com.example.jhouse_server.domain.house.dto.HouseListDto
 import com.example.jhouse_server.domain.house.dto.MyHouseResDto
+import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.house.entity.House
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.domain.Page
@@ -21,5 +22,5 @@ interface HouseRepositoryCustom {
 
     fun getApplyHouseListWithPaging(adminHouseSearch: AdminHouseSearch, pageable: Pageable) : Page<AdminHouseDto>
 
-    fun getMyHouseAll(user: User, keyword: String?, pageable: Pageable) : Page<MyHouseResDto>
+    fun getMyHouseAll(user: User, keyword: String?, dealState: DealState?, pageable: Pageable) : Page<MyHouseResDto>
 }

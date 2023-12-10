@@ -1,8 +1,8 @@
 package com.example.jhouse_server.domain.user.repository
 
-import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
+import com.example.jhouse_server.domain.user.entity.UserType
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
@@ -33,5 +33,4 @@ interface UserRepository: JpaRepository<User, Long> , UserRepositoryCustom{
     fun findByNickName(nickName: String): Optional<User>
 
     fun findByEmail(email: String) : Optional<User>
-
 }

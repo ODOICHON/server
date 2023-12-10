@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.house.service
 
 import com.example.jhouse_server.domain.house.dto.*
+import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -17,6 +18,6 @@ interface HouseService {
     fun updateStatus(user: User, houseId: Long, dealReqDto: DealReqDto)
     fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<HouseResDto>
     fun getAgentHouseAll(user: User, houseAgentListDto: HouseAgentListDto, pageable: Pageable): Page<MyHouseResDto>
-    abstract fun getMyHouseAll(user: User, keyword: String?, pageable: Pageable): Page<MyHouseResDto>
+    fun getMyHouseAll(user: User, keyword: String?, dealState: DealState?, pageable: Pageable): Page<MyHouseResDto>
 
 }

@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.user.controller
 
-import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
@@ -87,9 +87,9 @@ class UserController(
 
     @PostMapping("/sign-in")
     fun signIn(
-            @Validated @RequestBody userSignInReqDto: UserSignInReqDto,
-            request: HttpServletRequest,
-            response: HttpServletResponse
+        @Validated @RequestBody userSignInReqDto: UserSignInReqDto,
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ApplicationResponse<TokenDto> {
         val tokenDto: TokenDto = userService.signIn(userSignInReqDto)
         setRefreshToken(request, response, COOKIE_EXPIRE)
