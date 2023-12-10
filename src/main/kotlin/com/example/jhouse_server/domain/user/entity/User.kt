@@ -3,13 +3,14 @@ package com.example.jhouse_server.domain.user.entity
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.comment.entity.Comment
 import com.example.jhouse_server.domain.house.entity.House
+import com.example.jhouse_server.domain.house.entity.Report
 import com.example.jhouse_server.domain.notification.entity.Notification
 import com.example.jhouse_server.domain.record.entity.Record
 import com.example.jhouse_server.domain.record_comment.entity.RecordComment
 import com.example.jhouse_server.domain.record_review.entity.RecordReview
 import com.example.jhouse_server.domain.record_review_apply.entity.RecordReviewApply
 import com.example.jhouse_server.domain.scrap.entity.Scrap
-import com.example.jhouse_server.domain.user.WithdrawalUser
+import com.example.jhouse_server.domain.user.dto.WithdrawalUser
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.APPROVE
 import com.example.jhouse_server.global.entity.BaseEntity
 import org.springframework.util.StringUtils
@@ -78,6 +79,9 @@ class User(
 
     @OneToMany(mappedBy = "user")
     val houses: MutableList<House> = mutableListOf(),
+
+    @OneToMany(mappedBy = "owner")
+    val reports: MutableList<Report> = mutableListOf(),
 
     @OneToMany(mappedBy = "user")
     val records: MutableList<Record> = mutableListOf(),

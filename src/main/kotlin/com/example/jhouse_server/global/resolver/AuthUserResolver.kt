@@ -34,7 +34,9 @@ class AuthUserResolver (
         tokenProvider.validateToken(jwt, true)
 
         val userName: String = tokenProvider.getSubject(jwt)
-        val user = userRepository.findByUserNameAndSuspension(userName, false).orElseThrow()
+//         신고유저도 로그인은 가능하게 하기
+//        val user = userRepository.findByUserNameAndSuspension(userName, false).orElseThrow()
+        val user = userRepository.findByUserName(userName).orElseThrow()
 
 //        if(tokenProvider.getType(jwt) == UserType.AGENT) {
 //            val agent = user as Agent

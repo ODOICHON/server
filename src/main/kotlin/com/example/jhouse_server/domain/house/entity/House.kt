@@ -126,6 +126,7 @@ class House(
 
     fun reportEntity() {
         this.reported = true
+        this.dealState = DealState.REJECTED
     }
 
     fun applyEntity() {

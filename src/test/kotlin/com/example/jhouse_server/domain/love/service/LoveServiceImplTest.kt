@@ -3,7 +3,7 @@ package com.example.jhouse_server.domain.love.service
 import com.example.jhouse_server.domain.board.repository.BoardRepository
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.love.repository.LoveRepository
-import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.dto.UserSignInReqDto
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.util.MockEntity
