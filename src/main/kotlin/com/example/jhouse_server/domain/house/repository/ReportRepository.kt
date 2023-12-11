@@ -9,4 +9,6 @@ interface ReportRepository : JpaRepository<Report, Long>, ReportRepositoryCustom
 
     fun existsByReporterAndHouse(reporter: User, house: House): Boolean
 
+    fun findByOwner(owner: User): List<Report>
+
 }

@@ -1,5 +1,6 @@
 package com.example.jhouse_server.domain.user.service
 
+import com.example.jhouse_server.domain.house.repository.ReportRepository
 import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.*
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.WAIT
@@ -28,13 +29,15 @@ class UserServiceImpl (
         val smsUtil: SmsUtil,
         val userServiceCommonMethod: UserServiceCommonMethod,
         val emailUtil: EmailUtil,
+        val reportRepository: ReportRepository
 ): UserService {
     private val CONFIRM_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
     override fun findUserById(userId: Long): UserResDto {
         // 신고 유저이면, 신고 정보 반환
         val findUser = userRepository.findById(userId).orElseThrow{ApplicationException(NOT_FOUND_EXCEPTION)}
-        return toDto(findUser)
+        val reported = reportRepository.findByOwner(findUser).lastOrNull()
+        return toDto(findUser, reported)
     }
 
     override fun checkUserName(userName: String): Boolean {

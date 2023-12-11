@@ -75,6 +75,7 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("data.userType").description("사용자 타입 ( 일반 사용자 : NONE, 공인중개사 : AGENT, 관리자 : WEB/SERVER )"),
                                         fieldWithPath("data.email").description("사용자 이메일 계정"),
                                         fieldWithPath("data.suspenseReason").description("최근 신고 사유"),
+                                    fieldWithPath("data.reportedAt").description("신고일시"),
                                 )
                         )
                 )
