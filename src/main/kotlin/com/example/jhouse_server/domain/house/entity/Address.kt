@@ -9,12 +9,12 @@ class Address(
         var city: String, // 시도
 
         @Column(length = 100)
-        var detail : String, // 상세주소
+        var detail : String?, // 상세주소
 
         @Column(length = 6)
         var zipCode: String, // 우편번호
 ) {
-    fun updateEntity(city: String, detail: String, zipCode: String) : Address {
+    fun updateEntity(city: String, detail: String?, zipCode: String) : Address {
         this.city = city
         this.detail = detail
         this.zipCode = zipCode

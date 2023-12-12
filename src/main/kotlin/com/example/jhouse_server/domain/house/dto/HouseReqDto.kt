@@ -131,7 +131,7 @@ data class HouseResOneDto(
         val houseId: Long,
         val rentalType: RentalType,
         val city: String,
-        val detail: String,
+        val detail: String?,
         val zipCode: String,
         val size: String,
         val purpose: String,
