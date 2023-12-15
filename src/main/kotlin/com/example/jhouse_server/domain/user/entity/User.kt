@@ -145,4 +145,12 @@ class User(
     fun updateSuspension(status: Boolean) {
         this.suspension = status
     }
+
+    fun updateEmail(email: String) {
+        this.email = email
+    }
+
+    fun updatePhoneNum(phoneNum: String) {
+        this.phoneNum = phoneNum
+    }
 }

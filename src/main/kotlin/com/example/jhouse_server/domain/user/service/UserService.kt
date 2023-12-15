@@ -32,4 +32,7 @@ interface UserService {
     fun withdrawal(user: User, withdrawalUserReqDto: WithdrawalUserReqDto)
     fun sendEmailCode(email: String)
     fun checkEmailCode(checkEmailReqDto: CheckEmailReqDto): Boolean
+    fun updateEmail(user: User, email: String)
+    fun updatePhoneNum(user: User, phoneNum: String)
+    fun checkPassword(user: User, password: PasswordReqDto): Boolean
 }

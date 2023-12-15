@@ -75,7 +75,7 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("data.userType").description("사용자 타입 ( 일반 사용자 : NONE, 공인중개사 : AGENT, 관리자 : WEB/SERVER )"),
                                         fieldWithPath("data.email").description("사용자 이메일 계정"),
                                         fieldWithPath("data.suspenseReason").description("최근 신고 사유"),
-                                    fieldWithPath("data.reportedAt").description("신고일시"),
+                                        fieldWithPath("data.reportedAt").description("신고일시"),
                                 )
                         )
                 )
@@ -966,4 +966,124 @@ internal class UserControllerTest @Autowired constructor(
                 )
             )
     }
+
+    @Test
+    @DisplayName("비밀번호 일치 확인")
+    fun passwordCheck() {
+        //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
+        val passwordCheckReqDto = PasswordReqDto(userSignUpDto.password)
+        val content: String = objectMapper.writeValueAsString(passwordCheckReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .post("$uri/check/password")
+                .header(AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "password-check",
+                    requestFields(
+                        fieldWithPath("password").description("비밀번호")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지"),
+                        fieldWithPath("data").description("비밀번호 일치 여부")
+                    )
+                )
+            )
+    }
+
+    @Test
+    @DisplayName("이메일 수정")
+    fun updateEmail() {
+        //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
+        val emailReqDto = EmailReqDto("testToTest@jmhouse.com")
+
+        val content: String = objectMapper.writeValueAsString(emailReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .put("$uri/update/email")
+                .header(AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "update-email",
+                    requestFields(
+                        fieldWithPath("email").description("사용자 이메일 계정")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+        }
+
+    @Test
+    @DisplayName("전화번호 수정")
+    fun updatePhoneNum() {
+        //given
+        userService.signUp(userSignUpDto)
+        val tokenDto = userService.signIn(userSignInDto)
+        val accessToken = tokenDto.accessToken
+        val phoneNumReqDto = PhoneNumReqDto("01012344321")
+
+        val content: String = objectMapper.writeValueAsString(phoneNumReqDto)
+
+        //when
+        val resultActions = mockMvc.perform(
+            RestDocumentationRequestBuilders
+                .put("$uri/update/phone")
+                .header(AUTHORIZATION, accessToken)
+                .content(content)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        )
+
+        //then
+        resultActions
+            .andExpect(status().isOk)
+            .andDo(print())
+            .andDo(
+                document(
+                    "update-phone-num",
+                    requestFields(
+                        fieldWithPath("phone_num").description("전화번호")
+                    ),
+                    responseFields(
+                        fieldWithPath("code").description("결과 코드"),
+                        fieldWithPath("message").description("응답 메세지")
+                    )
+                )
+            )
+        }
 }
