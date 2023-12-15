@@ -203,3 +203,30 @@ include::{snippets}/check-email/http-response.adoc[]
 include::{snippets}/userName-check/http-request.adoc[]
 ===== Response
 include::{snippets}/userName-check/http-response.adoc[]
+
+=== 17. 이메일 수정
+
+이메일 수정 시, 이메일 인증을 거쳐야 합니다.
+
+===== Request
+include::{snippets}/update-email/http-request.adoc[]
+===== Response
+include::{snippets}/update-email/http-response.adoc[]
+
+
+=== 18. 전화번호 수정
+
+전화번호 수정 시, 전화번호 인증을 거쳐야 합니다.
+
+===== Request
+include::{snippets}/update-phone-num/http-request.adoc[]
+include::{snippets}/update-phone-num/request-fields.adoc[]
+===== Response
+include::{snippets}/update-phone-num/http-response.adoc[]
+
+=== 19. 비밀번호 확인
+
+===== Request
+include::{snippets}/password-check/http-request.adoc[]
+===== Response
+include::{snippets}/password-check/http-response.adoc[]
