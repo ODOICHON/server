@@ -183,6 +183,24 @@ class UserServiceImpl (
         return checkCode(checkEmailReqDto.email, checkEmailReqDto.code)
     }
 
+    @Transactional
+    override fun updateEmail(user: User, email: String) {
+        if(userRepository.findByEmail(email).isPresent) throw ApplicationException(EXIST_EMAIL)
+        user.updateEmail(email)
+    }
+
+    @Transactional
+    override fun updatePhoneNum(user: User, phoneNum: String) {
+        if(userRepository.existsByPhoneNum(phoneNum)) throw ApplicationException(EXIST_PHONE_NUM)
+        user.updatePhoneNum(phoneNum)
+    }
+
+    override fun checkPassword(user: User, password: PasswordReqDto): Boolean {
+        val user = userRepository.findById(user.id)
+                .orElseThrow{ ApplicationException(DONT_EXIST_USERNAME) }
+        return user.password == userServiceCommonMethod.encodePassword(password.password)
+    }
+
     private fun createCode(): String {
         val random: Random = Random()
 

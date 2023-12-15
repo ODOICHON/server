@@ -134,6 +134,37 @@ class UserController(
     }
 
     @Auth
+    @PutMapping("/update/email")
+    fun updateEmail(
+        @AuthUser user: User,
+        @Validated @RequestBody emailReqDto: EmailReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.updateEmail(user, emailReqDto.email)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/phone")
+    fun updatePhoneNum(
+            @AuthUser user: User,
+            @Validated @RequestBody phoneNumReqDto: PhoneNumReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.updatePhoneNum(user, phoneNumReqDto.phoneNum)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PostMapping("/check/password")
+    fun checkPassword(
+            @AuthUser user: User,
+            @Validated @RequestBody password: PasswordReqDto
+    ): ApplicationResponse<Boolean> {
+        return ApplicationResponse.ok(userService.checkPassword(user, password))
+    }
+
+    @Auth
     @PutMapping("/update/nick-name")
     fun updateNickName(
             @AuthUser user: User,
