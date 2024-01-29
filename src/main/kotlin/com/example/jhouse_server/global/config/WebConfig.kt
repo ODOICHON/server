@@ -2,6 +2,7 @@ package com.example.jhouse_server.global.config
 
 import com.example.jhouse_server.admin.auth.interceptor.LoginCheckInterceptor
 import com.example.jhouse_server.global.interceptor.HttpInterceptor
+import com.example.jhouse_server.global.interceptor.LogInterceptor
 import com.example.jhouse_server.global.interceptor.SmsInterceptor
 import com.example.jhouse_server.global.resolver.AuthUserResolver
 import org.springframework.context.annotation.Configuration
@@ -12,11 +13,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-//@EnableWebMvc
 class WebConfig (
         val authUserResolver: AuthUserResolver,
         val httpInterceptor: HttpInterceptor,
-        val smsInterceptor: SmsInterceptor
+        val smsInterceptor: SmsInterceptor,
+        val logInterceptor: LogInterceptor
 ): WebMvcConfigurer {
 
 
@@ -31,7 +32,8 @@ class WebConfig (
                     "https://duaily.net",
                     "https://dev.duaily.net",
                     "https://dev.jmhouse.org",
-                    "https://jmhouse.org"
+                    "https://jmhouse.org",
+
                 )
                 .allowedMethods(
                     HttpMethod.GET.name,
@@ -45,6 +47,9 @@ class WebConfig (
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
+        registry.addInterceptor(logInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/css/**", "/error")
         registry.addInterceptor(LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
