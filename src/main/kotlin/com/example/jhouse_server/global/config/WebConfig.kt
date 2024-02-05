@@ -32,6 +32,7 @@ class WebConfig (
                     "https://dev.duaily.net",
                     "https://dev.jmhouse.org",
                     "https://jmhouse.org",
+
                 )
                 .allowedMethods(
                     HttpMethod.GET.name,

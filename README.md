@@ -77,7 +77,8 @@
 - Jasypt
 
 ### E-R 다이어그램
-![다이어그램](https://github.com/ODOICHON/server/assets/61505572/102a958b-e3cb-46bf-887f-28dbfbfdf531)
+![주말내집 ERD-6](https://github.com/ODOICHON/server/assets/61505572/24511404-8fd0-49fe-9104-6245d7b24fec)
+
 
 ### REST DOCS 기반 API 명세서
 **주말내집 서비스**
@@ -88,6 +89,7 @@
 - [커뮤니티 게시글 좋아요 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/love.html)
 - [빈집 게시글 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/house.html)
 - [빈집 게시글 스크랩 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/scrap.html)
+- [알림 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/notification.html)
 
 **테크블로그 서비스**
 - [레코드 API 명세서](https://odoichon.github.io/server/src/main/resources/static/docs/record.html)
@@ -408,5 +410,5 @@ soft delete 적용 과정은 [Soft Delete 방식 적용](https://github.com/ODOI
 | ------- | --------------------------------------------- | ------------------------------------ |-------------------------------------------------------------------------------------------------------------------| 
 | Profile | <center> <img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/61505572?v=4" /> </center>|<center><img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/80155336?v=4" /></center>| <center><img width="110px" height="110px" src="https://avatars.githubusercontent.com/u/102985637?v=4" /></center> |
 | Role    | <center>Team Leader<br> Back-end, DevOps</center>   | <center>Back-end, <br> DevOps</center>    | <center>Back-end ,<br> DevOps</center>                                                                            | 
-| Part    | <center> 프로젝트 세팅 <br> 커뮤니티 API <br> 빈집 거래 API <br> 테크 블로그 프론트엔드 100% 개발 </center>   | <center> 인프라 세팅 <br> 관리자페이지(SSR) 100% 개발 <br> 성능 개선(캐싱, 동적쿼리 리펙토링) </center>    | <center> 사용자 API <br> 마이페이지 API <br> DDoS 방지 처리 <br> 테크 블로그 API 100% 개발 </center>                                 | 
+| Part    | <center> 프로젝트 세팅 <br> 커뮤니티 API <br> 빈집 거래 API <br> 테크 블로그 프론트엔드 100% 개발  <br> 전체 서비스 유지보수 및 관리자페이지 일부 기능 개발 </center>   | <center> 인프라 세팅 <br> 관리자페이지(SSR) 100% 개발 <br> 성능 개선(캐싱, 동적쿼리 리펙토링) </center>    | <center> 사용자 API <br> 마이페이지 API <br> DDoS 방지 처리 <br> 테크 블로그 API 100% 개발 </center>                                 | 
 GitHub | <center>[@dldmsql](https://github.com/dldmsql)</center> | <center>[@YoonTaeMinnnn](https://github.com/YoonTaeMinnnn) </center>| <center>[@MoonMinHyuk1](https://github.com/MoonMinHyuk1) </center>                                                |
