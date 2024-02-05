@@ -1,5 +1,10 @@
 package com.example.jhouse_server.admin.user.dto
 
+import com.example.jhouse_server.domain.user.entity.Age
+import com.example.jhouse_server.domain.user.entity.UserType
+import com.querydsl.core.annotations.QueryProjection
+import java.time.LocalDateTime
+
 /**
  * ============================================================================================
  * AdminAgentSearch               -- 공인중개사 검색 조건
@@ -54,5 +59,15 @@ enum class AgentSearchFilter(val value: String) {
 }
 
 enum class UserSearchFilter(val value: String){
-    NICKNAME("이름")
+    NICKNAME("닉네임")
 }
+
+data class AdminUserList @QueryProjection constructor(
+    val id: Long,
+    val nickName: String,
+    val email: String,
+    val userType: UserType,
+    val phoneNum : String,
+    val createdAt : LocalDateTime,
+    val age: Age
+)

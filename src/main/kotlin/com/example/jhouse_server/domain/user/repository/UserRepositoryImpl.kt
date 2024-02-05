@@ -3,7 +3,9 @@ package com.example.jhouse_server.domain.user.repository
 import com.example.jhouse_server.admin.anaylsis.dto.AnalysisAgeResponse
 import com.example.jhouse_server.admin.anaylsis.dto.AnalysisJoinPathResponse
 import com.example.jhouse_server.admin.user.dto.AdminAgentSearch
+import com.example.jhouse_server.admin.user.dto.AdminUserList
 import com.example.jhouse_server.admin.user.dto.AdminUserWithdrawalSearch
+import com.example.jhouse_server.admin.user.dto.QAdminUserList
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.QUserJoinPath.userJoinPath
@@ -20,6 +22,7 @@ import com.example.jhouse_server.domain.user.repository.dto.QAdminUserAnalysisJo
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.support.PageableExecutionUtils
 import java.util.stream.Collectors
@@ -130,6 +133,33 @@ class UserRepositoryImpl(
                 .where(searchUserFilter(adminUserWithdrawalSearch), user.withdrawalStatus.eq(WAIT), user.userType.eq(NONE))
 
         return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
+    }
+
+    override fun getUserWithSearchForm(
+        adminUserSearch: AdminUserWithdrawalSearch,
+        pageable: Pageable
+    ): Page<AdminUserList> {
+        val result = jpaQueryFactory.select(
+            QAdminUserList(
+                user.id,
+                user.nickName,
+                user.email,
+                user.userType,
+                user.phoneNum,
+                user.createdAt,
+                user.age
+            )
+        ).from(user)
+            .where(searchUserFilter(adminUserSearch))
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetch()
+
+        val countQuery = jpaQueryFactory
+            .selectFrom(user)
+            .where(searchUserFilter(adminUserSearch))
+            .fetch().size.toLong()
+        return PageImpl(result, pageable, countQuery)
     }
     /**
      * ============================================================================================
