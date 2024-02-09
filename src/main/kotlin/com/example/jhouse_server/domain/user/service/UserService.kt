@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.user.service
 
-import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.jwt.TokenDto
 
@@ -32,4 +32,7 @@ interface UserService {
     fun withdrawal(user: User, withdrawalUserReqDto: WithdrawalUserReqDto)
     fun sendEmailCode(email: String)
     fun checkEmailCode(checkEmailReqDto: CheckEmailReqDto): Boolean
+    fun updateEmail(user: User, email: String)
+    fun updatePhoneNum(user: User, phoneNum: String)
+    fun checkPassword(user: User, password: PasswordReqDto): Boolean
 }

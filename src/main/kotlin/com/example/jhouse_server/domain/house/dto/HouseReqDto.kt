@@ -20,6 +20,7 @@ import javax.validation.constraints.Pattern
 data class HouseReqDto(
     var rentalType: RentalType? = null,
     var city: String?,
+    var detail: String?,
     var zipCode: String?,
     var size: String?,
     var purpose: String?,
@@ -56,6 +57,7 @@ data class HouseListDto(
  * */
 data class HouseAgentListDto(
     val search: String?,
+    val dealState: String?,
     val isCompleted: Boolean? //거래 기능 개발 후 판매상태 조건 추가
 )
 /**
@@ -70,7 +72,7 @@ data class MyHouseResDto(
     val title: String,
     val imageUrl: String,
     val dealState: String,
-    val dealStateName: String,
+    val dealStateName: String
 )
 
 /**
@@ -129,6 +131,7 @@ data class HouseResOneDto(
         val houseId: Long,
         val rentalType: RentalType,
         val city: String,
+        val detail: String?,
         val zipCode: String,
         val size: String,
         val purpose: String,
@@ -200,7 +203,7 @@ fun toListDto(house: House) : HouseResDto {
 fun toDto(house: House, isScraped: Boolean) : HouseResOneDto {
     val recommendedTag: List<RecommendedTag> = getTagByNameFromHouseTags(house.houseTag.stream().map { it.recommendedTag }.toList())
     val recommendedTagName: List<String> = house.houseTag.stream().map { RecommendedTag.getValueByTagName(it.recommendedTag.name) }.toList()
-    return HouseResOneDto(house.id, house.rentalType, house.address.city,
+    return HouseResOneDto(house.id, house.rentalType, house.address.city, house.address.detail,
         house.address.zipCode, house.size, house.purpose, house.floorNum, house.contact,
         house.createdDate, house.price, house.monthlyPrice,
         house.agentName, house.title, house.code, house.imageUrls, house.user.nickName,

@@ -148,4 +148,22 @@ class AdminUserController(
 
         return "user/withdrawalDetail"
     }
+
+    @GetMapping("/manage")
+    fun getUserManage(
+        @ModelAttribute("searchForm") adminUserSearch: AdminUserWithdrawalSearch,
+        model: Model,
+        @PageableDefault(size=10, page=0) pageable: Pageable
+    ): String {
+        // 승인 요청된 게시글 목록 데이터
+        val result = adminUserService.getUserWithSearchForm(adminUserSearch, pageable)
+        model.addAttribute("userList", result)
+
+        // 페이징 데이터
+        val pageCom = pageable.pageNumber / 5
+        model.addAttribute("pageCom", pageCom)
+        model.addAttribute("filterList", UserSearchFilter.values())
+
+        return "user/userManager"
+    }
 }

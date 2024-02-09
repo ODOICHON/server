@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.board.service
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
+import com.example.jhouse_server.domain.board.dto.CommentMyPageResDto
 import com.example.jhouse_server.domain.board.entity.Board
 import com.example.jhouse_server.domain.board.entity.BoardCategory
 import com.example.jhouse_server.domain.board.entity.BoardCode
@@ -15,7 +16,6 @@ import com.example.jhouse_server.global.exception.ApplicationException
 import com.example.jhouse_server.global.exception.ErrorCode
 import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.cache.annotation.CacheEvict
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -97,7 +97,7 @@ class BoardServiceImpl(
      *  @param pageable
      * =============================================================================================
      * */
-    @Cacheable(key="#boardListDto.toString()+#pageable.pageNumber.toString()", cacheManager = "cacheManager", value = ["board"])
+//    @Cacheable(key="#boardListDto.toString()+#pageable.pageNumber.toString()", cacheManager = "cacheManager", value = ["board"])
     override fun getBoardAll(boardListDto: BoardListDto, pageable: Pageable): Page<BoardResDto> {
         val boardAll = boardRepository.getBoardAll(boardListDto, pageable).map { toListDto(it) }
         return CustomPageImpl(boardAll.content, boardAll.number, boardAll.size, boardAll.totalElements)
@@ -108,7 +108,7 @@ class BoardServiceImpl(
      *  @param boardPreviewListDto
      * =============================================================================================
      * */
-    @Cacheable(key="#boardPreviewListDto.toString()", cacheManager = "cacheManager", value= ["board"])
+//    @Cacheable(key="#boardPreviewListDto.toString()", cacheManager = "cacheManager", value= ["board"])
     override fun getBoardPreviewAll(boardPreviewListDto: BoardPreviewListDto): List<BoardResDto> {
         return boardRepository.getBoardPreviewAll(boardPreviewListDto).map { toListDto(it) }
     }
@@ -164,7 +164,7 @@ class BoardServiceImpl(
      *  @param pageable
      * =============================================================================================
      * */
-    override fun getUserCommentAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+    override fun getUserCommentAll(user: User, pageable: Pageable): Page<CommentMyPageResDto> {
         val boards = boardRepository.getUserCommentAll(user, pageable)
         return CustomPageImpl(boards.content, boards.number, boards.size, boards.totalElements)
     }

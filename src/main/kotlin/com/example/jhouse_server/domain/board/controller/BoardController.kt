@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.board.controller
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
+import com.example.jhouse_server.domain.board.dto.CommentMyPageResDto
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
@@ -147,7 +148,7 @@ class BoardController(
     fun getUserCommentAll(
         @AuthUser user: User,
         @PageableDefault(size=10, page=0) pageable: Pageable
-    ): ApplicationResponse<Page<BoardMyPageResDto>> {
+    ): ApplicationResponse<Page<CommentMyPageResDto>> {
         return ApplicationResponse.ok(boardService.getUserCommentAll(user, pageable))
     }
     /**

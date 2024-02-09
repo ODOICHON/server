@@ -1,6 +1,7 @@
 package com.example.jhouse_server.domain.house.controller
 
 import com.example.jhouse_server.domain.house.dto.*
+import com.example.jhouse_server.domain.house.entity.DealState
 import com.example.jhouse_server.domain.house.service.HouseService
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.global.annotation.Auth
@@ -260,8 +261,9 @@ class HouseController(
     fun getMyHouseAll(
         @AuthUser user: User,
         @PageableDefault(size = 10, page = 0) pageable: Pageable,
+        @RequestParam dealState: DealState?,
         @RequestParam keyword: String?,
     ): ApplicationResponse<Page<MyHouseResDto>> {
-        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, pageable))
+        return ApplicationResponse.ok(houseService.getMyHouseAll(user, keyword, dealState, pageable))
     }
 }

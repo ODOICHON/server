@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.user.service
 
-import com.example.jhouse_server.domain.user.DefaultUser
-import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.dto.DefaultUser
+import com.example.jhouse_server.domain.user.dto.UserSignInReqDto
 import com.example.jhouse_server.domain.user.entity.WithdrawalReason
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
 import com.example.jhouse_server.domain.user.repository.UserRepository

@@ -58,29 +58,12 @@
       <thead>
       <tr>
         <th scope="col">No.</th>
-        <th scope="col">
-          <select class="form-select btn-outline-info" id="scoreFilter" name="scoreFilter" onchange="filterData(this.value, '')">
-            <option value="">== 거래 만족도 ==</option>
-            <option value="5" th:selected="${5 == scoreFilter}">매우 만족</option>
-            <option value="4" th:selected="${4 == scoreFilter}">만족</option>
-            <option value="3" th:selected="${3 == scoreFilter}">보통</option>
-            <option value="2" th:selected="${2 == scoreFilter}">불만족</option>
-            <option value="1" th:selected="${1 == scoreFilter}">매우 불만족</option>
-          </select>
+        <th scope="col">거래 만족도
         </th>
         <th scope="col">거래 날짜(팔린 날짜)</th>
         <th scope="col">구매자 전화번호</th>
         <th scope="col">구매자 닉네임</th>
-        <th scope="col">
-          <select class="form-select btn-outline-info" id="ageFilter" name="ageFilter" onchange="filterData('', this.value)">
-            <option value="">== 구매자 연령 ==</option>
-            <option value="TEN" th:selected="${'TEN' == ageFilter}">20대 미만</option>
-            <option value="TWENTY" th:selected="${'TWENTY' == ageFilter}">20대</option>
-            <option value="THIRTY" th:selected="${'THIRTY' == ageFilter}">30대</option>
-            <option value="FORTY" th:selected="${'FORTY' == ageFilter}">40대</option>
-            <option value="FIFTY" th:selected="${'FIFTY' == ageFilter}">50대</option>
-            <option value="SIXTY" th:selected="${'SIXTY' == ageFilter}">60대 이상</option>
-          </select>
+        <th scope="col">구매자 연령대
         </th>
         <th scope="col">거래 후기</th>
         <th scope="col">빈집 게시글 제목</th>

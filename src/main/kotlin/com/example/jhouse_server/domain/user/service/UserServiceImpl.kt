@@ -1,8 +1,9 @@
 package com.example.jhouse_server.domain.user.service
 
-import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.house.repository.ReportRepository
+import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.*
-import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.*
+import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.WAIT
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.repository.WithdrawalRepository
 import com.example.jhouse_server.domain.user.service.common.UserServiceCommonMethod
@@ -13,7 +14,6 @@ import com.example.jhouse_server.global.jwt.TokenProvider
 import com.example.jhouse_server.global.util.EmailUtil
 import com.example.jhouse_server.global.util.RedisUtil
 import com.example.jhouse_server.global.util.SmsUtil
-import com.example.jhouse_server.global.util.findByIdOrThrow
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StringUtils
@@ -29,13 +29,15 @@ class UserServiceImpl (
         val smsUtil: SmsUtil,
         val userServiceCommonMethod: UserServiceCommonMethod,
         val emailUtil: EmailUtil,
+        val reportRepository: ReportRepository
 ): UserService {
     private val CONFIRM_CODE_EXPIRE_TIME: Long = 60 * 3  //3분
 
     override fun findUserById(userId: Long): UserResDto {
-        val findUser = userRepository.findByIdOrThrow(userId)
-
-        return toDto(findUser)
+        // 신고 유저이면, 신고 정보 반환
+        val findUser = userRepository.findById(userId).orElseThrow{ApplicationException(NOT_FOUND_EXCEPTION)}
+        val reported = reportRepository.findByOwner(findUser).lastOrNull()
+        return toDto(findUser, reported)
     }
 
     override fun checkUserName(userName: String): Boolean {
@@ -179,6 +181,24 @@ class UserServiceImpl (
 
     override fun checkEmailCode(checkEmailReqDto: CheckEmailReqDto): Boolean {
         return checkCode(checkEmailReqDto.email, checkEmailReqDto.code)
+    }
+
+    @Transactional
+    override fun updateEmail(user: User, email: String) {
+        if(userRepository.findByEmail(email).isPresent) throw ApplicationException(EXIST_EMAIL)
+        user.updateEmail(email)
+    }
+
+    @Transactional
+    override fun updatePhoneNum(user: User, phoneNum: String) {
+        if(userRepository.existsByPhoneNum(phoneNum)) throw ApplicationException(EXIST_PHONE_NUM)
+        user.updatePhoneNum(phoneNum)
+    }
+
+    override fun checkPassword(user: User, password: PasswordReqDto): Boolean {
+        val user = userRepository.findById(user.id)
+                .orElseThrow{ ApplicationException(DONT_EXIST_USERNAME) }
+        return user.password == userServiceCommonMethod.encodePassword(password.password)
     }
 
     private fun createCode(): String {

@@ -56,6 +56,7 @@ dependencies {
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation ("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
     // Jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
@@ -81,6 +82,10 @@ dependencies {
     implementation("net.sf.ehcache:ehcache:2.10.6")
     implementation("javax.cache:cache-api:1.1.0")
     implementation ("com.fasterxml.jackson.core:jackson-databind")
+//    implementation("com.slack.api:slack-api-client:1.8.1")
+    if(project.hasProperty("dev") || project.hasProperty("local")) {
+        implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
+    }
 }
 
 tasks.withType<KotlinCompile> {

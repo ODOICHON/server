@@ -19,7 +19,7 @@ import com.example.jhouse_server.domain.record_comment.dto.RecordCommentReqDto
 import com.example.jhouse_server.domain.record_comment.dto.RecordCommentUpdateDto
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewReqDto
 import com.example.jhouse_server.domain.record_review.dto.RecordReviewUpdateDto
-import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.*
 
 class MockEntity {
@@ -363,6 +363,7 @@ class MockEntity {
         fun houseReqDto() = HouseReqDto(
             rentalType = RentalType.SALE,
             city = "서울시 서대문구 남가좌동 거북골로 34",
+            detail = "1동 103호",
             zipCode = "12345",
             size = "120909000",
             purpose = "주거용 ( 방3, 화장실 2 )",
@@ -381,6 +382,7 @@ class MockEntity {
         fun houseUpdateReqDto() = HouseReqDto(
             rentalType = RentalType.JEONSE,
             city = "서울시 서대문구 남가좌동 거북골로 90",
+            detail = "1동 103호",
             zipCode = "12345",
             size = "120909000",
             purpose = "게스트하우스 ( 방3, 화장실 2 )",
@@ -405,6 +407,7 @@ class MockEntity {
         fun houseTmpReqDto() = HouseReqDto(
             rentalType = RentalType.SALE,
             city = "서울시 서대문구 남가좌동 거북골로 34",
+            detail = "1동 103호",
             zipCode = "12345",
             size = "120909000",
             purpose = "주거용 ( 방3, 화장실 2 )",
@@ -424,6 +427,7 @@ class MockEntity {
         fun houseInvalidReqDto() = HouseReqDto(
             rentalType = null,
             city = null,
+            detail = null,
             zipCode = null,
             size = null,
             purpose = null,
@@ -443,6 +447,7 @@ class MockEntity {
         fun houseTmpNullReqDto() = HouseReqDto(
             rentalType = null,
             city = null,
+            detail = null,
             zipCode = null,
             size = null,
             purpose = null,
@@ -462,6 +467,7 @@ class MockEntity {
         fun houseTooLongReqDto() = HouseReqDto(
             rentalType = RentalType.SALE,
             city = "서울시 서대문구 남가좌동 거북골로 34",
+            detail = "1동 103호",
             zipCode = "12345",
             size = "120909000",
             purpose = "주거용 ( 방3, 화장실 2 )",

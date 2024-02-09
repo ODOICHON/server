@@ -3,6 +3,7 @@ package com.example.jhouse_server.domain.board.service
 import com.example.jhouse_server.domain.board.*
 import com.example.jhouse_server.domain.board.dto.BoardMyPageResDto
 import com.example.jhouse_server.domain.board.dto.BoardResDto
+import com.example.jhouse_server.domain.board.dto.CommentMyPageResDto
 import com.example.jhouse_server.domain.user.entity.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -16,6 +17,6 @@ interface BoardService {
     fun deleteBoard(boardId: Long, user: User)
     fun getCategory(name: String): List<CodeResDto>
     fun getUserBoardAll(user: User, pageable: Pageable): Page<BoardMyPageResDto>
-    fun getUserCommentAll(user: User, pageable: Pageable): Page<BoardMyPageResDto>
+    fun getUserCommentAll(user: User, pageable: Pageable): Page<CommentMyPageResDto>
     fun getUserLoveAll(user: User, pageable: Pageable): Page<BoardMyPageResDto>
 }
