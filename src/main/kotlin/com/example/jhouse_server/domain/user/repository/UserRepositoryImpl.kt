@@ -5,10 +5,11 @@ import com.example.jhouse_server.admin.anaylsis.dto.AnalysisJoinPathResponse
 import com.example.jhouse_server.admin.user.dto.AdminAgentSearch
 import com.example.jhouse_server.admin.user.dto.AdminUserList
 import com.example.jhouse_server.admin.user.dto.AdminUserWithdrawalSearch
-import com.example.jhouse_server.admin.user.dto.QAdminUserList
+import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.QUser.user
 import com.example.jhouse_server.domain.user.entity.QUserJoinPath.userJoinPath
+import com.example.jhouse_server.domain.user.entity.QUserTerm.userTerm
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.UserType.NONE
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.WAIT
@@ -19,6 +20,9 @@ import com.example.jhouse_server.domain.user.repository.dto.AdminUserAnalysisAge
 import com.example.jhouse_server.domain.user.repository.dto.AdminUserAnalysisJoinPathResult
 import com.example.jhouse_server.domain.user.repository.dto.QAdminUserAnalysisAgeResult
 import com.example.jhouse_server.domain.user.repository.dto.QAdminUserAnalysisJoinPathResult
+import com.querydsl.core.group.GroupBy
+import com.querydsl.core.group.GroupBy.groupBy
+import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.data.domain.Page
@@ -139,27 +143,65 @@ class UserRepositoryImpl(
         adminUserSearch: AdminUserWithdrawalSearch,
         pageable: Pageable
     ): Page<AdminUserList> {
-        val result = jpaQueryFactory.select(
-            QAdminUserList(
+        val result = jpaQueryFactory.selectFrom(user)
+            .leftJoin(userJoinPath).on(user.id.eq(userJoinPath.user.id))
+            .leftJoin(userTerm).on(user.id.eq(userTerm.user.id))
+            .where(searchUserFilter(adminUserSearch), user.authority.eq(Authority.USER))
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .transform(groupBy(user.id).list( Projections.constructor(
+                AdminUserList::class.java,
                 user.id,
                 user.nickName,
                 user.email,
                 user.userType,
                 user.phoneNum,
                 user.createdAt,
-                user.age
+                user.age.stringValue(),
+                GroupBy.set(
+                    userJoinPath.joinPath.stringValue()
+                ),
+                GroupBy.set(
+                    userTerm.term.stringValue()
+                )
+            )))
+
+        val map = mutableMapOf<Long, AdminUserList>()
+        // result의 아이템 중 age, joinPath, term enum의 value로 치환하고 싶어.
+        result.forEach{
+            val userId = it.id
+            val age = Age.valueOf(it.age)
+            val transformedJoinPath = it.getJoinPathValues().distinct().toSet() ?: it.joinPath
+            val transformedTerm = it.getTermValues().distinct().toSet() ?: it.term
+            // map에 userId가 이미 있다면, 해당 userId의 AdminUserList를 가져와서 joinPath, term을 추가하고 다시 map에 넣어줘.
+            if(map.containsKey(userId)){
+                val adminUserList = map[userId]
+                adminUserList?.joinPath?.plusElement(transformedJoinPath)
+                adminUserList?.term?.plusElement(transformedTerm)
+                return@forEach
+            }
+            map[userId] = AdminUserList(
+                it.id,
+                it.nickName,
+                it.email,
+                it.userType,
+                it.phoneNum,
+                it.createdAt,
+                age.value,
+                transformedJoinPath,
+                transformedTerm
             )
-        ).from(user)
-            .where(searchUserFilter(adminUserSearch))
-            .offset(pageable.offset)
-            .limit(pageable.pageSize.toLong())
-            .fetch()
+        }
+        // map의 value만 뽑아서 list로 만들어서 반환해줘.
+        val transformedResult = map.values.toList()
 
         val countQuery = jpaQueryFactory
             .selectFrom(user)
+            .leftJoin(userJoinPath).on(user.id.eq(userJoinPath.user.id))
+            .leftJoin(userTerm).on(user.id.eq(userTerm.user.id))
             .where(searchUserFilter(adminUserSearch))
             .fetch().size.toLong()
-        return PageImpl(result, pageable, countQuery)
+        return PageImpl(transformedResult, pageable, countQuery)
     }
     /**
      * ============================================================================================
