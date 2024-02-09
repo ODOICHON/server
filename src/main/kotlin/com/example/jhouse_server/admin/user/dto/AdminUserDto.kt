@@ -1,8 +1,11 @@
 package com.example.jhouse_server.admin.user.dto
 
 import com.example.jhouse_server.domain.user.entity.Age
+import com.example.jhouse_server.domain.user.entity.JoinPath
+import com.example.jhouse_server.domain.user.entity.Term
 import com.example.jhouse_server.domain.user.entity.UserType
 import com.querydsl.core.annotations.QueryProjection
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 
 /**
@@ -68,6 +71,33 @@ data class AdminUserList @QueryProjection constructor(
     val email: String,
     val userType: UserType,
     val phoneNum : String,
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     val createdAt : LocalDateTime,
-    val age: Age
-)
+    val age: String,
+    val joinPath: Set<String>,
+    val term : Set<String>,
+){
+    fun getAgeValues() : String{
+        return Age.valueOf(age).value ?: ""
+    }
+    fun getJoinPathValues(): Set<String> {
+        return joinPath.map { JoinPath.valueOf(it)?.value }.toSet() as Set<String>
+    }
+
+    fun getTermValues(): Set<String> {
+        return term.map { Term.valueOf(it)?.value }.toSet() as Set<String>
+    }
+
+}
+    data class AdminUserQueryResult(
+        val id: Long,
+        val nickName: String,
+        val email: String,
+        val userType: UserType,
+        val phoneNum : String,
+        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
+        val createdAt : LocalDateTime,
+        val age: String,
+    )

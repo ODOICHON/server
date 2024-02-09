@@ -8,7 +8,7 @@
 
   <style>
     .container {
-      max-width:1000px;
+      max-width:1600px;
     }
 
     .dropdown-item:active {
@@ -54,7 +54,7 @@
 
   <br>
 
-  <table class="table" style="vertical-align: middle;">
+  <table class="table mx-auto" style="vertical-align: middle;">
     <thead>
     <tr>
       <th scope="col">No.</th>
@@ -63,17 +63,9 @@
       <th scope="col">유저 타입</th>
       <th scope="col">전화번호</th>
       <th scope="col">가입일자</th>
-      <th scope="col">
-        <select class="form-select btn-outline-info" id="ageFilter" name="ageFilter" onchange="filterData('', this.value)">
-          <option value="">== 연령 ==</option>
-          <option value="TEN" th:selected="${'TEN' == ageFilter}">20대 미만</option>
-          <option value="TWENTY" th:selected="${'TWENTY' == ageFilter}">20대</option>
-          <option value="THIRTY" th:selected="${'THIRTY' == ageFilter}">30대</option>
-          <option value="FORTY" th:selected="${'FORTY' == ageFilter}">40대</option>
-          <option value="FIFTY" th:selected="${'FIFTY' == ageFilter}">50대</option>
-          <option value="SIXTY" th:selected="${'SIXTY' == ageFilter}">60대 이상</option>
-        </select>
-      </th>
+      <th scope="col">연령대</th>
+      <th scope="col">가입 경로</th>
+      <th scope="col">약관 동의 내역</th>
     </tr>
     </thead>
     <tbody>
@@ -99,12 +91,18 @@
       <td th:text="${user.age}">
         20대
       </td>
+      <td>
+        <span th:utext="${#strings.setJoin(user.joinPath, '&lt;br /&gt;')}"></span>
+      </td>
+      <td>
+        <span th:utext="${#strings.setJoin(user.term, '&lt;br /&gt;')}"></span>
+      </td>
     </tr>
     </tbody>
   </table>
 
 
-  <nav aria-label="..." style="position:absolute; left: 50%; transform: translateX(-50%); bottom: 6%;">
+  <nav aria-label="..." style="position:absolute; left: 50%; ">
     <ul class="pagination pagination-sm">
       <!--            이전 버튼-->
       <li class="page-item" th:if="${pageCom gt 0}">
@@ -150,21 +148,7 @@
         crossorigin="anonymous">
 </script>
 <script th:inline="javascript">
-  function filterData(score, age){
-    const searchFilter = $('#searchFilter').val();
-    const searchKeyword = $('#searchKeyword').val();
-    const sendDTO = {
-      searchFilter : searchFilter,
-      searchKeyword : searchKeyword,
-    };
-    $.ajax({
-      url: "/admin/user/manage",
-      data: sendDTO,
-      type: 'GET',
-    }).done(function (data){
-      $("#resultDiv").replaceWith(data);
-    });
-  }
+
 </script>
 </body>
 </html>
