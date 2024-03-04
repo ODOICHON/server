@@ -76,6 +76,12 @@ internal class UserControllerTest @Autowired constructor(
                                         fieldWithPath("data.email").description("사용자 이메일 계정"),
                                         fieldWithPath("data.suspenseReason").description("최근 신고 사유"),
                                         fieldWithPath("data.reportedAt").description("신고일시"),
+                                        fieldWithPath("data.agentCode").description("공인중개사 코드").optional(),
+                                        fieldWithPath("data.companyName").description("회사명").optional(),
+                                        fieldWithPath("data.companyAddress").description("회사 주소").optional(),
+                                        fieldWithPath("data.companyPhoneNum").description("회사 전화번호").optional(),
+                                        fieldWithPath("data.agentName").description("공인중개사 이름").optional(),
+                                        fieldWithPath("data.assistantName").description("보조공인중개사 이름").optional(),
                                 )
                         )
                 )

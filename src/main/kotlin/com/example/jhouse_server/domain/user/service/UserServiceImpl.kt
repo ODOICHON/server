@@ -2,8 +2,10 @@ package com.example.jhouse_server.domain.user.service
 
 import com.example.jhouse_server.domain.house.repository.ReportRepository
 import com.example.jhouse_server.domain.user.dto.*
+import com.example.jhouse_server.domain.user.dto.UserResDto.Companion.toDto
 import com.example.jhouse_server.domain.user.entity.*
 import com.example.jhouse_server.domain.user.entity.WithdrawalStatus.WAIT
+import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.repository.WithdrawalRepository
 import com.example.jhouse_server.domain.user.service.common.UserServiceCommonMethod
@@ -37,6 +39,9 @@ class UserServiceImpl (
         // 신고 유저이면, 신고 정보 반환
         val findUser = userRepository.findById(userId).orElseThrow{ApplicationException(NOT_FOUND_EXCEPTION)}
         val reported = reportRepository.findByOwner(findUser).lastOrNull()
+        if (findUser is Agent) {
+            return toDto(findUser, reported)
+        }
         return toDto(findUser, reported)
     }
 
