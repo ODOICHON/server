@@ -5,6 +5,7 @@ import com.example.jhouse_server.domain.user.entity.Age
 import com.example.jhouse_server.domain.user.entity.Authority
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.entity.UserType
+import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
 import javax.validation.constraints.Email
@@ -125,8 +126,62 @@ data class UserResDto(
         val userType: UserType,
         val email : String?,
         val suspenseReason : String?,
-        val reportedAt : LocalDateTime?
-)
+        val reportedAt : LocalDateTime?,
+        val agentCode: String?,
+        val companyName: String?,
+        val companyAddress: String?,
+        val companyPhoneNum: String?,
+        val agentName: String?,
+        val assistantName: String?,
+) {
+        companion object {
+                fun toDto(user: User, report: Report?) : UserResDto {
+                        val suspenseReason = if(report == null) null else user.reports.last().reportType.value
+                        return UserResDto(
+                                user.id,
+                                user.userName,
+                                user.nickName,
+                                user.phoneNum,
+                                user.authority,
+                                user.age,
+                                user.profileImageUrl,
+                                user.userType,
+                                user.email,
+                                suspenseReason,
+                                report?.createdAt,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null
+                        )
+                }
+
+                fun toDto(user: Agent, report: Report?) : UserResDto {
+                        val suspenseReason = if(report == null) null else user.reports.last().reportType.value
+                        return UserResDto(
+                                user.id,
+                                user.userName,
+                                user.nickName,
+                                user.phoneNum,
+                                user.authority,
+                                user.age,
+                                user.profileImageUrl,
+                                user.userType,
+                                user.email,
+                                suspenseReason,
+                                report?.createdAt,
+                                user.agentCode,
+                                user.companyName,
+                                user.companyAddress,
+                                user.companyPhoneNum,
+                                user.agentName,
+                                user.assistantName
+                        )
+                }
+        }
+}
 
 data class WithdrawalUserReqDto(
         @NotNull
@@ -142,7 +197,4 @@ data class DefaultUser (
         val profileImageUrl: String = "https://duaily-content.s3.ap-northeast-2.amazonaws.com/default_profile_image.png"
 )
 
-fun toDto(user: User, report: Report?) : UserResDto {
-        val suspenseReason = if(report == null) null else user.reports.last().reportType.value
-    return UserResDto(user.id, user.userName, user.nickName, user.phoneNum, user.authority, user.age, user.profileImageUrl, user.userType, user.email, suspenseReason, report?.createdAt)
-}
+
