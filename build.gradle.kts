@@ -83,9 +83,9 @@ dependencies {
     implementation("javax.cache:cache-api:1.1.0")
     implementation ("com.fasterxml.jackson.core:jackson-databind")
 //    implementation("com.slack.api:slack-api-client:1.8.1")
-    if(project.hasProperty("dev") || project.hasProperty("local")) {
+//    if(project.hasProperty("dev") || project.hasProperty("local")) {
         implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
-    }
+//    }
 }
 
 tasks.withType<KotlinCompile> {

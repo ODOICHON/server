@@ -6,6 +6,51 @@ null로 보낼 경우, 서버 측에서 EMPTY 값으로 매핑 시키며 추후 
 
 조회 시, category에 대한 필터링을 원한다면 유의미한 ENUM 값을 넣어주시면 됩니다. 없을 경우, 전체 조회로 간주합니다.
 
+### 게시판 타입
+
+아래 대분류는 메뉴 탭에서 선택되는 게시판 분류입니다.<br/>
+대분류에 따라 중분류가 다르게 나뉘어집니다.
+
+|===
+|대분류 |enum 값 |중분류 |enum 값
+
+|홍보 게시판
+|ADVERTISEMENT
+|인테리어
+|INTERIOR
+
+|홍보 게시판
+|ADVERTISEMENT
+|토지
+|ESTATE
+
+|홍보 게시판
+|ADVERTISEMENT
+|부동산
+|REAL_ESTATE
+
+|자유 게시판
+|DEFAULT
+|질문
+|QUESTION
+
+|자유 게시판
+|DEFAULT
+|일상
+|DAILY
+
+|소개 게시판
+|INTRO
+|트렌드
+|TREND
+
+|소개 게시판
+|INTRO
+|후기
+|REVIEW
+|===
+
+
 ==== 1. 홍보 게시글 작성하기
 ===== Request
 include::{snippets}/ads-board-create/http-request.adoc[]
