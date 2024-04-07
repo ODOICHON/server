@@ -11,7 +11,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         default_batch_fetch_size: 100
@@ -20,7 +20,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   datasource:
-    url: ENC(reLiSYw8bj9dC732X/R0XRVWUQpC5oA6gtuIcaEOcDafwECc2FU3j/ASSgBhZRn3E5ofn53Z4MqrPpvHTCbe4+BPtFoCdKz/NeBCA1m3oIbdziyYUMTpz3PslJetYQrs2Y5+lFdObHJ40Fs/ZJ8BmavUjnPdfbFqBWPkJ/JsamI=)
+    url: ENC(baCQGMmnNRLXhSbDYpdJc0qa5vVX6ewlntiDdoBM6ek4J/enhuk/JXnxKdt8/Di0SymyJQqPV+ecdDe9wBQj54J5iKjqnadNFoUqz4SKczJUKwjZYsagh93BmQ9YluP1WIgXJpER0DoeTTRChA3V7hnrvQzjptB48fRbun4bayA=)
     username: ENC(xvhrw7GfC3KXyEKIbbXRLA==)
     password: ENC(vJiB+8VMlNd15HOYQaBDZKNBBO5rHvrY)
     driver-class-name: com.mysql.cj.jdbc.Driver
