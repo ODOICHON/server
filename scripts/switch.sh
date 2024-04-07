@@ -17,8 +17,8 @@ else
 fi
 
 # Change proxying port into target port
-echo "set \$service_url http://15.164.225.117:${TARGET_PORT};" | tee /home/ec2-user/service_url.inc
-echo "set \$service_admin_url http://15.164.225.117:${TARGET_PORT}/admin;" | tee /home/ec2-user/service_admin_url.inc
+echo "set \$service_url http://127.0.0.1:${TARGET_PORT};" | sudo tee /home/ec2-user/service_url.inc
+echo "set \$service_admin_url http://127.0.0.1:${TARGET_PORT}/admin;" | sudo tee /home/ec2-user/service_admin_url.inc
 
 echo "> Now Nginx proxies to ${TARGET_PORT}."
 
