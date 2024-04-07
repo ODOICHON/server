@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.user.controller.agent
 
-import com.example.jhouse_server.domain.user.AgentSignUpReqDto
+import com.example.jhouse_server.domain.user.dto.AgentSignUpReqDto
 import com.example.jhouse_server.domain.user.service.agent.AgentService
 import com.example.jhouse_server.global.response.ApplicationResponse
 import org.springframework.validation.annotation.Validated

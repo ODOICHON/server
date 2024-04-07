@@ -12,11 +12,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-//@EnableWebMvc
 class WebConfig (
         val authUserResolver: AuthUserResolver,
         val httpInterceptor: HttpInterceptor,
-        val smsInterceptor: SmsInterceptor
+        val smsInterceptor: SmsInterceptor,
+//        val logInterceptor: LogInterceptor
 ): WebMvcConfigurer {
 
 
@@ -31,7 +31,8 @@ class WebConfig (
                     "https://duaily.net",
                     "https://dev.duaily.net",
                     "https://dev.jmhouse.org",
-                    "https://jmhouse.org"
+                    "https://jmhouse.org",
+
                 )
                 .allowedMethods(
                     HttpMethod.GET.name,
@@ -45,6 +46,9 @@ class WebConfig (
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
+//        registry.addInterceptor(logInterceptor)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns("/css/**", "/error")
         registry.addInterceptor(LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")

@@ -64,6 +64,14 @@ class BoardResDto() {
     }
 }
 
+data class CommentMyPageResDto @QueryProjection constructor(
+    var commentId: Long,
+    var boardId: Long ,
+    var title : String,
+    var commentContent: String
+)
+
+
 class BoardMyPageResDto() {
     var boardId: Long = 0
     lateinit var title: String
@@ -72,6 +80,7 @@ class BoardMyPageResDto() {
     var imageUrl: String? = null
     lateinit var category: String
     lateinit var prefixCategory: String
+    var commentCnt: Long = 0
 
     constructor(boardId: Long,
                 title: String,
@@ -80,6 +89,7 @@ class BoardMyPageResDto() {
                 imageUrl: String?,
                 category: String,
                 prefixCategory: String,
+                commentCnt: Long
     ) : this() {
         this.boardId = boardId
         this.title = title
@@ -88,6 +98,7 @@ class BoardMyPageResDto() {
         this.imageUrl = imageUrl
         this.category = category
         this.prefixCategory = prefixCategory
+        this.commentCnt = commentCnt
     }
 }
 
@@ -99,7 +110,7 @@ class BoardMyPageResDto() {
 fun toMyPageListDto(board : Board) : BoardMyPageResDto {
     val oneLineContent = sliceContentWithRegex(board.content)
     if (board.imageUrls.isEmpty()) {
-        return BoardMyPageResDto(board.id, board.title, oneLineContent, Timestamp.valueOf(board.createdAt), null, board.category.name, board.prefixCategory.name)
+        return BoardMyPageResDto(board.id, board.title, oneLineContent, Timestamp.valueOf(board.createdAt), null, board.category.name, board.prefixCategory.name, board.comment.size.toLong())
     }
-    return BoardMyPageResDto(board.id, board.title, oneLineContent, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.category.name, board.prefixCategory.name)
+    return BoardMyPageResDto(board.id, board.title, oneLineContent, Timestamp.valueOf(board.createdAt), board.imageUrls[0], board.category.name, board.prefixCategory.name, board.comment.size.toLong())
 }

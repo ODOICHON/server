@@ -118,12 +118,12 @@ class BoardRepositoryImpl(
                     searchWithKeyword(boardListDto.search)
                 )
                 .groupBy(board.id)
-                .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order))
+                .orderBy(board.fixed.desc(), searchWithOrder(boardListDto.order), board.createdAt.desc())
                 .limit(pageable.pageSize.toLong())
                 .offset(pageable.offset)
                 .fetch()
         val countQuery = jpaQueryFactory
-                .select(board.count())
+                .select(board)
                 .from(board)
                 .join(board.boardCode, boardCode)
                 .join(board.user, user)
@@ -185,7 +185,7 @@ class BoardRepositoryImpl(
                 board.user.eq(user),
                 board.useYn.eq(true),
             )
-            .orderBy(board.fixed.desc())
+            .orderBy(board.createdAt.desc())
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
@@ -204,27 +204,33 @@ class BoardRepositoryImpl(
      *  자신이 작성한 댓글의 게시글 목록 조회 -- 마이페이지
      * =============================================================================================
      * */
-    override fun getUserCommentAll(user: User, pageable: Pageable): Page<BoardMyPageResDto> {
+    override fun getUserCommentAll(user: User, pageable: Pageable): Page<CommentMyPageResDto> {
         val result = jpaQueryFactory
-            .selectFrom(board).distinct()
-            .join(board.comment, comment).fetchJoin()
+            .select(QCommentMyPageResDto(
+                comment.id.`as`("commentId"),
+                board.id.`as`("boardId"),
+                board.title,
+                comment.content
+            ))
+            .from(board)
+            .join(comment).on(comment.board.eq(board))
             .where(
                 comment.user.eq(user),
                 board.useYn.eq(true),
             )
-            .orderBy(board.fixed.desc())
+            .orderBy(comment.createdAt.desc())
             .limit(pageable.pageSize.toLong())
             .offset(pageable.offset)
             .fetch()
         val countQuery = jpaQueryFactory
-            .selectFrom(board).distinct()
-            .join(board.comment, comment)
+            .selectFrom(board)
+            .join(comment).on(comment.board.eq(board))
             .where(
                 comment.user.eq(user),
                 board.useYn.eq(true),
             )
 
-        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}.map { toMyPageListDto(it) }
+        return PageableExecutionUtils.getPage(result, pageable) {countQuery.fetch().size.toLong()}
     }
 
     /**

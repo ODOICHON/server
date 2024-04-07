@@ -169,6 +169,30 @@ include::{snippets}/update-user/http-request.adoc[]
 ===== Response
 include::{snippets}/update-user/http-response.adoc[]
 
+*회원탈퇴 시, 사용되는 enum*
+
+|===
+|enum 값|Description
+
+|ROW_USE
+|이용빈도 낮음
+
+|RE_JOIN
+|재가입
+
+|INSUFFICIENT_CONTENT
+|콘텐츠 및 정보 부족
+
+|PERSONAL_PROTECTION
+|개인 정보 보호
+
+|ETC
+|기타
+
+|===
+
+위의 표에 나와 있는 description을 사용자가 선택하게 됩니다. 그 description을 그대로 복붙해서 요청 body에 넣어주시면 됩니다.
+
 === 13. 유저 탈퇴
 ===== Request
 include::{snippets}/withdrawal/http-request.adoc[]
@@ -203,3 +227,30 @@ include::{snippets}/check-email/http-response.adoc[]
 include::{snippets}/userName-check/http-request.adoc[]
 ===== Response
 include::{snippets}/userName-check/http-response.adoc[]
+
+=== 17. 이메일 수정
+
+이메일 수정 시, 이메일 인증을 거쳐야 합니다.
+
+===== Request
+include::{snippets}/update-email/http-request.adoc[]
+===== Response
+include::{snippets}/update-email/http-response.adoc[]
+
+
+=== 18. 전화번호 수정
+
+전화번호 수정 시, 전화번호 인증을 거쳐야 합니다.
+
+===== Request
+include::{snippets}/update-phone-num/http-request.adoc[]
+include::{snippets}/update-phone-num/request-fields.adoc[]
+===== Response
+include::{snippets}/update-phone-num/http-response.adoc[]
+
+=== 19. 비밀번호 확인
+
+===== Request
+include::{snippets}/password-check/http-request.adoc[]
+===== Response
+include::{snippets}/password-check/http-response.adoc[]

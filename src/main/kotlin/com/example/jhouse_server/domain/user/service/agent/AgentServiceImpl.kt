@@ -1,7 +1,7 @@
 package com.example.jhouse_server.domain.user.service.agent
 
-import com.example.jhouse_server.domain.user.AgentSignUpReqDto
-import com.example.jhouse_server.domain.user.DefaultUser
+import com.example.jhouse_server.domain.user.dto.AgentSignUpReqDto
+import com.example.jhouse_server.domain.user.dto.DefaultUser
 import com.example.jhouse_server.domain.user.entity.*
 import com.example.jhouse_server.domain.user.entity.agent.Agent
 import com.example.jhouse_server.domain.user.entity.agent.AgentStatus

@@ -446,7 +446,7 @@ internal class BoardControllerTest @Autowired constructor(
                     ),
                     responseFields(
                         beneathPath("data").withSubsectionId("data"),
-                        *customPageResponseFieldSnippet()
+                        *customPageCommentResponseFieldSnippet()
                     )
                 )
             )
@@ -490,7 +490,25 @@ internal class BoardControllerTest @Autowired constructor(
                 )
             )
     }
-
+    private fun customPageCommentResponseFieldSnippet(): Array<FieldDescriptor> {
+        return arrayOf(
+            fieldWithPath("content[].boardId").description("게시글 ID"),
+            fieldWithPath("content[].title").description("게시글 제목"),
+            fieldWithPath("content[].commentId").description("댓글 ID"),
+            fieldWithPath("content[].commentContent").description("댓글내용"),
+            fieldWithPath("last").description(""),
+            fieldWithPath("totalPages").description(""),
+            fieldWithPath("totalElements").description(""),
+            fieldWithPath("size").description(""),
+            fieldWithPath("number").description(""),
+            fieldWithPath("sort.empty").description(""),
+            fieldWithPath("sort.unsorted").description(""),
+            fieldWithPath("sort.sorted").description(""),
+            fieldWithPath("first").description(""),
+            fieldWithPath("numberOfElements").description(""),
+            fieldWithPath("empty").description(""),
+        )
+    }
     private fun customPageResponseFieldSnippet(): Array<FieldDescriptor> {
         return arrayOf(
             fieldWithPath("content[].boardId").description("게시글 ID"),
@@ -500,6 +518,7 @@ internal class BoardControllerTest @Autowired constructor(
             fieldWithPath("content[].imageUrl").description("이미지 주소 리스트"),
             fieldWithPath("content[].category").description("말머리"),
             fieldWithPath("content[].prefixCategory").description("커뮤니티 대분류"),
+            fieldWithPath("content[].commentCnt").description("댓글 수"),
             fieldWithPath("last").description(""),
             fieldWithPath("totalPages").description(""),
             fieldWithPath("totalElements").description(""),

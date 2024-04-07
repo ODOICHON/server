@@ -11,6 +11,10 @@ class Report(
     @ManyToOne(fetch = FetchType.LAZY)
     var house: House,
 
+    @JoinColumn(name = "owner_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    var owner: User,
+
     @JoinColumn(name = "reporter_id")
     @ManyToOne(fetch = FetchType.LAZY)
     var reporter: User,

@@ -2,7 +2,7 @@ package com.example.jhouse_server.domain.comment.service
 
 import com.example.jhouse_server.domain.board.service.BoardService
 import com.example.jhouse_server.domain.comment.repository.CommentRepository
-import com.example.jhouse_server.domain.user.UserSignInReqDto
+import com.example.jhouse_server.domain.user.dto.UserSignInReqDto
 import com.example.jhouse_server.domain.user.repository.UserRepository
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.exception.ApplicationException

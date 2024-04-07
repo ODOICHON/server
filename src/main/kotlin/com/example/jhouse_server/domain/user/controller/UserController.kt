@@ -1,6 +1,6 @@
 package com.example.jhouse_server.domain.user.controller
 
-import com.example.jhouse_server.domain.user.*
+import com.example.jhouse_server.domain.user.dto.*
 import com.example.jhouse_server.domain.user.entity.User
 import com.example.jhouse_server.domain.user.service.UserService
 import com.example.jhouse_server.global.annotation.Auth
@@ -87,9 +87,9 @@ class UserController(
 
     @PostMapping("/sign-in")
     fun signIn(
-            @Validated @RequestBody userSignInReqDto: UserSignInReqDto,
-            request: HttpServletRequest,
-            response: HttpServletResponse
+        @Validated @RequestBody userSignInReqDto: UserSignInReqDto,
+        request: HttpServletRequest,
+        response: HttpServletResponse
     ): ApplicationResponse<TokenDto> {
         val tokenDto: TokenDto = userService.signIn(userSignInReqDto)
         setRefreshToken(request, response, COOKIE_EXPIRE)
@@ -131,6 +131,37 @@ class UserController(
         userService.update(user, userUpdateReqDto)
 
         return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/email")
+    fun updateEmail(
+        @AuthUser user: User,
+        @Validated @RequestBody emailReqDto: EmailReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.updateEmail(user, emailReqDto.email)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PutMapping("/update/phone")
+    fun updatePhoneNum(
+            @AuthUser user: User,
+            @Validated @RequestBody phoneNumReqDto: PhoneNumReqDto
+    ): ApplicationResponse<Nothing> {
+        userService.updatePhoneNum(user, phoneNumReqDto.phoneNum)
+
+        return ApplicationResponse.ok()
+    }
+
+    @Auth
+    @PostMapping("/check/password")
+    fun checkPassword(
+            @AuthUser user: User,
+            @Validated @RequestBody password: PasswordReqDto
+    ): ApplicationResponse<Boolean> {
+        return ApplicationResponse.ok(userService.checkPassword(user, password))
     }
 
     @Auth
