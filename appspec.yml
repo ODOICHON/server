@@ -18,9 +18,9 @@ hooks:
     - location: scripts/run_new_was.sh
       timeout: 60
       runas: ec2-user
-    - location: scripts/health_check.sh
-      timeout: 60
-      runas: ec2-user
-    - location: scripts/switch.sh
-      timeout: 60
-      runas: ec2-user
+#    - location: scripts/health_check.sh
+#      timeout: 60
+#      runas: ec2-user
+#    - location: scripts/switch.sh
+#      timeout: 60
+#      runas: ec2-user
