@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Crawl current connected port of WAS
-CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
+CURRENT_PORT=$(cat /home/ec2-user/service_url.inc | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
 # Toggle port Number
@@ -15,12 +15,12 @@ else
 fi
 
 
-echo "> Start health check of WAS at 'http://13.209.202.74:${TARGET_PORT}' ..."
+echo "> Start health check of WAS at 'http://52.78.62.13:${TARGET_PORT}' ..."
 
 for RETRY_COUNT in 1 2 3 4 5 6 7 8 9 10
 do
     echo "> #${RETRY_COUNT} trying..."
-    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}"  http://13.209.202.74:${TARGET_PORT}/api)
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}"  http://52.78.62.13:${TARGET_PORT}/api)
 
     if [ ${RESPONSE_CODE} -eq 200 ]; then
         echo "> New WAS successfully running"

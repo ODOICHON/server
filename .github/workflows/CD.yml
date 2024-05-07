@@ -8,8 +8,8 @@ on:
 permissions: write-all #테스트 결과 작성을 위해 쓰기권한 추가
 
 env: # deploy env
-  S3_BUCKET_NAME: duaily-deploy
-  PROJECT_NAME: duaily-server
+  S3_BUCKET_NAME: jmhouse-prod-deploy
+  PROJECT_NAME: backend
 
 
 jobs:

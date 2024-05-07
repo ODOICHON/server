@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Crawl current connected port of WAS
-CURRENT_PORT=$(cat /home/ubuntu/service_url.inc  | grep -Po '[0-9]+' | tail -1)
+CURRENT_PORT=$(cat /home/ec2-user/service_url.inc  | grep -Po '[0-9]+' | tail -1)
 TARGET_PORT=0
 
 echo "> Nginx currently proxies to ${CURRENT_PORT}."
@@ -17,8 +17,8 @@ else
 fi
 
 # Change proxying port into target port
-echo "set \$service_url http://13.209.202.74:${TARGET_PORT};" | tee /home/ubuntu/service_url.inc
-echo "set \$service_admin_url http://13.209.202.74:${TARGET_PORT}/admin;" | tee /home/ubuntu/service_admin_url.inc
+echo "set \$service_url http://52.78.62.13:${TARGET_PORT};" | sudo tee /home/ec2-user/service_url.inc
+echo "set \$service_admin_url http://52.78.62.13:${TARGET_PORT}/admin;" | sudo tee /home/ec2-user/service_admin_url.inc
 
 echo "> Now Nginx proxies to ${TARGET_PORT}."
 
