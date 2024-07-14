@@ -16,7 +16,6 @@ class WebConfig (
         val authUserResolver: AuthUserResolver,
         val httpInterceptor: HttpInterceptor,
         val smsInterceptor: SmsInterceptor,
-//        val logInterceptor: LogInterceptor
 ): WebMvcConfigurer {
 
 
@@ -48,9 +47,6 @@ class WebConfig (
     }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
-//        registry.addInterceptor(logInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/css/**", "/error")
         registry.addInterceptor(LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
