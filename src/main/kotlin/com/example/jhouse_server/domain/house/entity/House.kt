@@ -11,6 +11,11 @@ import javax.persistence.*
     ])
 @Entity
 class House(
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "house_type")
+    var houseType : HouseType, // 매물타입
+
     @Convert(converter = RentalTypeConverter::class)
     @Column(length = 40)
     var rentalType: RentalType, // 매물유형
@@ -22,7 +27,7 @@ class House(
     var size: String, // 집 크기( m2 )
 
     @Column(length = 100)
-    var purpose: String, // 용도 ( 예: 주택 )
+    var purpose: String?, // 용도 ( 예: 주택 )
 
     @Column(nullable = true)
     var floorNum : Int, // 층수 ( 다가구인 경우에만 )
@@ -31,7 +36,7 @@ class House(
     var contact : String, // 바로 연락 가능한 연락처
 
     @Column(length = 5)
-    var createdDate : String, // 준공연도,
+    var createdDate : String?, // 준공연도,
 
     var price: Int, // 매물가격
 
@@ -91,12 +96,13 @@ class House(
     lateinit var deal:Deal
 
     fun updateEntity(
+        houseType: HouseType,
          rentalType: RentalType,
          size: String,
-         purpose: String,
+         purpose: String?,
          floorNum: Int,
          contact: String,
-         createdDate: String,
+         createdDate: String?,
          price: Int,
          monthlyPrice: Double,
          agentName : String,
@@ -105,6 +111,7 @@ class House(
          code: String,
          imageUrls: List<String>
     ) : House {
+        this.houseType = houseType
         this.rentalType = rentalType
         this.size = size
         this.purpose = purpose

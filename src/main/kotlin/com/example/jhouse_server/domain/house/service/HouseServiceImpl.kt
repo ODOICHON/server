@@ -30,17 +30,17 @@ import java.time.LocalDate
 @Service
 @Transactional(readOnly = true)
 class HouseServiceImpl(
-        /**
-         * =============================================================================================
-         *  DI for Repository
-         * =============================================================================================
-         * */
-        val houseRepository: HouseRepository,
-        val scrapRepository: ScrapRepository,
-        val userRepository: UserRepository,
-        val dealRepository: DealRepository,
-        val houseTagRepository: HouseTagRepository,
-        val reportRepository: ReportRepository,
+    /**
+     * =============================================================================================
+     *  DI for Repository
+     * =============================================================================================
+     * */
+    val houseRepository: HouseRepository,
+    val scrapRepository: ScrapRepository,
+    val userRepository: UserRepository,
+    val dealRepository: DealRepository,
+    val houseTagRepository: HouseTagRepository,
+    val reportRepository: ReportRepository,
 ) : HouseService {
     /**
      * =============================================================================================
@@ -62,15 +62,22 @@ class HouseServiceImpl(
             // (3) 임시저장 데이터 생성
             val address = Address(tmpReq.city!!, tmpReq.detail!!, tmpReq.zipCode!!)
             val content = getContent(tmpReq.code!!)
-            val tmp = House(tmpReq.rentalType!!, address, tmpReq.size!!, tmpReq.purpose!!, tmpReq.floorNum!!,
-                    tmpReq.contact!!, tmpReq.createdDate!!, tmpReq.price!!, tmpReq.monthlyPrice!!,
-                    tmpReq.agentName!!, tmpReq.title!!, content, tmpReq.code!!, tmpReq.imageUrls!!, user)
+            val tmp = House(
+                tmpReq.houseType, tmpReq.rentalType!!, address, tmpReq.size!!, tmpReq.purpose!!, tmpReq.floorNum!!,
+                tmpReq.contact!!, tmpReq.createdDate!!, tmpReq.price!!, tmpReq.monthlyPrice!!,
+                tmpReq.agentName!!, tmpReq.title!!, content, tmpReq.code!!, tmpReq.imageUrls!!, user
+            )
             // (4) 임시저장 상태로 변경
             tmp.tmpSaveEntity()
             // (5) 임시저장 게시글 저장
             val tmpSaved = houseRepository.save(tmp).id
             // (6) 추천태그 값이 있을 경우, 태그 저장
-            if (!tmpReq.recommendedTag.isNullOrEmpty()) houseTagRepository.saveAll(createHouseTag(tmpReq.recommendedTag!!, tmp))
+            if (!tmpReq.recommendedTag.isNullOrEmpty()) houseTagRepository.saveAll(
+                createHouseTag(
+                    tmpReq.recommendedTag!!,
+                    tmp
+                )
+            )
             houseId = tmpSaved
         } else {
             // (1) 유효성 검사
@@ -78,16 +85,23 @@ class HouseServiceImpl(
                 // (2) 게시글 생성
                 val address = Address(req.city!!, req.detail!!, req.zipCode!!)
                 val content = getContent(req.code!!)
-                val house = House(req.rentalType!!, address, req.size!!, req.purpose!!, req.floorNum!!,
-                        req.contact!!, req.createdDate!!, req.price!!, req.monthlyPrice!!,
-                        req.agentName!!, req.title!!, content, req.code!!, req.imageUrls!!, user)
+                val house = House(
+                    req.houseType, req.rentalType!!, address, req.size!!, req.purpose, req.floorNum!!,
+                    req.contact!!, req.createdDate, req.price!!, req.monthlyPrice!!,
+                    req.agentName!!, req.title!!, content, req.code!!, req.imageUrls!!, user
+                )
                 // (3) 게시글 상태 변경
                 if (user.userType == UserType.AGENT || user.authority == Authority.ADMIN) house.approveEntity()
                 else if (user.userType == UserType.NONE) house.applyEntity()
                 // (4) 게시글 저장
                 val saved = houseRepository.save(house).id
                 // (5) 태그 저장
-                if (!req.recommendedTag.isNullOrEmpty()) houseTagRepository.saveAll(createHouseTag(req.recommendedTag!!, house))
+                if (!req.recommendedTag.isNullOrEmpty()) houseTagRepository.saveAll(
+                    createHouseTag(
+                        req.recommendedTag!!,
+                        house
+                    )
+                )
                 houseId = saved
             }
         }
@@ -103,10 +117,19 @@ class HouseServiceImpl(
      *  @return Page<HouseResDto>
      * =============================================================================================
      * */
-    @Cacheable(cacheNames = ["getCache"], cacheManager = "ehCacheCacheManager", key = "#houseListDto.toString()+#pageable.pageNumber.toString()")
+    @Cacheable(
+        cacheNames = ["getCache"],
+        cacheManager = "ehCacheCacheManager",
+        key = "#houseListDto.toString()+#pageable.pageNumber.toString()"
+    )
     override fun getHouseAll(houseListDto: HouseListDto, pageable: Pageable): Page<HouseResDto> {
         val houseAll = houseRepository.getHouseAll(houseListDto, pageable).map { toListDto(it) }
-        return CustomPageImpl(houseAll.content, houseAll.number, houseAll.size, houseAll.totalElements)
+        return CustomPageImpl(
+            houseAll.content,
+            houseAll.number,
+            houseAll.size,
+            houseAll.totalElements
+        )
     }
 
     /**
@@ -138,15 +161,32 @@ class HouseServiceImpl(
         }
         // (5) 게시글 데이터 수정
         house.updateEntity(
-                req.rentalType!!, req.size!!, req.purpose!!, req.floorNum!!, req.contact!!,
-                req.createdDate!!, req.price!!, req.monthlyPrice!!, req.agentName!!, req.title!!, content, req.code!!, req.imageUrls!!
+            req.houseType,
+            req.rentalType!!,
+            req.size!!,
+            req.purpose,
+            req.floorNum!!,
+            req.contact!!,
+            req.createdDate,
+            req.price!!,
+            req.monthlyPrice!!,
+            req.agentName!!,
+            req.title!!,
+            content,
+            req.code!!,
+            req.imageUrls!!
         )
         // (6) 게시글 태그 조회
         val originHouseTags = houseTagRepository.findAllByHouse(house)
         // (7) 게시글 태그 전체 삭제
         houseTagRepository.deleteAll(originHouseTags)
         // (8) 게시글 태그 저장
-        if (!req.recommendedTag.isNullOrEmpty()) houseTagRepository.saveAll(createHouseTag(req.recommendedTag!!, house))
+        if (!req.recommendedTag.isNullOrEmpty()) houseTagRepository.saveAll(
+            createHouseTag(
+                req.recommendedTag!!,
+                house
+            )
+        )
         return houseId
     }
 
@@ -201,9 +241,17 @@ class HouseServiceImpl(
         // (2) 작성자 본인 여부 확인
         if (house.user == user) throw ApplicationException(DONT_REPORT_HOUSE_MINE)
         // (3) 여러 번 신고 방지
-        else if (reportRepository.existsByReporterAndHouse(user, house)) throw ApplicationException(DUPLICATE_REPORT)
+        else if (reportRepository.existsByReporterAndHouse(user, house)) throw ApplicationException(
+            DUPLICATE_REPORT
+        )
         // (4) 신고 정보 생성
-        val report = Report(house, house.user, user, ReportType.valueOf(reportReqDto.reportType), reportReqDto.reportReason)
+        val report = Report(
+            house,
+            house.user,
+            user,
+            ReportType.valueOf(reportReqDto.reportType),
+            reportReqDto.reportReason
+        )
         // (5) 신고 처리
         house.reportEntity()
         // (6) 신고 정보 저장
@@ -261,14 +309,23 @@ class HouseServiceImpl(
         // (2) 작성자 본인인지 확인
         if (user !== house.user) throw ApplicationException(ErrorCode.UNAUTHORIZED_EXCEPTION)
         // (3) 판매완료 상태 변경 가능 여부 확인 및 상태 변경
-        if (house.applied == HouseReviewStatus.APPLY || !house.useYn || house.reported) throw ApplicationException(DONT_CHANGE_DEAL_STATUS)
+        if (house.applied == HouseReviewStatus.APPLY || !house.useYn || house.reported) throw ApplicationException(
+            DONT_CHANGE_DEAL_STATUS
+        )
         house.updateDealStatus()
         // (4) 거래자 정보 생성 => 404 not_found 적용하기
-        val buyer = if (!dealReqDto.nickName.isNullOrBlank()) userRepository.findByNickName(dealReqDto.nickName)
-                .orElseThrow{ ApplicationException(DONT_EXIST_USERNAME) }
-        else throw ApplicationException(INVALID_VALUE_EXCEPTION)
+        val buyer =
+            if (!dealReqDto.nickName.isNullOrBlank()) userRepository.findByNickName(dealReqDto.nickName)
+                .orElseThrow { ApplicationException(DONT_EXIST_USERNAME) }
+            else throw ApplicationException(INVALID_VALUE_EXCEPTION)
         // (5) 거래 정보 생성
-        val deal = Deal(LocalDate.parse(dealReqDto.dealDate), dealReqDto.score, dealReqDto.review, buyer, house)
+        val deal = Deal(
+            LocalDate.parse(dealReqDto.dealDate),
+            dealReqDto.score,
+            dealReqDto.review,
+            buyer,
+            house
+        )
         // (6) 저장
         dealRepository.save(deal)
     }
@@ -282,7 +339,11 @@ class HouseServiceImpl(
      *  @return Page<HouseResDto>
      * =============================================================================================
      * */
-    override fun getScrapHouseAll(user: User, filter: String?, pageable: Pageable): Page<HouseResDto> {
+    override fun getScrapHouseAll(
+        user: User,
+        filter: String?,
+        pageable: Pageable
+    ): Page<HouseResDto> {
         return houseRepository.getScrapHouseAll(user, filter, pageable).map { toListDto(it) }
     }
 
@@ -297,9 +358,9 @@ class HouseServiceImpl(
      * =============================================================================================
      * */
     override fun getAgentHouseAll(
-            user: User,
-            houseAgentListDto: HouseAgentListDto,
-            pageable: Pageable
+        user: User,
+        houseAgentListDto: HouseAgentListDto,
+        pageable: Pageable
     ): Page<MyHouseResDto> {
         return houseRepository.getAgentHouseAll(user, houseAgentListDto, pageable)
     }
@@ -315,10 +376,10 @@ class HouseServiceImpl(
      * =============================================================================================
      * */
     override fun getMyHouseAll(
-            user: User,
-            keyword: String?,
-            dealState: DealState?,
-            pageable: Pageable
+        user: User,
+        keyword: String?,
+        dealState: DealState?,
+        pageable: Pageable
     ): Page<MyHouseResDto> {
         return houseRepository.getMyHouseAll(user, keyword, dealState, pageable)
     }
@@ -354,12 +415,14 @@ class HouseServiceImpl(
         if (req.detail.isNullOrEmpty()) throw ReqValidationException("상세주소는 필수값입니다.")
         if (req.zipCode.isNullOrEmpty()) throw ReqValidationException("우편변호는 필수값입니다.")
         if (req.size.isNullOrEmpty()) throw ReqValidationException("건물 크기는 필수값입니다.")
-        if (req.purpose.isNullOrEmpty()) throw ReqValidationException("목적/용도는 필수값입니다.")
         if (req.contact.isNullOrEmpty()) throw ReqValidationException("연락 가능한 휴대폰번호는 필수값입니다.")
-        if (req.createdDate.isNullOrEmpty()) throw ReqValidationException("준공연도는 필수값입니다.")
         if (req.code.isNullOrEmpty()) throw ReqValidationException("게시글 내용은 필수값입니다.")
-        else if (getContent(req.code!!).length > 10000) throw ApplicationException(LENGTH_OUT_OF_CONTENTS)
-        if (req.imageUrls.isNullOrEmpty() || req.imageUrls!!.size < 5) throw ReqValidationException("첨부 이미지는 5장 이상이어야 합니다.")
+        else if (getContent(req.code!!).length > 10000) throw ApplicationException(
+            LENGTH_OUT_OF_CONTENTS
+        )
+        if (req.imageUrls.isNullOrEmpty() || req.imageUrls!!.size < 5) throw ReqValidationException(
+            "첨부 이미지는 5장 이상이어야 합니다."
+        )
         return true
     }
 
@@ -371,7 +434,7 @@ class HouseServiceImpl(
     private fun changeNullToBlank(req: HouseReqDto): HouseReqDto {
         if (req.rentalType == null) req.rentalType = RentalType.SALE
         if (req.city.isNullOrBlank()) req.city = ""
-        if(req.detail.isNullOrEmpty()) req.detail = ""
+        if (req.detail.isNullOrEmpty()) req.detail = ""
         if (req.zipCode.isNullOrEmpty()) req.zipCode = ""
         if (req.size.isNullOrEmpty()) req.size = ""
         if (req.purpose.isNullOrEmpty()) req.purpose = ""

@@ -47,6 +47,7 @@ class HouseRepositoryImpl(
             .where(
                 searchWithKeyword(houseListDto.search), // 키워드 검색어
                 searchWithRentalType(houseListDto.rentalType), // 매물 타입 필터링
+                searchWithHouseType(houseListDto.houseType),
                 house.useYn.eq(true), // 삭제 X
                 house.tmpYn.eq(false), // 임시저장 X
                 house.reported.eq(false), // 신고 X
@@ -79,6 +80,10 @@ class HouseRepositoryImpl(
             .fetch().size.toLong()
 
         return PageableExecutionUtils.getPage(result, pageable) { countQuery }
+    }
+
+    private fun searchWithHouseType(houseType: String?): BooleanExpression? {
+        return if(houseType == null) null else house.houseType.eq(HouseType.valueOf(houseType))
     }
 
     /**
