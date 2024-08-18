@@ -56,7 +56,7 @@ dependencies {
     // Database
     runtimeOnly("com.mysql:mysql-connector-j")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
-    implementation ("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
+//    implementation ("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0")
     // Jwt
     implementation("io.jsonwebtoken:jjwt-api:0.11.2")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
