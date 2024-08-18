@@ -63,9 +63,23 @@ class HouseServiceImpl(
             val address = Address(tmpReq.city!!, tmpReq.detail!!, tmpReq.zipCode!!)
             val content = getContent(tmpReq.code!!)
             val tmp = House(
-                tmpReq.houseType, tmpReq.rentalType!!, address, tmpReq.size!!, tmpReq.purpose!!, tmpReq.floorNum!!,
-                tmpReq.contact!!, tmpReq.createdDate!!, tmpReq.price!!, tmpReq.monthlyPrice!!,
-                tmpReq.agentName!!, tmpReq.title!!, content, tmpReq.code!!, tmpReq.imageUrls!!, user
+                tmpReq.agentDetail,
+                tmpReq.houseType,
+                tmpReq.rentalType!!,
+                address,
+                tmpReq.size!!,
+                tmpReq.purpose!!,
+                tmpReq.floorNum!!,
+                tmpReq.contact!!,
+                tmpReq.createdDate!!,
+                tmpReq.price!!,
+                tmpReq.monthlyPrice!!,
+                tmpReq.agentName!!,
+                tmpReq.title!!,
+                content,
+                tmpReq.code!!,
+                tmpReq.imageUrls!!,
+                user
             )
             // (4) 임시저장 상태로 변경
             tmp.tmpSaveEntity()
@@ -86,9 +100,23 @@ class HouseServiceImpl(
                 val address = Address(req.city!!, req.detail!!, req.zipCode!!)
                 val content = getContent(req.code!!)
                 val house = House(
-                    req.houseType, req.rentalType!!, address, req.size!!, req.purpose, req.floorNum!!,
-                    req.contact!!, req.createdDate, req.price!!, req.monthlyPrice!!,
-                    req.agentName!!, req.title!!, content, req.code!!, req.imageUrls!!, user
+                    req.agentDetail,
+                    req.houseType,
+                    req.rentalType!!,
+                    address,
+                    req.size!!,
+                    req.purpose,
+                    req.floorNum!!,
+                    req.contact!!,
+                    req.createdDate,
+                    req.price!!,
+                    req.monthlyPrice!!,
+                    req.agentName!!,
+                    req.title!!,
+                    content,
+                    req.code!!,
+                    req.imageUrls!!,
+                    user
                 )
                 // (3) 게시글 상태 변경
                 if (user.userType == UserType.AGENT || user.authority == Authority.ADMIN) house.approveEntity()
@@ -161,6 +189,7 @@ class HouseServiceImpl(
         }
         // (5) 게시글 데이터 수정
         house.updateEntity(
+            req.agentDetail,
             req.houseType,
             req.rentalType!!,
             req.size!!,

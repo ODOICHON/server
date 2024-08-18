@@ -32,7 +32,8 @@ data class HouseReqDto(
     var code: String?, // 게시글 내용
     var imageUrls: List<String>?, // 이미지 주소
     val tmpYn: Boolean, // 임시저장 false -> save , true -> tmpSave
-    var recommendedTag: List<String>? // 추천 태그
+    var recommendedTag: List<String>?, // 추천 태그
+    var agentDetail: String? // 공인중개사인 경우
 )
 
 /**
@@ -158,6 +159,7 @@ data class HouseResOneDto(
     val isScraped: Boolean, // 게시글 스크랩 여부
     val recommendedTag: List<RecommendedTag>, // 게시글 추천 태그
     val recommendedTagName: List<String>, // 게시글 추천 태그명
+    val agentDetail: String? // 공인중개사 상세정보
 )
 
 /**
@@ -256,7 +258,8 @@ fun toDto(house: House, isScraped: Boolean): HouseResOneDto {
         house.dealState == DealState.COMPLETED,
         isScraped,
         recommendedTag,
-        recommendedTagName
+        recommendedTagName,
+        house.agentDetail
     )
 }
 
