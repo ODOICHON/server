@@ -38,7 +38,7 @@ class House(
     var purpose: String?, // 용도 ( 예: 주택 )
 
     @Column(nullable = true)
-    var floorNum: Int, // 층수 ( 다가구인 경우에만 )
+    var floorNum: Int = 0, // 층수 ( 다가구인 경우에만 )
 
     @Column(length = 13)
     var contact: String, // 바로 연락 가능한 연락처
