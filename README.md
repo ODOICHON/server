@@ -1,12 +1,5 @@
 ## 주말내집 - 듀얼 라이프 커뮤니티 플랫폼 🏠
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=ODOICHON_server&metric=bugs)](https://sonarcloud.io/summary/new_code?id=ODOICHON_server)
-[![CD](https://github.com/ODOICHON/server/actions/workflows/CD.yml/badge.svg)](https://github.com/ODOICHON/server/actions/workflows/CD.yml)
-[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FODOICHON%2Fserver&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
-
 ### 프로젝트 설명
 
 "주말내집"은 듀얼 라이프를 꿈꾸고 실현하는 사람들 간의 소통의 공간 부족과 지역 사회의 빈집 문제 해결을 위한 플랫폼입니다.
